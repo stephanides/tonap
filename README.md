@@ -3,7 +3,7 @@
 ## HTML markdown
 
 * Use pug
-* Use picture tag with all possible sources for images.
+* Use picture tag with all possible sources for images
 * Add comma for additional properties declaration in html tag
 * Add class .lazyload to every img tag you consider will not be visible below fold e.g:
 ```
