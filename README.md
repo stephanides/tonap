@@ -31,7 +31,7 @@ npm run gulp-sass
 ## Javascrit programming
 
 * Call functions inside of Jquery __$("document").ready({});__ scope
-* Edit only __./src/public/main-script.js__ file
+* Edit only __./src/public/tonap.js__ file
 * Use __vannilla javascript__ instead of __jquery__ whenever possible
 * Use duble qoutes instead of single qoutes e.g: __""__, instead of __''__
 * End every function call, variable declaration or reassignment by semicolon e.g: __;__
