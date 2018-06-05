@@ -1,54 +1,58 @@
-import { Document, Schema, model } from 'mongoose';
-import { IUser } from '../interfaces/User.interface';
+import { Document, Schema, model } from "mongoose";
+import { IUser } from "../interfaces/User.interface";
 
 export class User {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  role: number;
-  approved: boolean;
+  public firstName: string;
+  public lastName: string;
+  public email: string;
+  public password: string;
+  public role: number;
+  public approved: boolean;
 
-  constructor(data: {
+  /*
+  {
     firstName: string,
     lastName: string,
     email: string,
     password: string,
     role?: number,
-    approved?: boolean
-  }) {
+    approved?: boolean,
+  }
+  */
+
+  constructor(data: IUser) {
+    this.approved = data.approved;
+    this.email = data.email;
     this.firstName = data.firstName;
     this.lastName = data.lastName;
-    this.email = data.email;
     this.password = data.password;
     this.role = data.role;
-    this.approved = data.approved;
   }
 }
 
 const UserSchema = new Schema({
-  firstName: String,
-  lastName: String,
-  email: {
-  	type: String,
-  	required: true,
-  	unique: true
-  },
-  password: String,
-  role: {
-    type: Number,
-    default: 3
-  },
   approved: {
+    default: false,
     type: Boolean,
-    default: false
   },
   dateCreated: {
-  	type: Date,
-  	default: Date.now()
-  }
+    default: Date.now(),
+    type: Date,
+  },
+  email: {
+    required: true,
+    type: String,
+    unique: true,
+  },
+  firstName: String,
+  lastName: String,
+  password: String,
+  role: {
+    default: 3,
+    type: Number,
+  },
 });
 
-export interface UserDocument extends User, Document {};
+export interface IUserDocument extends User, Document {}
 
-export const Users = model<UserDocument>('User', UserSchema);
+export const Users = model<IUserDocument>("User", UserSchema);
