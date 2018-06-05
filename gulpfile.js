@@ -22,4 +22,4 @@ gulp.task("sass:watch", function() {
   gulp.watch("./src/public/scss/*.scss", ["sass"]);
 });
 
-gulp.task("default", ["js:watch", "sass:watch"]);
+// gulp.task("default", ["js:watch", "sass:watch"]);
