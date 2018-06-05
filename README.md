@@ -16,9 +16,9 @@ picture
 
 ## CSS markdown
 
-* Use sass
-* Use sass variables for colors
-* Use sass functions and mixins instead of repetition of simmillar properties
+* Use __Sass__
+* Use sass variables for __colors__
+* Use sass __loops__, __statements__ and __mixins__ instead of repetition of simmillar properties
 * Store sass files in __./src/public/sass/__
 * Use only __bootstrap-reboot.min.css__ and __bootstrap-grid.min.css__
 * Combine all CSS files together, minified to one line for production after work on website is done
