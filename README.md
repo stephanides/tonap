@@ -3,6 +3,12 @@
 ## HTML markdown
 
 * Use pug
+* Use picture tag with all possible sources for images, add class .lazyload to every img tag you consider will not be visible below fold e.g:
+```
+picture
+  source(data-srcset="./assets/images/example-image.webp", alt="", type="image/webp")
+  img.lazy(data-src="./assets/images/example-image.png", alt="")
+```
 * Store pug files in __./dist/views__
 * Split every block part of website by new line e.g: __header__, __section__, __footer__
 
