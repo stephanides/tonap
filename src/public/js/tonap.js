@@ -1,5 +1,9 @@
 // Main javascript file
 
-$(document).ready({
-  
+$(document).ready(function() {
+  exampleFunction();
 });
+
+function exampleFunction() {
+  console.log("App runs.");
+}

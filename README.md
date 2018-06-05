@@ -30,7 +30,7 @@ npm run gulp
 
 ## Javascrit programming
 
-* Call functions inside of Jquery __$("document").ready({});__ scope
+* Call functions inside of Jquery __$("document").ready(function() {});__ scope
 * Edit only __./src/public/tonap.js__ file
 * Use __vannilla javascript__ instead of __jquery__ whenever possible
 * Use duble qoutes instead of single qoutes e.g: __""__, instead of __''__
