@@ -1,6 +1,24 @@
 // Sass
+$spaceamounts: (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+$sides: (top, bottom, left, right);
 
 #wrapper {
   width: 100;
   height: 100%;
 }
+
+// This will create the following classes:
+// .p{side}-{spaceamounts}, .m{side}-{spaceamounts} e.g:
+// .pt-3 { padding-top: 1.5rem; }, .pt-3 { padding-top: 1.5rem; }
+@each $space in $spaceamounts {
+  @each $side in $sides {
+    .m#{str-slice($side, 0, 1)}-#{$space} {
+      margin-#{$side}: #{$space * 0.5}rem!important;
+    }
+  
+    .p#{str-slice($side, 0, 1)}-#{$space} {
+      padding-#{$side}: #{$space * 0.5}rem!important;
+    }
+  }
+}
+.m-auto { margin: 0 auto!important; }
