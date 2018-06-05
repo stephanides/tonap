@@ -2,7 +2,7 @@
 
 ## HTML markdown
 
-* Use pug
+* Use __pug__
 * Use __picture__ tag with all possible sources for images
 * Add __comma__ for additional properties declaration in html tag
 * Add class __.lazyload__ to every img tag you consider will not be visible below fold e.g:
