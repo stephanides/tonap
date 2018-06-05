@@ -9,7 +9,7 @@ $sides: (top, bottom, left, right);
 
 // This will create the following classes:
 // .p{side}-{spaceamounts}, .m{side}-{spaceamounts} e.g:
-// .pt-3 { padding-top: 1.5rem; }, .pt-3 { padding-top: 1.5rem; }
+// .pt-3 { padding-top: 1.5rem; }, .mt-3 { margin-top: 1.5rem; }
 @each $space in $spaceamounts {
   @each $side in $sides {
     .m#{str-slice($side, 0, 1)}-#{$space} {
