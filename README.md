@@ -3,7 +3,8 @@
 ## HTML markdown
 
 * Use pug
-* Use picture tag with all possible sources for images, add class .lazyload to every img tag you consider will not be visible below fold e.g:
+* Use picture tag with all possible sources for images.
+* Add class .lazyload to every img tag you consider will not be visible below fold e.g:
 ```
 picture
   source(data-srcset="./assets/images/example-image.webp", alt="", type="image/webp")
