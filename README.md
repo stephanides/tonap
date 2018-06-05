@@ -42,7 +42,7 @@ if(a === b) {
 }
 ``` 
 
-Run javascript file modification watch by command:
+To execute javascript file modification watcher run:
 
 ```
 npm run gulp-script
