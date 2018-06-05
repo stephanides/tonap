@@ -22,9 +22,27 @@ npm run gulp-sass
 
 ## Javascrit programming
 
-* Edit only ./src/public/main-script.js file
-* Use __vannilla javascript__ instead of jquery whenever possible
-* Use duble qoutes instead of single qoutes e.g: "" instead of ''
-* End every function call, variable declaration or reassignment by semicolon e.g: ;
 * Call functions inside of Jquery __$("document").ready({});__ scope
-* 
+* Edit only __./src/public/main-script.js__ file
+* Use __vannilla javascript__ instead of __jquery__ whenever possible
+* Use duble qoutes instead of single qoutes e.g: __""__, instead of __''__
+* End every function call, variable declaration or reassignment by semicolon e.g: __;__
+* Use __target.addEventListener("click", listener[, options]);__ instead of HTML onclick attribude function call
+* Use __Array.forEach.call(<Array>, function[, event])__ instead of _for_ loop to iterate over navigation links or multiple links with same action
+* Wrap all __if else__ statement on curly bracket and use three equals sign, instead of two to compare also the type of variable e.g:
+
+```
+var a = "string";
+var b = 7;
+
+if(a === b) {
+  console.log("A is string equal to B"); // false
+} else {
+  console.log("A is not equal to B"); // true
+}
+``` 
+
+* Run javascript file modification watch by command:
+```
+npm run gulp-script
+```
