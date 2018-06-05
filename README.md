@@ -25,7 +25,7 @@ picture
 
 To execute sass watcher run:
 ```
-npm run gulp-sass
+npm run gulp
 ```
 
 ## Javascrit programming
@@ -53,5 +53,5 @@ if(a === b) {
 To execute javascript file modification watcher run:
 
 ```
-npm run gulp-script
+npm run gulp
 ```
