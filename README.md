@@ -11,6 +11,9 @@ picture
   source(data-srcset="./assets/images/example-image.webp", alt="", type="image/webp")
   img.lazy(data-src="./assets/images/example-image.png", alt="")
 ```
+
+For png and jpg compression use [TinyPNG](https://tinypng.com/), and after use of __TinyPNG__ on PNG files always try to compress it to __webp__ format to reach a better compression if possible. For __webp__ use [Online WebP Converter](https://webp-converter.com/)
+
 * Store pug files in __./dist/views__
 * Split every block part of website by new line e.g: __header__, __section__, __footer__
 

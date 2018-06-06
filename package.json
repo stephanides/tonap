@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon ./dist/server/tonap-web.js",
     "gulp-sass": "gulp sass:watch",
-    "gulp-script": "gulp js:watch",    
+    "gulp-script": "gulp js:watch",
     "test": "echo \"Error: no test specified\" && exit 1",
     "tsc": "tsc -w",
     "webpack-dev": "webpack --watch --config webpack.dev.js --mode development",
