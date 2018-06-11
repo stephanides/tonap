@@ -2,6 +2,35 @@ extends layout.pug
 
 block content
   #wrapper
+    .container.nav-menu
+      .row.justify-content-between
+        a.logo(href="")
+          img(src="./assets/images/logo.png", alt="")
+        label.show-menu(for = 'show-menu')
+          img(src="./assets/images/icons/menu.svg", alt="")
+        input#show-menu(type = 'checkbox' role = 'button')
+        ul#menu
+          li
+            a Domov
+          li
+            a Čo robíme?
+          li
+            a Kto sme?
+          li
+            a Naše produkty
+          li
+            a Kontakt
+          li
+            a.online-order Online objednávka
+    section#header
+      .container-fluid
+        .container
+          .row
+            .col-6
+            .col-6
+              picture
+                source(data-srcset="./assets/images/woman.webp", alt="", type="image/webp")
+                img.lazyload(data-src="./assets/images/woman.png", alt="")
 
 block scripts
   script(src="./assets/js/tonap.min.js")

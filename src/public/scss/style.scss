@@ -1,10 +1,74 @@
 // Sass
 $spaceamounts: (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 $sides: (top, bottom, left, right);
+$breakpoint-tablet: 768px;
+$tonap-color:rgb(59,138,204);
+*{
+  font-family: "Montserrat";
+}
 
 #wrapper {
   width: 100;
   height: 100%;
+  .nav-menu{
+    position: relative;
+    .logo{
+      padding: 15px 0px;
+    }
+    .show-menu{
+      color: #fff;
+      display: none;
+      float: right;
+      border: none;
+      outline: none;
+      position: relative;
+      margin: 0 auto;
+      margin-right: 0;
+      cursor:pointer;
+      img{
+        width: 40px;
+      }
+      @media screen and (max-width: $breakpoint-tablet) {
+        display: block;
+      }
+    }
+    input[type=checkbox]{
+      display: none;
+    }
+    input[type=checkbox]:checked ~ #menu{
+      display: block;
+    }
+    #menu{
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      @media screen and (max-width: $breakpoint-tablet) {
+        position: static;
+        display: none;
+      }
+      li{
+        display: inline-block;
+        margin-right: 1px;
+        @media screen and (max-width: $breakpoint-tablet) {
+          margin-bottom: 1px;
+          width: 100%;
+        }
+        a{
+          display:block;
+          font-size: 16px;
+          text-align: center;
+          color: $tonap-color;
+          text-decoration: none;
+          padding: 30px 10px;
+          font-weight: bold;
+          cursor: pointer;
+          &:hover{
+            
+          }
+        }
+      }
+    }
+  }
 }
 
 // This will create the following classes:
