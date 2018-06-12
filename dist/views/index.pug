@@ -25,12 +25,55 @@ block content
     section#header
       .container-fluid
         .container
-          .row
-            .col-6
+          .row.align-items-center
+            .col-6.header-text
+              h6 Najkvalitnejšie
+              h3 ZDRAVOTNÍCKE
+              h3 POTREBY
+              button Pozrieť produkty
             .col-6
               picture
                 source(data-srcset="./assets/images/woman.webp", alt="", type="image/webp")
                 img.lazyload(data-src="./assets/images/woman.png", alt="")
+    section#products
+      .container
+        .row.justify-content-between
+          .col-md-4
+            .icon
+              picture
+                source(data-srcset="./assets/images/icons/firstcard.webp", alt="", type="image/webp")
+                img.lazyload(data-src="./assets/images/icons/firstcard.png", alt="")
+            h4 Výroba kelimkov na lieky a krémy
+            .divider
+            p Macaroon brownie cake carrot cake. Sesame snaps sweet icing cake sweet roll. Tart halvah tiramisu sweet liquorice bear claw. Tart cotton candy chupa chups lolipoop tart pastrz liquorice muffin.
+          .col-md-4
+            .icon
+              picture
+                source(data-srcset="./assets/images/icons/secondcard.webp", alt="", type="image/webp")
+                img.lazyload(data-src="./assets/images/icons/secondcard.png", alt="")
+            h4 Výroba skúmaviek a odberníkov
+            .divider
+            p Macaroon brownie cake carrot cake. Sesame snaps sweet icing cake sweet roll. Tart halvah tiramisu sweet liquorice bear claw. Tart cotton candy chupa chups lolipoop tart pastrz liquorice muffin.
+          .col-md-4
+            .icon
+              picture
+                source(data-srcset="./assets/images/icons/thirdcard.webp", alt="", type="image/webp")
+                img.lazyload(data-src="./assets/images/icons/thirdcard.png", alt="")
+            h4 Výroba stojanov na skúmavky
+            .divider
+            p Macaroon brownie cake carrot cake. Sesame snaps sweet icing cake sweet roll. Tart halvah tiramisu sweet liquorice bear claw. Tart cotton candy chupa chups lolipoop tart pastrz liquorice muffin.
+    section#aboutus
+      .container
+        .row
+          .col-md-6
+            picture
+              source(data-srcset="./assets/images/aboutus.webp", alt="", type="image/webp")
+              img.lazyload(data-src="./assets/images/aboutus.png", alt="")
+          .col-md-6
+            h3 Sme 20 rokov súčasťou <br> zdravotníctva na Slovensku
+            .divider
+            p Sweet poweder topping cupcake fruitcake liquorice cookie. Liquorice apple pie apple pie fruitcake pie oat cake carrot cake lemon drops. Wafet pastry marshmallow cotoon candy pastry marzipan. Cake fruit cake brownie cupcake gingerbread. Tiramius gummies icing halvah. Cake muffin icing liquorice jelly cookie sweet.
+            button Kontaktujte nás
 
 block scripts
   script(src="./assets/js/tonap.min.js")

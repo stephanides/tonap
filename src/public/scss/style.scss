@@ -3,15 +3,20 @@ $spaceamounts: (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 $sides: (top, bottom, left, right);
 $breakpoint-tablet: 768px;
 $tonap-color:rgb(59,138,204);
+$tonap-p-text:rgb(128,142,153);
 *{
   font-family: "Montserrat";
 }
 
 #wrapper {
+  background-color: #fafafa;
   width: 100;
   height: 100%;
   .nav-menu{
     position: relative;
+    .row{
+      align-items: center;
+    }
     .logo{
       padding: 15px 0px;
     }
@@ -66,6 +71,117 @@ $tonap-color:rgb(59,138,204);
             
           }
         }
+      }
+    }
+  }
+  #header{
+    background-color: $tonap-color;
+    padding-top: 88px;
+    background-image: radial-gradient(farthest-corner at 70% 50%,#8cdff5 0%,$tonap-color 100%);
+    .header-text{
+      bottom: 100px;
+    }
+    img{
+      width: 100%;
+    }
+    h6{
+      color:white;
+      font-size: 26px;
+      font-weight: 400;
+    }
+    h3{
+      color: white;
+      font-size: 50px;
+      font-weight: bold;
+      line-height: 1;
+    }
+    button{
+      outline: none;
+      border:none;
+      background-color: white;
+      color: $tonap-color;
+      padding: 15px 30px;
+      border-radius: 24px;
+      font-weight: bold;
+      font-size: 12px;
+      margin-top: 30px;
+      cursor: pointer;
+    }
+  }
+  #products{
+    position: relative;
+    bottom: 200px;
+    @media screen and (max-width: $breakpoint-tablet) {
+      bottom: 0;
+    }
+    .col-md-4{
+      padding: 32px 32px;
+      background-color: white;
+      @media screen and (min-width: $breakpoint-tablet) {
+        max-width: 31.333%;
+      }
+      h4{
+        font-size: 30px;
+        font-weight: bold;
+        line-height: 1;
+        margin-top: 32px;
+      }
+      p{
+        font-size: 14px;
+        color:$tonap-p-text;
+        font-weight: 500;
+      }
+      .divider{
+        height: 8px;
+        width: 90px;
+        background-color: $tonap-color;
+        margin-top: 24px;
+        margin-bottom: 24px;
+      }
+    }
+  }
+  #aboutus{
+    position: relative;
+    bottom: 140px;
+    @media screen and (max-width: $breakpoint-tablet) {
+      bottom: 0;
+    }
+    img{
+      width:100%;
+    }
+    h3{
+      font-size: 32px;
+      font-weight: bold;
+      line-height: 1;
+      margin-top: 30px;
+    }
+    p{
+      font-size: 14px;
+      color: $tonap-p-text;
+      font-weight: 500;
+    }
+    .divider{
+      height: 8px;
+      width: 90px;
+      background-color: $tonap-color;
+      margin-top: 24px;
+      margin-bottom: 24px;
+    }
+    button{
+      outline: none;
+      border:none;
+      background-color: white;
+      color: $tonap-color;
+      padding: 15px 50px;
+      border-radius: 24px;
+      border: solid 2px $tonap-color;
+      font-weight: bold;
+      font-size: 12px;
+      cursor: pointer;
+      margin-top: 20px;
+      &:hover{
+        color:white;
+        background: linear-gradient(to right,$tonap-color, #54bde2);
       }
     }
   }
