@@ -200,6 +200,14 @@ block content
           #showProducts.d-flex.justify-content-center
             img(src="./assets/images/icons/arrow.svg", alt="")
         p#showProductsText.text-center.mt-4 Zobraziť všetky produkty
+    .container-fluid.contact
+      .row
+        .col-md-6
+          #map
+        .col-md-6
+      
+            
 
 block scripts
   script(src="./assets/js/tonap.min.js")
+  script(src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBGuAMy2poB-W_gNCuKoKejHIh3LeyDZ_E&callback=loadMap")
