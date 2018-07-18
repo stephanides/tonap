@@ -75,37 +75,45 @@ class UserController {
             }
         });
     }
-    /*async register(req: Request, res: Response, next: NextFunction): Promise<void> {
-      try {
-        const userItem: object = await Users.findOne({ email: req.body.email })
-  
-        if(userItem)
-          this.throwError("User allready exist", 409, next)
-        else {
-          let userData: object = {} as IUser
-  
-          for(let i: number = 0; i < Object.keys(req.body).length; i++) {
-            if(Object.keys(req.body)[i] !== "password")
-              userData[Object.keys(req.body)[i]] = (<any>Object).values(req.body)[i]
-            else
-              userData["password"] = bcrypt.hashSync(req.body.password, this.salt)
-          }
-  
-          const newUser: object = new User(userData as IUser)
-          const userCreate: object = await Users.create(newUser)
-  
-          if(userCreate) {
-            res.json({ message: "User has been sucessfully registered", success: true })
-            this.sendEmail(req, res, next)
-          }
-          else
-            this.throwError("Can\"t register user", 500, next)
-        }
-      }
-      catch(err) {
-        return next(err)
-      }
-    }*/
+    register(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const userItem = yield User_model_1.Users.findOne({ email: req.body.email });
+                if (userItem) {
+                    this.throwError("User allready exist", 409, next);
+                }
+                else {
+                    const userData = {};
+                    for (let i = 0; i < Object.keys(req.body).length; i++) {
+                        if (Object.keys(req.body)[i] !== "password") {
+                            userData[Object.keys(req.body)[i]] = Object.values(req.body)[i];
+                        }
+                        else {
+                            // (userData as any).password = bcrypt.hashSync(req.body.password, this.salt);
+                            bcrypt.genSalt(10, (err, salt) => {
+                                bcrypt.hash(req.body.password, salt, (hashErr, hash) => {
+                                    // Store hash in your password DB.
+                                    userData.password = hash;
+                                });
+                            });
+                        }
+                    }
+                    const newUser = new User_model_1.User(userData);
+                    const userCreate = yield User_model_1.Users.create(newUser);
+                    if (userCreate) {
+                        res.json({ message: "User has been sucessfully registered", success: true });
+                        // this.sendEmail(req, res, next);
+                    }
+                    else {
+                        this.throwError("Can\"t register user", 500, next);
+                    }
+                }
+            }
+            catch (err) {
+                return next(err);
+            }
+        });
+    }
     /*sendEmail(req: Request, res: Response, next: NextFunction) {
       this.transporter.sendMail({
         from: "info@codebrothers.sk",

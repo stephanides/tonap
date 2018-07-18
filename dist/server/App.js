@@ -87,6 +87,7 @@ class App {
         this.router.get("/admin", (req, res) => { res.render("admin"); });
         this.router.get("/admin/setup", (req, res) => __awaiter(this, void 0, void 0, function* () {
             const user = yield User_model_1.Users.findOne({ role: 2 });
+            console.log(user);
             if (!user) {
                 res.render("admin");
             }

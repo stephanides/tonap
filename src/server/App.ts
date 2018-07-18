@@ -98,6 +98,7 @@ class App {
     this.router.get("/admin", (req, res) => { res.render("admin"); });
     this.router.get("/admin/setup", async (req, res) => {
       const user: object = await Users.findOne({ role: 2 });
+      console.log(user);
 
       if (!user) {
         res.render("admin");

@@ -47,10 +47,6 @@ const registerElements = [
   <div className="form-group" key={1}>
     <label htmlFor="lastName">Last Name</label>
     <input id="lastName" type="text" className="form-control" placeholder="Enter last name" required />
-  </div>,
-  <div className="form-group" key={2}>
-    <label htmlFor="companyName">Company Name</label>
-    <input id="companyName" type="text" className="form-control" placeholder="Enter company name" required />
   </div>];
 
 const retypePassword = (

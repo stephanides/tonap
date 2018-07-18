@@ -11,6 +11,7 @@ export default class Register extends React.PureComponent<IProps, {}> {
   constructor(props: IProps) {
     super(props);
   }
+
   public componentWillMount() {
     this.props.handleRegister(true);
   }
@@ -23,7 +24,7 @@ export default class Register extends React.PureComponent<IProps, {}> {
           <h1 className="text-center">Register</h1>
           <Form register={true} submitForm={this.props.submitForm} />
           <p className="text-center">
-            You allready have an account? Please <Link to="/dashboard/login">log in</Link>.
+            You allready have an account? Please <Link to="/admin/login">log in</Link>.
           </p>
           </div>
         </div>

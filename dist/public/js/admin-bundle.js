@@ -5800,6 +5800,14 @@ module.exports = warning;
 
 "use strict";
 
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(/*! react */ "react");
 const createBrowserHistory_1 = __webpack_require__(/*! history/createBrowserHistory */ "./node_modules/history/createBrowserHistory.js");
@@ -5818,12 +5826,16 @@ class App extends React.Component {
         this.intervalCheckAuthenticate = 0;
         this.state = initialState;
         this.myStorage = window.localStorage;
+        this.handleRegister = this.handleRegister.bind(this);
+        this.showModal = this.showModal.bind(this);
+        this.signOut = this.signOut.bind(this);
+        this.submitForm = this.submitForm.bind(this);
     }
     render() {
         return (React.createElement(react_router_1.Router, { history: history },
             React.createElement(react_router_1.Switch, null,
                 React.createElement(react_router_1.Route, { path: "/admin/login", render: () => (React.createElement(Login_1.default, { modalError: this.state.modalError, modalText: this.state.modalText, authorised: this.state.authorised, submitForm: this.submitForm, handleRegister: this.handleRegister })) }),
-                React.createElement(react_router_1.Route, { path: "/admin/register", render: () => (React.createElement(Register_1.default, { handleRegister: this.handleRegister, submitForm: this.submitForm })) }),
+                React.createElement(react_router_1.Route, { path: "/admin/setup", render: () => (React.createElement(Register_1.default, { handleRegister: this.handleRegister, submitForm: this.submitForm })) }),
                 React.createElement(react_router_1.Route, { path: "/admin", render: () => (this.state.authorised ?
                         React.createElement(Admin_1.default, null) :
                         React.createElement(react_router_1.Redirect, { to: "/admin/login" })) }))));
@@ -5869,12 +5881,22 @@ class App extends React.Component {
         });
     }
     submitForm(e, url) {
-        e.preventDefault();
-        const form = e.target;
-        const inputs = form.querySelectorAll("input");
-        const urlString = url ? url.toLowerCase() : this.state.register ? "/register" : "/login";
-        const formParams = {};
-        console.log(formParams);
+        return __awaiter(this, void 0, void 0, function* () {
+            e.preventDefault();
+            const form = e.target;
+            const inputs = form.querySelectorAll("input");
+            const urlString = url ? url.toLowerCase() : this.state.register ? "/register" : "/login";
+            const formParams = {};
+            for (let i = 0; i < inputs.length; i++) {
+                formParams[inputs[i].id] = inputs[i].value;
+            }
+            console.log(formParams);
+            const response = yield fetch(urlString, {
+                body: JSON.stringify(formParams),
+                method: "POST",
+            });
+            console.log(response);
+        });
     }
     showModal(text, error, callback) {
         this.setState({ modalText: text, modalError: error }, () => {
@@ -5935,10 +5957,7 @@ const registerElements = [
         React.createElement("input", { id: "firstName", type: "text", className: "form-control", placeholder: "Enter first name", required: true })),
     React.createElement("div", { className: "form-group", key: 1 },
         React.createElement("label", { htmlFor: "lastName" }, "Last Name"),
-        React.createElement("input", { id: "lastName", type: "text", className: "form-control", placeholder: "Enter last name", required: true })),
-    React.createElement("div", { className: "form-group", key: 2 },
-        React.createElement("label", { htmlFor: "companyName" }, "Company Name"),
-        React.createElement("input", { id: "companyName", type: "text", className: "form-control", placeholder: "Enter company name", required: true }))
+        React.createElement("input", { id: "lastName", type: "text", className: "form-control", placeholder: "Enter last name", required: true }))
 ];
 const retypePassword = (React.createElement("div", { className: "form-group" },
     React.createElement("label", { htmlFor: "retypePassword" }, "Retype Password"),
@@ -6054,7 +6073,7 @@ class Login extends React.PureComponent {
                             React.createElement(Form_1.default, { register: false, submitForm: this.props.submitForm }),
                             React.createElement("p", { className: "text-center" },
                                 "You don't have an account? Please ",
-                                React.createElement(react_router_dom_1.Link, { to: "/dashboard/register" }, "register"),
+                                React.createElement(react_router_dom_1.Link, { to: "/admin/setup" }, "register"),
                                 ".")))),
             ] : React.createElement(react_router_1.Redirect, { to: "/admin" });
     }
@@ -6092,7 +6111,7 @@ class Register extends React.PureComponent {
                     React.createElement(Form_1.default, { register: true, submitForm: this.props.submitForm }),
                     React.createElement("p", { className: "text-center" },
                         "You allready have an account? Please ",
-                        React.createElement(react_router_dom_1.Link, { to: "/dashboard/login" }, "log in"),
+                        React.createElement(react_router_dom_1.Link, { to: "/admin/login" }, "log in"),
                         ".")))));
     }
 }

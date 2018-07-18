@@ -15,9 +15,9 @@ router.post("/user/login", (req: Request, res: Response, next: NextFunction) => 
   user.login(req, res, next);
 });
 
-/*router.post("/user/register", (req, res, next) => {
+router.post("/user/setup", (req, res, next) => {
   user.register(req, res, next);
-});*/
+});
 
 router.put("/user/user/:id", (req: Request, res: Response, next: NextFunction) => {
   checkToken(req, res, next, () => {

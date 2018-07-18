@@ -33,6 +33,11 @@ export default class App extends React.Component<{}, IAppState> {
     this.intervalCheckAuthenticate = 0;
     this.state = initialState;
     this.myStorage = window.localStorage;
+
+    this.handleRegister = this.handleRegister.bind(this);
+    this.showModal = this.showModal.bind(this);
+    this.signOut = this.signOut.bind(this);
+    this.submitForm = this.submitForm.bind(this);
   }
 
   public render() {
@@ -48,7 +53,7 @@ export default class App extends React.Component<{}, IAppState> {
               handleRegister={this.handleRegister}
             />
           )} />
-          <Route path="/admin/register" render={() => (
+          <Route path="/admin/setup" render={() => (
             <Register
               handleRegister={this.handleRegister}
               submitForm={this.submitForm}
@@ -110,7 +115,7 @@ export default class App extends React.Component<{}, IAppState> {
     });
   }
 
-  private submitForm(e: React.FormEvent<HTMLElement>, url?: string): void {
+  private async submitForm(e: React.FormEvent<HTMLElement>, url?: string): Promise<void> {
     e.preventDefault();
 
     const form = e.target as HTMLElement;
@@ -118,7 +123,18 @@ export default class App extends React.Component<{}, IAppState> {
     const urlString: string = url ? url.toLowerCase() : this.state.register ? "/register" : "/login";
     const formParams: object = {};
 
+    for (let i = 0; i < inputs.length; i++) {
+      formParams[inputs[i].id] = inputs[i].value;
+    }
+
     console.log(formParams);
+
+    const response = await fetch(urlString, {
+      body: JSON.stringify(formParams),
+      method: "POST",
+    });
+
+    console.log(response);
   }
 
   private showModal(text: string, error: boolean, callback?: () => void): void {

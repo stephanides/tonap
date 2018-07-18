@@ -12,9 +12,9 @@ const user = new User_controller_1.UserController();
 router.post("/user/login", (req, res, next) => {
     user.login(req, res, next);
 });
-/*router.post("/user/register", (req, res, next) => {
-  user.register(req, res, next);
-});*/
+router.post("/user/setup", (req, res, next) => {
+    user.register(req, res, next);
+});
 router.put("/user/user/:id", (req, res, next) => {
     CheckToken_helper_1.checkToken(req, res, next, () => {
         user.updateUser(req, res, next);

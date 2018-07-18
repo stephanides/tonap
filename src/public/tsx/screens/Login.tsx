@@ -36,7 +36,7 @@ export default class Login extends React.PureComponent<IProps, {}> {
               <h1 className="text-center">Login</h1>
               <Form register={false} submitForm={this.props.submitForm} />
               <p className="text-center">
-                You don't have an account? Please <Link to="/dashboard/register">register</Link>.
+                You don't have an account? Please <Link to="/admin/setup">register</Link>.
               </p>
             </div>
           </div>

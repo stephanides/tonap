@@ -76,37 +76,43 @@ export class UserController {
     }
   }
 
-  /*async register(req: Request, res: Response, next: NextFunction): Promise<void> {
+  public async register(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const userItem: object = await Users.findOne({ email: req.body.email })
+      const userItem: object = await Users.findOne({ email: req.body.email });
 
-      if(userItem)
-        this.throwError("User allready exist", 409, next)
-      else {
-        let userData: object = {} as IUser
+      if (userItem) {
+        this.throwError("User allready exist", 409, next);
+      } else {
+        const userData: object = {} as IUser;
 
-        for(let i: number = 0; i < Object.keys(req.body).length; i++) {
-          if(Object.keys(req.body)[i] !== "password")
-            userData[Object.keys(req.body)[i]] = (<any>Object).values(req.body)[i]
-          else
-            userData["password"] = bcrypt.hashSync(req.body.password, this.salt)
+        for (let i: number = 0; i < Object.keys(req.body).length; i++) {
+          if (Object.keys(req.body)[i] !== "password") {
+            userData[Object.keys(req.body)[i]] = (Object as any).values(req.body)[i];
+          } else {
+            // (userData as any).password = bcrypt.hashSync(req.body.password, this.salt);
+            bcrypt.genSalt(10, (err, salt) => {
+              bcrypt.hash(req.body.password, salt, (hashErr, hash) => {
+                // Store hash in your password DB.
+                (userData as any).password = hash;
+              });
+          });
+          }
         }
 
-        const newUser: object = new User(userData as IUser)
-        const userCreate: object = await Users.create(newUser)
+        const newUser: object = new User(userData as IUser);
+        const userCreate: object = await Users.create(newUser);
 
-        if(userCreate) {
+        if (userCreate) {
           res.json({ message: "User has been sucessfully registered", success: true })
-          this.sendEmail(req, res, next)
+          // this.sendEmail(req, res, next);
+        } else {
+          this.throwError("Can\"t register user", 500, next);
         }
-        else
-          this.throwError("Can\"t register user", 500, next)
       }
+    } catch (err) {
+      return next(err);
     }
-    catch(err) {
-      return next(err)
-    }
-  }*/
+  }
 
   /*sendEmail(req: Request, res: Response, next: NextFunction) {
     this.transporter.sendMail({
