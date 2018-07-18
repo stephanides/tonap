@@ -2,37 +2,46 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
 class User {
+    /*
+    {
+      firstName: string,
+      lastName: string,
+      email: string,
+      password: string,
+      role?: number,
+      approved?: boolean,
+    }
+    */
     constructor(data) {
+        this.approved = data.approved;
+        this.email = data.email;
         this.firstName = data.firstName;
         this.lastName = data.lastName;
-        this.email = data.email;
         this.password = data.password;
         this.role = data.role;
-        this.approved = data.approved;
     }
 }
 exports.User = User;
 const UserSchema = new mongoose_1.Schema({
-    firstName: String,
-    lastName: String,
-    email: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    password: String,
-    role: {
-        type: Number,
-        default: 3
-    },
     approved: {
+        default: false,
         type: Boolean,
-        default: false
     },
     dateCreated: {
+        default: Date.now(),
         type: Date,
-        default: Date.now()
-    }
+    },
+    email: {
+        required: true,
+        type: String,
+        unique: true,
+    },
+    firstName: String,
+    lastName: String,
+    password: String,
+    role: {
+        default: 3,
+        type: Number,
+    },
 });
-;
-exports.Users = mongoose_1.model('User', UserSchema);
+exports.Users = mongoose_1.model("User", UserSchema);

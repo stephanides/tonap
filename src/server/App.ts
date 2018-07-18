@@ -10,7 +10,7 @@ import * as bodyParser from "body-parser";
 import * as io from "socket.io";
 import * as http from "http";
 
-import { User, UserDocument, Users } from "./models/User.model";
+import { User, IUserDocument, Users } from "./models/User.model";
 
 // import AvailabilityRouter from "./routes/Availability.router"
 // import ClaimRouter from "./routes/Claim.router"
