@@ -7,10 +7,6 @@ import { checkToken } from "./helpers/CheckToken.helper";
 const router = express.Router();
 const user = new UserController();
 
-/*router.get("/user/users", (req, res, next) => {
-  user.getUsers(req, res, next);
-})*/
-
 router.post("/user/login", (req: Request, res: Response, next: NextFunction) => {
   user.login(req, res, next);
 });

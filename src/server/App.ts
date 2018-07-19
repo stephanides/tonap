@@ -5,7 +5,7 @@ import * as mongoose from "mongoose";
 import * as path from "path";
 import config from "./config";
 import * as helmet from "helmet";
-// import * as morgan from "morgan"
+import * as morgan from "morgan";
 import * as bodyParser from "body-parser";
 import * as io from "socket.io";
 import * as http from "http";
@@ -57,12 +57,12 @@ class App {
     this.app.use(helmet());
 
     // Morgan should be off in production
-    // this.app.use(morgan("dev"))
+    this.app.use(morgan("dev"));
 
     // Compression should be managed by nginx server in production
     // this.app.use(compression())
+    this.app.use(bodyParser.urlencoded({ parameterLimit: 10000, limit: "5mb", extended: true }));
     this.app.use(bodyParser.json({ limit: "5mb" }));
-    this.app.use(bodyParser.urlencoded({ parameterLimit: 10000, limit: "5mb", extended: false }));
 
     // Serve static files from imaginary /assets directory
     // Should be managed by nginx server in production
@@ -84,6 +84,7 @@ class App {
   private onError(): void {
     this.app.use((err, req, res, next) => {
       if (err) {
+        console.log(err);
         res.status(err.status || 500).json({ message: err.message, success: false });
       }
       next();
@@ -98,7 +99,6 @@ class App {
     this.router.get("/admin", (req, res) => { res.render("admin"); });
     this.router.get("/admin/setup", async (req, res) => {
       const user: object = await Users.findOne({ role: 2 });
-      console.log(user);
 
       if (!user) {
         res.render("admin");

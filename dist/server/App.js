@@ -15,7 +15,7 @@ const mongoose = require("mongoose");
 const path = require("path");
 const config_1 = require("./config");
 const helmet = require("helmet");
-// import * as morgan from "morgan"
+const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const io = require("socket.io");
 const http = require("http");
@@ -52,11 +52,11 @@ class App {
         //
         this.app.use(helmet());
         // Morgan should be off in production
-        // this.app.use(morgan("dev"))
+        this.app.use(morgan("dev"));
         // Compression should be managed by nginx server in production
         // this.app.use(compression())
+        this.app.use(bodyParser.urlencoded({ parameterLimit: 10000, limit: "5mb", extended: true }));
         this.app.use(bodyParser.json({ limit: "5mb" }));
-        this.app.use(bodyParser.urlencoded({ parameterLimit: 10000, limit: "5mb", extended: false }));
         // Serve static files from imaginary /assets directory
         // Should be managed by nginx server in production
         this.app.use("/assets", express.static(__dirname + "/../public/"));
@@ -74,6 +74,7 @@ class App {
     onError() {
         this.app.use((err, req, res, next) => {
             if (err) {
+                console.log(err);
                 res.status(err.status || 500).json({ message: err.message, success: false });
             }
             next();
@@ -87,7 +88,6 @@ class App {
         this.router.get("/admin", (req, res) => { res.render("admin"); });
         this.router.get("/admin/setup", (req, res) => __awaiter(this, void 0, void 0, function* () {
             const user = yield User_model_1.Users.findOne({ role: 2 });
-            console.log(user);
             if (!user) {
                 res.render("admin");
             }

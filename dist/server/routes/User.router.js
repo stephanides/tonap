@@ -6,9 +6,6 @@ const CheckToken_helper_1 = require("./helpers/CheckToken.helper");
 // import { NextFunction } from "connect";
 const router = express.Router();
 const user = new User_controller_1.UserController();
-/*router.get("/user/users", (req, res, next) => {
-  user.getUsers(req, res, next);
-})*/
 router.post("/user/login", (req, res, next) => {
     user.login(req, res, next);
 });

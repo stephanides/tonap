@@ -2,18 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
 class User {
-    /*
-    {
-      firstName: string,
-      lastName: string,
-      email: string,
-      password: string,
-      role?: number,
-      approved?: boolean,
-    }
-    */
     constructor(data) {
-        this.approved = data.approved;
         this.email = data.email;
         this.firstName = data.firstName;
         this.lastName = data.lastName;
@@ -23,10 +12,6 @@ class User {
 }
 exports.User = User;
 const UserSchema = new mongoose_1.Schema({
-    approved: {
-        default: false,
-        type: Boolean,
-    },
     dateCreated: {
         default: Date.now(),
         type: Date,

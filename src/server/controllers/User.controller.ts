@@ -59,12 +59,11 @@ export class UserController {
           res.json({
             message: "Welcome " + userItem.firstName,
             success: true,
-            token: this.token,
             user: {
-              approved: userItem.approved,
-              // city: userItem["city"],
               firstName: userItem.firstName,
+              lastName: userItem.lastName,
               role: userItem.role,
+              token: this.token,
             },
           });
         } else {
@@ -89,24 +88,24 @@ export class UserController {
           if (Object.keys(req.body)[i] !== "password") {
             userData[Object.keys(req.body)[i]] = (Object as any).values(req.body)[i];
           } else {
-            // (userData as any).password = bcrypt.hashSync(req.body.password, this.salt);
             bcrypt.genSalt(10, (err, salt) => {
-              bcrypt.hash(req.body.password, salt, (hashErr, hash) => {
+              bcrypt.hash(req.body.password, salt, async (hashErr, hash) => {
                 // Store hash in your password DB.
                 (userData as any).password = hash;
+                (userData as any).role = 2;
+
+                const newUser: object = new User(userData as IUser);
+                const userCreate: object = await Users.create(newUser);
+
+                if (userCreate) {
+                  res.json({ message: "User has been sucessfully registered", success: true });
+                  // this.sendEmail(req, res, next);
+                } else {
+                  this.throwError("Can\"t register user", 500, next);
+                }
               });
           });
           }
-        }
-
-        const newUser: object = new User(userData as IUser);
-        const userCreate: object = await Users.create(newUser);
-
-        if (userCreate) {
-          res.json({ message: "User has been sucessfully registered", success: true })
-          // this.sendEmail(req, res, next);
-        } else {
-          this.throwError("Can\"t register user", 500, next);
         }
       }
     } catch (err) {

@@ -5831,13 +5831,17 @@ class App extends React.Component {
         this.signOut = this.signOut.bind(this);
         this.submitForm = this.submitForm.bind(this);
     }
+    componentDidMount() {
+        this.intervalCheckAuthenticate = window.setInterval(this.authenticate, 12 * 60 * 1000);
+        this.authenticate();
+    }
     render() {
         return (React.createElement(react_router_1.Router, { history: history },
             React.createElement(react_router_1.Switch, null,
                 React.createElement(react_router_1.Route, { path: "/admin/login", render: () => (React.createElement(Login_1.default, { modalError: this.state.modalError, modalText: this.state.modalText, authorised: this.state.authorised, submitForm: this.submitForm, handleRegister: this.handleRegister })) }),
                 React.createElement(react_router_1.Route, { path: "/admin/setup", render: () => (React.createElement(Register_1.default, { handleRegister: this.handleRegister, submitForm: this.submitForm })) }),
                 React.createElement(react_router_1.Route, { path: "/admin", render: () => (this.state.authorised ?
-                        React.createElement(Admin_1.default, null) :
+                        React.createElement(Admin_1.default, { signOut: this.signOut, user: this.state.user }) :
                         React.createElement(react_router_1.Redirect, { to: "/admin/login" })) }))));
     }
     authenticate() {
@@ -5885,17 +5889,30 @@ class App extends React.Component {
             e.preventDefault();
             const form = e.target;
             const inputs = form.querySelectorAll("input");
-            const urlString = url ? url.toLowerCase() : this.state.register ? "/register" : "/login";
+            const urlString = url ? url.toLowerCase() : this.state.register ? "/user/setup" : "/user/login";
             const formParams = {};
             for (let i = 0; i < inputs.length; i++) {
                 formParams[inputs[i].id] = inputs[i].value;
             }
-            console.log(formParams);
             const response = yield fetch(urlString, {
                 body: JSON.stringify(formParams),
+                headers: {
+                    "content-type": "application/json",
+                },
                 method: "POST",
             });
-            console.log(response);
+            if (response.status === 200) {
+                const responseJSON = yield response.json();
+                if (urlString.indexOf("login") > -1) {
+                    this.storeUserData(responseJSON.user);
+                }
+                else {
+                    this.showModal(responseJSON.message, false);
+                }
+            }
+            else {
+                this.showModal(response.statusText, true);
+            }
         });
     }
     showModal(text, error, callback) {
@@ -5907,6 +5924,7 @@ class App extends React.Component {
         });
     }
     storeUserData(data) {
+        console.log(data);
         this.myStorage.setItem("uFN", data.firstName);
         this.myStorage.setItem("uLN", data.lastName);
         this.myStorage.setItem("uR", String(data.role));
@@ -6001,6 +6019,39 @@ exports.default = Modal;
 
 /***/ }),
 
+/***/ "./src/public/tsx/components/Nav.tsx":
+/*!*******************************************!*\
+  !*** ./src/public/tsx/components/Nav.tsx ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const React = __webpack_require__(/*! react */ "react");
+const react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+class Nav extends React.PureComponent {
+    render() {
+        return (React.createElement("nav", { className: "navbar navbar-expand-lg navbar-light mb-3" },
+            React.createElement("div", { className: "container" },
+                React.createElement(react_router_dom_1.Link, { className: "navbar-brand", to: "/admin" },
+                    React.createElement("img", { src: "../assets/images/logo.png" })),
+                React.createElement("button", { type: "button", "data-toggle": "collapse", "data-target": "navbarCollapse", className: "navbar-toggler" },
+                    React.createElement("span", { className: "navbar-toggler-icon" })),
+                React.createElement("div", { id: "navbarCollapse", className: "collapse navbar-collapse justify-content-end" },
+                    React.createElement("ul", { className: "navbar-nav" },
+                        React.createElement("li", { className: "nav-item position-relative" }, this.props.user.firstName),
+                        React.createElement("li", { className: "nav-item" },
+                            React.createElement("button", { onClick: this.props.signOut },
+                                React.createElement("i", { className: "fas fa-sign-out-alt" }))))))));
+    }
+}
+exports.default = Nav;
+
+
+/***/ }),
+
 /***/ "./src/public/tsx/index.tsx":
 /*!**********************************!*\
   !*** ./src/public/tsx/index.tsx ***!
@@ -6030,9 +6081,13 @@ react_dom_1.render(React.createElement(App_1.default, null), document.getElement
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(/*! react */ "react");
+const Nav_1 = __webpack_require__(/*! ../components/Nav */ "./src/public/tsx/components/Nav.tsx");
 class Admin extends React.Component {
     render() {
-        return (React.createElement("div", null, "Admin"));
+        return [
+            React.createElement(Nav_1.default, { user: this.props.user, signOut: this.props.signOut, key: 0 }),
+            React.createElement("div", { key: 1 }, "Admin"),
+        ];
     }
 }
 exports.default = Admin;
@@ -6052,7 +6107,6 @@ exports.default = Admin;
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(/*! react */ "react");
 const Form_1 = __webpack_require__(/*! ../components/Form */ "./src/public/tsx/components/Form.tsx");
-const react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
 const Modal_1 = __webpack_require__(/*! ../components/Modal */ "./src/public/tsx/components/Modal.tsx");
 const react_router_1 = __webpack_require__(/*! react-router */ "./node_modules/react-router/es/index.js");
 class Login extends React.PureComponent {
@@ -6070,11 +6124,7 @@ class Login extends React.PureComponent {
                     React.createElement("div", { className: "row" },
                         React.createElement("div", { className: "col-xl-6 col-lg-8 col-md-8 col-sm-12 mt-3 ml-auto mr-auto" },
                             React.createElement("h1", { className: "text-center" }, "Login"),
-                            React.createElement(Form_1.default, { register: false, submitForm: this.props.submitForm }),
-                            React.createElement("p", { className: "text-center" },
-                                "You don't have an account? Please ",
-                                React.createElement(react_router_dom_1.Link, { to: "/admin/setup" }, "register"),
-                                ".")))),
+                            React.createElement(Form_1.default, { register: false, submitForm: this.props.submitForm })))),
             ] : React.createElement(react_router_1.Redirect, { to: "/admin" });
     }
 }

@@ -56,12 +56,11 @@ class UserController {
                         res.json({
                             message: "Welcome " + userItem.firstName,
                             success: true,
-                            token: this.token,
                             user: {
-                                approved: userItem.approved,
-                                // city: userItem["city"],
                                 firstName: userItem.firstName,
+                                lastName: userItem.lastName,
                                 role: userItem.role,
+                                token: this.token,
                             },
                         });
                     }
@@ -89,23 +88,23 @@ class UserController {
                             userData[Object.keys(req.body)[i]] = Object.values(req.body)[i];
                         }
                         else {
-                            // (userData as any).password = bcrypt.hashSync(req.body.password, this.salt);
                             bcrypt.genSalt(10, (err, salt) => {
-                                bcrypt.hash(req.body.password, salt, (hashErr, hash) => {
+                                bcrypt.hash(req.body.password, salt, (hashErr, hash) => __awaiter(this, void 0, void 0, function* () {
                                     // Store hash in your password DB.
                                     userData.password = hash;
-                                });
+                                    userData.role = 2;
+                                    const newUser = new User_model_1.User(userData);
+                                    const userCreate = yield User_model_1.Users.create(newUser);
+                                    if (userCreate) {
+                                        res.json({ message: "User has been sucessfully registered", success: true });
+                                        // this.sendEmail(req, res, next);
+                                    }
+                                    else {
+                                        this.throwError("Can\"t register user", 500, next);
+                                    }
+                                }));
                             });
                         }
-                    }
-                    const newUser = new User_model_1.User(userData);
-                    const userCreate = yield User_model_1.Users.create(newUser);
-                    if (userCreate) {
-                        res.json({ message: "User has been sucessfully registered", success: true });
-                        // this.sendEmail(req, res, next);
-                    }
-                    else {
-                        this.throwError("Can\"t register user", 500, next);
                     }
                 }
             }

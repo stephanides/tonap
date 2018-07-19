@@ -40,6 +40,11 @@ export default class App extends React.Component<{}, IAppState> {
     this.submitForm = this.submitForm.bind(this);
   }
 
+  public componentDidMount() {
+    this.intervalCheckAuthenticate = window.setInterval(this.authenticate, 12 * 60 * 1000);
+    this.authenticate();
+  }
+
   public render() {
     return(
       <Router history={history}>
@@ -61,7 +66,10 @@ export default class App extends React.Component<{}, IAppState> {
           )} />
           <Route path="/admin" render={() => (
             this.state.authorised ?
-            <Admin /> :
+            <Admin
+              signOut={this.signOut}
+              user={this.state.user}
+            /> :
             <Redirect to="/admin/login" />
           )} />
         </Switch>
@@ -120,21 +128,32 @@ export default class App extends React.Component<{}, IAppState> {
 
     const form = e.target as HTMLElement;
     const inputs: NodeListOf<HTMLInputElement> = form.querySelectorAll("input");
-    const urlString: string = url ? url.toLowerCase() : this.state.register ? "/register" : "/login";
+    const urlString: string = url ? url.toLowerCase() : this.state.register ? "/user/setup" : "/user/login";
     const formParams: object = {};
 
     for (let i = 0; i < inputs.length; i++) {
       formParams[inputs[i].id] = inputs[i].value;
     }
 
-    console.log(formParams);
-
     const response = await fetch(urlString, {
       body: JSON.stringify(formParams),
+      headers: {
+        "content-type": "application/json",
+      },
       method: "POST",
     });
 
-    console.log(response);
+    if (response.status === 200) {
+      const responseJSON = await response.json();
+
+      if (urlString.indexOf("login") > -1) {
+        this.storeUserData((responseJSON as any).user);
+      } else {
+        this.showModal((responseJSON as any).message, false);
+      }
+    } else {
+      this.showModal(response.statusText, true);
+    }
   }
 
   private showModal(text: string, error: boolean, callback?: () => void): void {
@@ -147,6 +166,8 @@ export default class App extends React.Component<{}, IAppState> {
   }
 
   private storeUserData(data: IUser): void {
+    console.log(data);
+
     this.myStorage.setItem("uFN", data.firstName);
     this.myStorage.setItem("uLN", data.lastName);
     this.myStorage.setItem("uR", String(data.role));

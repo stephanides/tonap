@@ -35,9 +35,6 @@ export default class Login extends React.PureComponent<IProps, {}> {
             <div className="col-xl-6 col-lg-8 col-md-8 col-sm-12 mt-3 ml-auto mr-auto">
               <h1 className="text-center">Login</h1>
               <Form register={false} submitForm={this.props.submitForm} />
-              <p className="text-center">
-                You don't have an account? Please <Link to="/admin/setup">register</Link>.
-              </p>
             </div>
           </div>
         </div>,
