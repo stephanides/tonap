@@ -34,13 +34,14 @@ export default class App extends React.Component<{}, IAppState> {
     this.state = initialState;
     this.myStorage = window.localStorage;
 
+    this.authenticate = this.authenticate.bind(this);
     this.handleRegister = this.handleRegister.bind(this);
     this.showModal = this.showModal.bind(this);
     this.signOut = this.signOut.bind(this);
     this.submitForm = this.submitForm.bind(this);
   }
 
-  public componentDidMount() {
+  public componentWillMount() {
     this.intervalCheckAuthenticate = window.setInterval(this.authenticate, 12 * 60 * 1000);
     this.authenticate();
   }
@@ -60,18 +61,21 @@ export default class App extends React.Component<{}, IAppState> {
           )} />
           <Route path="/admin/setup" render={() => (
             <Register
+              modalError={this.state.modalError}
+              modalText={this.state.modalText}
               handleRegister={this.handleRegister}
               submitForm={this.submitForm}
             />
           )} />
-          <Route path="/admin" render={() => (
-            this.state.authorised ?
-            <Admin
-              signOut={this.signOut}
-              user={this.state.user}
-            /> :
-            <Redirect to="/admin/login" />
-          )} />
+          <Route path="/admin" render={(routeProps) => (
+              this.state.authorised ?
+              <Admin
+                routeProps={routeProps}
+                signOut={this.signOut}
+                user={this.state.user}
+              /> :
+              <Redirect to="/admin/login" />
+            )} />
         </Switch>
       </Router>
     );

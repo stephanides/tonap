@@ -1,8 +1,12 @@
 import * as React from "react";
 import Form from "../components/Form";
+import Modal from "../components/Modal";
 import { Link } from "react-router-dom";
 
 interface IProps {
+  modalError?: boolean;
+  modalText?: string;
+
   submitForm(event: React.FormEvent<HTMLFormElement>): void;
   handleRegister(register: boolean): void;
 }
@@ -17,7 +21,12 @@ export default class Register extends React.PureComponent<IProps, {}> {
   }
 
   public render() {
-    return(
+    return[
+      <Modal
+        modalError={this.props.modalError}
+        modalText={this.props.modalText}
+        key={0}
+      />,
       <div className="container register">
         <div className="row">
           <div className="col-xl-6 col-lg-8 col-md-8 col-sm-12 mt-3 ml-auto mr-auto">
@@ -28,7 +37,7 @@ export default class Register extends React.PureComponent<IProps, {}> {
           </p>
           </div>
         </div>
-      </div>
-    );
+      </div>,
+    ];
   }
 }
