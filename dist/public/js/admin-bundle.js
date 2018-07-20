@@ -71,7 +71,7 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "../../../Users/ENLI WORKSTATION1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js":
+/***/ "../../../Users/ENLI Book 1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js":
 /*!*************************************************!*\
   !*** (webpack)/node_modules/process/browser.js ***!
   \*************************************************/
@@ -9147,7 +9147,7 @@ function invariant(condition, message) {
     throw new Error('StyleSheet: ' + message + '.');
   }
 }
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../../../Users/ENLI WORKSTATION1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js */ "../../../Users/ENLI WORKSTATION1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js")))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../../../Users/ENLI Book 1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js */ "../../../Users/ENLI Book 1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js")))
 
 /***/ }),
 
@@ -9719,6 +9719,7 @@ class App extends React.Component {
         this.handleRegister = this.handleRegister.bind(this);
         this.showModal = this.showModal.bind(this);
         this.signOut = this.signOut.bind(this);
+        this.storeProduct = this.storeProduct.bind(this);
         this.submitForm = this.submitForm.bind(this);
     }
     componentWillMount() {
@@ -9731,7 +9732,7 @@ class App extends React.Component {
                 React.createElement(react_router_1.Route, { path: "/admin/login", render: () => (React.createElement(Login_1.default, { modalError: this.state.modalError, modalText: this.state.modalText, authorised: this.state.authorised, submitForm: this.submitForm, handleRegister: this.handleRegister })) }),
                 React.createElement(react_router_1.Route, { path: "/admin/setup", render: () => (React.createElement(Register_1.default, { modalError: this.state.modalError, modalText: this.state.modalText, handleRegister: this.handleRegister, submitForm: this.submitForm })) }),
                 React.createElement(react_router_1.Route, { path: "/admin", render: (routeProps) => (this.state.authorised ?
-                        React.createElement(Admin_1.default, { routeProps: routeProps, signOut: this.signOut, user: this.state.user }) :
+                        React.createElement(Admin_1.default, { routeProps: routeProps, signOut: this.signOut, storeProduct: this.storeProduct, user: this.state.user }) :
                         React.createElement(react_router_1.Redirect, { to: "/admin/login" })) }))));
     }
     authenticate() {
@@ -9805,6 +9806,39 @@ class App extends React.Component {
             }
         });
     }
+    storeProduct(e) {
+        return __awaiter(this, void 0, void 0, function* () {
+            e.preventDefault();
+            const form = e.target;
+            const inputs = form.querySelectorAll("input");
+            const formParams = {};
+            for (let i = 0; i < inputs.length; i++) {
+                formParams[inputs[i].id] = inputs[i].value;
+            }
+            formParams.description = form.description.value;
+            console.log(formParams);
+            try {
+                const request = yield fetch("/api/product/store", {
+                    body: JSON.stringify(formParams),
+                    headers: {
+                        "content-type": "application/json",
+                        "x-access-token": this.state.user.token,
+                    },
+                    method: "POST",
+                });
+                if (request.status === 200) {
+                    const responseJSON = yield request.json();
+                    console.log(responseJSON.message);
+                }
+                else {
+                    this.showModal(request.statusText, true);
+                }
+            }
+            catch (err) {
+                console.log(err);
+            }
+        });
+    }
     showModal(text, error, callback) {
         this.setState({ modalText: text, modalError: error }, () => {
             $(".modal").modal();
@@ -9814,7 +9848,6 @@ class App extends React.Component {
         });
     }
     storeUserData(data) {
-        console.log(data);
         this.myStorage.setItem("uFN", data.firstName);
         this.myStorage.setItem("uLN", data.lastName);
         this.myStorage.setItem("uR", String(data.role));
@@ -10001,31 +10034,31 @@ class Products extends React.Component {
             React.createElement("h5", { key: 1 }, "Vlo\u017Ei\u0165 produkt"),
             React.createElement("div", { className: "row", key: 2 },
                 React.createElement("div", { className: "col-12 mb-3" },
-                    React.createElement("form", { key: 2 },
+                    React.createElement("form", { key: 2, onSubmit: (e) => { this.props.storeProduct(e); } },
                         React.createElement("div", { className: "form-row align-items-center" },
                             React.createElement("div", { className: "col-12" },
                                 React.createElement("h6", null, "Z\u00E1kladn\u00E9 inform\u00E1cie")),
                             React.createElement("div", { className: "col-12" },
                                 React.createElement("label", { className: "sr-only", htmlFor: "title" }, "N\u00E1zov Produktu"),
-                                React.createElement("input", { type: "text", className: "form-control mb-2", id: "title", placeholder: "N\u00E1zov Produktu" })),
+                                React.createElement("input", { type: "text", className: "form-control mb-2", id: "title", placeholder: "N\u00E1zov Produktu", required: true })),
                             React.createElement("div", { className: "col-12" },
-                                React.createElement("label", { className: "sr-only", htmlFor: "title" }, "Stru\u010Dn\u00E9 Info."),
-                                React.createElement("textarea", { className: "form-control mb-2", id: "info", placeholder: "Stru\u010Dn\u00E9 Info." }))),
+                                React.createElement("label", { className: "sr-only", htmlFor: "description" }, "Stru\u010Dn\u00E9 Info."),
+                                React.createElement("textarea", { className: "form-control mb-2", id: "description", placeholder: "Stru\u010Dn\u00E9 Info.", required: true }))),
                         React.createElement("div", { className: "form-row align-items-center" },
                             React.createElement("div", { className: "col-12" },
                                 React.createElement("h6", null, "Technick\u00E9 parametre")),
                             React.createElement("div", { className: "col-3" },
                                 React.createElement("label", { className: "sr-only", htmlFor: "length" }, "D\u013A\u017Eka"),
-                                React.createElement("input", { type: "number", className: "form-control mb-2", id: "length", placeholder: "D\u013A\u017Eka v mm", min: "10", max: "100" })),
+                                React.createElement("input", { type: "number", className: "form-control mb-2", id: "length", placeholder: "D\u013A\u017Eka v mm", min: "10", max: "100", required: true })),
                             React.createElement("div", { className: "col-3" },
                                 React.createElement("label", { className: "sr-only", htmlFor: "wide" }, "\u0160irka"),
-                                React.createElement("input", { type: "number", className: "form-control mb-2", id: "wide", placeholder: "\u0160irka v mm", min: "10", max: "100" })),
+                                React.createElement("input", { type: "number", className: "form-control mb-2", id: "wide", placeholder: "\u0160irka v mm", min: "10", max: "100", required: true })),
                             React.createElement("div", { className: "col-3" },
                                 React.createElement("label", { className: "sr-only", htmlFor: "depth" }, "H\u013Abka"),
-                                React.createElement("input", { type: "number", className: "form-control mb-2", id: "depth", placeholder: "H\u013Abka v mm", min: "10", max: "100" })),
+                                React.createElement("input", { type: "number", className: "form-control mb-2", id: "depth", placeholder: "H\u013Abka v mm", min: "10", max: "100", required: true })),
                             React.createElement("div", { className: "col-3" },
                                 React.createElement("label", { className: "sr-only", htmlFor: "weight" }, "V\u00E1ha"),
-                                React.createElement("input", { type: "number", className: "form-control mb-2", id: "weight", placeholder: "V\u00E1ha v kg", min: "0", max: "1" }))),
+                                React.createElement("input", { type: "number", className: "form-control mb-2", id: "weight", placeholder: "V\u00E1ha v kg", min: "0", max: "1", required: true }))),
                         React.createElement("div", { className: "form-row align-items-center" },
                             React.createElement("div", { className: "col-12" },
                                 React.createElement("h6", null, "Varianty")),
@@ -10164,7 +10197,7 @@ class Admin extends React.Component {
             React.createElement(HeaderNav_1.default, { user: this.props.user, signOut: this.props.signOut }),
             React.createElement("div", { className: "container" },
                 React.createElement(TabNav_1.default, { routeProps: this.props.routeProps }),
-                React.createElement(react_router_dom_1.Route, { path: `${this.props.routeProps.match.url}/products`, component: Products_1.default }),
+                React.createElement(react_router_dom_1.Route, { path: `${this.props.routeProps.match.url}/products`, render: () => (React.createElement(Products_1.default, { storeProduct: this.props.storeProduct })) }),
                 React.createElement(react_router_dom_1.Route, { exact: true, path: `${this.props.routeProps.match.url}`, component: Orders_1.default })),
             React.createElement("style", { jsx: true, global: true }, `
           h1, h2, h3, h4, h5, h6, a, li { color: #3b8acc; }

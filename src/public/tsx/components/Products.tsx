@@ -1,7 +1,7 @@
 import * as React from "react";
 
 interface IProps {
-  temporaryProps?: any;
+  storeProduct(e: React.FormEvent<HTMLElement>): Promise<void>;
 }
 
 export default class Products extends React.Component<IProps, {}> {
@@ -15,18 +15,18 @@ export default class Products extends React.Component<IProps, {}> {
       <h5 key={1}>Vložiť produkt</h5>,
       <div className="row" key={2}>
         <div className="col-12 mb-3">
-          <form key={2}>
+          <form key={2} onSubmit={(e) => { this.props.storeProduct(e); }}>
             <div className="form-row align-items-center">
               <div className="col-12">
                 <h6>Základné informácie</h6>
               </div>
               <div className="col-12">
                 <label className="sr-only" htmlFor="title">Názov Produktu</label>
-                <input type="text" className="form-control mb-2" id="title" placeholder="Názov Produktu" />
+                <input type="text" className="form-control mb-2" id="title" placeholder="Názov Produktu" required />
               </div>
               <div className="col-12">
-                <label className="sr-only" htmlFor="title">Stručné Info.</label>
-                <textarea className="form-control mb-2" id="info" placeholder="Stručné Info." />
+                <label className="sr-only" htmlFor="description">Stručné Info.</label>
+                <textarea className="form-control mb-2" id="description" placeholder="Stručné Info." required />
               </div>
             </div>
             <div className="form-row align-items-center">
@@ -36,22 +36,26 @@ export default class Products extends React.Component<IProps, {}> {
               <div className="col-3">
                 <label className="sr-only" htmlFor="length">Dĺžka</label>
                 <input
-                  type="number" className="form-control mb-2" id="length" placeholder="Dĺžka v mm" min="10" max="100" />
+                  type="number"
+                  className="form-control mb-2" id="length" placeholder="Dĺžka v mm" min="10" max="100" required />
               </div>
               <div className="col-3">
                 <label className="sr-only" htmlFor="wide">Širka</label>
                 <input
-                  type="number" className="form-control mb-2" id="wide" placeholder="Širka v mm" min="10" max="100" />
+                  type="number"
+                  className="form-control mb-2" id="wide" placeholder="Širka v mm" min="10" max="100" required />
               </div>
               <div className="col-3">
                 <label className="sr-only" htmlFor="depth">Hĺbka</label>
                 <input
-                  type="number" className="form-control mb-2" id="depth" placeholder="Hĺbka v mm" min="10" max="100" />
+                  type="number"
+                  className="form-control mb-2" id="depth" placeholder="Hĺbka v mm" min="10" max="100"  required/>
               </div>
               <div className="col-3">
                 <label className="sr-only" htmlFor="weight">Váha</label>
                 <input
-                  type="number" className="form-control mb-2" id="weight" placeholder="Váha v kg" min="0" max="1" />
+                  type="number"
+                  className="form-control mb-2" id="weight" placeholder="Váha v kg" min="0" max="1" required />
               </div>
             </div>
             <div className="form-row align-items-center">

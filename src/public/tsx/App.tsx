@@ -38,6 +38,7 @@ export default class App extends React.Component<{}, IAppState> {
     this.handleRegister = this.handleRegister.bind(this);
     this.showModal = this.showModal.bind(this);
     this.signOut = this.signOut.bind(this);
+    this.storeProduct = this.storeProduct.bind(this);
     this.submitForm = this.submitForm.bind(this);
   }
 
@@ -72,6 +73,7 @@ export default class App extends React.Component<{}, IAppState> {
               <Admin
                 routeProps={routeProps}
                 signOut={this.signOut}
+                storeProduct={this.storeProduct}
                 user={this.state.user}
               /> :
               <Redirect to="/admin/login" />
@@ -160,6 +162,44 @@ export default class App extends React.Component<{}, IAppState> {
     }
   }
 
+  private async storeProduct(e: React.FormEvent<HTMLElement>): Promise<void> {
+    e.preventDefault();
+
+    const form: HTMLFormElement = e.target as HTMLFormElement;
+    const inputs: NodeListOf<HTMLInputElement> = form.querySelectorAll("input");
+    const formParams: object = {};
+
+    for (let i = 0; i < inputs.length; i++) {
+      formParams[inputs[i].id] = inputs[i].value;
+    }
+
+    (formParams as any).description = form.description.value;
+
+    console.log(formParams);
+
+    try {
+      const request = await fetch("/api/product/store", {
+        body: JSON.stringify(formParams),
+        headers: {
+          "content-type": "application/json",
+          "x-access-token": this.state.user.token,
+        },
+        method: "POST",
+      });
+
+      if (request.status === 200) {
+        const responseJSON: Promise<any> = await request.json();
+
+        console.log((responseJSON as any).message);
+      } else {
+        this.showModal(request.statusText, true);
+      }
+
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   private showModal(text: string, error: boolean, callback?: () => void): void {
     this.setState({ modalText: text, modalError: error }, () => {
       $(".modal").modal();
@@ -170,8 +210,6 @@ export default class App extends React.Component<{}, IAppState> {
   }
 
   private storeUserData(data: IUser): void {
-    console.log(data);
-
     this.myStorage.setItem("uFN", data.firstName);
     this.myStorage.setItem("uLN", data.lastName);
     this.myStorage.setItem("uR", String(data.role));

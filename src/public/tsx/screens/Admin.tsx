@@ -10,7 +10,9 @@ import TabNav from "../components/TabNav";
 interface IProps {
   routeProps: any;
   user: IUserPayLoad;
+
   signOut(): void;
+  storeProduct(e: React.FormEvent<HTMLElement>): Promise<void>;
 }
 
 export default class Admin extends React.Component<IProps, {}> {
@@ -23,7 +25,9 @@ export default class Admin extends React.Component<IProps, {}> {
         />
         <div className="container">
           <TabNav routeProps={this.props.routeProps} />
-          <Route path={`${this.props.routeProps.match.url}/products`} component={Products} />
+          <Route path={`${this.props.routeProps.match.url}/products`} render={() => (
+            <Products storeProduct={this.props.storeProduct} />
+          )} />
           <Route exact path={`${this.props.routeProps.match.url}`} component={Orders} />
         </div>
 

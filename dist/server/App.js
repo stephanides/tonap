@@ -24,6 +24,7 @@ const User_model_1 = require("./models/User.model");
 // import ClaimRouter from "./routes/Claim.router"
 const Email_router_1 = require("./routes/Email.router");
 // import OrderRouter from "./routes/Order.router"
+const Api_router_1 = require("./routes/Api.router");
 const User_router_1 = require("./routes/User.router");
 class App {
     constructor() {
@@ -109,6 +110,7 @@ class App {
                 admin.emit("claim been created", { success: true });
             });
         });
+        this.app.use("/api", Api_router_1.default);
         this.app.use(Email_router_1.default);
         this.app.use(User_router_1.default);
         this.app.use(this.router);
