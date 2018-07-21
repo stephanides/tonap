@@ -5,12 +5,15 @@ import Login from "./screens/Login";
 import Register from "./screens/Register";
 import { Redirect, Router, Route, Switch } from "react-router";
 
+import IFile from "./interfaces/File.interface";
 import { IUser } from "./interfaces/User.interface";
 
 const history = createBrowserHistory();
 
 interface IAppState {
   authorised?: boolean;
+  imageFiles?: IFile[];
+  imageNum?: number;
   modalError?: boolean;
   modalText?: string;
   register?: boolean;
@@ -19,6 +22,7 @@ interface IAppState {
 
 const initialState: IAppState = {
   authorised: false,
+  imageNum: 0,
 };
 
 export default class App extends React.Component<{}, IAppState> {
@@ -36,6 +40,9 @@ export default class App extends React.Component<{}, IAppState> {
 
     this.authenticate = this.authenticate.bind(this);
     this.handleRegister = this.handleRegister.bind(this);
+    this.imageDrop = this.imageDrop.bind(this);
+    this.imagePreviewSelect = this.imagePreviewSelect.bind(this);
+    this.imageRemoveSelect = this.imageRemoveSelect.bind(this);
     this.showModal = this.showModal.bind(this);
     this.signOut = this.signOut.bind(this);
     this.storeProduct = this.storeProduct.bind(this);
@@ -71,6 +78,11 @@ export default class App extends React.Component<{}, IAppState> {
           <Route path="/admin" render={(routeProps) => (
               this.state.authorised ?
               <Admin
+                imageDrop={this.imageDrop}
+                imageFiles={this.state.imageFiles}
+                imageNum={this.state.imageNum}
+                imagePreviewSelect={this.imagePreviewSelect}
+                imageRemoveSelect={this.imageRemoveSelect}
                 routeProps={routeProps}
                 signOut={this.signOut}
                 storeProduct={this.storeProduct}
@@ -93,7 +105,7 @@ export default class App extends React.Component<{}, IAppState> {
     }
   }
 
-  private handleRegister(register: boolean) {
+  private handleRegister(register: boolean): void {
     if (!register) {
       this.setState({ register: false });
     } else {
@@ -120,6 +132,40 @@ export default class App extends React.Component<{}, IAppState> {
     return user;
   }
 
+  private imageDrop(files: File[]): void {
+    const reader: FileReader = new FileReader();
+    let i = 0;
+    const fileArr: any[] = [];
+
+    const readFileFn = () => {
+      reader.readAsDataURL(files[i]);
+      reader.onload = () => {
+        const base64Data: string = reader.result;
+        (files[i] as any).data = base64Data;
+        fileArr.push(files[i]);
+
+        if (i < files.length - 1) {
+          i++;
+          readFileFn();
+        }
+      };
+    };
+
+    readFileFn();
+    setTimeout(() => { this.setState({ imageFiles: fileArr }); }, 10);
+  }
+
+  private imagePreviewSelect(n: number): void {
+    this.setState({ imageNum: n });
+  }
+
+  private imageRemoveSelect(n: number): void {
+    const imgArr: IFile[] = this.state.imageFiles;
+
+    imgArr.splice(n, 1);
+    this.setState({ imageFiles: imgArr, imageNum: 0 });
+  }
+
   private signOut(): void {
     this.setState({
       authorised: false,
@@ -137,8 +183,8 @@ export default class App extends React.Component<{}, IAppState> {
     const urlString: string = url ? url.toLowerCase() : this.state.register ? "/user/setup" : "/user/login";
     const formParams: object = {};
 
-    for (let i = 0; i < inputs.length; i++) {
-      formParams[inputs[i].id] = inputs[i].value;
+    for (const input of inputs as any) {
+      formParams[input.id] = input.value;
     }
 
     const response = await fetch(urlString, {
@@ -169,11 +215,23 @@ export default class App extends React.Component<{}, IAppState> {
     const inputs: NodeListOf<HTMLInputElement> = form.querySelectorAll("input");
     const formParams: object = {};
 
-    for (let i = 0; i < inputs.length; i++) {
-      formParams[inputs[i].id] = inputs[i].value;
+    for (const input of inputs as any) {
+      formParams[input.id] = input.value;
     }
 
     (formParams as any).description = form.description.value;
+    // (formParams as any).imageFilesData = this.state.imageFiles;
+
+    const imageDataArr: object[] = [];
+
+    for (const imageData of this.state.imageFiles) {
+      imageDataArr.push({
+        data: imageData.data,
+        type: imageData.type.replace("image/", ""),
+      });
+    }
+
+    (formParams as any).imageFilesData = imageDataArr;
 
     console.log(formParams);
 

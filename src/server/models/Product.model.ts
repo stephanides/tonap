@@ -2,31 +2,40 @@ import { Document, Schema, model } from "mongoose";
 import { IProduct } from "../interfaces/Product.interface";
 
 export class Product {
-  public title: string;
-  public description: string;
-  public length: number;
-  public wide: number;
+  public boxsize: number;
   public depth: number;
+  public description: string;
+  public imageFilesData: object[];
+  public length: number;
+  public package: number;
+  public title: string;
+  public wide: number;
   public weight: number;
 
   constructor(data: IProduct) {
-    this.title = data.title;
+    this.boxsize = data.boxsize;
     this.description = data.description;
-    this.length = data.length;
-    this.wide = data.wide;
+    this.imageFilesData = data.imageFilesData;
     this.depth = data.depth;
+    this.length = data.length;
+    this.package = data.package;
+    this.title = data.title;
+    this.wide = data.wide;
     this.weight = data.weight;
   }
 }
 
 const ProductSchema = new Schema({
+  boxsize: Number,
   dateCreated: {
     default: Date.now(),
     type: Date,
   },
   depth: Number,
   description: String,
+  imageFilesData: Array,
   length: Number,
+  package: Number,
   title: {
     required: true,
     type: String,

@@ -17,6 +17,7 @@ import { User, IUserDocument, Users } from "./models/User.model";
 import EmailRouter from "./routes/Email.router";
 // import OrderRouter from "./routes/Order.router"
 import ApiRouter from "./routes/Api.router";
+import ProductRouter from "./routes/Product.router";
 import UserRouter from "./routes/User.router";
 
 class App {
@@ -127,6 +128,7 @@ class App {
     this.app.use("/api", ApiRouter);
     this.app.use(EmailRouter);
     this.app.use(UserRouter);
+    this.app.use(ProductRouter);
     this.app.use(this.router);
   }
 }

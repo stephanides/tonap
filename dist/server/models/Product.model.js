@@ -3,23 +3,29 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
 class Product {
     constructor(data) {
-        this.title = data.title;
+        this.boxsize = data.boxsize;
         this.description = data.description;
-        this.length = data.length;
-        this.wide = data.wide;
+        this.imageFilesData = data.imageFilesData;
         this.depth = data.depth;
+        this.length = data.length;
+        this.package = data.package;
+        this.title = data.title;
+        this.wide = data.wide;
         this.weight = data.weight;
     }
 }
 exports.Product = Product;
 const ProductSchema = new mongoose_1.Schema({
+    boxsize: Number,
     dateCreated: {
         default: Date.now(),
         type: Date,
     },
     depth: Number,
     description: String,
+    imageFilesData: Array,
     length: Number,
+    package: Number,
     title: {
         required: true,
         type: String,

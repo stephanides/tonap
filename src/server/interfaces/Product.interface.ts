@@ -1,8 +1,11 @@
 export interface IProduct {
-  title: string;
+  boxsize: number;
   description: string;
-  length: number;
-  wide: number;
   depth: number;
+  imageFilesData: object[];
+  length: number;
+  package: number;
+  title: string;
   weight: number;
+  wide: number;
 }

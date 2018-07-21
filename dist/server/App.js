@@ -25,6 +25,7 @@ const User_model_1 = require("./models/User.model");
 const Email_router_1 = require("./routes/Email.router");
 // import OrderRouter from "./routes/Order.router"
 const Api_router_1 = require("./routes/Api.router");
+const Product_router_1 = require("./routes/Product.router");
 const User_router_1 = require("./routes/User.router");
 class App {
     constructor() {
@@ -113,6 +114,7 @@ class App {
         this.app.use("/api", Api_router_1.default);
         this.app.use(Email_router_1.default);
         this.app.use(User_router_1.default);
+        this.app.use(Product_router_1.default);
         this.app.use(this.router);
     }
 }
