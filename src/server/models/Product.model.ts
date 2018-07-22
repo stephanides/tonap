@@ -26,6 +26,10 @@ export class Product {
 }
 
 const ProductSchema = new Schema({
+  active: {
+    default: true,
+    type: Boolean,
+  },
   boxsize: Number,
   dateCreated: {
     default: Date.now(),

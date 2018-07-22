@@ -11,7 +11,7 @@ import { IProduct } from "../interfaces/Product.interface";
 export default class ProductController {
   public async get(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const productItems: object[] = await Products.find({});
+      const productItems: object[] = await Products.find({ active: true });
 
       if (!productItems || productItems.length < 1) {
         res.status(404).json({ message: "Not found.", success: false });
@@ -34,7 +34,7 @@ export default class ProductController {
         res.status(409).json({ message: "Product allready exist", success: false });
       } else {
         if (req.body.imageFilesData && req.body.imageFilesData.length > 0) {
-          const folderName: string = req.body.title.toLowerCase().replace("/\s+/g", "");
+          const folderName: string = req.body.title.toLowerCase().replace("/\s+/g", "-");
           const folderPath: string = "/../../public/images/products/" + folderName;
 
           fs.mkdir(__dirname + folderPath, (err) => {

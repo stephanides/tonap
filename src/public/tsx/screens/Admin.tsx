@@ -1,6 +1,7 @@
 import "react";
 import * as React from "react";
 import HeaderNav from "../components/HeaderNav";
+import Modal from "../components/Modal";
 import Orders from "../components/Orders";
 import Products from "../components/Products";
 import { IUserPayLoad } from "../interfaces/UserPayLoad.interface";
@@ -11,6 +12,8 @@ import IFile from "../interfaces/File.interface";
 interface IProps {
   imageFiles?: IFile[];
   imageNum?: number;
+  modalError?: boolean;
+  modalText?: string;
   routeProps: any;
   user: IUserPayLoad;
 
@@ -30,8 +33,14 @@ declare module "react" {
 
 export default class Admin extends React.Component<IProps, {}> {
   public render() {
-    return(
-      <div>
+    return[
+      <Modal
+        modalError={this.props.modalError}
+        modalText={this.props.modalText}
+
+        key={0}
+      />,
+      <div key={1}>
         <HeaderNav
           user={this.props.user}
           signOut={this.props.signOut}
@@ -54,7 +63,7 @@ export default class Admin extends React.Component<IProps, {}> {
         <style jsx>{`
           h1, h2, h3, h4, h5, h6, a, li { color: #3b8acc; }
         `}</style>
-      </div>
-    );
+      </div>,
+    ];
   }
 }

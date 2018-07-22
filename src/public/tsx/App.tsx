@@ -83,6 +83,8 @@ export default class App extends React.Component<{}, IAppState> {
                 imageNum={this.state.imageNum}
                 imagePreviewSelect={this.imagePreviewSelect}
                 imageRemoveSelect={this.imageRemoveSelect}
+                modalError={this.state.modalError}
+                modalText={this.state.modalText}
                 routeProps={routeProps}
                 signOut={this.signOut}
                 storeProduct={this.storeProduct}
@@ -224,37 +226,40 @@ export default class App extends React.Component<{}, IAppState> {
 
     const imageDataArr: object[] = [];
 
-    for (const imageData of this.state.imageFiles) {
-      imageDataArr.push({
-        data: imageData.data,
-        type: imageData.type.replace("image/", ""),
-      });
-    }
-
-    (formParams as any).imageFilesData = imageDataArr;
-
-    console.log(formParams);
-
-    try {
-      const request = await fetch("/api/product/store", {
-        body: JSON.stringify(formParams),
-        headers: {
-          "content-type": "application/json",
-          "x-access-token": this.state.user.token,
-        },
-        method: "POST",
-      });
-
-      if (request.status === 200) {
-        const responseJSON: Promise<any> = await request.json();
-
-        console.log((responseJSON as any).message);
-      } else {
-        this.showModal(request.statusText, true);
+    if (this.state.imageFiles && this.state.imageFiles.length > 0) {
+      for (const imageData of this.state.imageFiles) {
+        imageDataArr.push({
+          data: imageData.data,
+          type: imageData.type.replace("image/", ""),
+        });
       }
 
-    } catch (err) {
-      console.log(err);
+      (formParams as any).imageFilesData = imageDataArr;
+
+      console.log(formParams);
+
+      try {
+        const request = await fetch("/api/product/store", {
+          body: JSON.stringify(formParams),
+          headers: {
+            "content-type": "application/json",
+            "x-access-token": this.state.user.token,
+          },
+          method: "POST",
+        });
+
+        if (request.status === 200) {
+          const responseJSON: Promise<any> = await request.json();
+
+          this.showModal((responseJSON as any).message, false);
+        } else {
+          this.showModal(request.statusText, true);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      this.showModal("Nahraj obrázky produktu, prosím.", true);
     }
   }
 

@@ -15,7 +15,7 @@ class ProductController {
     get(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const productItems = yield Product_model_1.Products.find({});
+                const productItems = yield Product_model_1.Products.find({ active: true });
                 if (!productItems || productItems.length < 1) {
                     res.status(404).json({ message: "Not found.", success: false });
                 }

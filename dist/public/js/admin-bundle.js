@@ -10511,7 +10511,7 @@ class App extends React.Component {
                 React.createElement(react_router_1.Route, { path: "/admin/login", render: () => (React.createElement(Login_1.default, { modalError: this.state.modalError, modalText: this.state.modalText, authorised: this.state.authorised, submitForm: this.submitForm, handleRegister: this.handleRegister })) }),
                 React.createElement(react_router_1.Route, { path: "/admin/setup", render: () => (React.createElement(Register_1.default, { modalError: this.state.modalError, modalText: this.state.modalText, handleRegister: this.handleRegister, submitForm: this.submitForm })) }),
                 React.createElement(react_router_1.Route, { path: "/admin", render: (routeProps) => (this.state.authorised ?
-                        React.createElement(Admin_1.default, { imageDrop: this.imageDrop, imageFiles: this.state.imageFiles, imageNum: this.state.imageNum, imagePreviewSelect: this.imagePreviewSelect, imageRemoveSelect: this.imageRemoveSelect, routeProps: routeProps, signOut: this.signOut, storeProduct: this.storeProduct, user: this.state.user }) :
+                        React.createElement(Admin_1.default, { imageDrop: this.imageDrop, imageFiles: this.state.imageFiles, imageNum: this.state.imageNum, imagePreviewSelect: this.imagePreviewSelect, imageRemoveSelect: this.imageRemoveSelect, modalError: this.state.modalError, modalText: this.state.modalText, routeProps: routeProps, signOut: this.signOut, storeProduct: this.storeProduct, user: this.state.user }) :
                         React.createElement(react_router_1.Redirect, { to: "/admin/login" })) }))));
     }
     authenticate() {
@@ -10624,33 +10624,38 @@ class App extends React.Component {
             formParams.description = form.description.value;
             // (formParams as any).imageFilesData = this.state.imageFiles;
             const imageDataArr = [];
-            for (const imageData of this.state.imageFiles) {
-                imageDataArr.push({
-                    data: imageData.data,
-                    type: imageData.type.replace("image/", ""),
-                });
-            }
-            formParams.imageFilesData = imageDataArr;
-            console.log(formParams);
-            try {
-                const request = yield fetch("/api/product/store", {
-                    body: JSON.stringify(formParams),
-                    headers: {
-                        "content-type": "application/json",
-                        "x-access-token": this.state.user.token,
-                    },
-                    method: "POST",
-                });
-                if (request.status === 200) {
-                    const responseJSON = yield request.json();
-                    console.log(responseJSON.message);
+            if (this.state.imageFiles && this.state.imageFiles.length > 0) {
+                for (const imageData of this.state.imageFiles) {
+                    imageDataArr.push({
+                        data: imageData.data,
+                        type: imageData.type.replace("image/", ""),
+                    });
                 }
-                else {
-                    this.showModal(request.statusText, true);
+                formParams.imageFilesData = imageDataArr;
+                console.log(formParams);
+                try {
+                    const request = yield fetch("/api/product/store", {
+                        body: JSON.stringify(formParams),
+                        headers: {
+                            "content-type": "application/json",
+                            "x-access-token": this.state.user.token,
+                        },
+                        method: "POST",
+                    });
+                    if (request.status === 200) {
+                        const responseJSON = yield request.json();
+                        this.showModal(responseJSON.message, false);
+                    }
+                    else {
+                        this.showModal(request.statusText, true);
+                    }
+                }
+                catch (err) {
+                    console.log(err);
                 }
             }
-            catch (err) {
-                console.log(err);
+            else {
+                this.showModal("Nahraj obrázky produktu, prosím.", true);
             }
         });
     }
@@ -11061,21 +11066,25 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __webpack_require__(/*! react */ "react");
 const React = __webpack_require__(/*! react */ "react");
 const HeaderNav_1 = __webpack_require__(/*! ../components/HeaderNav */ "./src/public/tsx/components/HeaderNav.tsx");
+const Modal_1 = __webpack_require__(/*! ../components/Modal */ "./src/public/tsx/components/Modal.tsx");
 const Orders_1 = __webpack_require__(/*! ../components/Orders */ "./src/public/tsx/components/Orders.tsx");
 const Products_1 = __webpack_require__(/*! ../components/Products */ "./src/public/tsx/components/Products.tsx");
 const react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
 const TabNav_1 = __webpack_require__(/*! ../components/TabNav */ "./src/public/tsx/components/TabNav.tsx");
 class Admin extends React.Component {
     render() {
-        return (React.createElement("div", null,
-            React.createElement(HeaderNav_1.default, { user: this.props.user, signOut: this.props.signOut }),
-            React.createElement("div", { className: "container" },
-                React.createElement(TabNav_1.default, { routeProps: this.props.routeProps }),
-                React.createElement(react_router_dom_1.Route, { path: `${this.props.routeProps.match.url}/products`, render: () => (React.createElement(Products_1.default, { imageDrop: this.props.imageDrop, imageFiles: this.props.imageFiles, imageNum: this.props.imageNum, imagePreviewSelect: this.props.imagePreviewSelect, imageRemoveSelect: this.props.imageRemoveSelect, storeProduct: this.props.storeProduct })) }),
-                React.createElement(react_router_dom_1.Route, { exact: true, path: `${this.props.routeProps.match.url}`, component: Orders_1.default })),
-            React.createElement("style", { jsx: true }, `
+        return [
+            React.createElement(Modal_1.default, { modalError: this.props.modalError, modalText: this.props.modalText, key: 0 }),
+            React.createElement("div", { key: 1 },
+                React.createElement(HeaderNav_1.default, { user: this.props.user, signOut: this.props.signOut }),
+                React.createElement("div", { className: "container" },
+                    React.createElement(TabNav_1.default, { routeProps: this.props.routeProps }),
+                    React.createElement(react_router_dom_1.Route, { path: `${this.props.routeProps.match.url}/products`, render: () => (React.createElement(Products_1.default, { imageDrop: this.props.imageDrop, imageFiles: this.props.imageFiles, imageNum: this.props.imageNum, imagePreviewSelect: this.props.imagePreviewSelect, imageRemoveSelect: this.props.imageRemoveSelect, storeProduct: this.props.storeProduct })) }),
+                    React.createElement(react_router_dom_1.Route, { exact: true, path: `${this.props.routeProps.match.url}`, component: Orders_1.default })),
+                React.createElement("style", { jsx: true }, `
           h1, h2, h3, h4, h5, h6, a, li { color: #3b8acc; }
-        `)));
+        `)),
+        ];
     }
 }
 exports.default = Admin;

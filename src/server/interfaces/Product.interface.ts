@@ -1,4 +1,5 @@
 export interface IProduct {
+  active?: boolean;
   boxsize: number;
   description: string;
   depth: number;

@@ -16,6 +16,10 @@ class Product {
 }
 exports.Product = Product;
 const ProductSchema = new mongoose_1.Schema({
+    active: {
+        default: true,
+        type: Boolean,
+    },
     boxsize: Number,
     dateCreated: {
         default: Date.now(),
