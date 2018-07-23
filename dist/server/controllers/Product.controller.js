@@ -12,7 +12,7 @@ const fs = require("fs");
 const Product_model_1 = require("../models/Product.model");
 const uniqid = require("uniqid");
 class ProductController {
-    get(req, res, next) {
+    getActive(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const productItems = yield Product_model_1.Products.find({ active: true });
@@ -21,7 +21,26 @@ class ProductController {
                 }
                 else {
                     res.json({
-                        message: productItems,
+                        data: productItems,
+                        success: true,
+                    });
+                }
+            }
+            catch (err) {
+                return next(err);
+            }
+        });
+    }
+    getAll(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const productItems = yield Product_model_1.Products.find({});
+                if (!productItems || productItems.length < 1) {
+                    res.status(404).json({ message: "Not found.", success: false });
+                }
+                else {
+                    res.json({
+                        data: productItems,
                         success: true,
                     });
                 }
@@ -40,7 +59,7 @@ class ProductController {
                 }
                 else {
                     if (req.body.imageFilesData && req.body.imageFilesData.length > 0) {
-                        const folderName = req.body.title.toLowerCase().replace("/\s+/g", "");
+                        const folderName = req.body.title.toLowerCase().replace(/\s+/g, "-");
                         const folderPath = "/../../public/images/products/" + folderName;
                         fs.mkdir(__dirname + folderPath, (err) => {
                             if (err) {
@@ -64,6 +83,7 @@ class ProductController {
                                         if (jnum === req.body.imageFilesData.length) {
                                             const newProduct = new Product_model_1.Product({
                                                 boxsize: req.body.boxsize,
+                                                category: req.body.category,
                                                 depth: req.body.depth,
                                                 description: req.body.description,
                                                 imageFilesData: imgUrlArr,

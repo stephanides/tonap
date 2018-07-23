@@ -14,12 +14,14 @@ interface IProps {
   imageNum?: number;
   modalError?: boolean;
   modalText?: string;
+  products?: object[];
   routeProps: any;
   user: IUserPayLoad;
 
   imageDrop(files: File[]): void;
   imagePreviewSelect(n: number): void;
   imageRemoveSelect(n: number): void;
+  getProducts(): Promise<void>;
   signOut(): void;
   storeProduct(e: React.FormEvent<HTMLElement>): Promise<void>;
 }
@@ -54,6 +56,8 @@ export default class Admin extends React.Component<IProps, {}> {
               imageNum={this.props.imageNum}
               imagePreviewSelect={this.props.imagePreviewSelect}
               imageRemoveSelect={this.props.imageRemoveSelect}
+              getProducts={this.props.getProducts}
+              products={this.props.products}
               storeProduct={this.props.storeProduct}
             />
           )} />

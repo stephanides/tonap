@@ -71,7 +71,7 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "../../../Users/ENLI Book 1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js":
+/***/ "../../../Users/ENLI WORKSTATION1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js":
 /*!*************************************************!*\
   !*** (webpack)/node_modules/process/browser.js ***!
   \*************************************************/
@@ -9922,7 +9922,7 @@ function invariant(condition, message) {
     throw new Error('StyleSheet: ' + message + '.');
   }
 }
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../../../Users/ENLI Book 1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js */ "../../../Users/ENLI Book 1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js")))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../../../Users/ENLI WORKSTATION1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js */ "../../../Users/ENLI WORKSTATION1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js")))
 
 /***/ }),
 
@@ -10492,6 +10492,7 @@ class App extends React.Component {
         this.state = initialState;
         this.myStorage = window.localStorage;
         this.authenticate = this.authenticate.bind(this);
+        this.getProducts = this.getProducts.bind(this);
         this.handleRegister = this.handleRegister.bind(this);
         this.imageDrop = this.imageDrop.bind(this);
         this.imagePreviewSelect = this.imagePreviewSelect.bind(this);
@@ -10511,7 +10512,7 @@ class App extends React.Component {
                 React.createElement(react_router_1.Route, { path: "/admin/login", render: () => (React.createElement(Login_1.default, { modalError: this.state.modalError, modalText: this.state.modalText, authorised: this.state.authorised, submitForm: this.submitForm, handleRegister: this.handleRegister })) }),
                 React.createElement(react_router_1.Route, { path: "/admin/setup", render: () => (React.createElement(Register_1.default, { modalError: this.state.modalError, modalText: this.state.modalText, handleRegister: this.handleRegister, submitForm: this.submitForm })) }),
                 React.createElement(react_router_1.Route, { path: "/admin", render: (routeProps) => (this.state.authorised ?
-                        React.createElement(Admin_1.default, { imageDrop: this.imageDrop, imageFiles: this.state.imageFiles, imageNum: this.state.imageNum, imagePreviewSelect: this.imagePreviewSelect, imageRemoveSelect: this.imageRemoveSelect, modalError: this.state.modalError, modalText: this.state.modalText, routeProps: routeProps, signOut: this.signOut, storeProduct: this.storeProduct, user: this.state.user }) :
+                        React.createElement(Admin_1.default, { imageDrop: this.imageDrop, imageFiles: this.state.imageFiles, imageNum: this.state.imageNum, imagePreviewSelect: this.imagePreviewSelect, imageRemoveSelect: this.imageRemoveSelect, getProducts: this.getProducts, modalError: this.state.modalError, modalText: this.state.modalText, products: this.state.products, routeProps: routeProps, signOut: this.signOut, storeProduct: this.storeProduct, user: this.state.user }) :
                         React.createElement(react_router_1.Redirect, { to: "/admin/login" })) }))));
     }
     authenticate() {
@@ -10545,6 +10546,27 @@ class App extends React.Component {
             }
         }
         return user;
+    }
+    getProducts() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const request = yield fetch("/api/product/get/list-all", {
+                    headers: {
+                        "content-type": "application/json",
+                        "x-access-token": this.state.user.token,
+                    },
+                    method: "GET",
+                });
+                if (request.status === 200) {
+                    const responseJSON = yield request.json();
+                    console.log(responseJSON);
+                    this.setState({ products: responseJSON.data });
+                }
+            }
+            catch (err) {
+                console.log(err);
+            }
+        });
     }
     imageDrop(files) {
         const reader = new FileReader();
@@ -10631,6 +10653,8 @@ class App extends React.Component {
                         type: imageData.type.replace("image/", ""),
                     });
                 }
+                formParams.category = form.querySelector("#category")
+                    .options[form.querySelector("#category").selectedIndex].value;
                 formParams.imageFilesData = imageDataArr;
                 console.log(formParams);
                 try {
@@ -10850,6 +10874,9 @@ class Products extends React.Component {
     constructor(props) {
         super(props);
     }
+    componentDidMount() {
+        this.props.getProducts();
+    }
     render() {
         return [
             React.createElement("h2", { className: "mb-3", key: 0 }, "Produkty"),
@@ -10956,6 +10983,18 @@ class Products extends React.Component {
             }
           ` }))),
             React.createElement("h5", { key: 3 }, "Zoznam produktov"),
+            React.createElement("div", { key: 4 },
+                React.createElement("div", { className: "row" },
+                    React.createElement("div", { className: "col-3" }, "N\u00E1zov"),
+                    React.createElement("div", { className: "col-3" }, "Kateg\u00F3ria"),
+                    React.createElement("div", { className: "col-3" }, "Inform\u00E1cie")),
+                this.props.products && this.props.products.length > 0 ?
+                    this.props.products.map((item) => {
+                        return (React.createElement("div", { className: "row" },
+                            React.createElement("div", { className: "col-3" }, item.title),
+                            React.createElement("div", { className: "col-3" }, item.category),
+                            React.createElement("div", { className: "col-3" }, item.info)));
+                    }) : React.createElement("p", null, "Neboli n\u00E1jden\u00E9 \u017Eiadne produkty")),
         ];
     }
 }
@@ -11079,7 +11118,7 @@ class Admin extends React.Component {
                 React.createElement(HeaderNav_1.default, { user: this.props.user, signOut: this.props.signOut }),
                 React.createElement("div", { className: "container" },
                     React.createElement(TabNav_1.default, { routeProps: this.props.routeProps }),
-                    React.createElement(react_router_dom_1.Route, { path: `${this.props.routeProps.match.url}/products`, render: () => (React.createElement(Products_1.default, { imageDrop: this.props.imageDrop, imageFiles: this.props.imageFiles, imageNum: this.props.imageNum, imagePreviewSelect: this.props.imagePreviewSelect, imageRemoveSelect: this.props.imageRemoveSelect, storeProduct: this.props.storeProduct })) }),
+                    React.createElement(react_router_dom_1.Route, { path: `${this.props.routeProps.match.url}/products`, render: () => (React.createElement(Products_1.default, { imageDrop: this.props.imageDrop, imageFiles: this.props.imageFiles, imageNum: this.props.imageNum, imagePreviewSelect: this.props.imagePreviewSelect, imageRemoveSelect: this.props.imageRemoveSelect, getProducts: this.props.getProducts, products: this.props.products, storeProduct: this.props.storeProduct })) }),
                     React.createElement(react_router_dom_1.Route, { exact: true, path: `${this.props.routeProps.match.url}`, component: Orders_1.default })),
                 React.createElement("style", { jsx: true }, `
           h1, h2, h3, h4, h5, h6, a, li { color: #3b8acc; }

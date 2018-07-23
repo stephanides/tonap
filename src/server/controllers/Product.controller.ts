@@ -9,7 +9,7 @@ import IError from "../interfaces/Error.inerface";
 import { IProduct } from "../interfaces/Product.interface";
 
 export default class ProductController {
-  public async get(req: Request, res: Response, next: NextFunction): Promise<void> {
+  public async getActive(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const productItems: object[] = await Products.find({ active: true });
 
@@ -17,7 +17,24 @@ export default class ProductController {
         res.status(404).json({ message: "Not found.", success: false });
       } else {
         res.json({
-          message: productItems,
+          data: productItems,
+          success: true,
+        });
+      }
+    } catch (err) {
+      return next(err);
+    }
+  }
+
+  public async getAll(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const productItems: object[] = await Products.find({});
+
+      if (!productItems || productItems.length < 1) {
+        res.status(404).json({ message: "Not found.", success: false });
+      } else {
+        res.json({
+          data: productItems,
           success: true,
         });
       }
@@ -34,7 +51,7 @@ export default class ProductController {
         res.status(409).json({ message: "Product allready exist", success: false });
       } else {
         if (req.body.imageFilesData && req.body.imageFilesData.length > 0) {
-          const folderName: string = req.body.title.toLowerCase().replace("/\s+/g", "-");
+          const folderName: string = req.body.title.toLowerCase().replace(/\s+/g, "-");
           const folderPath: string = "/../../public/images/products/" + folderName;
 
           fs.mkdir(__dirname + folderPath, (err) => {
@@ -62,6 +79,7 @@ export default class ProductController {
                   if (jnum === req.body.imageFilesData.length) {
                     const newProduct: IProduct = new Product({
                       boxsize: req.body.boxsize,
+                      category: req.body.category,
                       depth: req.body.depth,
                       description: req.body.description,
                       imageFilesData: imgUrlArr,

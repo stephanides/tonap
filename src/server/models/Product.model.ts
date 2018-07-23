@@ -3,6 +3,7 @@ import { IProduct } from "../interfaces/Product.interface";
 
 export class Product {
   public boxsize: number;
+  public category: number;
   public depth: number;
   public description: string;
   public imageFilesData: object[];
@@ -14,6 +15,7 @@ export class Product {
 
   constructor(data: IProduct) {
     this.boxsize = data.boxsize;
+    this.category = data.category;
     this.description = data.description;
     this.imageFilesData = data.imageFilesData;
     this.depth = data.depth;
@@ -31,6 +33,7 @@ const ProductSchema = new Schema({
     type: Boolean,
   },
   boxsize: Number,
+  category: Number,
   dateCreated: {
     default: Date.now(),
     type: Date,

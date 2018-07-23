@@ -4,6 +4,7 @@ const mongoose_1 = require("mongoose");
 class Product {
     constructor(data) {
         this.boxsize = data.boxsize;
+        this.category = data.category;
         this.description = data.description;
         this.imageFilesData = data.imageFilesData;
         this.depth = data.depth;
@@ -21,6 +22,7 @@ const ProductSchema = new mongoose_1.Schema({
         type: Boolean,
     },
     boxsize: Number,
+    category: Number,
     dateCreated: {
         default: Date.now(),
         type: Date,

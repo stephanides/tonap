@@ -12,4 +12,10 @@ router.post("/product/store", (req: Request, res: Response, next: NextFunction) 
   });
 });
 
+router.get("/product/get/list-all", (req: Request, res: Response, next: NextFunction) => {
+  checkToken(req, res, next, () => {
+    product.getAll(req, res, next);
+  });
+});
+
 export default router;

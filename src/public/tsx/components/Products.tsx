@@ -2,21 +2,27 @@ import * as React from "react";
 import Dropzone from "react-dropzone";
 import _JSXStyle from "styled-jsx/style";
 import IFile from "../interfaces/File.interface";
-import { isTemplateElement } from "babel-types";
+// import { isTemplateElement } from "babel-types";
 
 interface IProps {
   imageFiles?: IFile[];
   imageNum?: number;
+  products?: object[];
 
   imageDrop(files: File[]): void;
   imagePreviewSelect(n: number): void;
   imageRemoveSelect(n: number): void;
+  getProducts(): Promise<void>;
   storeProduct(e: React.FormEvent<HTMLElement>): Promise<void>;
 }
 
 export default class Products extends React.Component<IProps, {}> {
   constructor(props: IProps) {
     super(props);
+  }
+
+  public componentDidMount() {
+    this.props.getProducts();
   }
 
   public render() {
@@ -187,6 +193,25 @@ export default class Products extends React.Component<IProps, {}> {
         </div>
       </div>,
       <h5 key={3}>Zoznam produktov</h5>,
+      <div key={4}>
+        <div className="row">
+          <div className="col-3">Názov</div>
+          <div className="col-3">Kategória</div>
+          <div className="col-3">Informácie</div>
+        </div>
+        {
+          this.props.products && this.props.products.length > 0 ?
+          this.props.products.map((item) => {
+            return(
+              <div className="row">
+                <div className="col-3">{(item as any).title}</div>
+                <div className="col-3">{(item as any).category}</div>
+                <div className="col-3">{(item as any).info}</div>
+              </div>
+            );
+          }) : <p>Neboli nájdené žiadne produkty</p>
+        }
+      </div>,
     ];
   }
 }

@@ -16,6 +16,7 @@ interface IAppState {
   imageNum?: number;
   modalError?: boolean;
   modalText?: string;
+  products?: object[];
   register?: boolean;
   user?: IUser;
 }
@@ -39,6 +40,7 @@ export default class App extends React.Component<{}, IAppState> {
     this.myStorage = window.localStorage;
 
     this.authenticate = this.authenticate.bind(this);
+    this.getProducts = this.getProducts.bind(this);
     this.handleRegister = this.handleRegister.bind(this);
     this.imageDrop = this.imageDrop.bind(this);
     this.imagePreviewSelect = this.imagePreviewSelect.bind(this);
@@ -76,22 +78,24 @@ export default class App extends React.Component<{}, IAppState> {
             />
           )} />
           <Route path="/admin" render={(routeProps) => (
-              this.state.authorised ?
-              <Admin
-                imageDrop={this.imageDrop}
-                imageFiles={this.state.imageFiles}
-                imageNum={this.state.imageNum}
-                imagePreviewSelect={this.imagePreviewSelect}
-                imageRemoveSelect={this.imageRemoveSelect}
-                modalError={this.state.modalError}
-                modalText={this.state.modalText}
-                routeProps={routeProps}
-                signOut={this.signOut}
-                storeProduct={this.storeProduct}
-                user={this.state.user}
-              /> :
-              <Redirect to="/admin/login" />
-            )} />
+            this.state.authorised ?
+            <Admin
+              imageDrop={this.imageDrop}
+              imageFiles={this.state.imageFiles}
+              imageNum={this.state.imageNum}
+              imagePreviewSelect={this.imagePreviewSelect}
+              imageRemoveSelect={this.imageRemoveSelect}
+              getProducts={this.getProducts}
+              modalError={this.state.modalError}
+              modalText={this.state.modalText}
+              products={this.state.products}
+              routeProps={routeProps}
+              signOut={this.signOut}
+              storeProduct={this.storeProduct}
+              user={this.state.user}
+            /> :
+            <Redirect to="/admin/login" />
+          )} />
         </Switch>
       </Router>
     );
@@ -115,7 +119,7 @@ export default class App extends React.Component<{}, IAppState> {
     }
   }
 
-  private getUserData() {
+  private getUserData(): object {
     let user: object | null = null;
 
     if (this.myStorage.getItem("uLT")) {
@@ -132,6 +136,27 @@ export default class App extends React.Component<{}, IAppState> {
     }
 
     return user;
+  }
+
+  private async getProducts(): Promise<void> {
+    try {
+      const request = await fetch("/api/product/get/list-all", {
+        headers: {
+          "content-type": "application/json",
+          "x-access-token": this.state.user.token,
+        },
+        method: "GET",
+      });
+
+      if (request.status === 200) {
+        const responseJSON = await request.json();
+
+        console.log(responseJSON);
+        this.setState({ products: (responseJSON as any).data });
+      }
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   private imageDrop(files: File[]): void {
@@ -234,6 +259,8 @@ export default class App extends React.Component<{}, IAppState> {
         });
       }
 
+      (formParams as any).category = (form.querySelector("#category") as HTMLSelectElement)
+      .options[(form.querySelector("#category") as HTMLSelectElement).selectedIndex].value;
       (formParams as any).imageFilesData = imageDataArr;
 
       console.log(formParams);

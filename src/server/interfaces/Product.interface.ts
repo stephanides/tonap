@@ -1,6 +1,7 @@
 export interface IProduct {
   active?: boolean;
   boxsize: number;
+  category: number;
   description: string;
   depth: number;
   imageFilesData: object[];

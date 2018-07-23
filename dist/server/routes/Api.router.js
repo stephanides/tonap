@@ -10,4 +10,9 @@ router.post("/product/store", (req, res, next) => {
         product.store(req, res, next);
     });
 });
+router.get("/product/get/list-all", (req, res, next) => {
+    CheckToken_helper_1.checkToken(req, res, next, () => {
+        product.getAll(req, res, next);
+    });
+});
 exports.default = router;

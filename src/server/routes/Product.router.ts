@@ -6,7 +6,7 @@ const router = express.Router();
 const product = new ProductController();
 
 router.get("/product/get/list", (req: Request, res: Response, next: NextFunction) => {
-  product.get(req, res, next);
+  product.getActive(req, res, next);
 });
 
 export default router;
