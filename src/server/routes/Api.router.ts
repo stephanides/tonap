@@ -6,15 +6,21 @@ import { checkToken } from "./helpers/CheckToken.helper";
 const router = express.Router();
 const product = new ProductController();
 
-router.post("/product/store", (req: Request, res: Response, next: NextFunction) => {
+router.get("/product", (req: Request, res: Response, next: NextFunction) => {
+  checkToken(req, res, next, () => {
+    product.getAll(req, res, next);
+  });
+});
+
+router.post("/product", (req: Request, res: Response, next: NextFunction) => {
   checkToken(req, res, next, () => {
     product.store(req, res, next);
   });
 });
 
-router.get("/product/get/list-all", (req: Request, res: Response, next: NextFunction) => {
+router.put("/product", (req: Request, res: Response, next: NextFunction) => {
   checkToken(req, res, next, () => {
-    product.getAll(req, res, next);
+    product.update(req, res, next);
   });
 });
 

@@ -5,7 +5,7 @@ import ProductController from "../controllers/Product.controller";
 const router = express.Router();
 const product = new ProductController();
 
-router.get("/product/get/list", (req: Request, res: Response, next: NextFunction) => {
+router.get("/product/", (req: Request, res: Response, next: NextFunction) => {
   product.getActive(req, res, next);
 });
 

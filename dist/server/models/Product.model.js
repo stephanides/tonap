@@ -3,13 +3,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
 class Product {
     constructor(data) {
+        this.active = data.active;
         this.boxsize = data.boxsize;
         this.category = data.category;
         this.description = data.description;
         this.imageFilesData = data.imageFilesData;
         this.depth = data.depth;
         this.length = data.length;
-        this.package = data.package;
+        this.notSterile = data.notSterile;
+        this.notSterileProductMinCount = data.notSterileProductMinCount;
+        this.notSterileProductMaxCount = data.notSterileProductMaxCount;
+        this.notSterileProductMinPackageCount = data.notSterileProductMinPackageCount;
+        this.notSterileProductMaxPackageCount = data.notSterileProductMaxPackageCount;
+        this.sterile = data.sterile;
+        this.sterileProductMinCount = data.sterileProductMinCount;
+        this.sterileProductMaxCount = data.sterileProductMaxCount;
+        this.sterileProductMinPackageCount = data.sterileProductMinPackageCount;
+        this.sterileProductMaxPackageCount = data.sterileProductMaxPackageCount;
         this.title = data.title;
         this.wide = data.wide;
         this.weight = data.weight;
@@ -31,7 +41,17 @@ const ProductSchema = new mongoose_1.Schema({
     description: String,
     imageFilesData: Array,
     length: Number,
-    package: Number,
+    // package: Number,
+    notSterile: Boolean,
+    notSterileProductMaxCount: Number,
+    notSterileProductMaxPackageCount: Number,
+    notSterileProductMinCount: Number,
+    notSterileProductMinPackageCount: Number,
+    sterile: Boolean,
+    sterileProductMaxCount: Number,
+    sterileProductMaxPackageCount: Number,
+    sterileProductMinCount: Number,
+    sterileProductMinPackageCount: Number,
     title: {
         required: true,
         type: String,

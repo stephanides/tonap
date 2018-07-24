@@ -8,6 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const mongoose = require("mongoose");
 const fs = require("fs");
 const Product_model_1 = require("../models/Product.model");
 const uniqid = require("uniqid");
@@ -88,12 +89,21 @@ class ProductController {
                                                 description: req.body.description,
                                                 imageFilesData: imgUrlArr,
                                                 length: req.body.length,
-                                                package: req.body.package,
+                                                notSterile: req.body.notSterile,
+                                                notSterileProductMaxCount: req.body.notSterileProductMaxCount,
+                                                notSterileProductMaxPackageCount: req.body.notSterileProductMaxPackageCount,
+                                                notSterileProductMinCount: req.body.notSterileProductMinCount,
+                                                notSterileProductMinPackageCount: req.body.notSterileProductMinPackageCount,
+                                                sterile: req.body.sterile,
+                                                sterileProductMaxCount: req.body.sterileProductMaxCount,
+                                                sterileProductMaxPackageCount: req.body.sterileProductMaxPackageCount,
+                                                sterileProductMinCount: req.body.sterileProductMinCount,
+                                                sterileProductMinPackageCount: req.body.sterileProductMinPackageCount,
                                                 title: req.body.title,
                                                 weight: req.body.weight,
                                                 wide: req.body.wide,
                                             });
-                                            (() => __awaiter(this, void 0, void 0, function* () {
+                                            const asyncCreate = () => __awaiter(this, void 0, void 0, function* () {
                                                 try {
                                                     const createProduct = yield Product_model_1.Products.create(newProduct);
                                                     if (createProduct) {
@@ -106,7 +116,8 @@ class ProductController {
                                                 catch (storingErr) {
                                                     return next(storingErr);
                                                 }
-                                            }))();
+                                            });
+                                            asyncCreate();
                                         }
                                     }
                                 });
@@ -117,6 +128,24 @@ class ProductController {
             }
             catch (err) {
                 return next(err);
+            }
+        });
+    }
+    update(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const productToUpdate = yield Product_model_1.Products.find({ _id: mongoose.Types.ObjectId(req.body._id) });
+            if (!productToUpdate) {
+                this.throwError("Not found", 404, next);
+            }
+            else {
+                const dataToUpdate = new Product_model_1.Product(req.body);
+                const updatedProduct = yield Product_model_1.Products.update({ _id: mongoose.Types.ObjectId(req.body._id) }, dataToUpdate);
+                if (updatedProduct) {
+                    res.json({ message: "Product has been successfully updated", success: true });
+                }
+                else {
+                    this.throwError("Can\'t update claim data", 500, next);
+                }
             }
         });
     }

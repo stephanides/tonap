@@ -6,7 +6,16 @@ export interface IProduct {
   depth: number;
   imageFilesData: object[];
   length: number;
-  package: number;
+  notSterile: boolean;
+  notSterileProductMinCount: number;
+  notSterileProductMaxCount: number;
+  notSterileProductMinPackageCount: number;
+  notSterileProductMaxPackageCount: number;
+  sterile: boolean;
+  sterileProductMinCount: number;
+  sterileProductMaxCount: number;
+  sterileProductMinPackageCount: number;
+  sterileProductMaxPackageCount: number;
   title: string;
   weight: number;
   wide: number;

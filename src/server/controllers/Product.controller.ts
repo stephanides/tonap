@@ -84,13 +84,22 @@ export default class ProductController {
                       description: req.body.description,
                       imageFilesData: imgUrlArr,
                       length: req.body.length,
-                      package: req.body.package,
+                      notSterile: req.body.notSterile,
+                      notSterileProductMaxCount: req.body.notSterileProductMaxCount,
+                      notSterileProductMaxPackageCount: req.body.notSterileProductMaxPackageCount,
+                      notSterileProductMinCount: req.body.notSterileProductMinCount,
+                      notSterileProductMinPackageCount: req.body.notSterileProductMinPackageCount,
+                      sterile: req.body.sterile,
+                      sterileProductMaxCount: req.body.sterileProductMaxCount,
+                      sterileProductMaxPackageCount: req.body.sterileProductMaxPackageCount,
+                      sterileProductMinCount: req.body.sterileProductMinCount,
+                      sterileProductMinPackageCount: req.body.sterileProductMinPackageCount,
                       title: req.body.title,
                       weight: req.body.weight,
                       wide: req.body.wide,
                     });
 
-                    (async () => {
+                    const asyncCreate = async () => {
                       try {
                         const createProduct: object = await Products.create(newProduct);
 
@@ -102,8 +111,11 @@ export default class ProductController {
                       } catch (storingErr) {
                         return next(storingErr);
                       }
-                    })();
+                    };
+
+                    asyncCreate();
                   }
+
                 }
               });
             }
@@ -112,6 +124,23 @@ export default class ProductController {
       }
     } catch (err) {
       return next(err);
+    }
+  }
+
+  public async update(req: Request, res: Response, next: NextFunction): Promise<void> {
+    const productToUpdate = await Products.find({ _id: mongoose.Types.ObjectId(req.body._id) });
+
+    if (!productToUpdate) {
+      this.throwError("Not found", 404, next);
+    } else {
+      const dataToUpdate = new Product(req.body as IProduct);
+      const updatedProduct = await Products.update({ _id: mongoose.Types.ObjectId(req.body._id) }, dataToUpdate);
+
+      if (updatedProduct) {
+        res.json({ message: "Product has been successfully updated", success: true });
+      } else {
+        this.throwError("Can\'t update claim data", 500, next);
+      }
     }
   }
 

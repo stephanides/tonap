@@ -3,7 +3,8 @@ import * as React from "react";
 import HeaderNav from "../components/HeaderNav";
 import Modal from "../components/Modal";
 import Orders from "../components/Orders";
-import Products from "../components/Products";
+import ProductCreate from "../components/ProductCreate";
+import ProductList from "../components/ProductList";
 import { IUserPayLoad } from "../interfaces/UserPayLoad.interface";
 import { Route } from "react-router-dom";
 import TabNav from "../components/TabNav";
@@ -18,6 +19,7 @@ interface IProps {
   routeProps: any;
   user: IUserPayLoad;
 
+  handleChangeProducts(products: object[], productNum: number): void;
   imageDrop(files: File[]): void;
   imagePreviewSelect(n: number): void;
   imageRemoveSelect(n: number): void;
@@ -49,16 +51,21 @@ export default class Admin extends React.Component<IProps, {}> {
         />
         <div className="container">
           <TabNav routeProps={this.props.routeProps} />
-          <Route path={`${this.props.routeProps.match.url}/products`} render={() => (
-            <Products
+          <Route path={`${this.props.routeProps.match.url}/product-insert`} render={() => (
+            <ProductCreate
               imageDrop={this.props.imageDrop}
               imageFiles={this.props.imageFiles}
               imageNum={this.props.imageNum}
               imagePreviewSelect={this.props.imagePreviewSelect}
               imageRemoveSelect={this.props.imageRemoveSelect}
-              getProducts={this.props.getProducts}
-              products={this.props.products}
               storeProduct={this.props.storeProduct}
+            />
+          )} />
+          <Route path={`${this.props.routeProps.match.url}/product-list`} render={() => (
+            <ProductList
+              products={this.props.products}
+              getProducts={this.props.getProducts}
+              handleChangeProducts={this.props.handleChangeProducts}
             />
           )} />
           <Route exact path={`${this.props.routeProps.match.url}`} component={Orders} />

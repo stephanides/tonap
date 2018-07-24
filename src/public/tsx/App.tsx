@@ -41,6 +41,7 @@ export default class App extends React.Component<{}, IAppState> {
 
     this.authenticate = this.authenticate.bind(this);
     this.getProducts = this.getProducts.bind(this);
+    this.handleChangeProducts = this.handleChangeProducts.bind(this);
     this.handleRegister = this.handleRegister.bind(this);
     this.imageDrop = this.imageDrop.bind(this);
     this.imagePreviewSelect = this.imagePreviewSelect.bind(this);
@@ -80,6 +81,7 @@ export default class App extends React.Component<{}, IAppState> {
           <Route path="/admin" render={(routeProps) => (
             this.state.authorised ?
             <Admin
+              handleChangeProducts={this.handleChangeProducts}
               imageDrop={this.imageDrop}
               imageFiles={this.state.imageFiles}
               imageNum={this.state.imageNum}
@@ -111,6 +113,27 @@ export default class App extends React.Component<{}, IAppState> {
     }
   }
 
+  private handleChangeProducts(products: object[], productNum: number): void {
+    this.setState({ products }, async () => {
+      const request = await fetch("/api/product", {
+        body: JSON.stringify(this.state.products[productNum]),
+        headers: {
+          "content-type": "application/json",
+          "x-access-token": this.state.user.token,
+        },
+        method: "PUT",
+      });
+
+      if (request.status === 200) {
+        const responseJson: any = request.json();
+
+        this.showModal(responseJson.message, false);
+      } else {
+        this.showModal(request.statusText, true);
+      }
+    });
+  }
+
   private handleRegister(register: boolean): void {
     if (!register) {
       this.setState({ register: false });
@@ -140,7 +163,7 @@ export default class App extends React.Component<{}, IAppState> {
 
   private async getProducts(): Promise<void> {
     try {
-      const request = await fetch("/api/product/get/list-all", {
+      const request = await fetch("/api/product", {
         headers: {
           "content-type": "application/json",
           "x-access-token": this.state.user.token,
@@ -243,11 +266,16 @@ export default class App extends React.Component<{}, IAppState> {
     const formParams: object = {};
 
     for (const input of inputs as any) {
-      formParams[input.id] = input.value;
+      if (!input.disabled) {
+        if (input.type === "checkbox") {
+          formParams[input.id] = input.checked;
+        } else {
+          formParams[input.id] = input.value;
+        }
+      }
     }
 
     (formParams as any).description = form.description.value;
-    // (formParams as any).imageFilesData = this.state.imageFiles;
 
     const imageDataArr: object[] = [];
 
@@ -263,10 +291,8 @@ export default class App extends React.Component<{}, IAppState> {
       .options[(form.querySelector("#category") as HTMLSelectElement).selectedIndex].value;
       (formParams as any).imageFilesData = imageDataArr;
 
-      console.log(formParams);
-
       try {
-        const request = await fetch("/api/product/store", {
+        const request = await fetch("/api/product", {
           body: JSON.stringify(formParams),
           headers: {
             "content-type": "application/json",
