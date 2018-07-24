@@ -5,12 +5,18 @@ import ProductFormTechInfo from "./ProductFormTechInfo";
 import ProductFormSterilityInfo from "./ProductFormSterilityInfo";
 
 interface IProps {
+  products?: object[];
+  productEdit?: boolean;
+  productNumber?: number;
+
   storeProduct(e: React.FormEvent<HTMLElement>): Promise<void>;
 }
 
+// TODO: convert to class
+
 export default (props: IProps) => (
   <form onSubmit={(e) => { props.storeProduct(e); }}>
-    <ProductFormBasicInfo />
+    <ProductFormBasicInfo products={this.props.products} />
     <ProductFormTechInfo />
     <ProductFormSterilityInfo />
     <div className="form-row align-items-center">

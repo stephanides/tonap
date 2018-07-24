@@ -1,6 +1,12 @@
 import * as React from "react";
 
-export default () => (
+interface IProps {
+  products?: number;
+  productEdit?: boolean;
+  productNumber?: number;
+}
+
+export default (props: IProps) => (
   <div>
     <div className="form-row align-items-center">
       <div className="col-12">

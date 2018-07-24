@@ -71,7 +71,7 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "../../../Users/ENLI WORKSTATION1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js":
+/***/ "../../../Users/ENLI Book 1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js":
 /*!*************************************************!*\
   !*** (webpack)/node_modules/process/browser.js ***!
   \*************************************************/
@@ -9922,7 +9922,7 @@ function invariant(condition, message) {
     throw new Error('StyleSheet: ' + message + '.');
   }
 }
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../../../Users/ENLI WORKSTATION1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js */ "../../../Users/ENLI WORKSTATION1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js")))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../../../Users/ENLI Book 1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js */ "../../../Users/ENLI Book 1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js")))
 
 /***/ }),
 
@@ -10483,6 +10483,8 @@ const history = createBrowserHistory_1.default();
 const initialState = {
     authorised: false,
     imageNum: 0,
+    productEdit: false,
+    productNumber: 0,
 };
 class App extends React.Component {
     constructor(props) {
@@ -10495,6 +10497,7 @@ class App extends React.Component {
         this.getProducts = this.getProducts.bind(this);
         this.handleChangeProducts = this.handleChangeProducts.bind(this);
         this.handleRegister = this.handleRegister.bind(this);
+        this.handleProductEdit = this.handleProductEdit.bind(this);
         this.imageDrop = this.imageDrop.bind(this);
         this.imagePreviewSelect = this.imagePreviewSelect.bind(this);
         this.imageRemoveSelect = this.imageRemoveSelect.bind(this);
@@ -10513,7 +10516,7 @@ class App extends React.Component {
                 React.createElement(react_router_1.Route, { path: "/admin/login", render: () => (React.createElement(Login_1.default, { modalError: this.state.modalError, modalText: this.state.modalText, authorised: this.state.authorised, submitForm: this.submitForm, handleRegister: this.handleRegister })) }),
                 React.createElement(react_router_1.Route, { path: "/admin/setup", render: () => (React.createElement(Register_1.default, { modalError: this.state.modalError, modalText: this.state.modalText, handleRegister: this.handleRegister, submitForm: this.submitForm })) }),
                 React.createElement(react_router_1.Route, { path: "/admin", render: (routeProps) => (this.state.authorised ?
-                        React.createElement(Admin_1.default, { handleChangeProducts: this.handleChangeProducts, imageDrop: this.imageDrop, imageFiles: this.state.imageFiles, imageNum: this.state.imageNum, imagePreviewSelect: this.imagePreviewSelect, imageRemoveSelect: this.imageRemoveSelect, getProducts: this.getProducts, modalError: this.state.modalError, modalText: this.state.modalText, products: this.state.products, routeProps: routeProps, signOut: this.signOut, storeProduct: this.storeProduct, user: this.state.user }) :
+                        React.createElement(Admin_1.default, { handleChangeProducts: this.handleChangeProducts, imageDrop: this.imageDrop, imageFiles: this.state.imageFiles, imageNum: this.state.imageNum, imagePreviewSelect: this.imagePreviewSelect, imageRemoveSelect: this.imageRemoveSelect, getProducts: this.getProducts, handleProductEdit: this.handleProductEdit, modalError: this.state.modalError, modalText: this.state.modalText, products: this.state.products, productEdit: this.state.productEdit, productNumber: this.state.productNumber, routeProps: routeProps, signOut: this.signOut, storeProduct: this.storeProduct, user: this.state.user }) :
                         React.createElement(react_router_1.Redirect, { to: "/admin/login" })) }))));
     }
     authenticate() {
@@ -10550,6 +10553,17 @@ class App extends React.Component {
         }
         else {
             this.setState({ register: true });
+        }
+    }
+    handleProductEdit(n) {
+        console.log("handle product edit");
+        if (this.state.productEdit) {
+            this.setState({ productEdit: false });
+        }
+        else {
+            this.setState({ productEdit: true, productNumber: n }, () => {
+                $(".modal").modal();
+            });
         }
     }
     getUserData() {
@@ -10615,6 +10629,9 @@ class App extends React.Component {
         imgArr.splice(n, 1);
         this.setState({ imageFiles: imgArr, imageNum: 0 });
     }
+    /*private pickProductForEdit(n: number) {
+      this.setState({ productNumber: n });
+    }*/
     signOut() {
         this.setState({
             authorised: false,
@@ -10916,6 +10933,65 @@ exports.default = ProductCreate;
 
 /***/ }),
 
+/***/ "./src/public/tsx/components/ProductEditModal.tsx":
+/*!********************************************************!*\
+  !*** ./src/public/tsx/components/ProductEditModal.tsx ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const React = __webpack_require__(/*! react */ "react");
+const style_1 = __webpack_require__(/*! styled-jsx/style */ "./node_modules/styled-jsx/style.js");
+const ProductForm_1 = __webpack_require__(/*! ./ProductForm */ "./src/public/tsx/components/ProductForm.tsx");
+class ProductEdit extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        return (this.props.productEdit && this.props.productEdit ?
+            React.createElement("div", { className: "productEditWrapper", role: "dialog" },
+                React.createElement("div", { className: "pe-bg" }),
+                React.createElement("div", { className: "modal-wrapper col-6 ml-auto mr-auto mt-5 p-0" },
+                    React.createElement("div", { className: "header p-3" },
+                        React.createElement("h5", null, "Upravi\u0165 produkt: ")),
+                    React.createElement("div", { className: "body p-3" },
+                        React.createElement(ProductForm_1.default, { products: this.props.products, productEdit: this.props.productEdit, productNumber: this.props.productNumber, storeProduct: this.props.storeProduct })),
+                    React.createElement("div", { className: "footer p-3" })),
+                React.createElement(style_1.default, { styleId: "productEditWrapper", css: `
+          .productEditWrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1050;
+          }
+          .productEditWrapper .pe-bg {
+            background-color: rgba(0, 0, 0, 0.5);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+          }
+          .productEditWrapper .modal-wrapper {
+            background-color: #fff;
+            border-radius: .5rem;
+          }
+          .productEditWrapper .modal-wrapper .header {
+            border-bottom: 1px solid #e9ecef;
+          }
+        ` })) : null);
+    }
+}
+exports.default = ProductEdit;
+
+
+/***/ }),
+
 /***/ "./src/public/tsx/components/ProductForm.tsx":
 /*!***************************************************!*\
   !*** ./src/public/tsx/components/ProductForm.tsx ***!
@@ -10930,8 +11006,9 @@ const React = __webpack_require__(/*! react */ "react");
 const ProductFormBasicInfo_1 = __webpack_require__(/*! ./ProductFormBasicInfo */ "./src/public/tsx/components/ProductFormBasicInfo.tsx");
 const ProductFormTechInfo_1 = __webpack_require__(/*! ./ProductFormTechInfo */ "./src/public/tsx/components/ProductFormTechInfo.tsx");
 const ProductFormSterilityInfo_1 = __webpack_require__(/*! ./ProductFormSterilityInfo */ "./src/public/tsx/components/ProductFormSterilityInfo.tsx");
+// TODO: convert to class
 exports.default = (props) => (React.createElement("form", { onSubmit: (e) => { props.storeProduct(e); } },
-    React.createElement(ProductFormBasicInfo_1.default, null),
+    React.createElement(ProductFormBasicInfo_1.default, { products: this.props.products }),
     React.createElement(ProductFormTechInfo_1.default, null),
     React.createElement(ProductFormSterilityInfo_1.default, null),
     React.createElement("div", { className: "form-row align-items-center" },
@@ -10952,7 +11029,7 @@ exports.default = (props) => (React.createElement("form", { onSubmit: (e) => { p
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(/*! react */ "react");
-exports.default = () => (React.createElement("div", null,
+exports.default = (props) => (React.createElement("div", null,
     React.createElement("div", { className: "form-row align-items-center" },
         React.createElement("div", { className: "col-12" },
             React.createElement("h6", null, "Z\u00E1kladn\u00E9 inform\u00E1cie")),
@@ -11216,11 +11293,11 @@ class ProductList extends React.Component {
                                         } }),
                                     React.createElement("span", { className: "slider round" }))),
                             React.createElement("div", { className: "col-3" },
-                                React.createElement("button", { type: "button", className: "btn btn-primary" }, "Edit")),
+                                React.createElement("button", { type: "button", className: "btn btn-primary", onClick: () => { this.props.handleProductEdit(i); } }, "Edit")),
                             React.createElement("div", { className: "col-3" },
                                 React.createElement("button", { type: "button", className: "btn btn-danger ml-2" }, "Delete")))));
                 }) :
-                React.createElement("div", { className: "list-group-item" },
+                React.createElement("div", { className: "list-group-item text-center" },
                     React.createElement("p", null,
                         "Neboli n\u00E1jden\u00E9 \u017Eiadne produkty, ",
                         React.createElement(react_router_dom_1.Link, { to: "/admin/product-insert" }, "pridaj"),
@@ -11232,9 +11309,7 @@ class ProductList extends React.Component {
             width: 60px;
             height: 34px;
           }
-
           .switch input {display:none;}
-
           .switch .slider {
             position: absolute;
             cursor: pointer;
@@ -11246,7 +11321,6 @@ class ProductList extends React.Component {
             -webkit-transition: .4s;
             transition: .4s;
           }
-
           .switch .slider:before {
             position: absolute;
             content: "";
@@ -11258,26 +11332,21 @@ class ProductList extends React.Component {
             -webkit-transition: .4s;
             transition: .4s;
           }
-
           .switch input:checked + .slider {
             background-color: #2196F3;
           }
-
           .switch input:focus + .slider {
             box-shadow: 0 0 1px #2196F3;
           }
-
           .switch input:checked + .slider:before {
             -webkit-transform: translateX(26px);
             -ms-transform: translateX(26px);
             transform: translateX(26px);
           }
-
           /* Rounded sliders */
           .switch .slider.round {
             border-radius: 34px;
           }
-
           .switch .slider.round:before {
             border-radius: 50%;
           }
@@ -11388,6 +11457,7 @@ const HeaderNav_1 = __webpack_require__(/*! ../components/HeaderNav */ "./src/pu
 const Modal_1 = __webpack_require__(/*! ../components/Modal */ "./src/public/tsx/components/Modal.tsx");
 const Orders_1 = __webpack_require__(/*! ../components/Orders */ "./src/public/tsx/components/Orders.tsx");
 const ProductCreate_1 = __webpack_require__(/*! ../components/ProductCreate */ "./src/public/tsx/components/ProductCreate.tsx");
+const ProductEditModal_1 = __webpack_require__(/*! ../components/ProductEditModal */ "./src/public/tsx/components/ProductEditModal.tsx");
 const ProductList_1 = __webpack_require__(/*! ../components/ProductList */ "./src/public/tsx/components/ProductList.tsx");
 const react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
 const TabNav_1 = __webpack_require__(/*! ../components/TabNav */ "./src/public/tsx/components/TabNav.tsx");
@@ -11395,12 +11465,13 @@ class Admin extends React.Component {
     render() {
         return [
             React.createElement(Modal_1.default, { modalError: this.props.modalError, modalText: this.props.modalText, key: 0 }),
-            React.createElement("div", { key: 1 },
+            React.createElement(ProductEditModal_1.default, { products: this.state.products, productEdit: this.props.productEdit, productNumber: this.props.productNumber, storeProduct: this.props.storeProduct, key: 1 }),
+            React.createElement("div", { key: 2 },
                 React.createElement(HeaderNav_1.default, { user: this.props.user, signOut: this.props.signOut }),
                 React.createElement("div", { className: "container" },
                     React.createElement(TabNav_1.default, { routeProps: this.props.routeProps }),
                     React.createElement(react_router_dom_1.Route, { path: `${this.props.routeProps.match.url}/product-insert`, render: () => (React.createElement(ProductCreate_1.default, { imageDrop: this.props.imageDrop, imageFiles: this.props.imageFiles, imageNum: this.props.imageNum, imagePreviewSelect: this.props.imagePreviewSelect, imageRemoveSelect: this.props.imageRemoveSelect, storeProduct: this.props.storeProduct })) }),
-                    React.createElement(react_router_dom_1.Route, { path: `${this.props.routeProps.match.url}/product-list`, render: () => (React.createElement(ProductList_1.default, { products: this.props.products, getProducts: this.props.getProducts, handleChangeProducts: this.props.handleChangeProducts })) }),
+                    React.createElement(react_router_dom_1.Route, { path: `${this.props.routeProps.match.url}/product-list`, render: () => (React.createElement(ProductList_1.default, { products: this.props.products, getProducts: this.props.getProducts, handleChangeProducts: this.props.handleChangeProducts, handleProductEdit: this.props.handleProductEdit })) }),
                     React.createElement(react_router_dom_1.Route, { exact: true, path: `${this.props.routeProps.match.url}`, component: Orders_1.default })),
                 React.createElement("style", { jsx: true }, `
           h1, h2, h3, h4, h5, h6, a, li { color: #3b8acc; }

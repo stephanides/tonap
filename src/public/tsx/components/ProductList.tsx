@@ -1,12 +1,14 @@
 import * as React from "react";
 import _JSXStyle from "styled-jsx/style";
 import { Link } from "react-router-dom";
+import ProductEditModal from "./ProductEditModal";
 
 interface IProps {
   products?: object[];
 
   getProducts(): Promise<void>;
   handleChangeProducts(products: object[], productNum: number): void;
+  handleProductEdit(n: number): void;
 }
 
 export default class ProductList extends React.Component<IProps, {}> {
@@ -49,7 +51,11 @@ export default class ProductList extends React.Component<IProps, {}> {
                     </label>
                   </div>
                   <div className="col-3">
-                    <button type="button" className="btn btn-primary">Edit</button>
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      onClick={() => { this.props.handleProductEdit(i); }}
+                    >Edit</button>
                   </div>
                   <div className="col-3">
                     <button type="button" className="btn btn-danger ml-2">Delete</button>
@@ -58,7 +64,7 @@ export default class ProductList extends React.Component<IProps, {}> {
               </div>
             );
           }) :
-          <div className="list-group-item">
+          <div className="list-group-item text-center">
             <p>Neboli nájdené žiadne produkty, <Link to="/admin/product-insert">pridaj</Link> nejaké.</p>
           </div>
         }
@@ -70,9 +76,7 @@ export default class ProductList extends React.Component<IProps, {}> {
             width: 60px;
             height: 34px;
           }
-
           .switch input {display:none;}
-
           .switch .slider {
             position: absolute;
             cursor: pointer;
@@ -84,7 +88,6 @@ export default class ProductList extends React.Component<IProps, {}> {
             -webkit-transition: .4s;
             transition: .4s;
           }
-
           .switch .slider:before {
             position: absolute;
             content: "";
@@ -96,26 +99,21 @@ export default class ProductList extends React.Component<IProps, {}> {
             -webkit-transition: .4s;
             transition: .4s;
           }
-
           .switch input:checked + .slider {
             background-color: #2196F3;
           }
-
           .switch input:focus + .slider {
             box-shadow: 0 0 1px #2196F3;
           }
-
           .switch input:checked + .slider:before {
             -webkit-transform: translateX(26px);
             -ms-transform: translateX(26px);
             transform: translateX(26px);
           }
-
           /* Rounded sliders */
           .switch .slider.round {
             border-radius: 34px;
           }
-
           .switch .slider.round:before {
             border-radius: 50%;
           }

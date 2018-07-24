@@ -17,6 +17,8 @@ interface IAppState {
   modalError?: boolean;
   modalText?: string;
   products?: object[];
+  productEdit?: boolean;
+  productNumber?: number;
   register?: boolean;
   user?: IUser;
 }
@@ -24,6 +26,8 @@ interface IAppState {
 const initialState: IAppState = {
   authorised: false,
   imageNum: 0,
+  productEdit: false,
+  productNumber: 0,
 };
 
 export default class App extends React.Component<{}, IAppState> {
@@ -43,6 +47,7 @@ export default class App extends React.Component<{}, IAppState> {
     this.getProducts = this.getProducts.bind(this);
     this.handleChangeProducts = this.handleChangeProducts.bind(this);
     this.handleRegister = this.handleRegister.bind(this);
+    this.handleProductEdit = this.handleProductEdit.bind(this);
     this.imageDrop = this.imageDrop.bind(this);
     this.imagePreviewSelect = this.imagePreviewSelect.bind(this);
     this.imageRemoveSelect = this.imageRemoveSelect.bind(this);
@@ -88,9 +93,12 @@ export default class App extends React.Component<{}, IAppState> {
               imagePreviewSelect={this.imagePreviewSelect}
               imageRemoveSelect={this.imageRemoveSelect}
               getProducts={this.getProducts}
+              handleProductEdit={this.handleProductEdit}
               modalError={this.state.modalError}
               modalText={this.state.modalText}
               products={this.state.products}
+              productEdit={this.state.productEdit}
+              productNumber={this.state.productNumber}
               routeProps={routeProps}
               signOut={this.signOut}
               storeProduct={this.storeProduct}
@@ -139,6 +147,17 @@ export default class App extends React.Component<{}, IAppState> {
       this.setState({ register: false });
     } else {
       this.setState({ register: true });
+    }
+  }
+
+  private handleProductEdit(n: number) {
+    console.log("handle product edit");
+    if (this.state.productEdit) {
+      this.setState({ productEdit: false });
+    } else {
+      this.setState({ productEdit: true, productNumber: n }, () => {
+        $(".modal").modal();
+      });
     }
   }
 
@@ -215,6 +234,10 @@ export default class App extends React.Component<{}, IAppState> {
     imgArr.splice(n, 1);
     this.setState({ imageFiles: imgArr, imageNum: 0 });
   }
+
+  /*private pickProductForEdit(n: number) {
+    this.setState({ productNumber: n });
+  }*/
 
   private signOut(): void {
     this.setState({

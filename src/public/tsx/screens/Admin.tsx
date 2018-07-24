@@ -4,11 +4,13 @@ import HeaderNav from "../components/HeaderNav";
 import Modal from "../components/Modal";
 import Orders from "../components/Orders";
 import ProductCreate from "../components/ProductCreate";
+import ProductEditModal from "../components/ProductEditModal";
 import ProductList from "../components/ProductList";
 import { IUserPayLoad } from "../interfaces/UserPayLoad.interface";
 import { Route } from "react-router-dom";
 import TabNav from "../components/TabNav";
 import IFile from "../interfaces/File.interface";
+import { TSImportEqualsDeclaration } from "babel-types";
 
 interface IProps {
   imageFiles?: IFile[];
@@ -16,10 +18,13 @@ interface IProps {
   modalError?: boolean;
   modalText?: string;
   products?: object[];
+  productEdit?: boolean;
+  productNumber?: number;
   routeProps: any;
   user: IUserPayLoad;
 
   handleChangeProducts(products: object[], productNum: number): void;
+  handleProductEdit(n: number): void;
   imageDrop(files: File[]): void;
   imagePreviewSelect(n: number): void;
   imageRemoveSelect(n: number): void;
@@ -44,7 +49,14 @@ export default class Admin extends React.Component<IProps, {}> {
 
         key={0}
       />,
-      <div key={1}>
+      <ProductEditModal
+        products={this.state.products}
+        productEdit={this.props.productEdit}
+        productNumber={this.props.productNumber}
+        storeProduct={this.props.storeProduct}
+        key={1}
+      />,
+      <div key={2}>
         <HeaderNav
           user={this.props.user}
           signOut={this.props.signOut}
@@ -66,6 +78,7 @@ export default class Admin extends React.Component<IProps, {}> {
               products={this.props.products}
               getProducts={this.props.getProducts}
               handleChangeProducts={this.props.handleChangeProducts}
+              handleProductEdit={this.props.handleProductEdit}
             />
           )} />
           <Route exact path={`${this.props.routeProps.match.url}`} component={Orders} />
