@@ -1,0 +1,38 @@
+Objednavky: 
+  Cislo obj. (random) pozostava z casovych udajov, rok mesiac, den, hodina, minuta, sekunda
+
+  Objednavka obsahuje:
+    Nazov produktu, kategoriu, sterilitu, pocet kusov v sacku/baleni, a pocet kusov v krabici a pocet krabici
+    Objednanych produktov  v krabici moze byt x
+    Celkova suma Objednavky
+    Informacie o objednavatelovi (
+      Meno, priezvysko, cislo telefonne, nazov firmy optional, email, miesto dodania[ mesto, ulica, cislo domu/popisne]
+      ICO firmy optional.
+    )
+
+    Pri uspesnej objednavke, poslat email z info@tonap.sk na email objednavatela o uspesnom spracovani Objednavky
+
+    Moznost k objenavke odoslat zakaznikovi spravu o tom, ze objednavka bude pripravena o x dni. input na vlozenie datumu.
+
+    Posledna moznost informovania o tom, ze objednavka je pripravena na a) na vyzdvihnutie, b) bola expedovana + dnesny datum odoslania
+    Pri expedovani poslat fakturu. Optional moznost pripojit fakturu / prilozit subot, faktura vygenerovana systemom ?? Do buducna.
+
+
+Produkt:
+  Balene po ks. budu dva inputy [minimum a maximum]
+
+  Pre vyberanie pouzijeme radio button a nie select
+  
+  Sterilne, nesterilne => checkboxy, moznost yaskrtnut oba, alebo akekolvek
+  Po zaskrtnuti sterilne/nesterilne zobrazit moznosti balenia, sterilne maju ine balenia (pocet kusov v krabici) ako nesterilne.
+  Cize dat moznost dvoch poctov baleni (nezabudnut na min a max)
+
+  Sterilne su automaticky zabalene v sacku a tuto informaciu zobrazit na stranke pri objednavani
+
+  Nesterilne su automaticky balene v krabici
+
+  Mame aj min a max pre pocet kusov v krabici
+
+  Podla sterility dat dalsie inputy aj podla poctu kusov a to ze ci je min balenie 400 alebo max 1000 pre konkretny pocet kusov.
+
+  Suma => Zadavanie sumy zvlast pre minime aj maxime pri pocte kusov (1 ks skumavky, 20 ks)

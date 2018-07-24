@@ -45,9 +45,8 @@ export default class Products extends React.Component<IProps, {}> {
                 <select className="custom-select form-control mb-2" id="category" defaultValue={"0"}>
                   <option value={0}>Kategórie</option>
                   <option value={1}>Masťovky a Kelímky</option>
-                  <option value={2}>Odberníky</option>
-                  <option value={3}>Petriho misky</option>
-                  <option value={4}>Skúmavky</option>
+                  <option value={2}>Petriho misky a odberníky</option>
+                  <option value={3}>Skúmavky</option>
                 </select>
               </div>
             </div>
@@ -92,11 +91,11 @@ export default class Products extends React.Component<IProps, {}> {
                   className="form-control mb-2" id="weight" placeholder="Váha v g" min="0" max="1000" required />
               </div>
               <div className="col-3">
-                <label className="sr-only" htmlFor="boxsize">Veľkosť krab. v cm</label>
+                <label className="sr-only" htmlFor="boxsize">Počet ks. v krabici</label>
                 <input
                   type="number"
                   className="form-control mb-2"
-                  id="boxsize" placeholder="Veľ krab. v cm" min="0" max="1000" required />
+                  id="boxsize" placeholder="Počet ks. v krabici" min="0" max="1000" required />
               </div>
               <div className="col-3">
                 <label className="sr-only" htmlFor="package">Balené po ks.</label>

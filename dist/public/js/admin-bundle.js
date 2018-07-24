@@ -71,7 +71,7 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "../../../Users/ENLI WORKSTATION1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js":
+/***/ "../../../Users/ENLI Book 1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js":
 /*!*************************************************!*\
   !*** (webpack)/node_modules/process/browser.js ***!
   \*************************************************/
@@ -9922,7 +9922,7 @@ function invariant(condition, message) {
     throw new Error('StyleSheet: ' + message + '.');
   }
 }
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../../../Users/ENLI WORKSTATION1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js */ "../../../Users/ENLI WORKSTATION1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js")))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../../../Users/ENLI Book 1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js */ "../../../Users/ENLI Book 1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js")))
 
 /***/ }),
 
@@ -10895,9 +10895,8 @@ class Products extends React.Component {
                                 React.createElement("select", { className: "custom-select form-control mb-2", id: "category", defaultValue: "0" },
                                     React.createElement("option", { value: 0 }, "Kateg\u00F3rie"),
                                     React.createElement("option", { value: 1 }, "Mas\u0165ovky a Kel\u00EDmky"),
-                                    React.createElement("option", { value: 2 }, "Odbern\u00EDky"),
-                                    React.createElement("option", { value: 3 }, "Petriho misky"),
-                                    React.createElement("option", { value: 4 }, "Sk\u00FAmavky")))),
+                                    React.createElement("option", { value: 2 }, "Petriho misky a odbern\u00EDky"),
+                                    React.createElement("option", { value: 3 }, "Sk\u00FAmavky")))),
                         React.createElement("div", { className: "form-row" },
                             React.createElement("div", { className: "col-12" },
                                 React.createElement("label", { className: "sr-only", htmlFor: "description" }, "Stru\u010Dn\u00E9 Info."),
@@ -10921,8 +10920,8 @@ class Products extends React.Component {
                                 React.createElement("label", { className: "sr-only", htmlFor: "weight" }, "V\u00E1ha"),
                                 React.createElement("input", { type: "number", className: "form-control mb-2", id: "weight", placeholder: "V\u00E1ha v g", min: "0", max: "1000", required: true })),
                             React.createElement("div", { className: "col-3" },
-                                React.createElement("label", { className: "sr-only", htmlFor: "boxsize" }, "Ve\u013Ekos\u0165 krab. v cm"),
-                                React.createElement("input", { type: "number", className: "form-control mb-2", id: "boxsize", placeholder: "Ve\u013E krab. v cm", min: "0", max: "1000", required: true })),
+                                React.createElement("label", { className: "sr-only", htmlFor: "boxsize" }, "Po\u010Det ks. v krabici"),
+                                React.createElement("input", { type: "number", className: "form-control mb-2", id: "boxsize", placeholder: "Po\u010Det ks. v krabici", min: "0", max: "1000", required: true })),
                             React.createElement("div", { className: "col-3" },
                                 React.createElement("label", { className: "sr-only", htmlFor: "package" }, "Balen\u00E9 po ks."),
                                 React.createElement("input", { type: "number", className: "form-control mb-2", id: "package", placeholder: "Balen\u00E9 po ks.", min: "0", max: "1000", required: true }))),
