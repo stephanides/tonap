@@ -3,10 +3,12 @@ import _JSXStyle from "styled-jsx/style";
 import ProductForm from "./ProductForm";
 
 interface IProps {
+  product?: object;
   products?: object[];
   productEdit?: boolean;
   productNumber?: number;
 
+  handleProduct(product: object): void;
   storeProduct(e: React.FormEvent<HTMLElement>): Promise<void>;
 }
 
@@ -26,9 +28,11 @@ export default class ProductEdit extends React.Component<IProps, {}> {
           </div>
           <div className="body p-3">
             <ProductForm
+              product={this.props.product}
               products={this.props.products}
               productEdit={this.props.productEdit}
               productNumber={this.props.productNumber}
+              handleProduct={this.props.handleProduct}
               storeProduct={this.props.storeProduct}
             />
           </div>

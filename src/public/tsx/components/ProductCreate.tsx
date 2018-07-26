@@ -6,10 +6,12 @@ import ProductImageDropzone from "./ProductImageDropZone";
 interface IProps {
   imageFiles?: IFile[];
   imageNum?: number;
+  product?: object;
 
   imageDrop(files: File[]): void;
   imagePreviewSelect(n: number): void;
   imageRemoveSelect(n: number): void;
+  handleProduct(product: object): void;
   storeProduct(e: React.FormEvent<HTMLElement>): Promise<void>;
 }
 
@@ -24,7 +26,10 @@ export default class ProductCreate extends React.Component<IProps, {}> {
       <h5 key={1}>Vložiť produkt</h5>,
       <div className="row" key={2}>
         <div className="col-8 mb-3">
-          <ProductForm storeProduct={this.props.storeProduct} />
+          <ProductForm
+            product={this.props.product}
+            handleProduct={this.props.handleProduct}
+            storeProduct={this.props.storeProduct} />
         </div>
         <div className="col-4 mb-3">
           <ProductImageDropzone

@@ -17,6 +17,7 @@ interface IProps {
   imageNum?: number;
   modalError?: boolean;
   modalText?: string;
+  product?: object;
   products?: object[];
   productEdit?: boolean;
   productNumber?: number;
@@ -24,6 +25,7 @@ interface IProps {
   user: IUserPayLoad;
 
   handleChangeProducts(products: object[], productNum: number): void;
+  handleProduct(product: object): void;
   handleProductEdit(n: number): void;
   imageDrop(files: File[]): void;
   imagePreviewSelect(n: number): void;
@@ -50,9 +52,11 @@ export default class Admin extends React.Component<IProps, {}> {
         key={0}
       />,
       <ProductEditModal
-        products={this.state.products}
+        product={this.props.product}
+        products={this.props.products}
         productEdit={this.props.productEdit}
         productNumber={this.props.productNumber}
+        handleProduct={this.props.handleProduct}
         storeProduct={this.props.storeProduct}
         key={1}
       />,
@@ -70,6 +74,8 @@ export default class Admin extends React.Component<IProps, {}> {
               imageNum={this.props.imageNum}
               imagePreviewSelect={this.props.imagePreviewSelect}
               imageRemoveSelect={this.props.imageRemoveSelect}
+              product={this.props.products}
+              handleProduct={this.props.handleProduct}
               storeProduct={this.props.storeProduct}
             />
           )} />
