@@ -8,7 +8,7 @@ interface IProps {
 
   getProducts(): Promise<void>;
   handleChangeProducts(products: object[], productNum: number): void;
-  handleProductEdit(n: number): void;
+  handleProductEdit(n: number | null): void;
 }
 
 export default class ProductList extends React.Component<IProps, {}> {

@@ -29,6 +29,7 @@ const initialState: IAppState = {
   imageNum: 0,
   product: {
     category: 0,
+    description: "",
     title: "",
   },
   productEdit: false,
@@ -162,12 +163,19 @@ export default class App extends React.Component<{}, IAppState> {
     }
   }
 
-  private handleProductEdit(n: number) {
-    if (this.state.productEdit) {
-      this.setState({ productEdit: false });
+  private handleProductEdit(n: number | null) {
+    console.log(n);
+    if (typeof n === "number") {
+      const productForEdit: object = this.state.products[n];
+      this.setState({ product: productForEdit, productEdit: true });
     } else {
-      this.setState({ productEdit: true, productNumber: n }, () => {
-        $(".modal").modal();
+      this.setState({
+        product: {
+          category: 0,
+          description: "",
+          title: "",
+        },
+        productEdit: false,
       });
     }
   }
@@ -335,6 +343,13 @@ export default class App extends React.Component<{}, IAppState> {
           const responseJSON: Promise<any> = await request.json();
 
           this.showModal((responseJSON as any).message, false);
+          this.setState({
+            product: {
+              category: 0,
+              description: "",
+              title: "",
+            },
+          });
         } else {
           this.showModal(request.statusText, true);
         }

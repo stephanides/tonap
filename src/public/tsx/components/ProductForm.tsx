@@ -1,8 +1,8 @@
 import * as React from "react";
 
-import ProductFormBasicInfo from "./ProductFormBasicInfo";
-import ProductFormTechInfo from "./ProductFormTechInfo";
-import ProductFormSterilityInfo from "./ProductFormSterilityInfo";
+import ProductFormBasicInfo from "./Product/ProductFormBasicInfo";
+import ProductFormTechInfo from "./Product/ProductFormTechInfo";
+import ProductFormSterilityInfo from "./Product/ProductFormSterilityInfo";
 
 interface IProps {
   product?: object;
@@ -24,7 +24,10 @@ export default class ProductForm extends React.Component<IProps, {}> {
           productNumber={this.props.productNumber}
           handleProduct={this.props.handleProduct}
         />
-        <ProductFormTechInfo />
+        <ProductFormTechInfo
+          product={this.props.product}
+          handleProduct={this.props.handleProduct}
+        />
         <ProductFormSterilityInfo />
         <div className="form-row align-items-center">
           <div className="col-12">

@@ -9,6 +9,7 @@ interface IProps {
   productNumber?: number;
 
   handleProduct(product: object): void;
+  handleProductEdit(n: number | null): void;
   storeProduct(e: React.FormEvent<HTMLElement>): Promise<void>;
 }
 
@@ -21,10 +22,11 @@ export default class ProductEdit extends React.Component<IProps, {}> {
     return(
       this.props.productEdit && this.props.productEdit ?
       <div className="productEditWrapper" role="dialog">
-        <div className="pe-bg"></div>
+        <div className="pe-bg" onClick={() => { this.props.handleProductEdit(null); }}></div>
         <div className="modal-wrapper col-6 ml-auto mr-auto mt-5 p-0">
-          <div className="header p-3">
+          <div className="header p-3 position-relative">
             <h5>Upraviť produkt: </h5>
+            <button className="close-modal" onClick={() => { this.props.handleProductEdit(null); }}>&times;</button>
           </div>
           <div className="body p-3">
             <ProductForm
@@ -62,6 +64,13 @@ export default class ProductEdit extends React.Component<IProps, {}> {
           }
           .productEditWrapper .modal-wrapper .header {
             border-bottom: 1px solid #e9ecef;
+          }
+          .productEditWrapper .modal-wrapper .header .close-modal {
+            background-color: transparent;
+            border: 0;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
           }
         `} />
       </div> : null

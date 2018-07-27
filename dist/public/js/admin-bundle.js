@@ -71,7 +71,7 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "../../../Users/ENLI WORKSTATION1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js":
+/***/ "../../../Users/ENLI Book 1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js":
 /*!*************************************************!*\
   !*** (webpack)/node_modules/process/browser.js ***!
   \*************************************************/
@@ -9922,7 +9922,7 @@ function invariant(condition, message) {
     throw new Error('StyleSheet: ' + message + '.');
   }
 }
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../../../Users/ENLI WORKSTATION1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js */ "../../../Users/ENLI WORKSTATION1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js")))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../../../Users/ENLI Book 1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js */ "../../../Users/ENLI Book 1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js")))
 
 /***/ }),
 
@@ -10485,6 +10485,7 @@ const initialState = {
     imageNum: 0,
     product: {
         category: 0,
+        description: "",
         title: "",
     },
     productEdit: false,
@@ -10564,12 +10565,19 @@ class App extends React.Component {
         }
     }
     handleProductEdit(n) {
-        if (this.state.productEdit) {
-            this.setState({ productEdit: false });
+        console.log(n);
+        if (typeof n === "number") {
+            const productForEdit = this.state.products[n];
+            this.setState({ product: productForEdit, productEdit: true });
         }
         else {
-            this.setState({ productEdit: true, productNumber: n }, () => {
-                $(".modal").modal();
+            this.setState({
+                product: {
+                    category: 0,
+                    description: "",
+                    title: "",
+                },
+                productEdit: false,
             });
         }
     }
@@ -10715,6 +10723,13 @@ class App extends React.Component {
                     if (request.status === 200) {
                         const responseJSON = yield request.json();
                         this.showModal(responseJSON.message, false);
+                        this.setState({
+                            product: {
+                                category: 0,
+                                description: "",
+                                title: "",
+                            },
+                        });
                     }
                     else {
                         this.showModal(request.statusText, true);
@@ -10903,133 +10918,10 @@ exports.default = Products;
 
 /***/ }),
 
-/***/ "./src/public/tsx/components/ProductCreate.tsx":
-/*!*****************************************************!*\
-  !*** ./src/public/tsx/components/ProductCreate.tsx ***!
-  \*****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(/*! react */ "react");
-const ProductForm_1 = __webpack_require__(/*! ./ProductForm */ "./src/public/tsx/components/ProductForm.tsx");
-const ProductImageDropZone_1 = __webpack_require__(/*! ./ProductImageDropZone */ "./src/public/tsx/components/ProductImageDropZone.tsx");
-class ProductCreate extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        return [
-            React.createElement("h2", { className: "mb-3", key: 0 }, "Produkty"),
-            React.createElement("h5", { key: 1 }, "Vlo\u017Ei\u0165 produkt"),
-            React.createElement("div", { className: "row", key: 2 },
-                React.createElement("div", { className: "col-8 mb-3" },
-                    React.createElement(ProductForm_1.default, { product: this.props.product, handleProduct: this.props.handleProduct, storeProduct: this.props.storeProduct })),
-                React.createElement("div", { className: "col-4 mb-3" },
-                    React.createElement(ProductImageDropZone_1.default, { imageFiles: this.props.imageFiles, imageNum: this.props.imageNum, imageDrop: this.props.imageDrop, imagePreviewSelect: this.props.imagePreviewSelect, imageRemoveSelect: this.props.imageRemoveSelect }))),
-        ];
-    }
-}
-exports.default = ProductCreate;
-
-
-/***/ }),
-
-/***/ "./src/public/tsx/components/ProductEditModal.tsx":
-/*!********************************************************!*\
-  !*** ./src/public/tsx/components/ProductEditModal.tsx ***!
-  \********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(/*! react */ "react");
-const style_1 = __webpack_require__(/*! styled-jsx/style */ "./node_modules/styled-jsx/style.js");
-const ProductForm_1 = __webpack_require__(/*! ./ProductForm */ "./src/public/tsx/components/ProductForm.tsx");
-class ProductEdit extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        return (this.props.productEdit && this.props.productEdit ?
-            React.createElement("div", { className: "productEditWrapper", role: "dialog" },
-                React.createElement("div", { className: "pe-bg" }),
-                React.createElement("div", { className: "modal-wrapper col-6 ml-auto mr-auto mt-5 p-0" },
-                    React.createElement("div", { className: "header p-3" },
-                        React.createElement("h5", null, "Upravi\u0165 produkt: ")),
-                    React.createElement("div", { className: "body p-3" },
-                        React.createElement(ProductForm_1.default, { product: this.props.product, products: this.props.products, productEdit: this.props.productEdit, productNumber: this.props.productNumber, handleProduct: this.props.handleProduct, storeProduct: this.props.storeProduct })),
-                    React.createElement("div", { className: "footer p-3" })),
-                React.createElement(style_1.default, { styleId: "productEditWrapper", css: `
-          .productEditWrapper {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1050;
-          }
-          .productEditWrapper .pe-bg {
-            background-color: rgba(0, 0, 0, 0.5);
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-          }
-          .productEditWrapper .modal-wrapper {
-            background-color: #fff;
-            border-radius: .5rem;
-          }
-          .productEditWrapper .modal-wrapper .header {
-            border-bottom: 1px solid #e9ecef;
-          }
-        ` })) : null);
-    }
-}
-exports.default = ProductEdit;
-
-
-/***/ }),
-
-/***/ "./src/public/tsx/components/ProductForm.tsx":
-/*!***************************************************!*\
-  !*** ./src/public/tsx/components/ProductForm.tsx ***!
-  \***************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(/*! react */ "react");
-const ProductFormBasicInfo_1 = __webpack_require__(/*! ./ProductFormBasicInfo */ "./src/public/tsx/components/ProductFormBasicInfo.tsx");
-const ProductFormTechInfo_1 = __webpack_require__(/*! ./ProductFormTechInfo */ "./src/public/tsx/components/ProductFormTechInfo.tsx");
-const ProductFormSterilityInfo_1 = __webpack_require__(/*! ./ProductFormSterilityInfo */ "./src/public/tsx/components/ProductFormSterilityInfo.tsx");
-class ProductForm extends React.Component {
-    render() {
-        return (React.createElement("form", { onSubmit: (e) => { this.props.storeProduct(e); } },
-            React.createElement(ProductFormBasicInfo_1.default, { product: this.props.product, products: this.props.products, productNumber: this.props.productNumber, handleProduct: this.props.handleProduct }),
-            React.createElement(ProductFormTechInfo_1.default, null),
-            React.createElement(ProductFormSterilityInfo_1.default, null),
-            React.createElement("div", { className: "form-row align-items-center" },
-                React.createElement("div", { className: "col-12" },
-                    React.createElement("button", { type: "submit", className: "btn btn-primary mb-2" }, "Prida\u0165 produkt")))));
-    }
-}
-exports.default = ProductForm;
-
-
-/***/ }),
-
-/***/ "./src/public/tsx/components/ProductFormBasicInfo.tsx":
-/*!************************************************************!*\
-  !*** ./src/public/tsx/components/ProductFormBasicInfo.tsx ***!
-  \************************************************************/
+/***/ "./src/public/tsx/components/Product/ProductFormBasicInfo.tsx":
+/*!********************************************************************!*\
+  !*** ./src/public/tsx/components/Product/ProductFormBasicInfo.tsx ***!
+  \********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11055,11 +10947,10 @@ class ProductFormBasicInfo extends React.Component {
                         }, value: this.props.product ? this.props.product.title : "", required: true })),
                 React.createElement("div", { className: "col-6" },
                     React.createElement("label", { className: "sr-only", htmlFor: "title" }, "Kateg\u00F3ria"),
-                    React.createElement("select", { className: "custom-select form-control mb-2", id: "category", defaultValue: "0", onChange: (e) => {
+                    React.createElement("select", { className: "custom-select form-control mb-2", id: "category", defaultValue: this.props.product ? this.props.product.category : 0, onChange: (e) => {
                             const product = this.props.product;
-                            // (product as any).category = e.currentTarget.value;
-                            console.log(product);
-                            // this.props.handleProduct(product);
+                            product.category = e.currentTarget.selectedIndex;
+                            this.props.handleProduct(product);
                         } },
                         React.createElement("option", { value: 0 }, "Kateg\u00F3rie"),
                         React.createElement("option", { value: 1 }, "Mas\u0165ovky a Kel\u00EDmky"),
@@ -11068,7 +10959,11 @@ class ProductFormBasicInfo extends React.Component {
             React.createElement("div", { className: "form-row form-group" },
                 React.createElement("div", { className: "col-12" },
                     React.createElement("label", { className: "sr-only", htmlFor: "description" }, "Stru\u010Dn\u00E9 Info."),
-                    React.createElement("textarea", { className: "form-control mb-2", id: "description", placeholder: "Stru\u010Dn\u00E9 Info.", required: true })))));
+                    React.createElement("textarea", { className: "form-control mb-2", id: "description", onChange: (e) => {
+                            const product = this.props.product;
+                            product.description = e.currentTarget.value;
+                            this.props.handleProduct(product);
+                        }, placeholder: "Stru\u010Dn\u00E9 Info.", value: this.props.product ? this.props.product.description : "", required: true })))));
     }
 }
 exports.default = ProductFormBasicInfo;
@@ -11076,10 +10971,10 @@ exports.default = ProductFormBasicInfo;
 
 /***/ }),
 
-/***/ "./src/public/tsx/components/ProductFormSterilityInfo.tsx":
-/*!****************************************************************!*\
-  !*** ./src/public/tsx/components/ProductFormSterilityInfo.tsx ***!
-  \****************************************************************/
+/***/ "./src/public/tsx/components/Product/ProductFormSterilityInfo.tsx":
+/*!************************************************************************!*\
+  !*** ./src/public/tsx/components/Product/ProductFormSterilityInfo.tsx ***!
+  \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11161,10 +11056,10 @@ exports.default = ProductFormSterilityInfo;
 
 /***/ }),
 
-/***/ "./src/public/tsx/components/ProductFormTechInfo.tsx":
-/*!***********************************************************!*\
-  !*** ./src/public/tsx/components/ProductFormTechInfo.tsx ***!
-  \***********************************************************/
+/***/ "./src/public/tsx/components/Product/ProductFormTechInfo.tsx":
+/*!*******************************************************************!*\
+  !*** ./src/public/tsx/components/Product/ProductFormTechInfo.tsx ***!
+  \*******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11172,32 +11067,40 @@ exports.default = ProductFormSterilityInfo;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(/*! react */ "react");
-exports.default = () => (React.createElement("div", { className: "form-row align-items-center form-group" },
-    React.createElement("div", { className: "col-12" },
-        React.createElement("h6", null, "Technick\u00E9 parametre")),
-    React.createElement("div", { className: "col-3" },
-        React.createElement("label", { className: "sr-only", htmlFor: "length" }, "D\u013A\u017Eka"),
-        React.createElement("input", { type: "number", className: "form-control mb-2", id: "length", placeholder: "D\u013A\u017Eka v mm", min: "10", max: "100", required: true })),
-    React.createElement("div", { className: "col-3" },
-        React.createElement("label", { className: "sr-only", htmlFor: "wide" }, "\u0160irka"),
-        React.createElement("input", { type: "number", className: "form-control mb-2", id: "wide", placeholder: "\u0160\u00EDr. v mm", min: "10", max: "100", required: true })),
-    React.createElement("div", { className: "col-3" },
-        React.createElement("label", { className: "sr-only", htmlFor: "depth" }, "H\u013Abka"),
-        React.createElement("input", { type: "number", className: "form-control mb-2", id: "depth", placeholder: "H\u013Ab. v mm", min: "10", max: "100", required: true })),
-    React.createElement("div", { className: "col-3" },
-        React.createElement("label", { className: "sr-only", htmlFor: "weight" }, "Objem"),
-        React.createElement("input", { type: "number", className: "form-control mb-2", id: "volume", placeholder: "Obj. v ml", min: "0", max: "1000", required: true })),
-    React.createElement("div", { className: "col-3" },
-        React.createElement("label", { className: "sr-only", htmlFor: "weight" }, "V\u00E1ha"),
-        React.createElement("input", { type: "number", className: "form-control mb-2", id: "weight", placeholder: "V\u00E1ha v g", min: "0", max: "1000", required: true }))));
+class ProductFormTechInfo extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        return (React.createElement("div", { className: "form-row align-items-center form-group" },
+            React.createElement("div", { className: "col-12" },
+                React.createElement("h6", null, "Technick\u00E9 parametre")),
+            React.createElement("div", { className: "col-3" },
+                React.createElement("label", { className: "sr-only", htmlFor: "length" }, "D\u013A\u017Eka"),
+                React.createElement("input", { type: "number", className: "form-control mb-2", id: "length", placeholder: "D\u013A\u017Eka v mm", min: "10", max: "100", required: true })),
+            React.createElement("div", { className: "col-3" },
+                React.createElement("label", { className: "sr-only", htmlFor: "wide" }, "\u0160irka"),
+                React.createElement("input", { type: "number", className: "form-control mb-2", id: "wide", placeholder: "\u0160\u00EDr. v mm", min: "10", max: "100", required: true })),
+            React.createElement("div", { className: "col-3" },
+                React.createElement("label", { className: "sr-only", htmlFor: "depth" }, "H\u013Abka"),
+                React.createElement("input", { type: "number", className: "form-control mb-2", id: "depth", placeholder: "H\u013Ab. v mm", min: "10", max: "100", required: true })),
+            React.createElement("div", { className: "col-3" },
+                React.createElement("label", { className: "sr-only", htmlFor: "weight" }, "Objem"),
+                React.createElement("input", { type: "number", className: "form-control mb-2", id: "volume", placeholder: "Obj. v ml", min: "0", max: "1000", required: true })),
+            React.createElement("div", { className: "col-3" },
+                React.createElement("label", { className: "sr-only", htmlFor: "weight" }, "V\u00E1ha"),
+                React.createElement("input", { type: "number", className: "form-control mb-2", id: "weight", placeholder: "V\u00E1ha v g", min: "0", max: "1000", required: true }))));
+    }
+}
+exports.default = ProductFormTechInfo;
 
 
 /***/ }),
 
-/***/ "./src/public/tsx/components/ProductImageDropZone.tsx":
-/*!************************************************************!*\
-  !*** ./src/public/tsx/components/ProductImageDropZone.tsx ***!
-  \************************************************************/
+/***/ "./src/public/tsx/components/Product/ProductImageDropZone.tsx":
+/*!********************************************************************!*\
+  !*** ./src/public/tsx/components/Product/ProductImageDropZone.tsx ***!
+  \********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11268,6 +11171,137 @@ const dropZoneStyle = {
     marginTop: ".5rem",
     padding: ".5rem",
 };
+
+
+/***/ }),
+
+/***/ "./src/public/tsx/components/ProductCreate.tsx":
+/*!*****************************************************!*\
+  !*** ./src/public/tsx/components/ProductCreate.tsx ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const React = __webpack_require__(/*! react */ "react");
+const ProductForm_1 = __webpack_require__(/*! ./ProductForm */ "./src/public/tsx/components/ProductForm.tsx");
+const ProductImageDropZone_1 = __webpack_require__(/*! ./Product/ProductImageDropZone */ "./src/public/tsx/components/Product/ProductImageDropZone.tsx");
+class ProductCreate extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        return [
+            React.createElement("h2", { className: "mb-3", key: 0 }, "Produkty"),
+            React.createElement("h5", { key: 1 }, "Vlo\u017Ei\u0165 produkt"),
+            React.createElement("div", { className: "row", key: 2 },
+                React.createElement("div", { className: "col-8 mb-3" },
+                    React.createElement(ProductForm_1.default, { product: this.props.product, handleProduct: this.props.handleProduct, storeProduct: this.props.storeProduct })),
+                React.createElement("div", { className: "col-4 mb-3" },
+                    React.createElement(ProductImageDropZone_1.default, { imageFiles: this.props.imageFiles, imageNum: this.props.imageNum, imageDrop: this.props.imageDrop, imagePreviewSelect: this.props.imagePreviewSelect, imageRemoveSelect: this.props.imageRemoveSelect }))),
+        ];
+    }
+}
+exports.default = ProductCreate;
+
+
+/***/ }),
+
+/***/ "./src/public/tsx/components/ProductEditModal.tsx":
+/*!********************************************************!*\
+  !*** ./src/public/tsx/components/ProductEditModal.tsx ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const React = __webpack_require__(/*! react */ "react");
+const style_1 = __webpack_require__(/*! styled-jsx/style */ "./node_modules/styled-jsx/style.js");
+const ProductForm_1 = __webpack_require__(/*! ./ProductForm */ "./src/public/tsx/components/ProductForm.tsx");
+class ProductEdit extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        return (this.props.productEdit && this.props.productEdit ?
+            React.createElement("div", { className: "productEditWrapper", role: "dialog" },
+                React.createElement("div", { className: "pe-bg", onClick: () => { this.props.handleProductEdit(null); } }),
+                React.createElement("div", { className: "modal-wrapper col-6 ml-auto mr-auto mt-5 p-0" },
+                    React.createElement("div", { className: "header p-3 position-relative" },
+                        React.createElement("h5", null, "Upravi\u0165 produkt: "),
+                        React.createElement("button", { className: "close-modal", onClick: () => { this.props.handleProductEdit(null); } }, "\u00D7")),
+                    React.createElement("div", { className: "body p-3" },
+                        React.createElement(ProductForm_1.default, { product: this.props.product, products: this.props.products, productEdit: this.props.productEdit, productNumber: this.props.productNumber, handleProduct: this.props.handleProduct, storeProduct: this.props.storeProduct })),
+                    React.createElement("div", { className: "footer p-3" })),
+                React.createElement(style_1.default, { styleId: "productEditWrapper", css: `
+          .productEditWrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1050;
+          }
+          .productEditWrapper .pe-bg {
+            background-color: rgba(0, 0, 0, 0.5);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+          }
+          .productEditWrapper .modal-wrapper {
+            background-color: #fff;
+            border-radius: .5rem;
+          }
+          .productEditWrapper .modal-wrapper .header {
+            border-bottom: 1px solid #e9ecef;
+          }
+          .productEditWrapper .modal-wrapper .header .close-modal {
+            background-color: transparent;
+            border: 0;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+          }
+        ` })) : null);
+    }
+}
+exports.default = ProductEdit;
+
+
+/***/ }),
+
+/***/ "./src/public/tsx/components/ProductForm.tsx":
+/*!***************************************************!*\
+  !*** ./src/public/tsx/components/ProductForm.tsx ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const React = __webpack_require__(/*! react */ "react");
+const ProductFormBasicInfo_1 = __webpack_require__(/*! ./Product/ProductFormBasicInfo */ "./src/public/tsx/components/Product/ProductFormBasicInfo.tsx");
+const ProductFormTechInfo_1 = __webpack_require__(/*! ./Product/ProductFormTechInfo */ "./src/public/tsx/components/Product/ProductFormTechInfo.tsx");
+const ProductFormSterilityInfo_1 = __webpack_require__(/*! ./Product/ProductFormSterilityInfo */ "./src/public/tsx/components/Product/ProductFormSterilityInfo.tsx");
+class ProductForm extends React.Component {
+    render() {
+        return (React.createElement("form", { onSubmit: (e) => { this.props.storeProduct(e); } },
+            React.createElement(ProductFormBasicInfo_1.default, { product: this.props.product, products: this.props.products, productNumber: this.props.productNumber, handleProduct: this.props.handleProduct }),
+            React.createElement(ProductFormTechInfo_1.default, { product: this.props.product, handleProduct: this.props.handleProduct }),
+            React.createElement(ProductFormSterilityInfo_1.default, null),
+            React.createElement("div", { className: "form-row align-items-center" },
+                React.createElement("div", { className: "col-12" },
+                    React.createElement("button", { type: "submit", className: "btn btn-primary mb-2" }, "Prida\u0165 produkt")))));
+    }
+}
+exports.default = ProductForm;
 
 
 /***/ }),
@@ -11490,12 +11524,12 @@ class Admin extends React.Component {
     render() {
         return [
             React.createElement(Modal_1.default, { modalError: this.props.modalError, modalText: this.props.modalText, key: 0 }),
-            React.createElement(ProductEditModal_1.default, { product: this.props.product, products: this.props.products, productEdit: this.props.productEdit, productNumber: this.props.productNumber, handleProduct: this.props.handleProduct, storeProduct: this.props.storeProduct, key: 1 }),
+            React.createElement(ProductEditModal_1.default, { product: this.props.product, products: this.props.products, productEdit: this.props.productEdit, productNumber: this.props.productNumber, handleProduct: this.props.handleProduct, handleProductEdit: this.props.handleProductEdit, storeProduct: this.props.storeProduct, key: 1 }),
             React.createElement("div", { key: 2 },
                 React.createElement(HeaderNav_1.default, { user: this.props.user, signOut: this.props.signOut }),
                 React.createElement("div", { className: "container" },
                     React.createElement(TabNav_1.default, { routeProps: this.props.routeProps }),
-                    React.createElement(react_router_dom_1.Route, { path: `${this.props.routeProps.match.url}/product-insert`, render: () => (React.createElement(ProductCreate_1.default, { imageDrop: this.props.imageDrop, imageFiles: this.props.imageFiles, imageNum: this.props.imageNum, imagePreviewSelect: this.props.imagePreviewSelect, imageRemoveSelect: this.props.imageRemoveSelect, product: this.props.products, handleProduct: this.props.handleProduct, storeProduct: this.props.storeProduct })) }),
+                    React.createElement(react_router_dom_1.Route, { path: `${this.props.routeProps.match.url}/product-insert`, render: () => (React.createElement(ProductCreate_1.default, { imageDrop: this.props.imageDrop, imageFiles: this.props.imageFiles, imageNum: this.props.imageNum, imagePreviewSelect: this.props.imagePreviewSelect, imageRemoveSelect: this.props.imageRemoveSelect, product: this.props.product, handleProduct: this.props.handleProduct, storeProduct: this.props.storeProduct })) }),
                     React.createElement(react_router_dom_1.Route, { path: `${this.props.routeProps.match.url}/product-list`, render: () => (React.createElement(ProductList_1.default, { products: this.props.products, getProducts: this.props.getProducts, handleChangeProducts: this.props.handleChangeProducts, handleProductEdit: this.props.handleProductEdit })) }),
                     React.createElement(react_router_dom_1.Route, { exact: true, path: `${this.props.routeProps.match.url}`, component: Orders_1.default })),
                 React.createElement("style", { jsx: true }, `

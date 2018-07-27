@@ -26,7 +26,7 @@ interface IProps {
 
   handleChangeProducts(products: object[], productNum: number): void;
   handleProduct(product: object): void;
-  handleProductEdit(n: number): void;
+  handleProductEdit(n: number | null): void;
   imageDrop(files: File[]): void;
   imagePreviewSelect(n: number): void;
   imageRemoveSelect(n: number): void;
@@ -57,6 +57,7 @@ export default class Admin extends React.Component<IProps, {}> {
         productEdit={this.props.productEdit}
         productNumber={this.props.productNumber}
         handleProduct={this.props.handleProduct}
+        handleProductEdit={this.props.handleProductEdit}
         storeProduct={this.props.storeProduct}
         key={1}
       />,
@@ -74,7 +75,7 @@ export default class Admin extends React.Component<IProps, {}> {
               imageNum={this.props.imageNum}
               imagePreviewSelect={this.props.imagePreviewSelect}
               imageRemoveSelect={this.props.imageRemoveSelect}
-              product={this.props.products}
+              product={this.props.product}
               handleProduct={this.props.handleProduct}
               storeProduct={this.props.storeProduct}
             />

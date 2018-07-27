@@ -1,7 +1,7 @@
 import * as React from "react";
 import IFile from "../interfaces/File.interface";
 import ProductForm from "./ProductForm";
-import ProductImageDropzone from "./ProductImageDropZone";
+import ProductImageDropzone from "./Product/ProductImageDropZone";
 
 interface IProps {
   imageFiles?: IFile[];

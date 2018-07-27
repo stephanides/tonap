@@ -39,12 +39,13 @@ export default class ProductFormBasicInfo extends React.Component<IProps, {}> {
           </div>
           <div className="col-6">
             <label className="sr-only" htmlFor="title">Kategória</label>
-            <select className="custom-select form-control mb-2" id="category" defaultValue={"0"} onChange={(e) => {
+            <select className="custom-select form-control mb-2" id="category"
+              defaultValue={this.props.product ? (this.props.product as any).category : 0}
+              onChange={(e) => {
               const product: object = this.props.product;
 
-              // (product as any).category = e.currentTarget.value;
-              console.log(product);
-              // this.props.handleProduct(product);
+              (product as any).category = e.currentTarget.selectedIndex;
+              this.props.handleProduct(product);
             }}>
               <option value={0}>Kategórie</option>
               <option value={1}>Masťovky a Kelímky</option>
@@ -56,7 +57,19 @@ export default class ProductFormBasicInfo extends React.Component<IProps, {}> {
         <div className="form-row form-group">
           <div className="col-12">
             <label className="sr-only" htmlFor="description">Stručné Info.</label>
-            <textarea className="form-control mb-2" id="description" placeholder="Stručné Info." required />
+            <textarea
+              className="form-control mb-2"
+              id="description"
+              onChange={(e) => {
+                const product: object = this.props.product;
+
+                (product as any).description = e.currentTarget.value;
+                this.props.handleProduct(product);
+              }}
+              placeholder="Stručné Info."
+              value={this.props.product ? (this.props.product as any).description : ""}
+              required
+            />
           </div>
         </div>
       </div>
