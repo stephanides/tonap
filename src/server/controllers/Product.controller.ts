@@ -9,6 +9,24 @@ import IError from "../interfaces/Error.inerface";
 import { IProduct } from "../interfaces/Product.interface";
 
 export default class ProductController {
+  public async delete(req: Request, res: Response, next: NextFunction) {
+    try {
+      console.log(req.params.id + "\n");
+      const product = await Products.find({ _id: mongoose.Types.ObjectId(req.params.id) });
+
+      if (!product) {
+        this.throwError("Not found", 404, next);
+      } else {
+        // const productToDelete = await Products.deleteOne(product);
+
+        // console.log(productToDelete);
+        console.log(product);
+        res.json({ message: "Product has been deleted", success: true });
+      }
+    } catch (err) {
+      return next(err);
+    }
+  }
   public async getActive(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const productItems: object[] = await Products.find({ active: true });
@@ -78,7 +96,6 @@ export default class ProductController {
 
                   if (jnum === req.body.imageFilesData.length) {
                     const newProduct: IProduct = new Product({
-                      boxsize: req.body.boxsize,
                       category: req.body.category,
                       depth: req.body.depth,
                       description: req.body.description,
@@ -95,6 +112,7 @@ export default class ProductController {
                       sterileProductMinCount: req.body.sterileProductMinCount,
                       sterileProductMinPackageCount: req.body.sterileProductMinPackageCount,
                       title: req.body.title,
+                      volume: req.body.volume,
                       weight: req.body.weight,
                       wide: req.body.wide,
                     });

@@ -11,35 +11,31 @@ import { Route } from "react-router-dom";
 import TabNav from "../components/TabNav";
 import IFile from "../interfaces/File.interface";
 import { TSImportEqualsDeclaration } from "babel-types";
+import IProduct from "../interfaces/Product.interface";
 
 interface IProps {
   imageFiles?: IFile[];
   imageNum?: number;
   modalError?: boolean;
   modalText?: string;
-  product?: object;
+  product?: IProduct;
   products?: object[];
   productEdit?: boolean;
   productNumber?: number;
   routeProps: any;
   user: IUserPayLoad;
 
+  deleteProduct(i: number): Promise<void>;
   handleChangeProducts(products: object[], productNum: number): void;
   handleProduct(product: object): void;
   handleProductEdit(n: number | null): void;
+  handleProductUpdate(e: React.FormEvent<HTMLElement>): Promise<void>;
   imageDrop(files: File[]): void;
   imagePreviewSelect(n: number): void;
   imageRemoveSelect(n: number): void;
   getProducts(): Promise<void>;
   signOut(): void;
   storeProduct(e: React.FormEvent<HTMLElement>): Promise<void>;
-}
-
-declare module "react" {
-  interface IHTMLAttributes<T> extends React.HTMLAttributes<T> {
-    jsx?: boolean;
-    global?: boolean;
-  }
 }
 
 export default class Admin extends React.Component<IProps, {}> {
@@ -58,6 +54,7 @@ export default class Admin extends React.Component<IProps, {}> {
         productNumber={this.props.productNumber}
         handleProduct={this.props.handleProduct}
         handleProductEdit={this.props.handleProductEdit}
+        handleProductUpdate={this.props.handleProductUpdate}
         storeProduct={this.props.storeProduct}
         key={1}
       />,
@@ -83,6 +80,7 @@ export default class Admin extends React.Component<IProps, {}> {
           <Route path={`${this.props.routeProps.match.url}/product-list`} render={() => (
             <ProductList
               products={this.props.products}
+              deleteProduct={this.props.deleteProduct}
               getProducts={this.props.getProducts}
               handleChangeProducts={this.props.handleChangeProducts}
               handleProductEdit={this.props.handleProductEdit}

@@ -4,7 +4,6 @@ const mongoose_1 = require("mongoose");
 class Product {
     constructor(data) {
         this.active = data.active;
-        this.boxsize = data.boxsize;
         this.category = data.category;
         this.description = data.description;
         this.imageFilesData = data.imageFilesData;
@@ -21,6 +20,7 @@ class Product {
         this.sterileProductMinPackageCount = data.sterileProductMinPackageCount;
         this.sterileProductMaxPackageCount = data.sterileProductMaxPackageCount;
         this.title = data.title;
+        this.volume = data.volume;
         this.wide = data.wide;
         this.weight = data.weight;
     }
@@ -31,7 +31,6 @@ const ProductSchema = new mongoose_1.Schema({
         default: true,
         type: Boolean,
     },
-    boxsize: Number,
     category: Number,
     dateCreated: {
         default: Date.now(),
@@ -41,7 +40,6 @@ const ProductSchema = new mongoose_1.Schema({
     description: String,
     imageFilesData: Array,
     length: Number,
-    // package: Number,
     notSterile: Boolean,
     notSterileProductMaxCount: Number,
     notSterileProductMaxPackageCount: Number,
@@ -57,7 +55,8 @@ const ProductSchema = new mongoose_1.Schema({
         type: String,
         unique: true,
     },
+    volume: Number,
+    weight: Number,
     wide: Number,
-    wight: Number,
 });
 exports.Products = mongoose_1.model("Product", ProductSchema);

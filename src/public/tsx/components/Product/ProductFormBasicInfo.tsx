@@ -1,7 +1,9 @@
 import * as React from "react";
+import IProduct from "../../interfaces/Product.interface";
+import { stringify } from "querystring";
 
 interface IProps {
-  product?: object;
+  product?: IProduct;
   products?: object[];
   productEdit?: boolean;
   productNumber?: number;
@@ -29,18 +31,24 @@ export default class ProductFormBasicInfo extends React.Component<IProps, {}> {
               id="title"
               placeholder="Názov Produktu"
               onChange={(e) => {
-                const product: object = this.props.product;
+                const product: IProduct = this.props.product;
 
-                (product as any).title = e.currentTarget.value;
+                product.title = e.currentTarget.value;
                 this.props.handleProduct(product);
               }}
-              value={this.props.product ? (this.props.product as any).title : ""}
+              value={
+                this.props.product ?
+                (
+                  this.props.product.title ?
+                  this.props.product.title : ""
+                ) : ""
+              }
               required />
           </div>
           <div className="col-6">
             <label className="sr-only" htmlFor="title">Kategória</label>
             <select className="custom-select form-control mb-2" id="category"
-              defaultValue={this.props.product ? (this.props.product as any).category : 0}
+              defaultValue={this.props.product ? String(this.props.product.category) : "0"}
               onChange={(e) => {
               const product: object = this.props.product;
 
@@ -67,7 +75,13 @@ export default class ProductFormBasicInfo extends React.Component<IProps, {}> {
                 this.props.handleProduct(product);
               }}
               placeholder="Stručné Info."
-              value={this.props.product ? (this.props.product as any).description : ""}
+              value={
+                this.props.product ?
+                (
+                  this.props.product.description ?
+                  this.props.product.description : ""
+                ) : ""
+              }
               required
             />
           </div>

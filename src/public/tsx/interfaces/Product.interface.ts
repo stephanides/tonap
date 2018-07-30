@@ -1,20 +1,18 @@
-export interface IProduct {
-  active?: boolean;
+export default interface IProduct {
   category: number;
-  description: string;
   depth: number;
-  imageFilesData: object[];
+  description: string;
   length: number;
   notSterile: boolean;
   notSterileProductMinCount: number;
-  notSterileProductMaxCount: number;
   notSterileProductMinPackageCount: number;
+  notSterileProductMaxCount: number;
   notSterileProductMaxPackageCount: number;
   sterile: boolean;
-  sterileProductMinCount: number;
   sterileProductMaxCount: number;
-  sterileProductMinPackageCount: number;
   sterileProductMaxPackageCount: number;
+  sterileProductMinCount: number;
+  sterileProductMinPackageCount: number;
   title: string;
   volume: number;
   weight: number;

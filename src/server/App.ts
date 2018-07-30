@@ -12,11 +12,9 @@ import * as http from "http";
 
 import { User, IUserDocument, Users } from "./models/User.model";
 
-// import AvailabilityRouter from "./routes/Availability.router"
-// import ClaimRouter from "./routes/Claim.router"
 import EmailRouter from "./routes/Email.router";
-// import OrderRouter from "./routes/Order.router"
 import ApiRouter from "./routes/Api.router";
+import OrderRouter from "./routes/Order.router";
 import ProductRouter from "./routes/Product.router";
 import UserRouter from "./routes/User.router";
 
@@ -128,6 +126,7 @@ class App {
     this.app.use("/api", ApiRouter);
     this.app.use(EmailRouter);
     this.app.use(UserRouter);
+    this.app.use(OrderRouter);
     this.app.use(ProductRouter);
     this.app.use(this.router);
   }

@@ -1,15 +1,17 @@
 import * as React from "react";
 import _JSXStyle from "styled-jsx/style";
 import ProductForm from "./ProductForm";
+import IProduct from "../interfaces/Product.interface";
 
 interface IProps {
-  product?: object;
+  product?: IProduct;
   products?: object[];
   productEdit?: boolean;
   productNumber?: number;
 
   handleProduct(product: object): void;
   handleProductEdit(n: number | null): void;
+  handleProductUpdate(e: React.FormEvent<HTMLElement>): Promise<void>;
   storeProduct(e: React.FormEvent<HTMLElement>): Promise<void>;
 }
 
@@ -33,6 +35,7 @@ export default class ProductEdit extends React.Component<IProps, {}> {
               product={this.props.product}
               products={this.props.products}
               productEdit={this.props.productEdit}
+              handleProductUpdate={this.props.handleProductUpdate}
               productNumber={this.props.productNumber}
               handleProduct={this.props.handleProduct}
               storeProduct={this.props.storeProduct}

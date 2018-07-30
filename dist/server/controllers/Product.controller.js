@@ -13,6 +13,26 @@ const fs = require("fs");
 const Product_model_1 = require("../models/Product.model");
 const uniqid = require("uniqid");
 class ProductController {
+    delete(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                console.log(req.params.id + "\n");
+                const product = yield Product_model_1.Products.find({ _id: mongoose.Types.ObjectId(req.params.id) });
+                if (!product) {
+                    this.throwError("Not found", 404, next);
+                }
+                else {
+                    // const productToDelete = await Products.deleteOne(product);
+                    // console.log(productToDelete);
+                    console.log(product);
+                    res.json({ message: "Product has been deleted", success: true });
+                }
+            }
+            catch (err) {
+                return next(err);
+            }
+        });
+    }
     getActive(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -83,7 +103,6 @@ class ProductController {
                                         jnum++;
                                         if (jnum === req.body.imageFilesData.length) {
                                             const newProduct = new Product_model_1.Product({
-                                                boxsize: req.body.boxsize,
                                                 category: req.body.category,
                                                 depth: req.body.depth,
                                                 description: req.body.description,
@@ -100,6 +119,7 @@ class ProductController {
                                                 sterileProductMinCount: req.body.sterileProductMinCount,
                                                 sterileProductMinPackageCount: req.body.sterileProductMinPackageCount,
                                                 title: req.body.title,
+                                                volume: req.body.volume,
                                                 weight: req.body.weight,
                                                 wide: req.body.wide,
                                             });

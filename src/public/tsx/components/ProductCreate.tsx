@@ -2,16 +2,17 @@ import * as React from "react";
 import IFile from "../interfaces/File.interface";
 import ProductForm from "./ProductForm";
 import ProductImageDropzone from "./Product/ProductImageDropZone";
+import IProduct from "../interfaces/Product.interface";
 
 interface IProps {
   imageFiles?: IFile[];
   imageNum?: number;
-  product?: object;
+  product?: IProduct;
 
   imageDrop(files: File[]): void;
   imagePreviewSelect(n: number): void;
   imageRemoveSelect(n: number): void;
-  handleProduct(product: object): void;
+  handleProduct(product: IProduct): void;
   storeProduct(e: React.FormEvent<HTMLElement>): Promise<void>;
 }
 

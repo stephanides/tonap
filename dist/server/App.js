@@ -20,11 +20,9 @@ const bodyParser = require("body-parser");
 const io = require("socket.io");
 const http = require("http");
 const User_model_1 = require("./models/User.model");
-// import AvailabilityRouter from "./routes/Availability.router"
-// import ClaimRouter from "./routes/Claim.router"
 const Email_router_1 = require("./routes/Email.router");
-// import OrderRouter from "./routes/Order.router"
 const Api_router_1 = require("./routes/Api.router");
+const Order_router_1 = require("./routes/Order.router");
 const Product_router_1 = require("./routes/Product.router");
 const User_router_1 = require("./routes/User.router");
 class App {
@@ -114,6 +112,7 @@ class App {
         this.app.use("/api", Api_router_1.default);
         this.app.use(Email_router_1.default);
         this.app.use(User_router_1.default);
+        this.app.use(Order_router_1.default);
         this.app.use(Product_router_1.default);
         this.app.use(this.router);
     }

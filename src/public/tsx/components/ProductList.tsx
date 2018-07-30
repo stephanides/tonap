@@ -6,6 +6,7 @@ import ProductEditModal from "./ProductEditModal";
 interface IProps {
   products?: object[];
 
+  deleteProduct(i: number): Promise<void>;
   getProducts(): Promise<void>;
   handleChangeProducts(products: object[], productNum: number): void;
   handleProductEdit(n: number | null): void;
@@ -58,7 +59,13 @@ export default class ProductList extends React.Component<IProps, {}> {
                     >Edit</button>
                   </div>
                   <div className="col-3">
-                    <button type="button" className="btn btn-danger ml-2">Delete</button>
+                    <button
+                      type="button"
+                      className="btn btn-danger ml-2"
+                      onClick={() => {
+                        this.props.deleteProduct(i);
+                      }}
+                    >Delete</button>
                   </div>
                 </div>
               </div>

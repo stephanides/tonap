@@ -2,7 +2,7 @@ import * as React from "react";
 import Dropzone from "react-dropzone";
 import _JSXStyle from "styled-jsx/style";
 
-import IFile from "../interfaces/File.interface";
+import IFile from "../../interfaces/File.interface";
 
 interface IProps {
   imageFiles?: IFile[];

@@ -1,10 +1,14 @@
 import * as React from "react";
+import IProduct from "../../interfaces/Product.interface";
 
-export default class ProductFormSterilityInfo extends React.Component<{}, {}> {
-  constructor(props: any) {
+interface IProps {
+  product?: IProduct;
+
+  handleProduct(product: object): void;
+}
+export default class ProductFormSterilityInfo extends React.Component<IProps, {}> {
+  constructor(props: IProps) {
     super(props);
-
-    this.handleCheckBox = this.handleCheckBox.bind(this);
   }
 
   public render() {
@@ -20,8 +24,14 @@ export default class ProductFormSterilityInfo extends React.Component<{}, {}> {
                   <input
                     className="form-check-input"
                     type="checkbox"
-                    value={0} id="sterile"
-                    onClick={() => { this.handleCheckBox(0, this.refs.sterile); }} />
+                    onChange={(e) => {
+                      const product: IProduct = this.props.product;
+
+                      product.sterile = e.currentTarget.checked;
+                      this.props.handleProduct(product);
+                    }}
+                    checked={this.props.product ? this.props.product.sterile : false}
+                    id="sterile" />
                   <label className="form-check-label" htmlFor="sterile">Sterilné</label>
                 </div>
               </div>
@@ -30,7 +40,14 @@ export default class ProductFormSterilityInfo extends React.Component<{}, {}> {
                   <input
                     className="form-check-input"
                     type="checkbox" value={1} id="notSterile"
-                    onClick={() => { this.handleCheckBox(1, this.refs.notSterile); }} />
+                    onChange={(e) => {
+                      const product: IProduct = this.props.product;
+
+                      product.notSterile = e.currentTarget.checked;
+                      this.props.handleProduct(product);
+                    }}
+                    checked={this.props.product ? this.props.product.notSterile : false}
+                    />
                   <label className="form-check-label" htmlFor="notSterile">Nesterilné</label>
                 </div>
               </div>
@@ -44,14 +61,51 @@ export default class ProductFormSterilityInfo extends React.Component<{}, {}> {
                 <input
                   type="number"
                   className="form-control mb-2"
-                  id="sterileProductMinCount" placeholder="Min." min="1" max="1000" required disabled />
+                  id="sterileProductMinCount" placeholder="Min." min="1" max="1000" required
+                  onChange={(e) => {
+                    const product: IProduct = this.props.product;
+
+                    product.sterileProductMinCount = parseInt(e.currentTarget.value, 10);
+                    this.props.handleProduct(product);
+                  }}
+                  disabled={
+                    this.props.product ? (
+                      this.props.product.sterile ?
+                      false : true
+                    ) : true
+                  }
+                  value={
+                    this.props.product ?
+                    (
+                    this.props.product.sterileProductMinCount ? this.props.product.sterileProductMinCount : ""
+                    ) : ""
+                  }
+                />
               </div>
               <div className="col-auto">
                 <label className="sr-only" htmlFor="sterileProductMaxCount">Max.</label>
                 <input
                   type="number"
                   className="form-control mb-2"
-                  id="sterileProductMaxCount" placeholder="Max." min="1" max="2000" required disabled />
+                  id="sterileProductMaxCount" placeholder="Max." min="1" max="2000" required
+                  onChange={(e) => {
+                    const product: IProduct = this.props.product;
+
+                    product.sterileProductMaxCount = parseInt(e.currentTarget.value, 10);
+                    this.props.handleProduct(product);
+                  }}
+                  disabled={
+                    this.props.product ? (
+                      this.props.product.sterile ?
+                      false : true
+                    ) : true
+                  }
+                  value={this.props.product ?
+                    (
+                      this.props.product.sterileProductMaxCount ?
+                      this.props.product.sterileProductMaxCount : ""
+                    ) : ""}
+                />
               </div>
             </div>
             <h6>Balenie sterilné:</h6>
@@ -61,14 +115,54 @@ export default class ProductFormSterilityInfo extends React.Component<{}, {}> {
                 <input
                   type="number"
                   className="form-control mb-2"
-                  id="sterileProductMinPackageCount" placeholder="Min." min="1" max="1000" required disabled />
+                  id="sterileProductMinPackageCount" placeholder="Min." min="1" max="1000" required
+                  onChange={(e) => {
+                    const product: IProduct = this.props.product;
+
+                    product.sterileProductMinPackageCount = parseInt(e.currentTarget.value, 10);
+                    this.props.handleProduct(product);
+                  }}
+                  disabled={
+                    this.props.product ? (
+                      this.props.product.sterile ?
+                      false : true
+                    ) : true
+                  }
+                  value={
+                    this.props.product ?
+                    (
+                      this.props.product.sterileProductMinPackageCount ?
+                      this.props.product.sterileProductMinPackageCount : ""
+                    ) : ""
+                  }
+                />
               </div>
               <div className="col-auto">
                 <label className="sr-only" htmlFor="sterileProductMaxPackageCount">Max.</label>
                 <input
                   type="number"
                   className="form-control mb-2"
-                  id="sterileProductMaxPackageCount" placeholder="Max." min="1" max="10000" required disabled />
+                  id="sterileProductMaxPackageCount" placeholder="Max." min="1" max="10000" required
+                  onChange={(e) => {
+                    const product: IProduct = this.props.product;
+
+                    product.sterileProductMaxPackageCount = parseInt(e.currentTarget.value, 10);
+                    this.props.handleProduct(product);
+                  }}
+                  disabled={
+                    this.props.product ? (
+                      this.props.product.sterile ?
+                      false : true
+                    ) : true
+                  }
+                  value={
+                    this.props.product ?
+                    (
+                      this.props.product.sterileProductMaxPackageCount ?
+                      this.props.product.sterileProductMaxPackageCount : ""
+                    ) : ""
+                  }
+                />
               </div>
             </div>
           </div>
@@ -80,14 +174,54 @@ export default class ProductFormSterilityInfo extends React.Component<{}, {}> {
                 <input
                   type="number"
                   className="form-control mb-2"
-                  id="notSterileProductMinCount" placeholder="Min." min="1" max="1000" required disabled />
+                  id="notSterileProductMinCount" placeholder="Min." min="1" max="1000" required
+                  onChange={(e) => {
+                    const product: IProduct = this.props.product;
+
+                    product.notSterileProductMinCount = parseInt(e.currentTarget.value, 10);
+                    this.props.handleProduct(product);
+                  }}
+                  disabled={
+                    this.props.product ? (
+                      this.props.product.notSterile ?
+                      false : true
+                    ) : true
+                  }
+                  value={
+                    this.props.product ?
+                    (
+                      this.props.product.notSterileProductMinCount ?
+                      this.props.product.notSterileProductMinCount : ""
+                    ) : ""
+                  }
+                />
               </div>
               <div className="col-auto">
                 <label className="sr-only" htmlFor="notSterileProductMaxCount">Max.</label>
                 <input
                   type="number"
                   className="form-control mb-2"
-                  id="notSterileProductMaxCount" placeholder="Max." min="1" max="2000" required disabled />
+                  id="notSterileProductMaxCount" placeholder="Max." min="1" max="2000" required
+                  onChange={(e) => {
+                    const product: IProduct = this.props.product;
+
+                    product.notSterileProductMaxCount = parseInt(e.currentTarget.value, 10);
+                    this.props.handleProduct(product);
+                  }}
+                  disabled={
+                    this.props.product ? (
+                      this.props.product.notSterile ?
+                      false : true
+                    ) : true
+                  }
+                  value={
+                    this.props.product ?
+                    (
+                      this.props.product.notSterileProductMaxCount ?
+                      this.props.product.notSterileProductMaxCount : ""
+                    ) : ""
+                  }
+                />
               </div>
             </div>
             <h6>Balenie nesterilné:</h6>
@@ -97,33 +231,52 @@ export default class ProductFormSterilityInfo extends React.Component<{}, {}> {
                 <input
                   type="number"
                   className="form-control mb-2"
-                  id="notSterileProductMinPackageCount" placeholder="Min." min="1" max="1000" required disabled />
+                  id="notSterileProductMinPackageCount" placeholder="Min." min="1" max="1000" required
+                  onChange={(e) => {
+                    const product: IProduct = this.props.product;
+
+                    product.notSterileProductMinPackageCount = parseInt(e.currentTarget.value, 10);
+                    this.props.handleProduct(product);
+                  }}
+                  disabled={
+                    this.props.product ? (
+                      this.props.product.notSterile ?
+                      false : true
+                    ) : true
+                  }
+                  value={this.props.product ? this.props.product.notSterileProductMinPackageCount : ""}
+                />
               </div>
               <div className="col-auto">
                 <label className="sr-only" htmlFor="notSterileProductMaxPackageCount">Max.</label>
                 <input
                   type="number"
                   className="form-control mb-2"
-                  id="notSterileProductMaxPackageCount" placeholder="Max." min="1" max="10000" required disabled />
+                  id="notSterileProductMaxPackageCount" placeholder="Max." min="1" max="10000" required
+                  onChange={(e) => {
+                    const product: IProduct = this.props.product;
+
+                    product.notSterileProductMaxPackageCount = parseInt(e.currentTarget.value, 10);
+                    this.props.handleProduct(product);
+                  }}
+                  disabled={
+                    this.props.product ? (
+                      this.props.product.notSterile ?
+                      false : true
+                    ) : true
+                  }
+                  value={
+                    this.props.product ? 
+                    (
+                      this.props.product.notSterileProductMaxPackageCount ?
+                      this.props.product.notSterileProductMaxPackageCount : ""
+                    ) : ""
+                  }
+                />
               </div>
             </div>
           </div>
         </div>
     );
-  }
-
-  private handleCheckBox(n: number, ref: any): void {
-    const checkBox: HTMLInputElement = n > 0 ?
-    (this.refs.sterileWrapper as any).querySelector("#notSterile") :
-    (this.refs.sterileWrapper as any).querySelector("#sterile");
-    const inputs: NodeListOf<HTMLInputElement> = ref.querySelectorAll("input");
-
-    for (const input of inputs as any) {
-      if (checkBox.checked) {
-        input.disabled = false;
-      } else {
-        input.disabled = true;
-      }
-    }
   }
 }

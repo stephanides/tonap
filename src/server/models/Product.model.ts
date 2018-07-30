@@ -20,12 +20,12 @@ export class Product {
   public sterileProductMinPackageCount: number;
   public sterileProductMaxPackageCount: number;
   public title: string;
+  public volume: number;
   public wide: number;
   public weight: number;
 
   constructor(data: IProduct) {
     this.active = data.active;
-    this.boxsize = data.boxsize;
     this.category = data.category;
     this.description = data.description;
     this.imageFilesData = data.imageFilesData;
@@ -42,6 +42,7 @@ export class Product {
     this.sterileProductMinPackageCount = data.sterileProductMinPackageCount;
     this.sterileProductMaxPackageCount = data.sterileProductMaxPackageCount;
     this.title = data.title;
+    this.volume = data.volume;
     this.wide = data.wide;
     this.weight = data.weight;
   }
@@ -52,7 +53,6 @@ const ProductSchema = new Schema({
     default: true,
     type: Boolean,
   },
-  boxsize: Number,
   category: Number,
   dateCreated: {
     default: Date.now(),
@@ -62,7 +62,6 @@ const ProductSchema = new Schema({
   description: String,
   imageFilesData: Array,
   length: Number,
-  // package: Number,
   notSterile: Boolean,
   notSterileProductMaxCount: Number,
   notSterileProductMaxPackageCount: Number,
@@ -78,8 +77,9 @@ const ProductSchema = new Schema({
     type: String,
     unique: true,
   },
+  volume: Number,
+  weight: Number,
   wide: Number,
-  wight: Number,
 });
 
 export interface IProductDocument extends Product, Document {}

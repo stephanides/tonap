@@ -6,6 +6,7 @@ import Register from "./screens/Register";
 import { Redirect, Router, Route, Switch } from "react-router";
 
 import IFile from "./interfaces/File.interface";
+import IProduct from "./interfaces/Product.interface";
 import { IUser } from "./interfaces/User.interface";
 
 const history = createBrowserHistory();
@@ -16,7 +17,7 @@ interface IAppState {
   imageNum?: number;
   modalError?: boolean;
   modalText?: string;
-  product?: object;
+  product?: IProduct;
   products?: object[];
   productEdit?: boolean;
   productNumber?: number;
@@ -24,14 +25,31 @@ interface IAppState {
   user?: IUser;
 }
 
+const productInit: IProduct = {
+  category: 0,
+  depth: 0,
+  description: "",
+  length: 0,
+  notSterile: false,
+  notSterileProductMaxCount: 0,
+  notSterileProductMaxPackageCount: 0,
+  notSterileProductMinCount: 0,
+  notSterileProductMinPackageCount: 0,
+  sterile: false,
+  sterileProductMaxCount: 0,
+  sterileProductMaxPackageCount: 0,
+  sterileProductMinCount: 0,
+  sterileProductMinPackageCount: 0,
+  title: "",
+  volume: 0,
+  weight: 0,
+  wide: 0,
+};
+
 const initialState: IAppState = {
   authorised: false,
   imageNum: 0,
-  product: {
-    category: 0,
-    description: "",
-    title: "",
-  },
+  product: productInit,
   productEdit: false,
   productNumber: 0,
 };
@@ -50,11 +68,13 @@ export default class App extends React.Component<{}, IAppState> {
     this.myStorage = window.localStorage;
 
     this.authenticate = this.authenticate.bind(this);
+    this.deleteProduct = this.deleteProduct.bind(this);
     this.getProducts = this.getProducts.bind(this);
     this.handleChangeProducts = this.handleChangeProducts.bind(this);
     this.handleRegister = this.handleRegister.bind(this);
     this.handleProduct = this.handleProduct.bind(this);
     this.handleProductEdit = this.handleProductEdit.bind(this);
+    this.handleProductUpdate = this.handleProductUpdate.bind(this);
     this.imageDrop = this.imageDrop.bind(this);
     this.imagePreviewSelect = this.imagePreviewSelect.bind(this);
     this.imageRemoveSelect = this.imageRemoveSelect.bind(this);
@@ -93,6 +113,7 @@ export default class App extends React.Component<{}, IAppState> {
           <Route path="/admin" render={(routeProps) => (
             this.state.authorised ?
             <Admin
+              deleteProduct={this.deleteProduct}
               handleChangeProducts={this.handleChangeProducts}
               imageDrop={this.imageDrop}
               imageFiles={this.state.imageFiles}
@@ -102,6 +123,7 @@ export default class App extends React.Component<{}, IAppState> {
               getProducts={this.getProducts}
               handleProduct={this.handleProduct}
               handleProductEdit={this.handleProductEdit}
+              handleProductUpdate={this.handleProductUpdate}
               modalError={this.state.modalError}
               modalText={this.state.modalText}
               product={this.state.product}
@@ -130,29 +152,82 @@ export default class App extends React.Component<{}, IAppState> {
     }
   }
 
+  private async deleteProduct(i: number): Promise<void> {
+    const id: string = (this.state.products[i] as any)._id;
+
+    try {
+      const request = await fetch("/api/product/" + id, {
+        headers: {
+          "Content-type": "application/json",
+          "x-access-token": this.state.user.token,
+        },
+        method: "DELETE",
+      });
+
+      if (request.status === 200) {
+        const responseJSON: any = await request.json();
+
+        this.showModal(responseJSON.message, false);
+      } else {
+        this.showModal(request.statusText, true);
+      }
+    } catch (err) { console.log(err); }
+  }
+
   private handleChangeProducts(products: object[], productNum: number): void {
     this.setState({ products }, async () => {
+      try {
+        const request = await fetch("/api/product", {
+          body: JSON.stringify(this.state.products[productNum]),
+          headers: {
+            "content-type": "application/json",
+            "x-access-token": this.state.user.token,
+          },
+          method: "PUT",
+        });
+
+        if (request.status === 200) {
+          const responseJson: any = await request.json();
+
+          this.showModal(responseJson.message, false);
+        } else {
+          this.showModal(request.statusText, true);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    });
+  }
+
+  private handleProduct(product: IProduct): void {
+    this.setState({ product });
+  }
+
+  private async handleProductUpdate(e: React.FormEvent<HTMLElement>): Promise<void> {
+    e.preventDefault();
+
+    try {
       const request = await fetch("/api/product", {
-        body: JSON.stringify(this.state.products[productNum]),
+        body: JSON.stringify(this.state.product),
         headers: {
-          "content-type": "application/json",
+          "Content-type": "application/json",
           "x-access-token": this.state.user.token,
         },
         method: "PUT",
       });
 
       if (request.status === 200) {
-        const responseJson: any = request.json();
+        const responseJSON: any = await request.json();
 
-        this.showModal(responseJson.message, false);
+        this.setState({ productEdit: false });
+        this.showModal(responseJSON.message, false);
       } else {
+        this.setState({ productEdit: false });
         this.showModal(request.statusText, true);
       }
-    });
-  }
-
-  private handleProduct(product: object): void {
-    this.setState({ product });
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   private handleRegister(register: boolean): void {
@@ -164,19 +239,32 @@ export default class App extends React.Component<{}, IAppState> {
   }
 
   private handleProductEdit(n: number | null) {
-    console.log(n);
     if (typeof n === "number") {
-      const productForEdit: object = this.state.products[n];
+      const productForEdit: IProduct = this.state.products[n] as IProduct;
       this.setState({ product: productForEdit, productEdit: true });
     } else {
       this.setState({
         product: {
           category: 0,
+          depth: 0,
           description: "",
+          length: 0,
+          notSterile: false,
+          notSterileProductMaxCount: 0,
+          notSterileProductMaxPackageCount: 0,
+          notSterileProductMinCount: 0,
+          notSterileProductMinPackageCount: 0,
+          sterile: false,
+          sterileProductMaxCount: 0,
+          sterileProductMaxPackageCount: 0,
+          sterileProductMinCount: 0,
+          sterileProductMinPackageCount: 0,
           title: "",
+          volume: 0,
+          weight: 0,
+          wide: 0,
         },
-        productEdit: false,
-      });
+        productEdit: false });
     }
   }
 
@@ -212,7 +300,6 @@ export default class App extends React.Component<{}, IAppState> {
       if (request.status === 200) {
         const responseJSON = await request.json();
 
-        console.log(responseJSON);
         this.setState({ products: (responseJSON as any).data });
       }
     } catch (err) {
@@ -342,13 +429,30 @@ export default class App extends React.Component<{}, IAppState> {
         if (request.status === 200) {
           const responseJSON: Promise<any> = await request.json();
 
-          this.showModal((responseJSON as any).message, false);
-          this.setState({
-            product: {
-              category: 0,
-              description: "",
-              title: "",
-            },
+          this.showModal((responseJSON as any).message, false, () => {
+            this.setState({
+              imageFiles: [],
+              product: {
+                category: 0,
+                depth: 0,
+                description: "",
+                length: 0,
+                notSterile: false,
+                notSterileProductMaxCount: 0,
+                notSterileProductMaxPackageCount: 0,
+                notSterileProductMinCount: 0,
+                notSterileProductMinPackageCount: 0,
+                sterile: false,
+                sterileProductMaxCount: 0,
+                sterileProductMaxPackageCount: 0,
+                sterileProductMinCount: 0,
+                sterileProductMinPackageCount: 0,
+                title: "",
+                volume: 0,
+                weight: 0,
+                wide: 0,
+              },
+            });
           });
         } else {
           this.showModal(request.statusText, true);

@@ -10480,14 +10480,30 @@ const Login_1 = __webpack_require__(/*! ./screens/Login */ "./src/public/tsx/scr
 const Register_1 = __webpack_require__(/*! ./screens/Register */ "./src/public/tsx/screens/Register.tsx");
 const react_router_1 = __webpack_require__(/*! react-router */ "./node_modules/react-router/es/index.js");
 const history = createBrowserHistory_1.default();
+const productInit = {
+    category: 0,
+    depth: 0,
+    description: "",
+    length: 0,
+    notSterile: false,
+    notSterileProductMaxCount: 0,
+    notSterileProductMaxPackageCount: 0,
+    notSterileProductMinCount: 0,
+    notSterileProductMinPackageCount: 0,
+    sterile: false,
+    sterileProductMaxCount: 0,
+    sterileProductMaxPackageCount: 0,
+    sterileProductMinCount: 0,
+    sterileProductMinPackageCount: 0,
+    title: "",
+    volume: 0,
+    weight: 0,
+    wide: 0,
+};
 const initialState = {
     authorised: false,
     imageNum: 0,
-    product: {
-        category: 0,
-        description: "",
-        title: "",
-    },
+    product: productInit,
     productEdit: false,
     productNumber: 0,
 };
@@ -10499,11 +10515,13 @@ class App extends React.Component {
         this.state = initialState;
         this.myStorage = window.localStorage;
         this.authenticate = this.authenticate.bind(this);
+        this.deleteProduct = this.deleteProduct.bind(this);
         this.getProducts = this.getProducts.bind(this);
         this.handleChangeProducts = this.handleChangeProducts.bind(this);
         this.handleRegister = this.handleRegister.bind(this);
         this.handleProduct = this.handleProduct.bind(this);
         this.handleProductEdit = this.handleProductEdit.bind(this);
+        this.handleProductUpdate = this.handleProductUpdate.bind(this);
         this.imageDrop = this.imageDrop.bind(this);
         this.imagePreviewSelect = this.imagePreviewSelect.bind(this);
         this.imageRemoveSelect = this.imageRemoveSelect.bind(this);
@@ -10522,7 +10540,7 @@ class App extends React.Component {
                 React.createElement(react_router_1.Route, { path: "/admin/login", render: () => (React.createElement(Login_1.default, { modalError: this.state.modalError, modalText: this.state.modalText, authorised: this.state.authorised, submitForm: this.submitForm, handleRegister: this.handleRegister })) }),
                 React.createElement(react_router_1.Route, { path: "/admin/setup", render: () => (React.createElement(Register_1.default, { modalError: this.state.modalError, modalText: this.state.modalText, handleRegister: this.handleRegister, submitForm: this.submitForm })) }),
                 React.createElement(react_router_1.Route, { path: "/admin", render: (routeProps) => (this.state.authorised ?
-                        React.createElement(Admin_1.default, { handleChangeProducts: this.handleChangeProducts, imageDrop: this.imageDrop, imageFiles: this.state.imageFiles, imageNum: this.state.imageNum, imagePreviewSelect: this.imagePreviewSelect, imageRemoveSelect: this.imageRemoveSelect, getProducts: this.getProducts, handleProduct: this.handleProduct, handleProductEdit: this.handleProductEdit, modalError: this.state.modalError, modalText: this.state.modalText, product: this.state.product, products: this.state.products, productEdit: this.state.productEdit, productNumber: this.state.productNumber, routeProps: routeProps, signOut: this.signOut, storeProduct: this.storeProduct, user: this.state.user }) :
+                        React.createElement(Admin_1.default, { deleteProduct: this.deleteProduct, handleChangeProducts: this.handleChangeProducts, imageDrop: this.imageDrop, imageFiles: this.state.imageFiles, imageNum: this.state.imageNum, imagePreviewSelect: this.imagePreviewSelect, imageRemoveSelect: this.imageRemoveSelect, getProducts: this.getProducts, handleProduct: this.handleProduct, handleProductEdit: this.handleProductEdit, handleProductUpdate: this.handleProductUpdate, modalError: this.state.modalError, modalText: this.state.modalText, product: this.state.product, products: this.state.products, productEdit: this.state.productEdit, productNumber: this.state.productNumber, routeProps: routeProps, signOut: this.signOut, storeProduct: this.storeProduct, user: this.state.user }) :
                         React.createElement(react_router_1.Redirect, { to: "/admin/login" })) }))));
     }
     authenticate() {
@@ -10534,27 +10552,83 @@ class App extends React.Component {
             this.signOut();
         }
     }
+    deleteProduct(i) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const id = this.state.products[i]._id;
+            try {
+                const request = yield fetch("/api/product/" + id, {
+                    headers: {
+                        "Content-type": "application/json",
+                        "x-access-token": this.state.user.token,
+                    },
+                    method: "DELETE",
+                });
+                if (request.status === 200) {
+                    const responseJSON = yield request.json();
+                    this.showModal(responseJSON.message, false);
+                }
+                else {
+                    this.showModal(request.statusText, true);
+                }
+            }
+            catch (err) {
+                console.log(err);
+            }
+        });
+    }
     handleChangeProducts(products, productNum) {
         this.setState({ products }, () => __awaiter(this, void 0, void 0, function* () {
-            const request = yield fetch("/api/product", {
-                body: JSON.stringify(this.state.products[productNum]),
-                headers: {
-                    "content-type": "application/json",
-                    "x-access-token": this.state.user.token,
-                },
-                method: "PUT",
-            });
-            if (request.status === 200) {
-                const responseJson = request.json();
-                this.showModal(responseJson.message, false);
+            try {
+                const request = yield fetch("/api/product", {
+                    body: JSON.stringify(this.state.products[productNum]),
+                    headers: {
+                        "content-type": "application/json",
+                        "x-access-token": this.state.user.token,
+                    },
+                    method: "PUT",
+                });
+                if (request.status === 200) {
+                    const responseJson = yield request.json();
+                    this.showModal(responseJson.message, false);
+                }
+                else {
+                    this.showModal(request.statusText, true);
+                }
             }
-            else {
-                this.showModal(request.statusText, true);
+            catch (err) {
+                console.log(err);
             }
         }));
     }
     handleProduct(product) {
         this.setState({ product });
+    }
+    handleProductUpdate(e) {
+        return __awaiter(this, void 0, void 0, function* () {
+            e.preventDefault();
+            try {
+                const request = yield fetch("/api/product", {
+                    body: JSON.stringify(this.state.product),
+                    headers: {
+                        "Content-type": "application/json",
+                        "x-access-token": this.state.user.token,
+                    },
+                    method: "PUT",
+                });
+                if (request.status === 200) {
+                    const responseJSON = yield request.json();
+                    this.setState({ productEdit: false });
+                    this.showModal(responseJSON.message, false);
+                }
+                else {
+                    this.setState({ productEdit: false });
+                    this.showModal(request.statusText, true);
+                }
+            }
+            catch (err) {
+                console.log(err);
+            }
+        });
     }
     handleRegister(register) {
         if (!register) {
@@ -10565,7 +10639,6 @@ class App extends React.Component {
         }
     }
     handleProductEdit(n) {
-        console.log(n);
         if (typeof n === "number") {
             const productForEdit = this.state.products[n];
             this.setState({ product: productForEdit, productEdit: true });
@@ -10574,10 +10647,25 @@ class App extends React.Component {
             this.setState({
                 product: {
                     category: 0,
+                    depth: 0,
                     description: "",
+                    length: 0,
+                    notSterile: false,
+                    notSterileProductMaxCount: 0,
+                    notSterileProductMaxPackageCount: 0,
+                    notSterileProductMinCount: 0,
+                    notSterileProductMinPackageCount: 0,
+                    sterile: false,
+                    sterileProductMaxCount: 0,
+                    sterileProductMaxPackageCount: 0,
+                    sterileProductMinCount: 0,
+                    sterileProductMinPackageCount: 0,
                     title: "",
+                    volume: 0,
+                    weight: 0,
+                    wide: 0,
                 },
-                productEdit: false,
+                productEdit: false
             });
         }
     }
@@ -10608,7 +10696,6 @@ class App extends React.Component {
                 });
                 if (request.status === 200) {
                     const responseJSON = yield request.json();
-                    console.log(responseJSON);
                     this.setState({ products: responseJSON.data });
                 }
             }
@@ -10722,13 +10809,30 @@ class App extends React.Component {
                     });
                     if (request.status === 200) {
                         const responseJSON = yield request.json();
-                        this.showModal(responseJSON.message, false);
-                        this.setState({
-                            product: {
-                                category: 0,
-                                description: "",
-                                title: "",
-                            },
+                        this.showModal(responseJSON.message, false, () => {
+                            this.setState({
+                                imageFiles: [],
+                                product: {
+                                    category: 0,
+                                    depth: 0,
+                                    description: "",
+                                    length: 0,
+                                    notSterile: false,
+                                    notSterileProductMaxCount: 0,
+                                    notSterileProductMaxPackageCount: 0,
+                                    notSterileProductMinCount: 0,
+                                    notSterileProductMinPackageCount: 0,
+                                    sterile: false,
+                                    sterileProductMaxCount: 0,
+                                    sterileProductMaxPackageCount: 0,
+                                    sterileProductMinCount: 0,
+                                    sterileProductMinPackageCount: 0,
+                                    title: "",
+                                    volume: 0,
+                                    weight: 0,
+                                    wide: 0,
+                                },
+                            });
                         });
                     }
                     else {
@@ -10944,10 +11048,12 @@ class ProductFormBasicInfo extends React.Component {
                             const product = this.props.product;
                             product.title = e.currentTarget.value;
                             this.props.handleProduct(product);
-                        }, value: this.props.product ? this.props.product.title : "", required: true })),
+                        }, value: this.props.product ?
+                            (this.props.product.title ?
+                                this.props.product.title : "") : "", required: true })),
                 React.createElement("div", { className: "col-6" },
                     React.createElement("label", { className: "sr-only", htmlFor: "title" }, "Kateg\u00F3ria"),
-                    React.createElement("select", { className: "custom-select form-control mb-2", id: "category", defaultValue: this.props.product ? this.props.product.category : 0, onChange: (e) => {
+                    React.createElement("select", { className: "custom-select form-control mb-2", id: "category", defaultValue: this.props.product ? String(this.props.product.category) : "0", onChange: (e) => {
                             const product = this.props.product;
                             product.category = e.currentTarget.selectedIndex;
                             this.props.handleProduct(product);
@@ -10963,7 +11069,9 @@ class ProductFormBasicInfo extends React.Component {
                             const product = this.props.product;
                             product.description = e.currentTarget.value;
                             this.props.handleProduct(product);
-                        }, placeholder: "Stru\u010Dn\u00E9 Info.", value: this.props.product ? this.props.product.description : "", required: true })))));
+                        }, placeholder: "Stru\u010Dn\u00E9 Info.", value: this.props.product ?
+                            (this.props.product.description ?
+                                this.props.product.description : "") : "", required: true })))));
     }
 }
 exports.default = ProductFormBasicInfo;
@@ -10985,7 +11093,6 @@ const React = __webpack_require__(/*! react */ "react");
 class ProductFormSterilityInfo extends React.Component {
     constructor(props) {
         super(props);
-        this.handleCheckBox = this.handleCheckBox.bind(this);
     }
     render() {
         return (React.createElement("div", { className: "form-row align-items-center form-group", ref: "sterileWrapper" },
@@ -10995,60 +11102,107 @@ class ProductFormSterilityInfo extends React.Component {
                 React.createElement("div", { className: "row form-group" },
                     React.createElement("div", { className: "col-auto" },
                         React.createElement("div", { className: "form-check" },
-                            React.createElement("input", { className: "form-check-input", type: "checkbox", value: 0, id: "sterile", onClick: () => { this.handleCheckBox(0, this.refs.sterile); } }),
+                            React.createElement("input", { className: "form-check-input", type: "checkbox", onChange: (e) => {
+                                    const product = this.props.product;
+                                    product.sterile = e.currentTarget.checked;
+                                    this.props.handleProduct(product);
+                                }, checked: this.props.product ? this.props.product.sterile : false, id: "sterile" }),
                             React.createElement("label", { className: "form-check-label", htmlFor: "sterile" }, "Steriln\u00E9"))),
                     React.createElement("div", { className: "col-auto" },
                         React.createElement("div", { className: "form-check" },
-                            React.createElement("input", { className: "form-check-input", type: "checkbox", value: 1, id: "notSterile", onClick: () => { this.handleCheckBox(1, this.refs.notSterile); } }),
+                            React.createElement("input", { className: "form-check-input", type: "checkbox", value: 1, id: "notSterile", onChange: (e) => {
+                                    const product = this.props.product;
+                                    product.notSterile = e.currentTarget.checked;
+                                    this.props.handleProduct(product);
+                                }, checked: this.props.product ? this.props.product.notSterile : false }),
                             React.createElement("label", { className: "form-check-label", htmlFor: "notSterile" }, "Nesteriln\u00E9"))))),
             React.createElement("div", { className: "col-6", ref: "sterile" },
                 React.createElement("h6", null, "Po\u010Det ks. steriln\u00E9:"),
                 React.createElement("div", { className: "row" },
                     React.createElement("div", { className: "col-auto" },
                         React.createElement("label", { className: "sr-only", htmlFor: "sterileProductMinCount" }, "Min."),
-                        React.createElement("input", { type: "number", className: "form-control mb-2", id: "sterileProductMinCount", placeholder: "Min.", min: "1", max: "1000", required: true, disabled: true })),
+                        React.createElement("input", { type: "number", className: "form-control mb-2", id: "sterileProductMinCount", placeholder: "Min.", min: "1", max: "1000", required: true, onChange: (e) => {
+                                const product = this.props.product;
+                                product.sterileProductMinCount = parseInt(e.currentTarget.value, 10);
+                                this.props.handleProduct(product);
+                            }, disabled: this.props.product ? (this.props.product.sterile ?
+                                false : true) : true, value: this.props.product ?
+                                (this.props.product.sterileProductMinCount ? this.props.product.sterileProductMinCount : "") : "" })),
                     React.createElement("div", { className: "col-auto" },
                         React.createElement("label", { className: "sr-only", htmlFor: "sterileProductMaxCount" }, "Max."),
-                        React.createElement("input", { type: "number", className: "form-control mb-2", id: "sterileProductMaxCount", placeholder: "Max.", min: "1", max: "2000", required: true, disabled: true }))),
+                        React.createElement("input", { type: "number", className: "form-control mb-2", id: "sterileProductMaxCount", placeholder: "Max.", min: "1", max: "2000", required: true, onChange: (e) => {
+                                const product = this.props.product;
+                                product.sterileProductMaxCount = parseInt(e.currentTarget.value, 10);
+                                this.props.handleProduct(product);
+                            }, disabled: this.props.product ? (this.props.product.sterile ?
+                                false : true) : true, value: this.props.product ?
+                                (this.props.product.sterileProductMaxCount ?
+                                    this.props.product.sterileProductMaxCount : "") : "" }))),
                 React.createElement("h6", null, "Balenie steriln\u00E9:"),
                 React.createElement("div", { className: "row" },
                     React.createElement("div", { className: "col-auto" },
                         React.createElement("label", { className: "sr-only", htmlFor: "sterileProductMinPackageCount" }, "Min."),
-                        React.createElement("input", { type: "number", className: "form-control mb-2", id: "sterileProductMinPackageCount", placeholder: "Min.", min: "1", max: "1000", required: true, disabled: true })),
+                        React.createElement("input", { type: "number", className: "form-control mb-2", id: "sterileProductMinPackageCount", placeholder: "Min.", min: "1", max: "1000", required: true, onChange: (e) => {
+                                const product = this.props.product;
+                                product.sterileProductMinPackageCount = parseInt(e.currentTarget.value, 10);
+                                this.props.handleProduct(product);
+                            }, disabled: this.props.product ? (this.props.product.sterile ?
+                                false : true) : true, value: this.props.product ?
+                                (this.props.product.sterileProductMinPackageCount ?
+                                    this.props.product.sterileProductMinPackageCount : "") : "" })),
                     React.createElement("div", { className: "col-auto" },
                         React.createElement("label", { className: "sr-only", htmlFor: "sterileProductMaxPackageCount" }, "Max."),
-                        React.createElement("input", { type: "number", className: "form-control mb-2", id: "sterileProductMaxPackageCount", placeholder: "Max.", min: "1", max: "10000", required: true, disabled: true })))),
+                        React.createElement("input", { type: "number", className: "form-control mb-2", id: "sterileProductMaxPackageCount", placeholder: "Max.", min: "1", max: "10000", required: true, onChange: (e) => {
+                                const product = this.props.product;
+                                product.sterileProductMaxPackageCount = parseInt(e.currentTarget.value, 10);
+                                this.props.handleProduct(product);
+                            }, disabled: this.props.product ? (this.props.product.sterile ?
+                                false : true) : true, value: this.props.product ?
+                                (this.props.product.sterileProductMaxPackageCount ?
+                                    this.props.product.sterileProductMaxPackageCount : "") : "" })))),
             React.createElement("div", { className: "col-6", ref: "notSterile" },
                 React.createElement("h6", null, "Po\u010Det ks. nesteriln\u00E9:"),
                 React.createElement("div", { className: "row" },
                     React.createElement("div", { className: "col-auto" },
                         React.createElement("label", { className: "sr-only", htmlFor: "notSterileProductMinCount" }, "Min."),
-                        React.createElement("input", { type: "number", className: "form-control mb-2", id: "notSterileProductMinCount", placeholder: "Min.", min: "1", max: "1000", required: true, disabled: true })),
+                        React.createElement("input", { type: "number", className: "form-control mb-2", id: "notSterileProductMinCount", placeholder: "Min.", min: "1", max: "1000", required: true, onChange: (e) => {
+                                const product = this.props.product;
+                                product.notSterileProductMinCount = parseInt(e.currentTarget.value, 10);
+                                this.props.handleProduct(product);
+                            }, disabled: this.props.product ? (this.props.product.notSterile ?
+                                false : true) : true, value: this.props.product ?
+                                (this.props.product.notSterileProductMinCount ?
+                                    this.props.product.notSterileProductMinCount : "") : "" })),
                     React.createElement("div", { className: "col-auto" },
                         React.createElement("label", { className: "sr-only", htmlFor: "notSterileProductMaxCount" }, "Max."),
-                        React.createElement("input", { type: "number", className: "form-control mb-2", id: "notSterileProductMaxCount", placeholder: "Max.", min: "1", max: "2000", required: true, disabled: true }))),
+                        React.createElement("input", { type: "number", className: "form-control mb-2", id: "notSterileProductMaxCount", placeholder: "Max.", min: "1", max: "2000", required: true, onChange: (e) => {
+                                const product = this.props.product;
+                                product.notSterileProductMaxCount = parseInt(e.currentTarget.value, 10);
+                                this.props.handleProduct(product);
+                            }, disabled: this.props.product ? (this.props.product.notSterile ?
+                                false : true) : true, value: this.props.product ?
+                                (this.props.product.notSterileProductMaxCount ?
+                                    this.props.product.notSterileProductMaxCount : "") : "" }))),
                 React.createElement("h6", null, "Balenie nesteriln\u00E9:"),
                 React.createElement("div", { className: "row" },
                     React.createElement("div", { className: "col-auto" },
                         React.createElement("label", { className: "sr-only", htmlFor: "notSterileProductMinPackageCount" }, "Min."),
-                        React.createElement("input", { type: "number", className: "form-control mb-2", id: "notSterileProductMinPackageCount", placeholder: "Min.", min: "1", max: "1000", required: true, disabled: true })),
+                        React.createElement("input", { type: "number", className: "form-control mb-2", id: "notSterileProductMinPackageCount", placeholder: "Min.", min: "1", max: "1000", required: true, onChange: (e) => {
+                                const product = this.props.product;
+                                product.notSterileProductMinPackageCount = parseInt(e.currentTarget.value, 10);
+                                this.props.handleProduct(product);
+                            }, disabled: this.props.product ? (this.props.product.notSterile ?
+                                false : true) : true, value: this.props.product ? this.props.product.notSterileProductMinPackageCount : "" })),
                     React.createElement("div", { className: "col-auto" },
                         React.createElement("label", { className: "sr-only", htmlFor: "notSterileProductMaxPackageCount" }, "Max."),
-                        React.createElement("input", { type: "number", className: "form-control mb-2", id: "notSterileProductMaxPackageCount", placeholder: "Max.", min: "1", max: "10000", required: true, disabled: true }))))));
-    }
-    handleCheckBox(n, ref) {
-        const checkBox = n > 0 ?
-            this.refs.sterileWrapper.querySelector("#notSterile") :
-            this.refs.sterileWrapper.querySelector("#sterile");
-        const inputs = ref.querySelectorAll("input");
-        for (const input of inputs) {
-            if (checkBox.checked) {
-                input.disabled = false;
-            }
-            else {
-                input.disabled = true;
-            }
-        }
+                        React.createElement("input", { type: "number", className: "form-control mb-2", id: "notSterileProductMaxPackageCount", placeholder: "Max.", min: "1", max: "10000", required: true, onChange: (e) => {
+                                const product = this.props.product;
+                                product.notSterileProductMaxPackageCount = parseInt(e.currentTarget.value, 10);
+                                this.props.handleProduct(product);
+                            }, disabled: this.props.product ? (this.props.product.notSterile ?
+                                false : true) : true, value: this.props.product ?
+                                (this.props.product.notSterileProductMaxPackageCount ?
+                                    this.props.product.notSterileProductMaxPackageCount : "") : "" }))))));
     }
 }
 exports.default = ProductFormSterilityInfo;
@@ -11077,19 +11231,49 @@ class ProductFormTechInfo extends React.Component {
                 React.createElement("h6", null, "Technick\u00E9 parametre")),
             React.createElement("div", { className: "col-3" },
                 React.createElement("label", { className: "sr-only", htmlFor: "length" }, "D\u013A\u017Eka"),
-                React.createElement("input", { type: "number", className: "form-control mb-2", id: "length", placeholder: "D\u013A\u017Eka v mm", min: "10", max: "100", required: true })),
+                React.createElement("input", { type: "number", className: "form-control mb-2", id: "length", placeholder: "D\u013A\u017Eka v mm", min: "10", max: "100", onChange: (e) => {
+                        const product = this.props.product;
+                        product.length = parseInt(e.currentTarget.value, 10);
+                        this.props.handleProduct(product);
+                    }, value: this.props.product ?
+                        (this.props.product.length ?
+                            this.props.product.length : "") : "", required: true })),
             React.createElement("div", { className: "col-3" },
                 React.createElement("label", { className: "sr-only", htmlFor: "wide" }, "\u0160irka"),
-                React.createElement("input", { type: "number", className: "form-control mb-2", id: "wide", placeholder: "\u0160\u00EDr. v mm", min: "10", max: "100", required: true })),
+                React.createElement("input", { type: "number", className: "form-control mb-2", id: "wide", placeholder: "\u0160\u00EDr. v mm", min: "10", max: "100", onChange: (e) => {
+                        const product = this.props.product;
+                        product.wide = parseInt(e.currentTarget.value, 10);
+                        this.props.handleProduct(product);
+                    }, value: this.props.product ?
+                        (this.props.product.wide ?
+                            this.props.product.wide : "") : "", required: true })),
             React.createElement("div", { className: "col-3" },
                 React.createElement("label", { className: "sr-only", htmlFor: "depth" }, "H\u013Abka"),
-                React.createElement("input", { type: "number", className: "form-control mb-2", id: "depth", placeholder: "H\u013Ab. v mm", min: "10", max: "100", required: true })),
+                React.createElement("input", { type: "number", className: "form-control mb-2", id: "depth", placeholder: "H\u013Ab. v mm", min: "10", max: "100", onChange: (e) => {
+                        const product = this.props.product;
+                        product.depth = parseInt(e.currentTarget.value, 10);
+                        this.props.handleProduct(product);
+                    }, value: this.props.product ?
+                        (this.props.product.depth ?
+                            this.props.product.depth : "") : "", required: true })),
             React.createElement("div", { className: "col-3" },
-                React.createElement("label", { className: "sr-only", htmlFor: "weight" }, "Objem"),
-                React.createElement("input", { type: "number", className: "form-control mb-2", id: "volume", placeholder: "Obj. v ml", min: "0", max: "1000", required: true })),
+                React.createElement("label", { className: "sr-only", htmlFor: "volume" }, "Objem"),
+                React.createElement("input", { type: "number", className: "form-control mb-2", id: "volume", placeholder: "Obj. v ml", min: "0", max: "1000", onChange: (e) => {
+                        const product = this.props.product;
+                        product.volume = parseInt(e.currentTarget.value, 10);
+                        this.props.handleProduct(product);
+                    }, value: this.props.product ?
+                        (this.props.product.volume ?
+                            this.props.product.volume : "") : "", required: true })),
             React.createElement("div", { className: "col-3" },
                 React.createElement("label", { className: "sr-only", htmlFor: "weight" }, "V\u00E1ha"),
-                React.createElement("input", { type: "number", className: "form-control mb-2", id: "weight", placeholder: "V\u00E1ha v g", min: "0", max: "1000", required: true }))));
+                React.createElement("input", { type: "number", className: "form-control mb-2", id: "weight", placeholder: "V\u00E1ha v g", min: "0", max: "1000", onChange: (e) => {
+                        const product = this.props.product;
+                        product.weight = parseInt(e.currentTarget.value, 10);
+                        this.props.handleProduct(product);
+                    }, value: this.props.product ?
+                        (this.props.product.weight ?
+                            this.props.product.weight : "") : "", required: true }))));
     }
 }
 exports.default = ProductFormTechInfo;
@@ -11235,7 +11419,7 @@ class ProductEdit extends React.Component {
                         React.createElement("h5", null, "Upravi\u0165 produkt: "),
                         React.createElement("button", { className: "close-modal", onClick: () => { this.props.handleProductEdit(null); } }, "\u00D7")),
                     React.createElement("div", { className: "body p-3" },
-                        React.createElement(ProductForm_1.default, { product: this.props.product, products: this.props.products, productEdit: this.props.productEdit, productNumber: this.props.productNumber, handleProduct: this.props.handleProduct, storeProduct: this.props.storeProduct })),
+                        React.createElement(ProductForm_1.default, { product: this.props.product, products: this.props.products, productEdit: this.props.productEdit, handleProductUpdate: this.props.handleProductUpdate, productNumber: this.props.productNumber, handleProduct: this.props.handleProduct, storeProduct: this.props.storeProduct })),
                     React.createElement("div", { className: "footer p-3" })),
                 React.createElement(style_1.default, { styleId: "productEditWrapper", css: `
           .productEditWrapper {
@@ -11292,13 +11476,20 @@ const ProductFormTechInfo_1 = __webpack_require__(/*! ./Product/ProductFormTechI
 const ProductFormSterilityInfo_1 = __webpack_require__(/*! ./Product/ProductFormSterilityInfo */ "./src/public/tsx/components/Product/ProductFormSterilityInfo.tsx");
 class ProductForm extends React.Component {
     render() {
-        return (React.createElement("form", { onSubmit: (e) => { this.props.storeProduct(e); } },
+        return (React.createElement("form", { onSubmit: (e) => {
+                if (this.props.productEdit) {
+                    this.props.handleProductUpdate(e);
+                }
+                else {
+                    this.props.storeProduct(e);
+                }
+            } },
             React.createElement(ProductFormBasicInfo_1.default, { product: this.props.product, products: this.props.products, productNumber: this.props.productNumber, handleProduct: this.props.handleProduct }),
             React.createElement(ProductFormTechInfo_1.default, { product: this.props.product, handleProduct: this.props.handleProduct }),
-            React.createElement(ProductFormSterilityInfo_1.default, null),
+            React.createElement(ProductFormSterilityInfo_1.default, { product: this.props.product, handleProduct: this.props.handleProduct }),
             React.createElement("div", { className: "form-row align-items-center" },
                 React.createElement("div", { className: "col-12" },
-                    React.createElement("button", { type: "submit", className: "btn btn-primary mb-2" }, "Prida\u0165 produkt")))));
+                    React.createElement("button", { type: "submit", className: "btn btn-primary mb-2" }, this.props.productEdit ? "Upraviť produkt" : "Pridať produkt")))));
     }
 }
 exports.default = ProductForm;
@@ -11354,7 +11545,9 @@ class ProductList extends React.Component {
                             React.createElement("div", { className: "col-3" },
                                 React.createElement("button", { type: "button", className: "btn btn-primary", onClick: () => { this.props.handleProductEdit(i); } }, "Edit")),
                             React.createElement("div", { className: "col-3" },
-                                React.createElement("button", { type: "button", className: "btn btn-danger ml-2" }, "Delete")))));
+                                React.createElement("button", { type: "button", className: "btn btn-danger ml-2", onClick: () => {
+                                        this.props.deleteProduct(i);
+                                    } }, "Delete")))));
                 }) :
                 React.createElement("div", { className: "list-group-item text-center" },
                     React.createElement("p", null,
@@ -11524,13 +11717,13 @@ class Admin extends React.Component {
     render() {
         return [
             React.createElement(Modal_1.default, { modalError: this.props.modalError, modalText: this.props.modalText, key: 0 }),
-            React.createElement(ProductEditModal_1.default, { product: this.props.product, products: this.props.products, productEdit: this.props.productEdit, productNumber: this.props.productNumber, handleProduct: this.props.handleProduct, handleProductEdit: this.props.handleProductEdit, storeProduct: this.props.storeProduct, key: 1 }),
+            React.createElement(ProductEditModal_1.default, { product: this.props.product, products: this.props.products, productEdit: this.props.productEdit, productNumber: this.props.productNumber, handleProduct: this.props.handleProduct, handleProductEdit: this.props.handleProductEdit, handleProductUpdate: this.props.handleProductUpdate, storeProduct: this.props.storeProduct, key: 1 }),
             React.createElement("div", { key: 2 },
                 React.createElement(HeaderNav_1.default, { user: this.props.user, signOut: this.props.signOut }),
                 React.createElement("div", { className: "container" },
                     React.createElement(TabNav_1.default, { routeProps: this.props.routeProps }),
                     React.createElement(react_router_dom_1.Route, { path: `${this.props.routeProps.match.url}/product-insert`, render: () => (React.createElement(ProductCreate_1.default, { imageDrop: this.props.imageDrop, imageFiles: this.props.imageFiles, imageNum: this.props.imageNum, imagePreviewSelect: this.props.imagePreviewSelect, imageRemoveSelect: this.props.imageRemoveSelect, product: this.props.product, handleProduct: this.props.handleProduct, storeProduct: this.props.storeProduct })) }),
-                    React.createElement(react_router_dom_1.Route, { path: `${this.props.routeProps.match.url}/product-list`, render: () => (React.createElement(ProductList_1.default, { products: this.props.products, getProducts: this.props.getProducts, handleChangeProducts: this.props.handleChangeProducts, handleProductEdit: this.props.handleProductEdit })) }),
+                    React.createElement(react_router_dom_1.Route, { path: `${this.props.routeProps.match.url}/product-list`, render: () => (React.createElement(ProductList_1.default, { products: this.props.products, deleteProduct: this.props.deleteProduct, getProducts: this.props.getProducts, handleChangeProducts: this.props.handleChangeProducts, handleProductEdit: this.props.handleProductEdit })) }),
                     React.createElement(react_router_dom_1.Route, { exact: true, path: `${this.props.routeProps.match.url}`, component: Orders_1.default })),
                 React.createElement("style", { jsx: true }, `
           h1, h2, h3, h4, h5, h6, a, li { color: #3b8acc; }
