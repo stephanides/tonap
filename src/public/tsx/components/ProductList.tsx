@@ -23,7 +23,7 @@ export default class ProductList extends React.Component<IProps, {}> {
 
   public render() {
     return(
-      <div className="list-group">
+      <div className="list-group mb-3">
         <div className="list-group-item bg-info d-flex justify-content-between">
           <div><p className="text-light">Názov produktu</p></div>
           <div className="row">

@@ -16,7 +16,7 @@ import IProduct from "../interfaces/Product.interface";
 interface IProps {
   imageFiles?: IFile[];
   imageNum?: number;
-  modalError?: boolean;
+  modalError?: boolean | null;
   modalText?: string;
   product?: IProduct;
   products?: object[];

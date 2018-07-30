@@ -15,7 +15,7 @@ interface IAppState {
   authorised?: boolean;
   imageFiles?: IFile[];
   imageNum?: number;
-  modalError?: boolean;
+  modalError?: boolean | null;
   modalText?: string;
   product?: IProduct;
   products?: object[];
@@ -465,7 +465,7 @@ export default class App extends React.Component<{}, IAppState> {
     }
   }
 
-  private showModal(text: string, error: boolean, callback?: () => void): void {
+  private showModal(text: string, error: boolean | null, callback?: () => void): void {
     this.setState({ modalText: text, modalError: error }, () => {
       $(".modal").modal();
       if (typeof callback === "function") {

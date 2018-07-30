@@ -1,7 +1,7 @@
 import * as React from "react";
 
 interface IProps {
-  modalError?: boolean;
+  modalError?: boolean | null;
   modalText?: string;
 }
 

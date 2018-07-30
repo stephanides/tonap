@@ -71,7 +71,7 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "../../../Users/ENLI Book 1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js":
+/***/ "../../../Users/ENLI WORKSTATION1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js":
 /*!*************************************************!*\
   !*** (webpack)/node_modules/process/browser.js ***!
   \*************************************************/
@@ -9922,7 +9922,7 @@ function invariant(condition, message) {
     throw new Error('StyleSheet: ' + message + '.');
   }
 }
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../../../Users/ENLI Book 1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js */ "../../../Users/ENLI Book 1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js")))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../../../Users/ENLI WORKSTATION1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js */ "../../../Users/ENLI WORKSTATION1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js")))
 
 /***/ }),
 
@@ -11518,7 +11518,7 @@ class ProductList extends React.Component {
         this.props.getProducts();
     }
     render() {
-        return (React.createElement("div", { className: "list-group" },
+        return (React.createElement("div", { className: "list-group mb-3" },
             React.createElement("div", { className: "list-group-item bg-info d-flex justify-content-between" },
                 React.createElement("div", null,
                     React.createElement("p", { className: "text-light" }, "N\u00E1zov produktu")),
