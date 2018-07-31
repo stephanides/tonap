@@ -174,6 +174,9 @@ export default class App extends React.Component<{}, IAppState> {
     } catch (err) { console.log(err); }
   }
 
+  /*private handleDelete(i: number): void {
+  }*/
+
   private handleChangeProducts(products: object[], productNum: number): void {
     this.setState({ products }, async () => {
       try {
