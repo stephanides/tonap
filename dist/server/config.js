@@ -1,14 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const config = {
-    secret: 'carWellnessAppSuperSecretEqualsToThisStringTwoPointsshhhhhssss',
+    mongo: "mongodb://localhost:27017/carwellness",
     sadm: {
-        firstName: 'Code',
-        lastName: 'Brothers',
-        email: 'info@codebrothers.sk',
-        password: 'codeBrothers741'
+        email: "info@codebrothers.sk",
+        firstName: "Code",
+        lastName: "Brothers",
+        password: "codeBrothers741",
     },
     saltRounds: 10,
-    mongo: 'mongodb://localhost:27017/carwellness'
+    secret: "carWellnessAppSuperSecretEqualsToThisStringTwoPointsshhhhhssss",
 };
 exports.default = config;

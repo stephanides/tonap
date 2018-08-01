@@ -10,7 +10,7 @@ import * as bodyParser from "body-parser";
 import * as io from "socket.io";
 import * as http from "http";
 
-import { User, UserDocument, Users } from "./models/User.model";
+import { User, IUserDocument, Users } from "./models/User.model";
 
 // import AvailabilityRouter from "./routes/Availability.router"
 // import ClaimRouter from "./routes/Claim.router"
@@ -107,6 +107,7 @@ class App {
     });
     this.router.get("/admin/:action", (req, res) => { res.render("admin"); });
     this.router.get("/gdpr", (req, res) => { res.render("gdpr", { page: "gdpr" }); });
+    this.router.get("/online-objednavka", (req, res) => { res.render("online-order", { page: "online-order" }); });
     this.router.get("/obchodne-podmienky", (req, res) => {
       res.render("business-conditions", { page: "business-conditions" });
     });

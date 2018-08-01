@@ -59,3 +59,16 @@ function loadMap(){
 
   var map = new google.maps.Map(document.getElementById("map"), mapOptions);
 }
+
+$('.count').each(function () {
+	console.log("malo by");
+    $(this).prop('Counter',0).animate({
+        Counter: $(this).text()
+    }, {
+        duration: 4000,
+        easing: 'swing',
+        step: function (now) {
+            $(this).text(Math.ceil(now));
+        }
+    });
+});

@@ -1,0 +1,100 @@
+extends layout.pug
+
+block content
+  #wrapper
+    .container-fluid.white
+      .container.nav-menu
+        .row.justify-content-between
+          a.logo(href="/#")
+            img(src="./assets/images/tonap_logo.svg", alt="")
+          label.show-menu(for = 'show-menu')
+            img(src="./assets/images/icons/menu.svg", alt="")
+          input#show-menu(type = 'checkbox' role = 'button')
+          ul#menu
+            li
+              a Domov
+            li
+              a Čo robíme?
+            li
+              a Kto sme?
+            li
+              a Naše produkty
+            li
+              a Kontakt
+            li
+              a.online-order Online objednávka
+    .container.order-header
+      h4 Online objednávka
+      .order
+        .row
+          .col-12
+            h5.pl-2.pt-4 1. Vyberte si produkty
+            select.ml-2.mt-2
+              option(value="kelimky") Kelímky
+              option(value="misky") Misky
+              option(value="krabicky") Krabičky
+              option(value="skúmavky") Skúmavky
+        .row.justify-content-between.mr-0.ml-0.mt-6
+          .col-md-3.text-center
+            picture
+              source(data-srcset="./assets/images/product1.webp", alt="", type="image/webp")
+              img.lazyload(data-src="./assets/images/product1.png", alt="")
+            p Sterilizovaný/Nesterlizovaný
+            h6 Kelímok s vrchnákom 1000 ml
+            button Objednať teraz
+          .col-md-3.text-center
+            picture
+              source(data-srcset="./assets/images/product1.webp", alt="", type="image/webp")
+              img.lazyload(data-src="./assets/images/product1.png", alt="")
+            p Sterilizovaný/Nesterlizovaný
+            h6 Kelímok s vrchnákom 1000 ml
+            button Objednať teraz
+          .col-md-3.text-center
+            picture
+              source(data-srcset="./assets/images/product1.webp", alt="", type="image/webp")
+              img.lazyload(data-src="./assets/images/product1.png", alt="")
+            p Sterilizovaný/Nesterlizovaný
+            h6 Kelímok s vrchnákom 1000 ml
+            button Objednať teraz
+          .col-md-3.text-center
+            picture
+              source(data-srcset="./assets/images/product1.webp", alt="", type="image/webp")
+              img.lazyload(data-src="./assets/images/product1.png", alt="")
+            p Sterilizovaný/Nesterlizovaný
+            h6 Kelímok s vrchnákom 1000 ml
+            button Objednať teraz
+        .row
+          .col-lg-6
+            h5.pl-2 2. Detail objednávky
+            table
+              tr
+                th
+                th Názov produktu
+                th Množstvo
+                th Upraviť
+          .col-lg-6
+            h5.pl-2 3. Dokončenie objednávky
+            form.pl-2.mt-4
+              p Meno a priezvisko/Názov firmy
+              input(name="name" type="text" reqiured="true" placeholder="Vaše meno alebo názov firmy")
+              p Adresa dodania
+              input(name="adress" type="text" reqiured="true" placeholder="Vaša dodacia adresa")
+              p E-mailová adresa
+              input(name="email" type="text" reqiured="true" placeholder="Vaša e-mailová adresa")
+              p Telefónne číslo
+              input(name="tel" type="text" reqiured="true" placeholder="Vaše telefónne číslo")
+              p IČO
+              input(name="ico" type="text" reqiured="true" placeholder="Vaše IČO")
+              p Správa
+              textarea(name="message" rows="4") Správa pre nás
+              input(name="submit" type="submit" value="Odoslať objednávku")
+    .footer
+      .container
+        .row
+          .footerlinks
+            a(href="/obchodne-podmienky") Obchodné podmienky
+            a(href="/reklamacne-podmienky") Reklamačné podmienky
+            a(href="/cennik") Cenník PDF
+            a(href="/ochrana-osobnych-udajov") Ochrana osobných údajov
+        img(src="./assets/images/icons/logofooter.png", alt="")
+        p &copy; Copyright 1998 - 2018 TONAP s.r.o.

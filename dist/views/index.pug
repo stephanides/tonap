@@ -2,26 +2,27 @@ extends layout.pug
 
 block content
   #wrapper
-    .container.nav-menu
-      .row.justify-content-between
-        a.logo(href="")
-          img(src="./assets/images/tonap_logo.svg", alt="")
-        label.show-menu(for = 'show-menu')
-          img(src="./assets/images/icons/menu.svg", alt="")
-        input#show-menu(type = 'checkbox' role = 'button')
-        ul#menu
-          li
-            a Domov
-          li
-            a Čo robíme?
-          li
-            a Kto sme?
-          li
-            a Naše produkty
-          li
-            a Kontakt
-          li
-            a.online-order Online objednávka
+    .container-fluid.white
+      .container.nav-menu
+        .row.justify-content-between
+          a.logo(href="")
+            img(src="./assets/images/tonap_logo.svg", alt="")
+          label.show-menu(for = 'show-menu')
+            img(src="./assets/images/icons/menu.svg", alt="")
+          input#show-menu(type = 'checkbox' role = 'button')
+          ul#menu
+            li
+              a Domov
+            li
+              a Čo robíme?
+            li
+              a Kto sme?
+            li
+              a Naše produkty
+            li
+              a Kontakt
+            li
+              a.online-order(href="/online-objednavka") Online objednávka
     section#header
       .container-fluid
         .container
@@ -43,6 +44,9 @@ block content
               picture
                 source(data-srcset="./assets/images/icons/firstcard.webp", alt="", type="image/webp")
                 img.lazyload(data-src="./assets/images/icons/firstcard.png", alt="")
+              .textarea
+                p Vyrobili sme
+                h4 #[span.count 10000] ks
             h4 Výroba kelimkov <br>na lieky a krémy
             .divider
             p Macaroon brownie cake carrot cake. Sesame snaps sweet icing cake sweet roll. Tart halvah tiramisu sweet liquorice bear claw. Tart cotton candy chupa chups lolipoop tart pastrz liquorice muffin.
@@ -51,6 +55,9 @@ block content
               picture
                 source(data-srcset="./assets/images/icons/secondcard.webp", alt="", type="image/webp")
                 img.lazyload(data-src="./assets/images/icons/secondcard.png", alt="")
+              .textarea
+                p Vyrobili sme
+                h4 #[span.count 10000] ks
             h4 Výroba skúmaviek <br>a odberníkov
             .divider
             p Macaroon brownie cake carrot cake. Sesame snaps sweet icing cake sweet roll. Tart halvah tiramisu sweet liquorice bear claw. Tart cotton candy chupa chups lolipoop tart pastrz liquorice muffin.
@@ -59,21 +66,13 @@ block content
               picture
                 source(data-srcset="./assets/images/icons/thirdcard.webp", alt="", type="image/webp")
                 img.lazyload(data-src="./assets/images/icons/thirdcard.png", alt="")
+              .textarea
+                p Vyrobili sme
+                h4 #[span.count 10000] ks
             h4 Výroba stojanov <br>na skúmavky
             .divider
             p Macaroon brownie cake carrot cake. Sesame snaps sweet icing cake sweet roll. Tart halvah tiramisu sweet liquorice bear claw. Tart cotton candy chupa chups lolipoop tart pastrz liquorice muffin.
-    section#aboutus
-      .container
-        .row
-          .col-md-6
-            picture
-              source(data-srcset="./assets/images/aboutus.webp", alt="", type="image/webp")
-              img.lazyload(data-src="./assets/images/aboutus.png", alt="")
-          .col-md-6
-            h3 Sme 20 rokov súčasťou <br> zdravotníctva na Slovensku
-            .divider
-            p Sweet poweder topping cupcake fruitcake liquorice cookie. Liquorice apple pie apple pie fruitcake pie oat cake carrot cake lemon drops. Wafet pastry marshmallow cotoon candy pastry marzipan. Cake fruit cake brownie cupcake gingerbread. Tiramius gummies icing halvah. Cake muffin icing liquorice jelly cookie sweet.
-            button Kontaktujte nás
+    
     section#orderProduct
       .container.text-center
         h4 Naše produkty
@@ -200,11 +199,62 @@ block content
           #showProducts.d-flex.justify-content-center
             img(src="./assets/images/icons/arrow.svg", alt="")
         p#showProductsText.text-center.mt-4 Zobraziť všetky produkty
-    .container-fluid.contact
+    section#aboutus
+      .container
+        .row
+          .col-md-6
+            picture
+              source(data-srcset="./assets/images/aboutus.webp", alt="", type="image/webp")
+              img.lazyload(data-src="./assets/images/aboutus.png", alt="")
+          .col-md-6
+            h3 Sme 20 rokov súčasťou <br> zdravotníctva na Slovensku
+            .divider
+            p Sweet poweder topping cupcake fruitcake liquorice cookie. Liquorice apple pie apple pie fruitcake pie oat cake carrot cake lemon drops. Wafet pastry marshmallow cotoon candy pastry marzipan. Cake fruit cake brownie cupcake gingerbread. Tiramius gummies icing halvah. Cake muffin icing liquorice jelly cookie sweet.
+            button Kontaktujte nás
+    .container-fluid.contact.position-relative
       .row
-        .col-md-6
+        .col-md-6.pr-0.pl-0
           #map
-        .col-md-6
+        .col-md-6.pl-0.pr-0.right
+      .container.position-absolute.top
+        .row
+          .col-md-6.pl-0.order-2
+            .contactform
+              h5 Kontaktný formulár
+              form
+                input(name="name" type="text" reqiured="true" placeholder="Meno a priezvisko")
+                input(name="email" type="text" reqiured="true" placeholder="Váš email")
+                input(name="subject" type="text" reqiured="true" placeholder="Predmet")
+                textarea(name="message" rows="4") Text správy
+                input(name="submit" type="submit" value="Odoslať správu")
+            .contactcard
+              h4 Kontakt
+              p TONAP s.r.o.
+              p Bottova 1099/2
+              p 075 01 Trebišov
+              p &nbsp;
+              p #[strong IČO:] 51334011
+              p #[strong IČ DPH:] SK2120679242
+              p &nbsp;
+              .info
+                img.infoicon(src="./assets/images/icons/envelope.svg", alt="")
+                p info@tonap.sk
+              .info
+                img.infoicon(src="./assets/images/icons/phone.svg", alt="")
+                p +421 918 243 753
+          .col-md-6.order-1
+    .footer
+      .container
+        .row
+          .footerlinks
+            a(href="/obchodne-podmienky") Obchodné podmienky
+            a(href="/reklamacne-podmienky") Reklamačné podmienky
+            a(href="/cennik") Cenník PDF
+            a(href="/ochrana-osobnych-udajov") Ochrana osobných údajov
+        img(src="./assets/images/icons/logofooter.png", alt="")
+        p &copy; Copyright 1998 - 2018 TONAP s.r.o.
+      
+
       
             
 
