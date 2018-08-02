@@ -9,23 +9,30 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose = require("mongoose");
-const fs = require("fs");
+const fs = require("fs-extra");
 const Product_model_1 = require("../models/Product.model");
 const uniqid = require("uniqid");
 class ProductController {
     delete(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                console.log(req.params.id + "\n");
                 const product = yield Product_model_1.Products.find({ _id: mongoose.Types.ObjectId(req.params.id) });
                 if (!product) {
                     this.throwError("Not found", 404, next);
                 }
                 else {
-                    // const productToDelete = await Products.deleteOne(product);
-                    // console.log(productToDelete);
-                    console.log(product);
-                    res.json({ message: "Product has been deleted", success: true });
+                    const folderName = product[0].title.toLowerCase().replace(/\s+/g, "-");
+                    fs.exists(__dirname + "/../../public/images/products/" + folderName, () => {
+                        fs.remove(__dirname + "/../../public/images/products/" + folderName, () => __awaiter(this, void 0, void 0, function* () {
+                            const productToDelete = yield Product_model_1.Products.deleteOne(product);
+                            if (productToDelete) {
+                                res.json({ message: "Product has been deleted", success: true });
+                            }
+                            else {
+                                this.throwError("Something went wrong, during deleting of product.", 500, next);
+                            }
+                        }));
+                    });
                 }
             }
             catch (err) {

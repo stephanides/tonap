@@ -21,7 +21,9 @@ interface IAppState {
   products?: object[];
   productEdit?: boolean;
   productNumber?: number;
+  productToDelete?: number;
   register?: boolean;
+  showDeleteModal?: boolean;
   user?: IUser;
 }
 
@@ -68,6 +70,7 @@ export default class App extends React.Component<{}, IAppState> {
     this.myStorage = window.localStorage;
 
     this.authenticate = this.authenticate.bind(this);
+    this.closeDeleteModal = this.closeDeleteModal.bind(this);
     this.deleteProduct = this.deleteProduct.bind(this);
     this.getProducts = this.getProducts.bind(this);
     this.handleChangeProducts = this.handleChangeProducts.bind(this);
@@ -78,6 +81,7 @@ export default class App extends React.Component<{}, IAppState> {
     this.imageDrop = this.imageDrop.bind(this);
     this.imagePreviewSelect = this.imagePreviewSelect.bind(this);
     this.imageRemoveSelect = this.imageRemoveSelect.bind(this);
+    this.handleShowDeleteModal = this.handleShowDeleteModal.bind(this);
     this.showModal = this.showModal.bind(this);
     this.signOut = this.signOut.bind(this);
     this.storeProduct = this.storeProduct.bind(this);
@@ -113,6 +117,7 @@ export default class App extends React.Component<{}, IAppState> {
           <Route path="/admin" render={(routeProps) => (
             this.state.authorised ?
             <Admin
+              closeDeleteModal={this.closeDeleteModal}
               deleteProduct={this.deleteProduct}
               handleChangeProducts={this.handleChangeProducts}
               imageDrop={this.imageDrop}
@@ -124,13 +129,16 @@ export default class App extends React.Component<{}, IAppState> {
               handleProduct={this.handleProduct}
               handleProductEdit={this.handleProductEdit}
               handleProductUpdate={this.handleProductUpdate}
+              handleShowDeleteModal={this.handleShowDeleteModal}
               modalError={this.state.modalError}
               modalText={this.state.modalText}
               product={this.state.product}
               products={this.state.products}
               productEdit={this.state.productEdit}
               productNumber={this.state.productNumber}
+              productToDelete={this.state.productToDelete}
               routeProps={routeProps}
+              showDeleteModal={this.state.showDeleteModal}
               signOut={this.signOut}
               storeProduct={this.storeProduct}
               user={this.state.user}
@@ -152,8 +160,8 @@ export default class App extends React.Component<{}, IAppState> {
     }
   }
 
-  private async deleteProduct(i: number): Promise<void> {
-    const id: string = (this.state.products[i] as any)._id;
+  private async deleteProduct(): Promise<void> {
+    const id: string = (this.state.products[this.state.productToDelete] as any)._id;
 
     try {
       const request = await fetch("/api/product/" + id, {
@@ -168,14 +176,14 @@ export default class App extends React.Component<{}, IAppState> {
         const responseJSON: any = await request.json();
 
         this.showModal(responseJSON.message, false);
+        this.getProducts();
       } else {
         this.showModal(request.statusText, true);
       }
-    } catch (err) { console.log(err); }
+    } catch (err) {
+      console.log(err);
+    }
   }
-
-  /*private handleDelete(i: number): void {
-  }*/
 
   private handleChangeProducts(products: object[], productNum: number): void {
     this.setState({ products }, async () => {
@@ -468,13 +476,23 @@ export default class App extends React.Component<{}, IAppState> {
     }
   }
 
-  private showModal(text: string, error: boolean | null, callback?: () => void): void {
+  private showModal(text: string, error: boolean, callback?: () => void): void {
     this.setState({ modalText: text, modalError: error }, () => {
-      $(".modal").modal();
+      $("#commonModal").modal();
       if (typeof callback === "function") {
         callback();
       }
     });
+  }
+
+  private handleShowDeleteModal(productToDelete: number): void {
+    this.setState({ productToDelete, showDeleteModal: true }, () => {
+      $("#deleteModal").modal();
+    });
+  }
+
+  private closeDeleteModal(): void {
+    this.setState({ showDeleteModal: false });
   }
 
   private storeUserData(data: IUser): void {

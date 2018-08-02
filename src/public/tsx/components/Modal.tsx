@@ -13,7 +13,7 @@ export default class Modal extends React.PureComponent<IProps, {}> {
   public render() {
     return(
       this.props.modalText ?
-      <div className="modal" role="dialog">
+      <div className="modal" id="commonModal" role="dialog">
         <div className="modal-dialog" role="document">
           <div className="modal-content">
             <div className="modal-header">
