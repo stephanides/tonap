@@ -9,19 +9,7 @@ export class User {
   public role: number;
   public approved: boolean;
 
-  /*
-  {
-    firstName: string,
-    lastName: string,
-    email: string,
-    password: string,
-    role?: number,
-    approved?: boolean,
-  }
-  */
-
   constructor(data: IUser) {
-    this.approved = data.approved;
     this.email = data.email;
     this.firstName = data.firstName;
     this.lastName = data.lastName;
@@ -31,10 +19,6 @@ export class User {
 }
 
 const UserSchema = new Schema({
-  approved: {
-    default: false,
-    type: Boolean,
-  },
   dateCreated: {
     default: Date.now(),
     type: Date,

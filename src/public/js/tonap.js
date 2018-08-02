@@ -2,7 +2,6 @@
 
 $(document).ready(function() {
   exampleFunction();
-  showAllProducts();
 });
 
 function exampleFunction() {
@@ -11,7 +10,7 @@ function exampleFunction() {
 
 function showAllProducts(){
   var isopen = false;
-
+  if(document.getElementById("showProducts") != null){
   document.getElementById("showProducts").addEventListener("click", function(){
     if(!isopen){
       document.getElementById("showProducts").firstChild.style.transform = "rotate(270deg)";
@@ -28,6 +27,7 @@ function showAllProducts(){
       isopen = false;
     }
   });
+}
 }
 function loadMap(){
   var mapOptions = {
@@ -61,7 +61,6 @@ function loadMap(){
 }
 
 $('.count').each(function () {
-	console.log("malo by");
     $(this).prop('Counter',0).animate({
         Counter: $(this).text()
     }, {
@@ -72,3 +71,26 @@ $('.count').each(function () {
         }
     });
 });
+
+
+function getProducts(){
+  console.log("bezim");
+  $.ajax({
+		type: "GET",
+		url: window.location.host + "/product/",
+		success: function(response) {
+			console.log(response)
+
+			if(response.status === 404) {
+				console.log("Nenaslo sa nic");
+			}
+		},
+		error: function(err) {
+			if(err.status === 404) {
+				return;
+			}
+		}
+	});
+}
+
+getProducts();

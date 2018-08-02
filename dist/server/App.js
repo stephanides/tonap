@@ -15,15 +15,15 @@ const mongoose = require("mongoose");
 const path = require("path");
 const config_1 = require("./config");
 const helmet = require("helmet");
-// import * as morgan from "morgan"
+const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const io = require("socket.io");
 const http = require("http");
 const User_model_1 = require("./models/User.model");
-// import AvailabilityRouter from "./routes/Availability.router"
-// import ClaimRouter from "./routes/Claim.router"
 const Email_router_1 = require("./routes/Email.router");
-// import OrderRouter from "./routes/Order.router"
+const Api_router_1 = require("./routes/Api.router");
+const Order_router_1 = require("./routes/Order.router");
+const Product_router_1 = require("./routes/Product.router");
 const User_router_1 = require("./routes/User.router");
 class App {
     constructor() {
@@ -52,11 +52,11 @@ class App {
         //
         this.app.use(helmet());
         // Morgan should be off in production
-        // this.app.use(morgan("dev"))
+        this.app.use(morgan("dev"));
         // Compression should be managed by nginx server in production
         // this.app.use(compression())
+        this.app.use(bodyParser.urlencoded({ parameterLimit: 10000, limit: "5mb", extended: true }));
         this.app.use(bodyParser.json({ limit: "5mb" }));
-        this.app.use(bodyParser.urlencoded({ parameterLimit: 10000, limit: "5mb", extended: false }));
         // Serve static files from imaginary /assets directory
         // Should be managed by nginx server in production
         this.app.use("/assets", express.static(__dirname + "/../public/"));
@@ -74,6 +74,7 @@ class App {
     onError() {
         this.app.use((err, req, res, next) => {
             if (err) {
+                console.log(err);
                 res.status(err.status || 500).json({ message: err.message, success: false });
             }
             next();
@@ -109,8 +110,11 @@ class App {
                 admin.emit("claim been created", { success: true });
             });
         });
+        this.app.use("/api", Api_router_1.default);
         this.app.use(Email_router_1.default);
         this.app.use(User_router_1.default);
+        this.app.use(Order_router_1.default);
+        this.app.use(Product_router_1.default);
         this.app.use(this.router);
     }
 }

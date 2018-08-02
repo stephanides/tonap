@@ -5,6 +5,10 @@ $breakpoint-tablet: 768px;
 $tonap-color:rgb(59,138,204);
 $tonap-color-hover: #85d4ec;
 $tonap-p-text:rgb(128,142,153);
+
+$break-medium:992px;
+$break-small:768px;
+
 *{
   font-family: "Montserrat";
 }
@@ -24,6 +28,9 @@ $tonap-p-text:rgb(128,142,153);
     }
     .logo{
       width: 150px;
+      @media screen and (max-width: $break-small) {
+        padding: 10px 4px;
+      }
     }
     .show-menu{
       color: #fff;
@@ -75,6 +82,9 @@ $tonap-p-text:rgb(128,142,153);
           &:hover{
             color: $tonap-color-hover;
           }
+          @media screen and (max-width: $break-medium) {
+            font-size: 11px;
+          }
         }
         .online-order{
           border: 2px solid $tonap-color;
@@ -93,9 +103,10 @@ $tonap-p-text:rgb(128,142,153);
   #header{
     background-color: $tonap-color;
     padding-top: 92px;
+    height: calc(100vh - 92px);
     background-image: radial-gradient(farthest-corner at 70% 50%,#8cdff5 0%,$tonap-color 100%);
     .header-text{
-      bottom: 100px;
+      bottom: 150px;
     }
     img{
       width: 100%;

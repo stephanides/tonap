@@ -1,5 +1,10 @@
 extends layout.pug
 
+block headerStyle
+  link(rel="stylesheet", href="./assets/css/bootstrap-reboot.min.css", media="screen")
+  link(rel="stylesheet", href="./assets/css/bootstrap-grid.min.css", media="screen")
+  link(rel="stylesheet", href="./assets/css/style.css", media="screen")
+
 block content
   #wrapper
     .container-fluid.white
@@ -98,3 +103,8 @@ block content
             a(href="/ochrana-osobnych-udajov") Ochrana osobných údajov
         img(src="./assets/images/icons/logofooter.png", alt="")
         p &copy; Copyright 1998 - 2018 TONAP s.r.o.
+
+  block scripts
+    script(src="./assets/js/lazysizes.min.js", deffer)
+    script(src="./assets/js/jquery-3.3.1.min.js")
+    script(src="./assets/js/tonap.min.js")

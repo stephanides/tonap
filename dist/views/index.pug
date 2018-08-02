@@ -1,5 +1,10 @@
 extends layout.pug
 
+block headerStyle
+  link(rel="stylesheet", href="./assets/css/bootstrap-reboot.min.css", media="screen")
+  link(rel="stylesheet", href="./assets/css/bootstrap-grid.min.css", media="screen")
+  link(rel="stylesheet", href="./assets/css/style.css", media="screen")
+
 block content
   #wrapper
     .container-fluid.white
@@ -259,5 +264,6 @@ block content
             
 
 block scripts
+  script(src="./assets/js/lazysizes.min.js", deffer)
   script(src="./assets/js/tonap.min.js")
   script(src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBGuAMy2poB-W_gNCuKoKejHIh3LeyDZ_E&callback=loadMap")
