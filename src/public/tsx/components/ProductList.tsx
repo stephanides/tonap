@@ -10,6 +10,7 @@ interface IProps {
   getProducts(): Promise<void>;
   handleChangeProducts(products: object[], productNum: number): void;
   handleProductEdit(n: number | null): void;
+  handleShowDeleteModal(productToDelete: number): void;
 }
 
 export default class ProductList extends React.Component<IProps, {}> {
@@ -63,7 +64,8 @@ export default class ProductList extends React.Component<IProps, {}> {
                       type="button"
                       className="btn btn-danger ml-2"
                       onClick={() => {
-                        this.props.deleteProduct(i);
+                        this.props.handleShowDeleteModal(i);
+                        // this.props.deleteProduct(i);
                       }}
                     >Delete</button>
                   </div>

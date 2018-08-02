@@ -1,5 +1,6 @@
 import "react";
 import * as React from "react";
+import DeleteModal from "../components/DeleteModal";
 import HeaderNav from "../components/HeaderNav";
 import Modal from "../components/Modal";
 import Orders from "../components/Orders";
@@ -22,14 +23,18 @@ interface IProps {
   products?: object[];
   productEdit?: boolean;
   productNumber?: number;
+  productToDelete?: number;
   routeProps: any;
+  showDeleteModal?: boolean;
   user: IUserPayLoad;
 
-  deleteProduct(i: number): Promise<void>;
+  closeDeleteModal(): void;
+  deleteProduct(): Promise<void>;
   handleChangeProducts(products: object[], productNum: number): void;
   handleProduct(product: object): void;
   handleProductEdit(n: number | null): void;
   handleProductUpdate(e: React.FormEvent<HTMLElement>): Promise<void>;
+  handleShowDeleteModal(productToDelete: number): void;
   imageDrop(files: File[]): void;
   imagePreviewSelect(n: number): void;
   imageRemoveSelect(n: number): void;
@@ -41,11 +46,20 @@ interface IProps {
 export default class Admin extends React.Component<IProps, {}> {
   public render() {
     return[
+      <DeleteModal
+        closeDeleteModal={this.props.closeDeleteModal}
+        deleteProduct={this.props.deleteProduct}
+        handleShowDeleteModal={this.props.handleShowDeleteModal}
+        products={this.props.products}
+        productToDelete={this.props.productToDelete}
+        showDeleteModal={this.props.showDeleteModal}
+
+        key={0} />,
       <Modal
         modalError={this.props.modalError}
         modalText={this.props.modalText}
 
-        key={0}
+        key={1}
       />,
       <ProductEditModal
         product={this.props.product}
@@ -56,9 +70,9 @@ export default class Admin extends React.Component<IProps, {}> {
         handleProductEdit={this.props.handleProductEdit}
         handleProductUpdate={this.props.handleProductUpdate}
         storeProduct={this.props.storeProduct}
-        key={1}
+        key={2}
       />,
-      <div key={2}>
+      <div key={3}>
         <HeaderNav
           user={this.props.user}
           signOut={this.props.signOut}
@@ -84,6 +98,7 @@ export default class Admin extends React.Component<IProps, {}> {
               getProducts={this.props.getProducts}
               handleChangeProducts={this.props.handleChangeProducts}
               handleProductEdit={this.props.handleProductEdit}
+              handleShowDeleteModal={this.props.handleShowDeleteModal}
             />
           )} />
           <Route exact path={`${this.props.routeProps.match.url}`} component={Orders} />

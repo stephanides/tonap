@@ -1,7 +1,7 @@
 import * as mongoose from "mongoose";
 import { Request, Response, NextFunction } from "express";
 import config from "../config";
-import * as fs from "fs";
+import * as fs from "fs-extra";
 import { Product, Products } from "../models/Product.model";
 import * as uniqid from "uniqid";
 
@@ -11,17 +11,23 @@ import { IProduct } from "../interfaces/Product.interface";
 export default class ProductController {
   public async delete(req: Request, res: Response, next: NextFunction) {
     try {
-      console.log(req.params.id + "\n");
       const product = await Products.find({ _id: mongoose.Types.ObjectId(req.params.id) });
 
       if (!product) {
         this.throwError("Not found", 404, next);
       } else {
-        // const productToDelete = await Products.deleteOne(product);
+        const folderName = product[0].title.toLowerCase().replace(/\s+/g, "-");
+        fs.exists(__dirname + "/../../public/images/products/" + folderName, () => {
+          fs.remove(__dirname + "/../../public/images/products/" + folderName, async () => {
+            const productToDelete = await Products.deleteOne(product);
 
-        // console.log(productToDelete);
-        console.log(product);
-        res.json({ message: "Product has been deleted", success: true });
+            if (productToDelete) {
+              res.json({ message: "Product has been deleted", success: true });
+            } else {
+              this.throwError("Something went wrong, during deleting the product.", 500, next);
+            }
+          });
+        });
       }
     } catch (err) {
       return next(err);

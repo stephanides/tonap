@@ -10530,6 +10530,7 @@ class App extends React.Component {
         this.state = initialState;
         this.myStorage = window.localStorage;
         this.authenticate = this.authenticate.bind(this);
+        this.closeDeleteModal = this.closeDeleteModal.bind(this);
         this.deleteProduct = this.deleteProduct.bind(this);
         this.getProducts = this.getProducts.bind(this);
         this.handleChangeProducts = this.handleChangeProducts.bind(this);
@@ -10540,6 +10541,7 @@ class App extends React.Component {
         this.imageDrop = this.imageDrop.bind(this);
         this.imagePreviewSelect = this.imagePreviewSelect.bind(this);
         this.imageRemoveSelect = this.imageRemoveSelect.bind(this);
+        this.handleShowDeleteModal = this.handleShowDeleteModal.bind(this);
         this.showModal = this.showModal.bind(this);
         this.signOut = this.signOut.bind(this);
         this.storeProduct = this.storeProduct.bind(this);
@@ -10555,7 +10557,7 @@ class App extends React.Component {
                 React.createElement(react_router_1.Route, { path: "/admin/login", render: () => (React.createElement(Login_1.default, { modalError: this.state.modalError, modalText: this.state.modalText, authorised: this.state.authorised, submitForm: this.submitForm, handleRegister: this.handleRegister })) }),
                 React.createElement(react_router_1.Route, { path: "/admin/setup", render: () => (React.createElement(Register_1.default, { modalError: this.state.modalError, modalText: this.state.modalText, handleRegister: this.handleRegister, submitForm: this.submitForm })) }),
                 React.createElement(react_router_1.Route, { path: "/admin", render: (routeProps) => (this.state.authorised ?
-                        React.createElement(Admin_1.default, { deleteProduct: this.deleteProduct, handleChangeProducts: this.handleChangeProducts, imageDrop: this.imageDrop, imageFiles: this.state.imageFiles, imageNum: this.state.imageNum, imagePreviewSelect: this.imagePreviewSelect, imageRemoveSelect: this.imageRemoveSelect, getProducts: this.getProducts, handleProduct: this.handleProduct, handleProductEdit: this.handleProductEdit, handleProductUpdate: this.handleProductUpdate, modalError: this.state.modalError, modalText: this.state.modalText, product: this.state.product, products: this.state.products, productEdit: this.state.productEdit, productNumber: this.state.productNumber, routeProps: routeProps, signOut: this.signOut, storeProduct: this.storeProduct, user: this.state.user }) :
+                        React.createElement(Admin_1.default, { closeDeleteModal: this.closeDeleteModal, deleteProduct: this.deleteProduct, handleChangeProducts: this.handleChangeProducts, imageDrop: this.imageDrop, imageFiles: this.state.imageFiles, imageNum: this.state.imageNum, imagePreviewSelect: this.imagePreviewSelect, imageRemoveSelect: this.imageRemoveSelect, getProducts: this.getProducts, handleProduct: this.handleProduct, handleProductEdit: this.handleProductEdit, handleProductUpdate: this.handleProductUpdate, handleShowDeleteModal: this.handleShowDeleteModal, modalError: this.state.modalError, modalText: this.state.modalText, product: this.state.product, products: this.state.products, productEdit: this.state.productEdit, productNumber: this.state.productNumber, productToDelete: this.state.productToDelete, routeProps: routeProps, showDeleteModal: this.state.showDeleteModal, signOut: this.signOut, storeProduct: this.storeProduct, user: this.state.user }) :
                         React.createElement(react_router_1.Redirect, { to: "/admin/login" })) }))));
     }
     authenticate() {
@@ -10567,9 +10569,9 @@ class App extends React.Component {
             this.signOut();
         }
     }
-    deleteProduct(i) {
+    deleteProduct() {
         return __awaiter(this, void 0, void 0, function* () {
-            const id = this.state.products[i]._id;
+            const id = this.state.products[this.state.productToDelete]._id;
             try {
                 const request = yield fetch("/api/product/" + id, {
                     headers: {
@@ -10581,6 +10583,7 @@ class App extends React.Component {
                 if (request.status === 200) {
                     const responseJSON = yield request.json();
                     this.showModal(responseJSON.message, false);
+                    this.getProducts();
                 }
                 else {
                     this.showModal(request.statusText, true);
@@ -10591,8 +10594,6 @@ class App extends React.Component {
             }
         });
     }
-    /*private handleDelete(i: number): void {
-    }*/
     handleChangeProducts(products, productNum) {
         this.setState({ products }, () => __awaiter(this, void 0, void 0, function* () {
             try {
@@ -10867,11 +10868,19 @@ class App extends React.Component {
     }
     showModal(text, error, callback) {
         this.setState({ modalText: text, modalError: error }, () => {
-            $(".modal").modal();
+            $("#commonModal").modal();
             if (typeof callback === "function") {
                 callback();
             }
         });
+    }
+    handleShowDeleteModal(productToDelete) {
+        this.setState({ productToDelete, showDeleteModal: true }, () => {
+            $("#deleteModal").modal();
+        });
+    }
+    closeDeleteModal() {
+        this.setState({ showDeleteModal: false });
     }
     storeUserData(data) {
         this.myStorage.setItem("uFN", data.firstName);
@@ -10883,6 +10892,42 @@ class App extends React.Component {
     }
 }
 exports.default = App;
+
+
+/***/ }),
+
+/***/ "./src/public/tsx/components/DeleteModal.tsx":
+/*!***************************************************!*\
+  !*** ./src/public/tsx/components/DeleteModal.tsx ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const React = __webpack_require__(/*! react */ "react");
+class DeleteModal extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        return (this.props.showDeleteModal ?
+            React.createElement("div", { className: "modal", id: "deleteModal", role: "dialog" },
+                React.createElement("div", { className: "modal-dialog", role: "document" },
+                    React.createElement("div", { className: "modal-content" },
+                        React.createElement("div", { className: "modal-header" },
+                            React.createElement("h5", { className: "modal-title" }, "Vymazať produkt: " + this.props.products[this.props.productToDelete].title),
+                            React.createElement("button", { type: "button", className: "close", "data-dismiss": "modal", "aria-label": "Close" },
+                                React.createElement("span", { "aria-hidden": "true" }, "\u00D7"))),
+                        React.createElement("div", { className: "modal-body" },
+                            React.createElement("p", null, "Naozaj chceš vymazať " + this.props.products[this.props.productToDelete].title + "?")),
+                        React.createElement("div", { className: "modal-footer" },
+                            React.createElement("button", { type: "button", className: "btn btn-secondary", "data-dismiss": "modal", onClick: this.props.closeDeleteModal }, "Zatvori\u0165"),
+                            React.createElement("button", { type: "button", className: "btn btn-danger", onClick: this.props.deleteProduct, "data-dismiss": "modal" }, "Vymaza\u0165"))))) : null);
+    }
+}
+exports.default = DeleteModal;
 
 
 /***/ }),
@@ -10997,7 +11042,7 @@ class Modal extends React.PureComponent {
     }
     render() {
         return (this.props.modalText ?
-            React.createElement("div", { className: "modal", role: "dialog" },
+            React.createElement("div", { className: "modal", id: "commonModal", role: "dialog" },
                 React.createElement("div", { className: "modal-dialog", role: "document" },
                     React.createElement("div", { className: "modal-content" },
                         React.createElement("div", { className: "modal-header" },
@@ -11563,7 +11608,8 @@ class ProductList extends React.Component {
                                 React.createElement("button", { type: "button", className: "btn btn-primary", onClick: () => { this.props.handleProductEdit(i); } }, "Edit")),
                             React.createElement("div", { className: "col-3" },
                                 React.createElement("button", { type: "button", className: "btn btn-danger ml-2", onClick: () => {
-                                        this.props.deleteProduct(i);
+                                        this.props.handleShowDeleteModal(i);
+                                        // this.props.deleteProduct(i);
                                     } }, "Delete")))));
                 }) :
                 React.createElement("div", { className: "list-group-item text-center" },
@@ -11722,6 +11768,7 @@ react_dom_1.render(React.createElement(App_1.default, null), document.getElement
 Object.defineProperty(exports, "__esModule", { value: true });
 __webpack_require__(/*! react */ "react");
 const React = __webpack_require__(/*! react */ "react");
+const DeleteModal_1 = __webpack_require__(/*! ../components/DeleteModal */ "./src/public/tsx/components/DeleteModal.tsx");
 const HeaderNav_1 = __webpack_require__(/*! ../components/HeaderNav */ "./src/public/tsx/components/HeaderNav.tsx");
 const Modal_1 = __webpack_require__(/*! ../components/Modal */ "./src/public/tsx/components/Modal.tsx");
 const Orders_1 = __webpack_require__(/*! ../components/Orders */ "./src/public/tsx/components/Orders.tsx");
@@ -11733,14 +11780,15 @@ const TabNav_1 = __webpack_require__(/*! ../components/TabNav */ "./src/public/t
 class Admin extends React.Component {
     render() {
         return [
-            React.createElement(Modal_1.default, { modalError: this.props.modalError, modalText: this.props.modalText, key: 0 }),
-            React.createElement(ProductEditModal_1.default, { product: this.props.product, products: this.props.products, productEdit: this.props.productEdit, productNumber: this.props.productNumber, handleProduct: this.props.handleProduct, handleProductEdit: this.props.handleProductEdit, handleProductUpdate: this.props.handleProductUpdate, storeProduct: this.props.storeProduct, key: 1 }),
-            React.createElement("div", { key: 2 },
+            React.createElement(DeleteModal_1.default, { closeDeleteModal: this.props.closeDeleteModal, deleteProduct: this.props.deleteProduct, handleShowDeleteModal: this.props.handleShowDeleteModal, products: this.props.products, productToDelete: this.props.productToDelete, showDeleteModal: this.props.showDeleteModal, key: 0 }),
+            React.createElement(Modal_1.default, { modalError: this.props.modalError, modalText: this.props.modalText, key: 1 }),
+            React.createElement(ProductEditModal_1.default, { product: this.props.product, products: this.props.products, productEdit: this.props.productEdit, productNumber: this.props.productNumber, handleProduct: this.props.handleProduct, handleProductEdit: this.props.handleProductEdit, handleProductUpdate: this.props.handleProductUpdate, storeProduct: this.props.storeProduct, key: 2 }),
+            React.createElement("div", { key: 3 },
                 React.createElement(HeaderNav_1.default, { user: this.props.user, signOut: this.props.signOut }),
                 React.createElement("div", { className: "container" },
                     React.createElement(TabNav_1.default, { routeProps: this.props.routeProps }),
                     React.createElement(react_router_dom_1.Route, { path: `${this.props.routeProps.match.url}/product-insert`, render: () => (React.createElement(ProductCreate_1.default, { imageDrop: this.props.imageDrop, imageFiles: this.props.imageFiles, imageNum: this.props.imageNum, imagePreviewSelect: this.props.imagePreviewSelect, imageRemoveSelect: this.props.imageRemoveSelect, product: this.props.product, handleProduct: this.props.handleProduct, storeProduct: this.props.storeProduct })) }),
-                    React.createElement(react_router_dom_1.Route, { path: `${this.props.routeProps.match.url}/product-list`, render: () => (React.createElement(ProductList_1.default, { products: this.props.products, deleteProduct: this.props.deleteProduct, getProducts: this.props.getProducts, handleChangeProducts: this.props.handleChangeProducts, handleProductEdit: this.props.handleProductEdit })) }),
+                    React.createElement(react_router_dom_1.Route, { path: `${this.props.routeProps.match.url}/product-list`, render: () => (React.createElement(ProductList_1.default, { products: this.props.products, deleteProduct: this.props.deleteProduct, getProducts: this.props.getProducts, handleChangeProducts: this.props.handleChangeProducts, handleProductEdit: this.props.handleProductEdit, handleShowDeleteModal: this.props.handleShowDeleteModal })) }),
                     React.createElement(react_router_dom_1.Route, { exact: true, path: `${this.props.routeProps.match.url}`, component: Orders_1.default })),
                 React.createElement("style", { jsx: true }, `
           h1, h2, h3, h4, h5, h6, a, li { color: #3b8acc; }

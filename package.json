@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/stephanides/tonap#readme",
   "dependencies": {
+    "@types/fs-extra": "^5.0.4",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "express": "^4.16.3",
