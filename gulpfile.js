@@ -9,7 +9,7 @@ gulp.task("js", function() {
 });
 
 gulp.task("js:watch", function() {
-  gulp.watch("./src/public/js/*.js", ["js"]);
+  gulp.watch("./src/public/js/*.js", gulp.series("js"));
 });
 
 gulp.task("sass", function() {
@@ -19,7 +19,7 @@ gulp.task("sass", function() {
 });
 
 gulp.task("sass:watch", function() {
-  gulp.watch("./src/public/scss/*.scss", ["sass"]);
+  gulp.watch("./src/public/scss/*.scss", gulp.series("sass"));
 });
 
 // gulp.task("default", ["js:watch", "sass:watch"]);
