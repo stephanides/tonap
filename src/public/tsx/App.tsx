@@ -173,10 +173,11 @@ export default class App extends React.Component<{}, IAppState> {
       });
 
       if (request.status === 200) {
-        const responseJSON: any = await request.json();
-
-        this.showModal(responseJSON.message, false);
-        this.getProducts();
+        // const responseJSON: any = await request.json();
+        $("#deleteModal").modal("hide");
+        this.setState({ showDeleteModal: false }, () => {
+          this.getProducts();
+        });
       } else {
         this.showModal(request.statusText, true);
       }
@@ -312,6 +313,8 @@ export default class App extends React.Component<{}, IAppState> {
         const responseJSON = await request.json();
 
         this.setState({ products: (responseJSON as any).data });
+      } else {
+        this.setState({ products: [] });
       }
     } catch (err) {
       console.log(err);

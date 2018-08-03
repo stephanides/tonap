@@ -19,7 +19,7 @@ export default class ProductController {
         const folderName = product[0].title.toLowerCase().replace(/\s+/g, "-");
         fs.exists(__dirname + "/../../public/images/products/" + folderName, () => {
           fs.remove(__dirname + "/../../public/images/products/" + folderName, async () => {
-            const productToDelete = await Products.deleteOne(product);
+            const productToDelete = await Products.deleteOne(product[0]);
 
             if (productToDelete) {
               res.json({ message: "Product has been deleted", success: true });

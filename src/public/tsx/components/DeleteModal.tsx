@@ -44,7 +44,7 @@ export default class DeleteModal extends React.Component<IProps, {}> {
               <button
                 type="button" className="btn btn-danger"
                 onClick={this.props.deleteProduct}
-                data-dismiss="modal">Vymazať</button>
+              >Vymazať</button>
             </div>
           </div>
         </div>
