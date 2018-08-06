@@ -12,7 +12,7 @@ const Order_model_1 = require("../models/Order.model");
 class OrderController {
     create(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            const order = yield Order_model_1.Orders.find({ orderNum: req.body.orderNum });
+            const order = yield Order_model_1.Orders.findOne({ orderNum: req.body.orderNum });
             if (order) {
                 this.throwError("Order allready exist", 409, next);
             }

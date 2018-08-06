@@ -6,7 +6,7 @@ import IOrder from "../interfaces/Order.interface";
 
 export default class OrderController {
   public async create(req: Request, res: Response, next: NextFunction) {
-    const order = await Orders.find({ orderNum: req.body.orderNum });
+    const order = await Orders.findOne({ orderNum: req.body.orderNum });
 
     if (order) {
       this.throwError("Order allready exist", 409, next);

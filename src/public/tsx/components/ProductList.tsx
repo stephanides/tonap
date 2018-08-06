@@ -26,9 +26,17 @@ export default class ProductList extends React.Component<IProps, {}> {
     return(
       <div className="list-group mb-3">
         <div className="list-group-item bg-info d-flex justify-content-between">
-          <div><p className="text-light">Názov produktu</p></div>
+          <div>
+            <p className="text-light">
+              { this.props.products && this.props.products.length > 0 ? "Názov produktu" : null }
+            </p>
+          </div>
           <div className="row">
-            <div className="col-4"><p className="text-light">Aktívny</p></div>
+            <div className="col-4">
+              <p className="text-light">
+                { this.props.products && this.props.products.length > 0 ? "Aktívny" : null }
+              </p>
+            </div>
             <div className="col-3"><button className="invisible btn btn-primary">Edit</button></div>
             <div className="col-3"><button className="invisible btn btn-primary">Delete</button></div>
           </div>
