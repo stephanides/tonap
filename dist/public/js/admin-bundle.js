@@ -11081,7 +11081,10 @@ class Products extends React.Component {
         super(props);
     }
     render() {
-        return (React.createElement("h2", null, "Objedn\u00E1vky"));
+        return [
+            React.createElement("h2", { key: 0 }, "Zoznam Objedn\u00E1vok"),
+            React.createElement("div", { className: "list-group mb-3", key: 1 }),
+        ];
     }
 }
 exports.default = Products;
@@ -11588,10 +11591,10 @@ class ProductList extends React.Component {
         return (React.createElement("div", { className: "list-group mb-3" },
             React.createElement("div", { className: "list-group-item bg-info d-flex justify-content-between" },
                 React.createElement("div", null,
-                    React.createElement("p", { className: "text-light" }, "N\u00E1zov produktu")),
+                    React.createElement("p", { className: "text-light" }, this.props.products && this.props.products.length > 0 ? "Názov produktu" : null)),
                 React.createElement("div", { className: "row" },
                     React.createElement("div", { className: "col-4" },
-                        React.createElement("p", { className: "text-light" }, "Akt\u00EDvny")),
+                        React.createElement("p", { className: "text-light" }, this.props.products && this.props.products.length > 0 ? "Aktívny" : null)),
                     React.createElement("div", { className: "col-3" },
                         React.createElement("button", { className: "invisible btn btn-primary" }, "Edit")),
                     React.createElement("div", { className: "col-3" },
