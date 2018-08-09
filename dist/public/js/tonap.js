@@ -4,13 +4,13 @@ $(document).ready(function() {
   exampleFunction();
   getProducts();
 });
-
+console.log("run");
 
 function exampleFunction() {
   console.log("App runs.");
 }
 
-function showAllProducts(){
+
   var isopen = false;
   if(document.getElementById("showProducts") != null){
   document.getElementById("showProducts").addEventListener("click", function(){
@@ -30,7 +30,7 @@ function showAllProducts(){
     }
   });
 }
-}
+
 
 function loadMap(){
   var mapOptions = {
@@ -74,15 +74,121 @@ $('.count').each(function () {
         }
     });
 });
-var _baseURL = window.location.protocol + "//" + window.location.host;
+
+var products;
+
 function getProducts(){
-  console.log("bezim");
   var xobj = new XMLHttpRequest();
 		xobj.open("GET", window.location.origin + "/product/", true);
 		xobj.onreadystatechange = function () {
 			if (xobj.readyState == 4 && xobj.status == "200") {
-			 console.log(xobj.response);
+       var json = JSON.parse(xobj.response);
+       products = json.data;
+       console.log(products);
+       fillProducts(products);
+       getURL();
 			}
 		};
 		xobj.send(null);
 }
+
+function fillProducts(products){
+  for (let i = 0; i < products.length; i++) {
+    if(products[i].category == 1){
+      var div = $("<div></div>").addClass("col-md-3 text-center");
+      $("<img>").attr("src", products[i].imageFilesData[0].url).appendTo(div);
+      console.log(products[i].sterile + " " + products[i].notSterile);
+      $("<p></p>").text(products[i].sterile && products[i].notSterile ? "Sterilné/Nesterilné" : products[i].sterile ? "Sterilné" : "Nesterilné").appendTo(div);
+      $("<h6></h6>").text(products[i].title).appendTo(div);
+      $("<button></button>").text("Objednať teraz").attr("onclick", "orderProduct(" + "'" + products[i]._id + "'" + ")").appendTo(div);
+      div.appendTo("#productKelimky");
+    }
+    if(products[i].category == 2){
+      var div = $("<div></div>").addClass("col-md-3 text-center");
+      $("<img>").attr("src", products[i].imageFilesData[0].url).appendTo(div);
+      $("<p></p>").text(products[i].sterile && products[i].notSterile ? "Sterilné/Nesterilné" : products[i].sterile ? "Sterilné" : "Nesterilné").appendTo(div);
+      $("<h6></h6>").text(products[i].title).appendTo(div);
+      $("<button></button>").text("Objednať teraz").attr("onclick", "orderProduct(" + "'" + products[i]._id + "'" + ")").appendTo(div);
+      div.appendTo("#productOdberniky");
+    }
+    if(products[i].category == 3){
+      var div = $("<div></div>").addClass("col-md-3 text-center");
+      $("<img>").attr("src", products[i].imageFilesData[0].url).appendTo(div);
+      $("<p></p>").text(products[i].sterile && products[i].notSterile ? "Sterilné/Nesterilné" : products[i].sterile ? "Sterilné" : "Nesterilné").appendTo(div);
+      $("<h6></h6>").text(products[i].title).appendTo(div);
+      $("<button></button>").text("Objednať teraz").attr("onclick", "orderProduct(" + "'" + products[i]._id + "'" + ")").appendTo(div);
+      div.appendTo("#productSkumavky");
+    }
+  }
+}
+
+function orderProduct(id){
+  var choosedProduct;
+  for(var i=0; i<products.length;i++){
+    if(products[i]._id == id){
+      choosedProduct = products[i];
+      console.log(choosedProduct);
+      console.log(choosedProduct.title);
+      document.getElementById("productModalMainImage").setAttribute("src",choosedProduct.imageFilesData[0].url);
+      document.getElementById("mainTitle").innerHTML = choosedProduct.title;
+      document.getElementById("isSterilized").innerHTML = choosedProduct.sterile && choosedProduct.notSterile ? "Sterilné/Nesterilné" : choosedProduct.sterile ? "Sterilné" : "Nesterilné";
+      document.getElementById("productDescription").innerHTML = choosedProduct.description;
+      document.getElementById("productHeight").innerHTML = "Výška: " + choosedProduct.length + " mm";
+      document.getElementById("productDepth").innerHTML = "Priemer: " + choosedProduct.depth + " mm";
+      document.getElementById("productVolume").innerHTML = "Objem: " + choosedProduct.volume + " ml";
+      document.getElementById("productWeight").innerHTML = "Váha: " + choosedProduct.weight + " g";
+      document.getElementById("navigationOrder").setAttribute("onclick", "goToOrder(" + "'" + products[i]._id + "'" + ")");
+      $("#productModal").modal();
+    }
+  }
+}
+
+function showProduct(){
+  if($("#orderselect").val()=="kelimky"){
+    $("#productKelimky").show();}
+  else{$("#productKelimky").hide();}
+  if($("#orderselect").val()=="odberniky"){
+    $("#productOdberniky").show();}
+  else{$("#productOdberniky").hide();}
+  if($("#orderselect").val()=="skumavky"){
+    $("#productSkumavky").show();}
+  else{$("#productSkumavky").hide();}
+}
+function showProductMainpage(){
+  if($("#mainselect").val()=="kelimky"){
+    $("#productKelimky").show();}
+  else{$("#productKelimky").hide();}
+  if($("#mainselect").val()=="odberniky"){
+    $("#productOdberniky").show();}
+  else{$("#productOdberniky").hide();}
+  if($("#mainselect").val()=="skumavky"){
+    $("#productSkumavky").show();}
+  else{$("#productSkumavky").hide();}
+}
+
+
+function goToOrder(id){
+  window.location = '/online-objednavka?id=' + id;
+  
+}
+
+function getURL(){
+  if (document.location.href.indexOf('id=') === -1){ 
+    return;
+  }
+  var choosedProduct;
+  var URL = window.location.href;
+  var id = URL.substring(URL.lastIndexOf('=') + 1);
+  for(var i=0; i<products.length;i++){
+    if(products[i]._id == id){
+      choosedProduct = products[i];
+      document.getElementById("orderModalMainImage").setAttribute("src",choosedProduct.imageFilesData[0].url);
+      document.getElementById("orderMainTitle").innerHTML = choosedProduct.title;
+     
+      document.getElementById("navigationOrder").setAttribute("onclick", "goToOrder(" + "'" + products[i]._id + "'" + ")");
+      $("#orderModal").modal();
+    }
+  }
+}
+
+

@@ -82,122 +82,16 @@ block content
       .container.text-center
         h4 Naše produkty
         p Sweet powder topping cupcake fruitcake liquorice cookie.
+        .row
+          select.ml-2.mt-2#mainselect(onchange="showProductMainpage()")
+            option(value="kelimky" ) Masťovky a Kelímky
+            option(value="odberniky" ) Petriho misky a odberníky
+            option(value="skumavky" ) Skúmavky
       .container.mt-5
-        .row.justify-content-between
-          .col-md-3.text-center
-            picture
-              source(data-srcset="./assets/images/product1.webp", alt="", type="image/webp")
-              img.lazyload(data-src="./assets/images/product1.png", alt="")
-            p Sterilizovaný/Nesterlizovaný
-            h6 Kelímok s vrchnákom 1000 ml
-            button Objednať teraz
-          .col-md-3.text-center
-            picture
-              source(data-srcset="./assets/images/product1.webp", alt="", type="image/webp")
-              img.lazyload(data-src="./assets/images/product1.png", alt="")
-            p Sterilizovaný/Nesterlizovaný
-            h6 Kelímok s vrchnákom 1000 ml
-            button Objednať teraz
-          .col-md-3.text-center
-            picture
-              source(data-srcset="./assets/images/product1.webp", alt="", type="image/webp")
-              img.lazyload(data-src="./assets/images/product1.png", alt="")
-            p Sterilizovaný/Nesterlizovaný
-            h6 Kelímok s vrchnákom 1000 ml
-            button Objednať teraz
-          .col-md-3.text-center
-            picture
-              source(data-srcset="./assets/images/product1.webp", alt="", type="image/webp")
-              img.lazyload(data-src="./assets/images/product1.png", alt="")
-            p Sterilizovaný/Nesterlizovaný
-            h6 Kelímok s vrchnákom 1000 ml
-            button Objednať teraz
-      .container.mt-5
-        .row.justify-content-between#moreProducts
-          .col-md-3.text-center.mb-5
-            picture
-              source(data-srcset="./assets/images/product1.webp", alt="", type="image/webp")
-              img.lazyload(data-src="./assets/images/product1.png", alt="")
-            p Sterilizovaný/Nesterlizovaný
-            h6 Kelímok s vrchnákom 1000 ml
-            button Objednať teraz
-          .col-md-3.text-center.mb-5
-            picture
-              source(data-srcset="./assets/images/product1.webp", alt="", type="image/webp")
-              img.lazyload(data-src="./assets/images/product1.png", alt="")
-            p Sterilizovaný/Nesterlizovaný
-            h6 Kelímok s vrchnákom 1000 ml
-            button Objednať teraz
-          .col-md-3.text-center.mb-5
-            picture
-              source(data-srcset="./assets/images/product1.webp", alt="", type="image/webp")
-              img.lazyload(data-src="./assets/images/product1.png", alt="")
-            p Sterilizovaný/Nesterlizovaný
-            h6 Kelímok s vrchnákom 1000 ml
-            button Objednať teraz
-          .col-md-3.text-center.mb-5
-            picture
-              source(data-srcset="./assets/images/product1.webp", alt="", type="image/webp")
-              img.lazyload(data-src="./assets/images/product1.png", alt="")
-            p Sterilizovaný/Nesterlizovaný
-            h6 Kelímok s vrchnákom 1000 ml
-            button Objednať teraz
-          .col-md-3.text-center.mb-5
-            picture
-              source(data-srcset="./assets/images/product1.webp", alt="", type="image/webp")
-              img.lazyload(data-src="./assets/images/product1.png", alt="")
-            p Sterilizovaný/Nesterlizovaný
-            h6 Kelímok s vrchnákom 1000 ml
-            button Objednať teraz
-          .col-md-3.text-center.mb-5
-            picture
-              source(data-srcset="./assets/images/product1.webp", alt="", type="image/webp")
-              img.lazyload(data-src="./assets/images/product1.png", alt="")
-            p Sterilizovaný/Nesterlizovaný
-            h6 Kelímok s vrchnákom 1000 ml
-            button Objednať teraz
-          .col-md-3.text-center.mb-5
-            picture
-              source(data-srcset="./assets/images/product1.webp", alt="", type="image/webp")
-              img.lazyload(data-src="./assets/images/product1.png", alt="")
-            p Sterilizovaný/Nesterlizovaný
-            h6 Kelímok s vrchnákom 1000 ml
-            button Objednať teraz
-          .col-md-3.text-center.mb-5
-            picture
-              source(data-srcset="./assets/images/product1.webp", alt="", type="image/webp")
-              img.lazyload(data-src="./assets/images/product1.png", alt="")
-            p Sterilizovaný/Nesterlizovaný
-            h6 Kelímok s vrchnákom 1000 ml
-            button Objednať teraz
-          .col-md-3.text-center.mb-5
-            picture
-              source(data-srcset="./assets/images/product1.webp", alt="", type="image/webp")
-              img.lazyload(data-src="./assets/images/product1.png", alt="")
-            p Sterilizovaný/Nesterlizovaný
-            h6 Kelímok s vrchnákom 1000 ml
-            button Objednať teraz
-          .col-md-3.text-center.mb-5
-            picture
-              source(data-srcset="./assets/images/product1.webp", alt="", type="image/webp")
-              img.lazyload(data-src="./assets/images/product1.png", alt="")
-            p Sterilizovaný/Nesterlizovaný
-            h6 Kelímok s vrchnákom 1000 ml
-            button Objednať teraz
-          .col-md-3.text-center.mb-5
-            picture
-              source(data-srcset="./assets/images/product1.webp", alt="", type="image/webp")
-              img.lazyload(data-src="./assets/images/product1.png", alt="")
-            p Sterilizovaný/Nesterlizovaný
-            h6 Kelímok s vrchnákom 1000 ml
-            button Objednať teraz
-          .col-md-3.text-center.mb-5
-            picture
-              source(data-srcset="./assets/images/product1.webp", alt="", type="image/webp")
-              img.lazyload(data-src="./assets/images/product1.png", alt="")
-            p Sterilizovaný/Nesterlizovaný
-            h6 Kelímok s vrchnákom 1000 ml
-            button Objednať teraz
+        .row#productKelimky
+        .row#productOdberniky
+        .row#productSkumavky
+          
       .container.showProducts.mt-8
         .container.d-flex.justify-content-center.align-items-center
           .divider
@@ -258,6 +152,25 @@ block content
             a(href="/ochrana-osobnych-udajov") Ochrana osobných údajov
         img(src="./assets/images/icons/logofooter.png", alt="")
         p &copy; Copyright 1998 - 2018 TONAP s.r.o.
+    .modal.fade#productModal(tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true")
+        .modal-dialog.modal-dialog-centered(role="document")
+            .modal-content
+              .modal-body
+                .container
+                  .row
+                    .col-md-6
+                      img.pt-2.d-block.mx-auto#productModalMainImage
+                    .col-md-6
+                      h4.pt-4#mainTitle
+                      p#isSterilized
+                      p#productDescription
+                      h5.pt-2 Parametre produktu
+                      p.mb-0#productHeight
+                      p.mb-0#productDepth
+                      p.mb-0#productVolume
+                      p.mb-0#productWeight
+                      button.mt-4.mb-4#navigationOrder Prejsť do objednávky
+                      
       
 
       
@@ -265,5 +178,5 @@ block content
 
 block scripts
   script(src="./assets/js/lazysizes.min.js", deffer)
-  script(src="./assets/js/tonap.min.js")
+  script(src="./assets/js/tonap.js")
   script(src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBGuAMy2poB-W_gNCuKoKejHIh3LeyDZ_E&callback=loadMap")

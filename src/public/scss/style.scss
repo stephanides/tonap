@@ -8,6 +8,7 @@ $tonap-p-text:rgb(128,142,153);
 
 $break-medium:992px;
 $break-small:768px;
+$break-xsmall:576px;
 
 *{
   font-family: "Montserrat";
@@ -433,6 +434,11 @@ $break-small:768px;
       padding-top: 60px;
       padding-bottom: 60px;
     }
+    select{
+      padding: 10px 10px;
+      border-radius: 24px;
+      outline:none;
+    }
   }
   .order{
     background-color: white;
@@ -561,3 +567,48 @@ $break-small:768px;
 .position-absolute{position: absolute;}
 .top{top:0;margin-left: 50%;transform: translateX(-50%);}
 .white{background-color: white;}
+
+#productOdberniky{
+  display: none;
+}
+#productSkumavky{
+  display: none;
+}
+.modal{
+  h4{
+    color:$tonap-color;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  p{
+    font-size: 16px;
+    color:$tonap-p-text;
+  }
+  h6{
+    font-size: 24px;
+    color:rgb(22,22,22);
+    font-weight: bold;
+  }
+  button{
+      outline: none !important;
+      border:none;
+      background: linear-gradient(to right,$tonap-color, #54bde2);
+      color: white;
+      padding: 18px 50px;
+      border-radius: 24px;
+      font-weight: bold;
+      font-size: 12px;
+      cursor: pointer;
+      margin-top: 20px;
+  }
+  .modal-dialog{
+    @media screen and(min-width:$break-xsmall){
+      min-width: 700px;
+      max-width: 1000px !important;  
+      width: 80% !important;
+    }
+    .modal-content{
+      min-height: 500px;
+    }
+  }
+}
