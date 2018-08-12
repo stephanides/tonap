@@ -39,6 +39,7 @@ interface IProps {
   imagePreviewSelect(n: number): void;
   imageRemoveSelect(n: number): void;
   getProducts(): Promise<void>;
+  getOrders(): Promise<void>;
   signOut(): void;
   storeProduct(e: React.FormEvent<HTMLElement>): Promise<void>;
 }
@@ -101,7 +102,9 @@ export default class Admin extends React.Component<IProps, {}> {
               handleShowDeleteModal={this.props.handleShowDeleteModal}
             />
           )} />
-          <Route exact path={`${this.props.routeProps.match.url}`} component={Orders} />
+          <Route exact path={`${this.props.routeProps.match.url}`} render={() => (
+            <Orders getOrders={this.props.getOrders} />
+          )} />
         </div>
 
         <style jsx>{`

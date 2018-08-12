@@ -17,6 +17,7 @@ interface IAppState {
   imageNum?: number;
   modalError?: boolean | null;
   modalText?: string;
+  orders?: object[];
   product?: IProduct;
   products?: object[];
   productEdit?: boolean;
@@ -73,6 +74,7 @@ export default class App extends React.Component<{}, IAppState> {
     this.closeDeleteModal = this.closeDeleteModal.bind(this);
     this.deleteProduct = this.deleteProduct.bind(this);
     this.getProducts = this.getProducts.bind(this);
+    this.getOrders = this.getOrders.bind(this);
     this.handleChangeProducts = this.handleChangeProducts.bind(this);
     this.handleRegister = this.handleRegister.bind(this);
     this.handleProduct = this.handleProduct.bind(this);
@@ -126,6 +128,7 @@ export default class App extends React.Component<{}, IAppState> {
               imagePreviewSelect={this.imagePreviewSelect}
               imageRemoveSelect={this.imageRemoveSelect}
               getProducts={this.getProducts}
+              getOrders={this.getOrders}
               handleProduct={this.handleProduct}
               handleProductEdit={this.handleProductEdit}
               handleProductUpdate={this.handleProductUpdate}
@@ -319,6 +322,27 @@ export default class App extends React.Component<{}, IAppState> {
     } catch (err) {
       console.log(err);
     }
+  }
+
+  private async getOrders(): Promise<void> {
+    try {
+      const request = await fetch("/api/order", {
+        headers: {
+          "content-type": "application/json",
+          "x-access-token": this.state.user.token,
+        },
+        method: "GET",
+      });
+
+      if (request.status === 200) {
+        const responseJSON = await request.json();
+
+        this.setState({ orders: (responseJSON as any).data });
+      } else {
+        this.setState({ orders: [] });
+      }
+
+    } catch (err) { console.log(err); }
   }
 
   private imageDrop(files: File[]): void {

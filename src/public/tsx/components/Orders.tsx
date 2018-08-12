@@ -1,12 +1,17 @@
 import * as React from "react";
 
 interface IProps {
-  temporaryProps?: any;
+  getOrders(): Promise<void>;
+
 }
 
 export default class Products extends React.Component<IProps, {}> {
   constructor(props: IProps) {
     super(props);
+  }
+
+  public componentDidMount() {
+    this.props.getOrders();
   }
 
   public render() {
