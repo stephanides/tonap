@@ -24,10 +24,10 @@ export default class OrderController {
       };
       const productArr: object[] = [];
 
-      for (let i = 0; i < req.body.products.length; i++) {
+      /*for (let i = 0; i < req.body.products.length; i++) {
         // productArr.push(product);
         console.log(req.body.products[i]);
-      }
+      }*/
 
       orderObj.products = req.body.products; // productArr;
 

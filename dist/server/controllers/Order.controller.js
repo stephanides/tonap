@@ -29,10 +29,10 @@ class OrderController {
                     surname: req.body.surname,
                 };
                 const productArr = [];
-                for (let i = 0; i < req.body.products.length; i++) {
-                    // productArr.push(product);
-                    console.log(req.body.products[i]);
-                }
+                /*for (let i = 0; i < req.body.products.length; i++) {
+                  // productArr.push(product);
+                  console.log(req.body.products[i]);
+                }*/
                 orderObj.products = req.body.products; // productArr;
                 const newOrder = new Order_model_1.Order(orderObj);
                 try {
