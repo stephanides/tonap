@@ -19,6 +19,7 @@ interface IProps {
   imageNum?: number;
   modalError?: boolean | null;
   modalText?: string;
+  orders?: object[];
   product?: IProduct;
   products?: object[];
   productEdit?: boolean;
@@ -103,7 +104,10 @@ export default class Admin extends React.Component<IProps, {}> {
             />
           )} />
           <Route exact path={`${this.props.routeProps.match.url}`} render={() => (
-            <Orders getOrders={this.props.getOrders} />
+            <Orders
+              getOrders={this.props.getOrders}
+              orders={this.props.orders}
+            />
           )} />
         </div>
 

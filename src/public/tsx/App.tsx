@@ -135,6 +135,7 @@ export default class App extends React.Component<{}, IAppState> {
               handleShowDeleteModal={this.handleShowDeleteModal}
               modalError={this.state.modalError}
               modalText={this.state.modalText}
+              orders={this.state.orders}
               product={this.state.product}
               products={this.state.products}
               productEdit={this.state.productEdit}
