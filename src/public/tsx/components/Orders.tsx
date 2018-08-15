@@ -3,6 +3,8 @@ import * as React from "react";
 
 interface IProps {
   orders?: object[];
+  products?: object[];
+
   getOrders(): Promise<void>;
 }
 
@@ -22,16 +24,30 @@ export default class Products extends React.Component<IProps, {}> {
         {
           this.props.orders && this.props.orders.length > 0 ?
           this.props.orders.map((item, i) => {
-            const productsInfo = (item as any).products.map((product, j) => (
-              <div key={j}>{(product as any)._id + ": " + (product as any).count}</div>
-            ));
+            const productsInfo = (item as any).products.map((productInfo, j) => {
+              let product: object = {};
+
+              if (this.props.products && this.props.products.length > 0) {
+                for (const prod of this.props.products) {
+                  if ((prod as any)._id === (productInfo as any)._id) {
+                    product = prod;
+                  }
+                }
+
+                return(
+                  <div key={j}><p>{(product as any).title + ", " + (productInfo as any).count}</p></div>
+                );
+              } else {
+                return null;
+              }
+            });
 
             return (
               <div className="list-group-item d-flex justify-content-between" key={i}>
                 <div className="row">
-                  <div className="col">{(item as any).orderNum}</div>
-                  <div className="col">{(item as any).name + " " + (item as any).surname}</div>
-                  <div className="col">{ productsInfo }</div>
+                  <div className="col-auto">{(item as any).orderNum}</div>
+                  <div className="col-auto">{(item as any).name + " " + (item as any).surname}</div>
+                  <div className="col-auto">{productsInfo}</div>
                 </div>
               </div>
             );

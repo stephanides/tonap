@@ -46,6 +46,10 @@ interface IProps {
 }
 
 export default class Admin extends React.Component<IProps, {}> {
+  public componentWillMount() {
+    this.props.getProducts();
+  }
+
   public render() {
     return[
       <DeleteModal
@@ -107,11 +111,12 @@ export default class Admin extends React.Component<IProps, {}> {
             <Orders
               getOrders={this.props.getOrders}
               orders={this.props.orders}
+              products={this.props.products}
             />
           )} />
         </div>
 
-        <style jsx>{`
+        <style>{`
           h1, h2, h3, h4, h5, h6, a, li { color: #3b8acc; }
         `}</style>
       </div>,

@@ -11097,12 +11097,26 @@ class Products extends React.Component {
             React.createElement("h2", { key: 0 }, "Zoznam Objedn\u00E1vok"),
             React.createElement("div", { className: "list-group mb-3", key: 1 }, this.props.orders && this.props.orders.length > 0 ?
                 this.props.orders.map((item, i) => {
-                    const productsInfo = item.products.map((product, j) => (React.createElement("div", { key: j }, product._id + ": " + product.count)));
+                    const productsInfo = item.products.map((productInfo, j) => {
+                        let product = {};
+                        if (this.props.products && this.props.products.length > 0) {
+                            for (const prod of this.props.products) {
+                                if (prod._id === productInfo._id) {
+                                    product = prod;
+                                }
+                            }
+                            return (React.createElement("div", { key: j },
+                                React.createElement("p", null, product.title + ", " + productInfo.count)));
+                        }
+                        else {
+                            return null;
+                        }
+                    });
                     return (React.createElement("div", { className: "list-group-item d-flex justify-content-between", key: i },
                         React.createElement("div", { className: "row" },
-                            React.createElement("div", { className: "col" }, item.orderNum),
-                            React.createElement("div", { className: "col" }, item.name + " " + item.surname),
-                            React.createElement("div", { className: "col" }, productsInfo))));
+                            React.createElement("div", { className: "col-auto" }, item.orderNum),
+                            React.createElement("div", { className: "col-auto" }, item.name + " " + item.surname),
+                            React.createElement("div", { className: "col-auto" }, productsInfo))));
                 }) :
                 (React.createElement("div", { className: "list-group-item text-center" },
                     React.createElement("p", null, "Neboli n\u00E1jden\u00E9 \u017Eiadne objedn\u00E1vky.")))),
@@ -11607,7 +11621,7 @@ class ProductList extends React.Component {
         super(props);
     }
     componentWillMount() {
-        this.props.getProducts();
+        //this.props.getProducts();
     }
     render() {
         return (React.createElement("div", { className: "list-group mb-3" },
@@ -11808,6 +11822,9 @@ const ProductList_1 = __webpack_require__(/*! ../components/ProductList */ "./sr
 const react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
 const TabNav_1 = __webpack_require__(/*! ../components/TabNav */ "./src/public/tsx/components/TabNav.tsx");
 class Admin extends React.Component {
+    componentWillMount() {
+        this.props.getProducts();
+    }
     render() {
         return [
             React.createElement(DeleteModal_1.default, { closeDeleteModal: this.props.closeDeleteModal, deleteProduct: this.props.deleteProduct, handleShowDeleteModal: this.props.handleShowDeleteModal, products: this.props.products, productToDelete: this.props.productToDelete, showDeleteModal: this.props.showDeleteModal, key: 0 }),
@@ -11819,8 +11836,8 @@ class Admin extends React.Component {
                     React.createElement(TabNav_1.default, { routeProps: this.props.routeProps }),
                     React.createElement(react_router_dom_1.Route, { path: `${this.props.routeProps.match.url}/product-insert`, render: () => (React.createElement(ProductCreate_1.default, { imageDrop: this.props.imageDrop, imageFiles: this.props.imageFiles, imageNum: this.props.imageNum, imagePreviewSelect: this.props.imagePreviewSelect, imageRemoveSelect: this.props.imageRemoveSelect, product: this.props.product, handleProduct: this.props.handleProduct, storeProduct: this.props.storeProduct })) }),
                     React.createElement(react_router_dom_1.Route, { path: `${this.props.routeProps.match.url}/product-list`, render: () => (React.createElement(ProductList_1.default, { products: this.props.products, deleteProduct: this.props.deleteProduct, getProducts: this.props.getProducts, handleChangeProducts: this.props.handleChangeProducts, handleProductEdit: this.props.handleProductEdit, handleShowDeleteModal: this.props.handleShowDeleteModal })) }),
-                    React.createElement(react_router_dom_1.Route, { exact: true, path: `${this.props.routeProps.match.url}`, render: () => (React.createElement(Orders_1.default, { getOrders: this.props.getOrders, orders: this.props.orders })) })),
-                React.createElement("style", { jsx: true }, `
+                    React.createElement(react_router_dom_1.Route, { exact: true, path: `${this.props.routeProps.match.url}`, render: () => (React.createElement(Orders_1.default, { getOrders: this.props.getOrders, orders: this.props.orders, products: this.props.products })) })),
+                React.createElement("style", null, `
           h1, h2, h3, h4, h5, h6, a, li { color: #3b8acc; }
         `)),
         ];

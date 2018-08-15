@@ -19,7 +19,7 @@ export default class ProductList extends React.Component<IProps, {}> {
   }
 
   public componentWillMount() {
-    this.props.getProducts();
+    //this.props.getProducts();
   }
 
   public render() {

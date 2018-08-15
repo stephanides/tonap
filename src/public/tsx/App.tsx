@@ -354,7 +354,7 @@ export default class App extends React.Component<{}, IAppState> {
     const readFileFn = () => {
       reader.readAsDataURL(files[i]);
       reader.onload = () => {
-        const base64Data: string = reader.result;
+        const base64Data: string = reader.result as string;
         (files[i] as any).data = base64Data;
         fileArr.push(files[i]);
 
