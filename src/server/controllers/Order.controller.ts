@@ -11,7 +11,7 @@ export default class OrderController {
     if (order) {
       this.throwError("Order allready exist", 409, next);
     } else {
-      const newOrder: IOrder = new Order({
+      const orderObj: any = {
         city: req.body.city,
         company: req.body.company,
         email: req.body.email,
@@ -21,7 +21,17 @@ export default class OrderController {
         products: req.body.products,
         street: req.body.street,
         surname: req.body.surname,
-      });
+      };
+      const productArr: object[] = [];
+
+      /*for (let i = 0; i < req.body.products.length; i++) {
+        // productArr.push(product);
+        console.log(req.body.products[i]);
+      }*/
+
+      orderObj.products = req.body.products; // productArr;
+
+      const newOrder: IOrder = new Order(orderObj);
 
       try {
         const asyncCreateOrder = await Orders.create(newOrder);

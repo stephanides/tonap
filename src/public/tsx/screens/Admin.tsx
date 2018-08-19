@@ -19,6 +19,7 @@ interface IProps {
   imageNum?: number;
   modalError?: boolean | null;
   modalText?: string;
+  orders?: object[];
   product?: IProduct;
   products?: object[];
   productEdit?: boolean;
@@ -39,11 +40,16 @@ interface IProps {
   imagePreviewSelect(n: number): void;
   imageRemoveSelect(n: number): void;
   getProducts(): Promise<void>;
+  getOrders(): Promise<void>;
   signOut(): void;
   storeProduct(e: React.FormEvent<HTMLElement>): Promise<void>;
 }
 
 export default class Admin extends React.Component<IProps, {}> {
+  public componentWillMount() {
+    this.props.getProducts();
+  }
+
   public render() {
     return[
       <DeleteModal
@@ -101,10 +107,16 @@ export default class Admin extends React.Component<IProps, {}> {
               handleShowDeleteModal={this.props.handleShowDeleteModal}
             />
           )} />
-          <Route exact path={`${this.props.routeProps.match.url}`} component={Orders} />
+          <Route exact path={`${this.props.routeProps.match.url}`} render={() => (
+            <Orders
+              getOrders={this.props.getOrders}
+              orders={this.props.orders}
+              products={this.props.products}
+            />
+          )} />
         </div>
 
-        <style jsx>{`
+        <style>{`
           h1, h2, h3, h4, h5, h6, a, li { color: #3b8acc; }
         `}</style>
       </div>,

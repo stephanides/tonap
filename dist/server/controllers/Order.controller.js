@@ -17,7 +17,7 @@ class OrderController {
                 this.throwError("Order allready exist", 409, next);
             }
             else {
-                const newOrder = new Order_model_1.Order({
+                const orderObj = {
                     city: req.body.city,
                     company: req.body.company,
                     email: req.body.email,
@@ -27,7 +27,14 @@ class OrderController {
                     products: req.body.products,
                     street: req.body.street,
                     surname: req.body.surname,
-                });
+                };
+                const productArr = [];
+                /*for (let i = 0; i < req.body.products.length; i++) {
+                  // productArr.push(product);
+                  console.log(req.body.products[i]);
+                }*/
+                orderObj.products = req.body.products; // productArr;
+                const newOrder = new Order_model_1.Order(orderObj);
                 try {
                     const asyncCreateOrder = yield Order_model_1.Orders.create(newOrder);
                     if (asyncCreateOrder) {
