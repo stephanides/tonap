@@ -19,7 +19,7 @@ export default class Products extends React.Component<IProps, {}> {
 
   public render() {
     return[
-      <h2 key={0}>Zoznam Objednávok</h2>,
+      <h2 key={0}>Zoznam objednávok</h2>,
       <div className="list-group mb-3" key={1}>
         {
           this.props.orders && this.props.orders.length > 0 ?

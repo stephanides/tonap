@@ -18,12 +18,24 @@ export default class ProductList extends React.Component<IProps, {}> {
     super(props);
   }
 
-  public componentWillMount() {
-    //this.props.getProducts();
-  }
-
   public render() {
     return(
+      <div>
+        <h2>Zoznam produktov</h2>
+        {
+          this.props.products && this.props.products.length > 0 ?
+          this.props.products.map((item, i) => {
+            console.log(item);
+
+            return(<div>Daco</div>);
+          }) :
+          <div className="list-group-item text-center">
+            <p>Neboli nájdené žiadne produkty, <Link to="/admin/product-insert">pridaj</Link> nejaké.</p>
+          </div>
+        }
+      </div>
+    );
+    /*return(
       <div className="list-group mb-3">
         <div className="list-group-item bg-info d-flex justify-content-between">
           <div>
@@ -127,7 +139,7 @@ export default class ProductList extends React.Component<IProps, {}> {
             -ms-transform: translateX(26px);
             transform: translateX(26px);
           }
-          /* Rounded sliders */
+          
           .switch .slider.round {
             border-radius: 34px;
           }
@@ -136,6 +148,6 @@ export default class ProductList extends React.Component<IProps, {}> {
           }
         `} />
       </div>
-    );
+    );*/
   }
 }

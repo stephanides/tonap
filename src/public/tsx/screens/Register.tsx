@@ -27,7 +27,7 @@ export default class Register extends React.PureComponent<IProps, {}> {
         modalText={this.props.modalText}
         key={0}
       />,
-      <div className="container register">
+      <div className="container register" key={1}>
         <div className="row">
           <div className="col-xl-6 col-lg-8 col-md-8 col-sm-12 mt-3 ml-auto mr-auto">
           <h1 className="text-center">Register</h1>

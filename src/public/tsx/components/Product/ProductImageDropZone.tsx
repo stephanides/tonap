@@ -42,7 +42,7 @@ export default (props: IProps) => (
       }
     </ul>
     <Dropzone
-      accept="image/png"
+      accept="image/jpeg, image/png"
       onDrop={props.imageDrop}
       style={dropZoneStyle}>
       <p>Presuň sem fotografie, alebo sem klikni pre upload.</p>
