@@ -351,22 +351,26 @@ export default class App extends React.Component<{}, IAppState> {
     let i = 0;
     const fileArr: any[] = [];
 
-    const readFileFn = () => {
-      reader.readAsDataURL(files[i]);
-      reader.onload = () => {
-        const base64Data: string = reader.result as string;
-        (files[i] as any).data = base64Data;
-        fileArr.push(files[i]);
+    console.log(files);
 
-        if (i < files.length - 1) {
-          i++;
-          readFileFn();
-        }
+    if (files && files.length > 0) {
+      const readFileFn = () => {
+        reader.readAsDataURL(files[i]);
+        reader.onload = () => {
+          const base64Data: string = reader.result as string;
+          (files[i] as any).data = base64Data;
+          fileArr.push(files[i]);
+  
+          if (i < files.length - 1) {
+            i++;
+            readFileFn();
+          }
+        };
       };
-    };
-
-    readFileFn();
-    setTimeout(() => { this.setState({ imageFiles: fileArr }); }, 10);
+  
+      readFileFn();
+      setTimeout(() => { this.setState({ imageFiles: fileArr }); }, 10);
+    }
   }
 
   private imagePreviewSelect(n: number): void {
@@ -418,7 +422,15 @@ export default class App extends React.Component<{}, IAppState> {
         this.showModal((responseJSON as any).message, false);
       }
     } else {
-      this.showModal(response.statusText, true);
+      if (urlString.indexOf("login") > -1) {
+        if (response.status === 404) {
+          this.showModal("Užívateľ neexistuje, zaregistrujte sa prosím", true);
+        } else {
+          this.showModal(response.statusText, true);
+        }
+      } else {
+        this.showModal(response.statusText, true);
+      }
     }
   }
 

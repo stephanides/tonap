@@ -266,7 +266,7 @@ export default class ProductFormSterilityInfo extends React.Component<IProps, {}
                     ) : true
                   }
                   value={
-                    this.props.product ? 
+                    this.props.product ?
                     (
                       this.props.product.notSterileProductMaxPackageCount ?
                       this.props.product.notSterileProductMaxPackageCount : ""

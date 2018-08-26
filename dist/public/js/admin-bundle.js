@@ -86,7 +86,11 @@
 /************************************************************************/
 /******/ ({
 
+<<<<<<< HEAD
 /***/ "../../../Users/ENLIPL/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js":
+=======
+/***/ "../../../Users/ENLI Book 1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js":
+>>>>>>> 3fcac9752273e2cf1730bc513aec3d52a2d37b7a
 /*!*************************************************!*\
   !*** (webpack)/node_modules/process/browser.js ***!
   \*************************************************/
@@ -9937,7 +9941,11 @@ function invariant(condition, message) {
     throw new Error('StyleSheet: ' + message + '.');
   }
 }
+<<<<<<< HEAD
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../../../Users/ENLIPL/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js */ "../../../Users/ENLIPL/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js")))
+=======
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../../../Users/ENLI Book 1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js */ "../../../Users/ENLI Book 1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js")))
+>>>>>>> 3fcac9752273e2cf1730bc513aec3d52a2d37b7a
 
 /***/ }),
 
@@ -10755,20 +10763,23 @@ class App extends React.Component {
         const reader = new FileReader();
         let i = 0;
         const fileArr = [];
-        const readFileFn = () => {
-            reader.readAsDataURL(files[i]);
-            reader.onload = () => {
-                const base64Data = reader.result;
-                files[i].data = base64Data;
-                fileArr.push(files[i]);
-                if (i < files.length - 1) {
-                    i++;
-                    readFileFn();
-                }
+        console.log(files);
+        if (files && files.length > 0) {
+            const readFileFn = () => {
+                reader.readAsDataURL(files[i]);
+                reader.onload = () => {
+                    const base64Data = reader.result;
+                    files[i].data = base64Data;
+                    fileArr.push(files[i]);
+                    if (i < files.length - 1) {
+                        i++;
+                        readFileFn();
+                    }
+                };
             };
-        };
-        readFileFn();
-        setTimeout(() => { this.setState({ imageFiles: fileArr }); }, 10);
+            readFileFn();
+            setTimeout(() => { this.setState({ imageFiles: fileArr }); }, 10);
+        }
     }
     imagePreviewSelect(n) {
         this.setState({ imageNum: n });
@@ -10813,7 +10824,17 @@ class App extends React.Component {
                 }
             }
             else {
-                this.showModal(response.statusText, true);
+                if (urlString.indexOf("login") > -1) {
+                    if (response.status === 404) {
+                        this.showModal("Užívateľ neexistuje, zaregistrujte sa prosím", true);
+                    }
+                    else {
+                        this.showModal(response.statusText, true);
+                    }
+                }
+                else {
+                    this.showModal(response.statusText, true);
+                }
             }
         });
     }
@@ -11109,7 +11130,7 @@ class Products extends React.Component {
     }
     render() {
         return [
-            React.createElement("h2", { key: 0 }, "Zoznam Objedn\u00E1vok"),
+            React.createElement("h2", { key: 0 }, "Zoznam objedn\u00E1vok"),
             React.createElement("div", { className: "list-group mb-3", key: 1 }, this.props.orders && this.props.orders.length > 0 ?
                 this.props.orders.map((item, i) => {
                     const productsInfo = item.products.map((productInfo, j) => {
@@ -11424,7 +11445,7 @@ exports.default = (props) => (React.createElement("div", { className: "d-flex fl
             React.createElement("button", { className: "deleteImage", onClick: () => { props.imageRemoveSelect(i); } }, "\u00D7"),
             React.createElement("button", { onClick: () => { props.imagePreviewSelect(i); } },
                 React.createElement("img", { src: item.preview }))))) : null),
-    React.createElement(react_dropzone_1.default, { accept: "image/png", onDrop: props.imageDrop, style: dropZoneStyle },
+    React.createElement(react_dropzone_1.default, { accept: "image/jpeg, image/png", onDrop: props.imageDrop, style: dropZoneStyle },
         React.createElement("p", null, "Presu\u0148 sem fotografie, alebo sem klikni pre upload.")),
     React.createElement(style_1.default, { styleId: "previewImg", css: `
       .previewImg {
@@ -11629,105 +11650,78 @@ exports.default = ProductForm;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(/*! react */ "react");
-const style_1 = __webpack_require__(/*! styled-jsx/style */ "./node_modules/styled-jsx/style.js");
 const react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+const ProductListItem_1 = __webpack_require__(/*! ./ProductListItem */ "./src/public/tsx/components/ProductListItem.tsx");
 class ProductList extends React.Component {
     constructor(props) {
         super(props);
     }
-    componentWillMount() {
-        //this.props.getProducts();
-    }
     render() {
-        return (React.createElement("div", { className: "list-group mb-3" },
-            React.createElement("div", { className: "list-group-item bg-info d-flex justify-content-between" },
-                React.createElement("div", null,
-                    React.createElement("p", { className: "text-light" }, this.props.products && this.props.products.length > 0 ? "Názov produktu" : null)),
-                React.createElement("div", { className: "row" },
-                    React.createElement("div", { className: "col-4" },
-                        React.createElement("p", { className: "text-light" }, this.props.products && this.props.products.length > 0 ? "Aktívny" : null)),
-                    React.createElement("div", { className: "col-3" },
-                        React.createElement("button", { className: "invisible btn btn-primary" }, "Edit")),
-                    React.createElement("div", { className: "col-3" },
-                        React.createElement("button", { className: "invisible btn btn-primary" }, "Delete")))),
+        return (React.createElement("div", null,
+            React.createElement("h2", null, "Zoznam produktov"),
             this.props.products && this.props.products.length > 0 ?
-                this.props.products.map((item, i) => {
-                    return (React.createElement("div", { className: "list-group-item d-flex justify-content-between", key: i },
-                        React.createElement("div", null, item.title),
+                [
+                    React.createElement("div", { key: 0, className: "list-group-item bg-info d-flex justify-content-between" },
+                        React.createElement("div", null,
+                            React.createElement("p", { className: "text-light" }, "N\u00E1zov produktu")),
                         React.createElement("div", { className: "row" },
                             React.createElement("div", { className: "col-4" },
-                                React.createElement("label", { className: "switch" },
-                                    React.createElement("input", { type: "checkbox", checked: item.active, onChange: (e) => {
-                                            const products = this.props.products;
-                                            products[i].active = products[i].active ? false : true;
-                                            this.props.handleChangeProducts(products, i);
-                                        } }),
-                                    React.createElement("span", { className: "slider round" }))),
+                                React.createElement("p", { className: "text-light" }, "Akt\u00EDvny")),
                             React.createElement("div", { className: "col-3" },
-                                React.createElement("button", { type: "button", className: "btn btn-primary", onClick: () => { this.props.handleProductEdit(i); } }, "Edit")),
+                                React.createElement("button", { className: "invisible btn btn-primary" }, "Edit")),
                             React.createElement("div", { className: "col-3" },
-                                React.createElement("button", { type: "button", className: "btn btn-danger ml-2", onClick: () => {
-                                        this.props.handleShowDeleteModal(i);
-                                        // this.props.deleteProduct(i);
-                                    } }, "Delete")))));
-                }) :
+                                React.createElement("button", { className: "invisible btn btn-primary" }, "Delete")))),
+                    this.props.products.map((item, i) => (React.createElement(ProductListItem_1.default, { products: this.props.products, item: item, keyI: i, handleChangeProducts: this.props.handleChangeProducts, handleProductEdit: this.props.handleProductEdit, handleShowDeleteModal: this.props.handleShowDeleteModal, key: i }))),
+                ] :
                 React.createElement("div", { className: "list-group-item text-center" },
                     React.createElement("p", null,
                         "Neboli n\u00E1jden\u00E9 \u017Eiadne produkty, ",
                         React.createElement(react_router_dom_1.Link, { to: "/admin/product-insert" }, "pridaj"),
-                        " nejak\u00E9.")),
-            React.createElement(style_1.default, { styled: "switch", css: `
-          .switch {
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 34px;
-          }
-          .switch input {display:none;}
-          .switch .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            -webkit-transition: .4s;
-            transition: .4s;
-          }
-          .switch .slider:before {
-            position: absolute;
-            content: "";
-            height: 26px;
-            width: 26px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            -webkit-transition: .4s;
-            transition: .4s;
-          }
-          .switch input:checked + .slider {
-            background-color: #2196F3;
-          }
-          .switch input:focus + .slider {
-            box-shadow: 0 0 1px #2196F3;
-          }
-          .switch input:checked + .slider:before {
-            -webkit-transform: translateX(26px);
-            -ms-transform: translateX(26px);
-            transform: translateX(26px);
-          }
-          /* Rounded sliders */
-          .switch .slider.round {
-            border-radius: 34px;
-          }
-          .switch .slider.round:before {
-            border-radius: 50%;
-          }
-        ` })));
+                        " nejak\u00E9."))));
     }
 }
 exports.default = ProductList;
+
+
+/***/ }),
+
+/***/ "./src/public/tsx/components/ProductListItem.tsx":
+/*!*******************************************************!*\
+  !*** ./src/public/tsx/components/ProductListItem.tsx ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const React = __webpack_require__(/*! react */ "react");
+class ProductListItem extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        return (React.createElement("div", { className: "list-group-item d-flex justify-content-between", key: this.props.keyI },
+            React.createElement("div", null, this.props.item.title),
+            React.createElement("div", { className: "row" },
+                React.createElement("div", { className: "col-4" },
+                    React.createElement("label", { className: "switch" },
+                        React.createElement("input", { type: "checkbox", checked: this.props.item.active, onChange: (e) => {
+                                const products = this.props.products;
+                                products[this.props.keyI].active = products[this.props.keyI].active ? false : true;
+                                this.props.handleChangeProducts(products, this.props.keyI);
+                            } }),
+                        React.createElement("span", { className: "slider round" }))),
+                React.createElement("div", { className: "col-3" },
+                    React.createElement("button", { type: "button", className: "btn btn-primary", onClick: () => { this.props.handleProductEdit(this.props.keyI); } }, "Edit")),
+                React.createElement("div", { className: "col-3" },
+                    React.createElement("button", { type: "button", className: "btn btn-danger ml-2", onClick: () => {
+                            this.props.handleShowDeleteModal(this.props.keyI);
+                            // this.props.deleteProduct(i);
+                        } }, "Delete")))));
+    }
+}
+exports.default = ProductListItem;
 
 
 /***/ }),
@@ -11925,7 +11919,7 @@ class Register extends React.PureComponent {
     render() {
         return [
             React.createElement(Modal_1.default, { modalError: this.props.modalError, modalText: this.props.modalText, key: 0 }),
-            React.createElement("div", { className: "container register" },
+            React.createElement("div", { className: "container register", key: 1 },
                 React.createElement("div", { className: "row" },
                     React.createElement("div", { className: "col-xl-6 col-lg-8 col-md-8 col-sm-12 mt-3 ml-auto mr-auto" },
                         React.createElement("h1", { className: "text-center" }, "Register"),
