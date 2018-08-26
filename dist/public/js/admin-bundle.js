@@ -86,11 +86,7 @@
 /************************************************************************/
 /******/ ({
 
-<<<<<<< HEAD
 /***/ "../../../Users/ENLIPL/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js":
-=======
-/***/ "../../../Users/ENLI Book 1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js":
->>>>>>> 3fcac9752273e2cf1730bc513aec3d52a2d37b7a
 /*!*************************************************!*\
   !*** (webpack)/node_modules/process/browser.js ***!
   \*************************************************/
@@ -9941,11 +9937,7 @@ function invariant(condition, message) {
     throw new Error('StyleSheet: ' + message + '.');
   }
 }
-<<<<<<< HEAD
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../../../Users/ENLIPL/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js */ "../../../Users/ENLIPL/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js")))
-=======
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../../../Users/ENLI Book 1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js */ "../../../Users/ENLI Book 1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js")))
->>>>>>> 3fcac9752273e2cf1730bc513aec3d52a2d37b7a
 
 /***/ }),
 
