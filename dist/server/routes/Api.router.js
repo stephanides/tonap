@@ -22,6 +22,11 @@ router.get("/product", (req, res, next) => {
         product.getAll(req, res, next);
     });
 });
+router.post("/order/notify", (req, res, next) => {
+    CheckToken_helper_1.checkToken(req, res, next, () => {
+        order.handleEmailNotification(req, res, next);
+    });
+});
 router.post("/product", (req, res, next) => {
     CheckToken_helper_1.checkToken(req, res, next, () => {
         product.store(req, res, next);

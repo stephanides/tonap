@@ -360,14 +360,14 @@ export default class App extends React.Component<{}, IAppState> {
           const base64Data: string = reader.result as string;
           (files[i] as any).data = base64Data;
           fileArr.push(files[i]);
-  
+
           if (i < files.length - 1) {
             i++;
             readFileFn();
           }
         };
       };
-  
+
       readFileFn();
       setTimeout(() => { this.setState({ imageFiles: fileArr }); }, 10);
     }

@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Order_model_1 = require("../models/Order.model");
+const nodemailer = require("nodemailer");
 class OrderController {
     create(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -29,16 +30,20 @@ class OrderController {
                     surname: req.body.surname,
                 };
                 const productArr = [];
-                /*for (let i = 0; i < req.body.products.length; i++) {
-                  // productArr.push(product);
-                  console.log(req.body.products[i]);
-                }*/
-                orderObj.products = req.body.products; // productArr;
+                orderObj.products = req.body.products;
                 const newOrder = new Order_model_1.Order(orderObj);
                 try {
                     const asyncCreateOrder = yield Order_model_1.Orders.create(newOrder);
                     if (asyncCreateOrder) {
-                        res.json({ message: "Order has been created", success: true });
+                        const mailSubject = "TONAP: Informácia o doručení objednávky";
+                        const mailBody = "Dobrý deň pán/pani " + req.body.name + " " + req.body.surname + ",\n\n" +
+                            "Ďakujeme za Vašu objednávka u spločnosti Tonap s. r. o." +
+                            "vaša objednácka číslo: " + req.body.orderNum + " bola prijatá na spracovanie.\n" +
+                            "O ďalšom priebehu objednávky Vás budeme informovať prostredníctvom emailu.\n\n" +
+                            "S prianim pekného dňa,\ntím Tonap s. r. o.";
+                        this.sendMailNotification(req, next, mailSubject, mailBody, () => {
+                            res.json({ message: "Order has been created", success: true });
+                        });
                     }
                     else {
                         this.throwError("Can\"t create order", 500, next);
@@ -50,6 +55,12 @@ class OrderController {
             }
         });
     }
+    handleEmailNotification(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log(req.body);
+            res.json({ message: JSON.stringify(req.body), success: true });
+        });
+    }
     getAll(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             const orders = yield Order_model_1.Orders.find({});
@@ -58,6 +69,34 @@ class OrderController {
             }
             else {
                 res.json({ data: orders, success: true });
+            }
+        });
+    }
+    sendMailNotification(req, next, emailSubject, emailBody, callBack) {
+        const mailTransporter = nodemailer.createTransport({
+            auth: {
+                pass: "codebrothers963",
+                user: "info@codebrothers.sk",
+            },
+            host: "smtp.zoho.eu",
+            port: 465,
+            secure: true,
+        });
+        const mailOptions = {
+            from: "info@codebrothers.sk",
+            subject: emailSubject,
+            text: emailBody,
+            to: req.body.email,
+        };
+        mailTransporter.sendMail(mailOptions, (err, info) => {
+            if (err) {
+                this.throwError(err.message, 500, next);
+            }
+            else {
+                console.log("Message has been sent.");
+                if (typeof callBack === "function") {
+                    callBack();
+                }
             }
         });
     }

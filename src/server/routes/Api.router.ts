@@ -26,6 +26,12 @@ router.get("/product", (req: Request, res: Response, next: NextFunction) => {
   });
 });
 
+router.post("/order/notify", (req: Request, res: Response, next: NextFunction) => {
+  checkToken(req, res, next, () => {
+    order.handleEmailNotification(req, res, next);
+  });
+});
+
 router.post("/product", (req: Request, res: Response, next: NextFunction) => {
   checkToken(req, res, next, () => {
     product.store(req, res, next);
