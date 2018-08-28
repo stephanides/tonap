@@ -45,7 +45,6 @@ export default class ProductListItem extends React.Component<IProps, {}> {
               className="btn btn-danger ml-2"
               onClick={() => {
                 this.props.handleShowDeleteModal(this.props.keyI);
-                // this.props.deleteProduct(i);
               }}
             >Delete</button>
           </div>

@@ -11108,31 +11108,48 @@ class Products extends React.Component {
     render() {
         return [
             React.createElement("h2", { key: 0 }, "Zoznam objedn\u00E1vok"),
-            React.createElement("div", { className: "list-group mb-3", key: 1 }, this.props.orders && this.props.orders.length > 0 ?
-                this.props.orders.map((item, i) => {
-                    const productsInfo = item.products.map((productInfo, j) => {
-                        let product = {};
-                        if (this.props.products && this.props.products.length > 0) {
-                            for (const prod of this.props.products) {
-                                if (prod._id === productInfo._id) {
-                                    product = prod;
+            React.createElement("div", { className: "list-group mb-3", key: 1 }, this.props.orders ?
+                (this.props.orders.length > 0 ?
+                    (React.createElement("div", { className: "list-group" },
+                        React.createElement("div", { className: "list-group-item bg-info d-flex justify-content-between" },
+                            React.createElement("div", { className: "col-2 text-white" }, "UID"),
+                            React.createElement("div", { className: "col-auto text-white" }, "D\u00E1tum"),
+                            React.createElement("div", { className: "col-3 text-white" }, "Objedn\u00E1vate\u013E"),
+                            React.createElement("div", { className: "col-3 text-white" }, "Detail objedn\u00E1vky"),
+                            React.createElement("div", { className: "col-3 text-white" }, "Spr\u00E1va objedn\u00E1vky")),
+                        this.props.orders.map((item, i) => {
+                            const productsInfo = item.products.map((productInfo, j) => {
+                                let product = {};
+                                if (this.props.products && this.props.products.length > 0) {
+                                    for (const prod of this.props.products) {
+                                        if (prod._id === productInfo._id) {
+                                            product = prod;
+                                        }
+                                    }
+                                    return (React.createElement("div", { key: j },
+                                        React.createElement("div", { className: "row justify-content-between" },
+                                            React.createElement("div", null, product.title),
+                                            React.createElement("div", null, productInfo.count))));
                                 }
-                            }
-                            return (React.createElement("div", { key: j },
-                                React.createElement("p", null, product.title + ", " + productInfo.count)));
-                        }
-                        else {
-                            return null;
-                        }
-                    });
-                    return (React.createElement("div", { className: "list-group-item d-flex justify-content-between", key: i },
-                        React.createElement("div", { className: "row" },
-                            React.createElement("div", { className: "col-auto" }, item.orderNum),
-                            React.createElement("div", { className: "col-auto" }, item.name + " " + item.surname),
-                            React.createElement("div", { className: "col-auto" }, productsInfo))));
-                }) :
-                (React.createElement("div", { className: "list-group-item text-center" },
-                    React.createElement("p", null, "Neboli n\u00E1jden\u00E9 \u017Eiadne objedn\u00E1vky.")))),
+                                else {
+                                    return null;
+                                }
+                            });
+                            return (React.createElement("div", { className: "list-group-item d-flex justify-content-between", key: i },
+                                React.createElement("div", { className: "col-2" }, item.orderNum),
+                                React.createElement("div", { className: "col-auto" }, item.dateCreated.split("T")[0]),
+                                React.createElement("div", { className: "col-3" }, item.name + " " + item.surname),
+                                React.createElement("div", { className: "col-3" },
+                                    React.createElement("div", { className: "row justify-content-between" },
+                                        React.createElement("div", null, "N\u00E1zov produktu"),
+                                        React.createElement("div", null, "Po\u010Det produktov")),
+                                    productsInfo),
+                                React.createElement("div", { className: "col-3" },
+                                    React.createElement("button", { type: "button", className: "btn btn-primary align-items-center" }, "Spravova\u0165"))));
+                        }))) :
+                    (React.createElement("div", { className: "list-group-item text-center" },
+                        React.createElement("p", null, "Neboli n\u00E1jden\u00E9 \u017Eiadne objedn\u00E1vky.")))) : (React.createElement("div", { className: "w-100 d-flex justify-content-center mt-3" },
+                React.createElement("img", { src: "../assets/images/icons/loading.gif", width: "50", height: "50" })))),
         ];
     }
 }
@@ -11627,7 +11644,9 @@ exports.default = ProductForm;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(/*! react */ "react");
+// import _JSXStyle from "styled-jsx/style";
 const react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+// import ProductEditModal from "./ProductEditModal";
 const ProductListItem_1 = __webpack_require__(/*! ./ProductListItem */ "./src/public/tsx/components/ProductListItem.tsx");
 class ProductList extends React.Component {
     constructor(props) {
@@ -11637,8 +11656,8 @@ class ProductList extends React.Component {
         return (React.createElement("div", null,
             React.createElement("h2", null, "Zoznam produktov"),
             this.props.products && this.props.products.length > 0 ?
-                [
-                    React.createElement("div", { key: 0, className: "list-group-item bg-info d-flex justify-content-between" },
+                (React.createElement("div", { className: "list-group" },
+                    React.createElement("div", { className: "list-group-item bg-info d-flex justify-content-between" },
                         React.createElement("div", null,
                             React.createElement("p", { className: "text-light" }, "N\u00E1zov produktu")),
                         React.createElement("div", { className: "row" },
@@ -11648,8 +11667,7 @@ class ProductList extends React.Component {
                                 React.createElement("button", { className: "invisible btn btn-primary" }, "Edit")),
                             React.createElement("div", { className: "col-3" },
                                 React.createElement("button", { className: "invisible btn btn-primary" }, "Delete")))),
-                    this.props.products.map((item, i) => (React.createElement(ProductListItem_1.default, { products: this.props.products, item: item, keyI: i, handleChangeProducts: this.props.handleChangeProducts, handleProductEdit: this.props.handleProductEdit, handleShowDeleteModal: this.props.handleShowDeleteModal, key: i }))),
-                ] :
+                    this.props.products.map((item, i) => (React.createElement(ProductListItem_1.default, { products: this.props.products, item: item, keyI: i, handleChangeProducts: this.props.handleChangeProducts, handleProductEdit: this.props.handleProductEdit, handleShowDeleteModal: this.props.handleShowDeleteModal, key: i }))))) :
                 React.createElement("div", { className: "list-group-item text-center" },
                     React.createElement("p", null,
                         "Neboli n\u00E1jden\u00E9 \u017Eiadne produkty, ",
@@ -11694,7 +11712,6 @@ class ProductListItem extends React.Component {
                 React.createElement("div", { className: "col-3" },
                     React.createElement("button", { type: "button", className: "btn btn-danger ml-2", onClick: () => {
                             this.props.handleShowDeleteModal(this.props.keyI);
-                            // this.props.deleteProduct(i);
                         } }, "Delete")))));
     }
 }
