@@ -46,11 +46,12 @@ block content
           .col-lg-6
             h5.pl-2 2. Detail objednávky
             table
-              tr
-                th
-                th Názov produktu
-                th Množstvo
-                th Upraviť
+              thead
+                tr
+                  th Názov produktu
+                  th Množstvo
+                  th Upraviť
+              tbody#detailOrder
           .col-lg-6
             h5.pl-2 3. Dokončenie objednávky
             form.pl-2.mt-4
@@ -87,10 +88,40 @@ block content
                       img.pt-2.d-block.mx-auto#orderModalMainImage
                     .col-md-6
                       h4.pt-4#orderMainTitle
-                      h5.pt-2 Typ produktu
-                      h5.pt-2 Balené
-                      h5.pt-2 Veľkosť krabice
-                      h5.pt-2 Počet krabíc
+                      p#isOrderSterilized
+                      form(action="")
+                        .form-group
+                          h5.pt-2 Typ produktu
+                            .choose
+                              .form-check.form-check-inline#modalSterilne
+                                input.form-check-input(type="radio" name="Sterilizacia" id="sterilizovany" value="sterilizovany")  
+                                label.form-check-label(for="sterilizovany") Sterilný
+                              .form-check.form-check-inline#modalNesterilne
+                                input.form-check-input(type="radio" name="Sterilizacia" id="nesterilizovany" value="nesterilizovany")  
+                                label.form-check-label(for="nesterilizovany") Nesterilný
+                        .form-group
+                          h5.pt-2 Balené
+                            .choose
+                              .form-check.form-check-inline#modalPackageType
+                                input.form-check-input(type="radio" name="Balenie" id="balenie1" value="1")  
+                                label.form-check-label(for="balenie1") Po 1 kuse
+                              .form-check.form-check-inline
+                                input.form-check-input(type="radio" name="Balenie" id="balenie2" value="20")  
+                                label.form-check-label(for="balenie2") Po 20 kusov
+                        .form-group
+                          h5.pt-2 Veľkosť krabice
+                            .choose
+                              .form-check.form-check-inline#modalPackage
+                                input.form-check-input(type="radio" name="Krabica" id="krabica1" value="500")  
+                                label.form-check-label(for="krabica1") 500 ks
+                              .form-check.form-check-inline
+                                input.form-check-input(type="radio" name="Krabica" id="krabica2" value="1000")  
+                                label.form-check-label(for="krabica2") 1000 ks
+                        .form-group
+                          h5.pt-2 Počet krabíc
+                            .choose
+                              input(type="number" id="modalPackageCount" min="1" step="1" value="1")
+
                       button.mt-4.mb-4#navigationOrder Pridať objednávku
 
   

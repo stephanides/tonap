@@ -706,6 +706,9 @@
 .m-auto {
   margin: 0 auto !important; }
 
+.ml-50 {
+  margin-left: 50% !important; }
+
 .position-relative {
   position: relative; }
 
@@ -748,6 +751,40 @@
   font-size: 12px;
   cursor: pointer;
   margin-top: 20px; }
+.modal .modalButton {
+  background: white;
+  border: 2px solid grey;
+  color: grey;
+  margin-right: 10px; }
+  .modal .modalButton:hover {
+    border: 2px solid white;
+    background: linear-gradient(to right, #3b8acc, #54bde2);
+    color: white; }
+.modal .activeButton {
+  border: 2px solid white;
+  background: linear-gradient(to right, #3b8acc, #54bde2);
+  color: white; }
+.modal .choose {
+  margin-top: 10px; }
+.modal .form-check-input {
+  display: none; }
+.modal .form-check-label {
+  background: white;
+  border: 1px solid grey;
+  color: grey;
+  margin-right: 10px;
+  padding: 10px 20px;
+  border-radius: 40px;
+  cursor: pointer;
+  font-size: 16px; }
+  .modal .form-check-label:hover {
+    border: 1px solid white;
+    background: linear-gradient(to right, #3b8acc, #54bde2);
+    color: white; }
+.modal input[type=radio]:checked + .form-check-label {
+  border: 1px solid white;
+  background: linear-gradient(to right, #3b8acc, #54bde2);
+  color: white; }
 @media screen and (min-width: 576px) {
   .modal .modal-dialog {
     min-width: 700px;

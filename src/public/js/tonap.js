@@ -184,7 +184,8 @@ function getURL(){
       choosedProduct = products[i];
       document.getElementById("orderModalMainImage").setAttribute("src",choosedProduct.imageFilesData[0].url);
       document.getElementById("orderMainTitle").innerHTML = choosedProduct.title;
-     
+      document.getElementById("isOrderSterilized").innerHTML = choosedProduct[i].sterile && choosedProduct[i].notSterile ? "Sterilné/Nesterilné" : choosedProduct[i].sterile ? "Sterilné" : "Nesterilné";
+     console.log("Do pice " + document.getElementById("isOrderSterilized").innerHTML);
       document.getElementById("navigationOrder").setAttribute("onclick", "goToOrder(" + "'" + products[i]._id + "'" + ")");
       $("#orderModal").modal();
     }

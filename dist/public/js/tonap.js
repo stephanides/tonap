@@ -4,7 +4,6 @@ $(document).ready(function() {
   exampleFunction();
   getProducts();
 });
-console.log("run");
 
 function exampleFunction() {
   console.log("App runs.");
@@ -84,7 +83,6 @@ function getProducts(){
 			if (xobj.readyState == 4 && xobj.status == "200") {
        var json = JSON.parse(xobj.response);
        products = json.data;
-       console.log(products);
        fillProducts(products);
        getURL();
 			}
@@ -97,7 +95,6 @@ function fillProducts(products){
     if(products[i].category == 1){
       var div = $("<div></div>").addClass("col-md-3 text-center");
       $("<img>").attr("src", products[i].imageFilesData[0].url).appendTo(div);
-      console.log(products[i].sterile + " " + products[i].notSterile);
       $("<p></p>").text(products[i].sterile && products[i].notSterile ? "Sterilné/Nesterilné" : products[i].sterile ? "Sterilné" : "Nesterilné").appendTo(div);
       $("<h6></h6>").text(products[i].title).appendTo(div);
       $("<button></button>").text("Objednať teraz").attr("onclick", "orderProduct(" + "'" + products[i]._id + "'" + ")").appendTo(div);
@@ -126,19 +123,29 @@ function orderProduct(id){
   var choosedProduct;
   for(var i=0; i<products.length;i++){
     if(products[i]._id == id){
-      choosedProduct = products[i];
-      console.log(choosedProduct);
-      console.log(choosedProduct.title);
-      document.getElementById("productModalMainImage").setAttribute("src",choosedProduct.imageFilesData[0].url);
-      document.getElementById("mainTitle").innerHTML = choosedProduct.title;
-      document.getElementById("isSterilized").innerHTML = choosedProduct.sterile && choosedProduct.notSterile ? "Sterilné/Nesterilné" : choosedProduct.sterile ? "Sterilné" : "Nesterilné";
-      document.getElementById("productDescription").innerHTML = choosedProduct.description;
-      document.getElementById("productHeight").innerHTML = "Výška: " + choosedProduct.length + " mm";
-      document.getElementById("productDepth").innerHTML = "Priemer: " + choosedProduct.depth + " mm";
-      document.getElementById("productVolume").innerHTML = "Objem: " + choosedProduct.volume + " ml";
-      document.getElementById("productWeight").innerHTML = "Váha: " + choosedProduct.weight + " g";
-      document.getElementById("navigationOrder").setAttribute("onclick", "goToOrder(" + "'" + products[i]._id + "'" + ")");
-      $("#productModal").modal();
+      if(document.location.href.indexOf('online-objednavka') === -1){
+        choosedProduct = products[i];
+        document.getElementById("productModalMainImage").setAttribute("src",choosedProduct.imageFilesData[0].url);
+        document.getElementById("mainTitle").innerHTML = choosedProduct.title;
+        document.getElementById("isSterilized").innerHTML = choosedProduct.sterile && choosedProduct.notSterile ? "Sterilné/Nesterilné" : choosedProduct.sterile ? "Sterilné" : "Nesterilné";
+        document.getElementById("productDescription").innerHTML = choosedProduct.description;
+        document.getElementById("productHeight").innerHTML = "Výška: " + choosedProduct.length + " mm";
+        document.getElementById("productDepth").innerHTML = "Priemer: " + choosedProduct.depth + " mm";
+        document.getElementById("productVolume").innerHTML = "Objem: " + choosedProduct.volume + " ml";
+        document.getElementById("productWeight").innerHTML = "Váha: " + choosedProduct.weight + " g";
+        document.getElementById("navigationOrder").setAttribute("onclick", "goToOrder(" + "'" + products[i]._id + "'" + ")");
+        $("#productModal").modal();
+      }
+      else if(document.location.href.indexOf('online-objednavka') > -1){
+        choosedProduct = products[i];
+        document.getElementById("orderModalMainImage").setAttribute("src",choosedProduct.imageFilesData[0].url);
+        document.getElementById("orderMainTitle").innerHTML = choosedProduct.title;
+        document.getElementById("isOrderSterilized").innerHTML = choosedProduct.sterile && choosedProduct.notSterile ? "Sterilné/Nesterilné" : choosedProduct.sterile ? "Sterilné" : "Nesterilné";
+        choosedProduct.sterile ? document.getElementById("modalSterilne").style.display = "inline-flex" : document.getElementById("modalSterilne").style.display = "none";
+        choosedProduct.notSterile ? document.getElementById("modalNesterilne").style.display = "inline-flex" : document.getElementById("modalNesterilne").style.display = "none";
+        document.getElementById("navigationOrder").setAttribute("onclick", "fillOrder()");
+        $("#orderModal").modal();
+      }
     }
   }
 }
@@ -184,10 +191,47 @@ function getURL(){
       choosedProduct = products[i];
       document.getElementById("orderModalMainImage").setAttribute("src",choosedProduct.imageFilesData[0].url);
       document.getElementById("orderMainTitle").innerHTML = choosedProduct.title;
-     
-      document.getElementById("navigationOrder").setAttribute("onclick", "goToOrder(" + "'" + products[i]._id + "'" + ")");
+      document.getElementById("isOrderSterilized").innerHTML = choosedProduct.sterile && choosedProduct.notSterile ? "Sterilné/Nesterilné" : choosedProduct.sterile ? "Sterilné" : "Nesterilné";
+      choosedProduct.sterile ? document.getElementById("modalSterilne").style.display = "inline-flex" : document.getElementById("modalSterilne").style.display = "none";
+      choosedProduct.notSterile ? document.getElementById("modalNesterilne").style.display = "inline-flex" : document.getElementById("modalNesterilne").style.display = "none";
+      document.getElementById("navigationOrder").setAttribute("onclick", "fillOrder()");
       $("#orderModal").modal();
     }
+  }
+}
+var orderObject = [];
+
+var orderInProgress = {
+  name:"",
+  isSterile:false,
+  packed:1,
+  pack:1, 
+  value:0
+};
+
+function fillOrder(){
+  orderInProgress.name = document.getElementById("orderMainTitle").innerHTML;
+  orderInProgress.isSterile = $("input:radio[name='Sterilizacia']:checked").val();
+  orderInProgress.packed =  $("input:radio[name='Balenie']:checked").val();
+  orderInProgress.pack =  $("input:radio[name='Krabica']:checked").val();
+  orderInProgress.value = document.getElementById("modalPackageCount").value;
+  orderObject.push(orderInProgress);
+  orderInProgress = {};
+  updateDetail();
+  $("#orderModal").modal('toggle');
+}
+
+
+
+function updateDetail(){
+  var row;
+  document.getElementById("detailOrder").innerHTML = '';
+  for(var i=0; i < orderObject.length;i++){
+    row = $("<tr></tr>");
+    $("<td></td>").html(orderObject[i].name).appendTo(row);
+    $("<td></td>").html(orderObject[i].value).appendTo(row);
+    $("<td id='edit'></td>").html("Upravit").appendTo(row);
+    row.appendTo(document.getElementById("detailOrder"));
   }
 }
 
