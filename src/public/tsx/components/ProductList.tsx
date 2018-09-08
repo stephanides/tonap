@@ -19,6 +19,10 @@ export default class ProductList extends React.Component<IProps, {}> {
     super(props);
   }
 
+  public componentWillMount() {
+    this.props.getProducts();
+  }
+
   public render() {
     return(
       <div>

@@ -36,17 +36,32 @@
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, {
-/******/ 				configurable: false,
-/******/ 				enumerable: true,
-/******/ 				get: getter
-/******/ 			});
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
 /******/ 		}
 /******/ 	};
 /******/
 /******/ 	// define __esModule on exports
 /******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
 /******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
 /******/ 	};
 /******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
@@ -71,7 +86,7 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "../../../Users/ENLI Book 1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js":
+/***/ "../../../../usr/local/lib/node_modules/webpack/node_modules/process/browser.js":
 /*!*************************************************!*\
   !*** (webpack)/node_modules/process/browser.js ***!
   \*************************************************/
@@ -9922,7 +9937,7 @@ function invariant(condition, message) {
     throw new Error('StyleSheet: ' + message + '.');
   }
 }
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../../../Users/ENLI Book 1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js */ "../../../Users/ENLI Book 1/AppData/Roaming/npm/node_modules/webpack/node_modules/process/browser.js")))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../../../../usr/local/lib/node_modules/webpack/node_modules/process/browser.js */ "../../../../usr/local/lib/node_modules/webpack/node_modules/process/browser.js")))
 
 /***/ }),
 
@@ -11652,6 +11667,9 @@ class ProductList extends React.Component {
     constructor(props) {
         super(props);
     }
+    componentWillMount() {
+        this.props.getProducts();
+    }
     render() {
         return (React.createElement("div", null,
             React.createElement("h2", null, "Zoznam produktov"),
@@ -11825,9 +11843,9 @@ const ProductList_1 = __webpack_require__(/*! ../components/ProductList */ "./sr
 const react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
 const TabNav_1 = __webpack_require__(/*! ../components/TabNav */ "./src/public/tsx/components/TabNav.tsx");
 class Admin extends React.Component {
-    componentWillMount() {
-        this.props.getProducts();
-    }
+    /*public componentWillMount() {
+      this.props.getProducts();
+    }*/
     render() {
         return [
             React.createElement(DeleteModal_1.default, { closeDeleteModal: this.props.closeDeleteModal, deleteProduct: this.props.deleteProduct, handleShowDeleteModal: this.props.handleShowDeleteModal, products: this.props.products, productToDelete: this.props.productToDelete, showDeleteModal: this.props.showDeleteModal, key: 0 }),

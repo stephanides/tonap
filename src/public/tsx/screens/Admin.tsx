@@ -46,9 +46,9 @@ interface IProps {
 }
 
 export default class Admin extends React.Component<IProps, {}> {
-  public componentWillMount() {
+  /*public componentWillMount() {
     this.props.getProducts();
-  }
+  }*/
 
   public render() {
     return[
