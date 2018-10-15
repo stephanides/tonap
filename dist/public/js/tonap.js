@@ -118,9 +118,9 @@ function fillProducts(products){
     }
   }
 }
-
+var choosedProduct;
 function orderProduct(id){
-  var choosedProduct;
+  
   for(var i=0; i<products.length;i++){
     if(products[i]._id == id){
       if(document.location.href.indexOf('online-objednavka') === -1){
@@ -143,33 +143,87 @@ function orderProduct(id){
         document.getElementById("isOrderSterilized").innerHTML = choosedProduct.sterile && choosedProduct.notSterile ? "Sterilné/Nesterilné" : choosedProduct.sterile ? "Sterilné" : "Nesterilné";
         choosedProduct.sterile ? document.getElementById("modalSterilne").style.display = "inline-flex" : document.getElementById("modalSterilne").style.display = "none";
         choosedProduct.notSterile ? document.getElementById("modalNesterilne").style.display = "inline-flex" : document.getElementById("modalNesterilne").style.display = "none";
-        document.getElementById("navigationOrder").setAttribute("onclick", "fillOrder()");
+        document.getElementById("navigationOrder").setAttribute("onclick", "fillOrder(" + "'" + products[i]._id + "'" + ")");
         $("#orderModal").modal();
       }
+    }
+  }
+  console.log(choosedProduct);
+}
+
+function chooseSterility(e){
+  console.log(choosedProduct);
+  if(e === 0){
+    document.getElementById("nonPackageType").style.display = "none";
+    document.getElementById("nonPackage").style.display = "none";
+    document.getElementById("modalPackageType1").style.display = "inline-block";
+    document.getElementById("modalPackageType2").style.display = "inline-block";
+    document.getElementById("modalPackage1").style.display = "inline-block";
+    document.getElementById("modalPackage2").style.display = "inline-block";
+    if(choosedProduct != null){
+      document.getElementById("balenie1").value = choosedProduct.sterileProductMinCount;
+      document.getElementById("labelBalenie1").innerHTML = "Po " + choosedProduct.sterileProductMinCount + "ks";
+      document.getElementById("balenie2").value = choosedProduct.sterileProductMaxCount;
+      document.getElementById("labelBalenie2").innerHTML = "Po " + choosedProduct.sterileProductMaxCount + "ks";
+      document.getElementById("krabica1").value = choosedProduct.sterileProductMinPackageCount;
+      document.getElementById("package1").innerHTML = "Po " + choosedProduct.sterileProductMinPackageCount + "ks";
+      document.getElementById("krabica2").value = choosedProduct.sterileProductMaxPackageCount;
+      document.getElementById("package2").innerHTML = "Po " + choosedProduct.sterileProductMaxPackageCount + "ks";
+    }
+  }
+  if(e === 1){
+    document.getElementById("nonPackageType").style.display = "none";
+    document.getElementById("nonPackage").style.display = "none";
+    document.getElementById("modalPackageType1").style.display = "inline-block";
+    document.getElementById("modalPackageType2").style.display = "inline-block";
+    document.getElementById("modalPackage1").style.display = "inline-block";
+    document.getElementById("modalPackage2").style.display = "inline-block";
+
+    if(choosedProduct != null){
+      document.getElementById("balenie1").value = choosedProduct.notSterileProductMinCount;
+      document.getElementById("labelBalenie1").innerHTML = "Po " + choosedProduct.notSterileProductMinCount + "ks";
+      document.getElementById("balenie2").value = choosedProduct.notSterileProductMaxCount;
+      document.getElementById("labelBalenie2").innerHTML = "Po " + choosedProduct.notSterileProductMaxCount + "ks";
+      document.getElementById("krabica1").value = choosedProduct.notSterileProductMinPackageCount;
+      document.getElementById("package1").innerHTML = "Po " + choosedProduct.notSterileProductMinPackageCount + "ks";
+      document.getElementById("krabica2").value = choosedProduct.notSterileProductMaxPackageCount;
+      document.getElementById("package2").innerHTML = "Po " + choosedProduct.notSterileProductMaxPackageCount + "ks";
     }
   }
 }
 
 function showProduct(){
   if($("#orderselect").val()=="kelimky"){
-    $("#productKelimky").show();}
+    $("#productKelimky").show();
+    $('#productKelimky').css('display', 'flex');
+  }
   else{$("#productKelimky").hide();}
   if($("#orderselect").val()=="odberniky"){
-    $("#productOdberniky").show();}
+    $("#productOdberniky").show();
+    $('#productOdberniky').css('display', 'flex');
+  }
   else{$("#productOdberniky").hide();}
   if($("#orderselect").val()=="skumavky"){
-    $("#productSkumavky").show();}
+    $("#productSkumavky").show();
+    $('#productSkumavky').css('display', 'flex');
+  }
   else{$("#productSkumavky").hide();}
 }
 function showProductMainpage(){
   if($("#mainselect").val()=="kelimky"){
-    $("#productKelimky").show();}
+    $("#productKelimky").show();
+    $('#productKelimky').css('display', 'flex');
+  }
   else{$("#productKelimky").hide();}
   if($("#mainselect").val()=="odberniky"){
-    $("#productOdberniky").show();}
+    $("#productOdberniky").show();
+    $('#productOdberniky').css('display', 'flex');
+  }
   else{$("#productOdberniky").hide();}
   if($("#mainselect").val()=="skumavky"){
-    $("#productSkumavky").show();}
+    $("#productSkumavky").show();
+    $('#productSkumavky').css('display', 'flex');
+  }
   else{$("#productSkumavky").hide();}
 }
 
@@ -183,7 +237,6 @@ function getURL(){
   if (document.location.href.indexOf('id=') === -1){ 
     return;
   }
-  var choosedProduct;
   var URL = window.location.href;
   var id = URL.substring(URL.lastIndexOf('=') + 1);
   for(var i=0; i<products.length;i++){
@@ -194,10 +247,11 @@ function getURL(){
       document.getElementById("isOrderSterilized").innerHTML = choosedProduct.sterile && choosedProduct.notSterile ? "Sterilné/Nesterilné" : choosedProduct.sterile ? "Sterilné" : "Nesterilné";
       choosedProduct.sterile ? document.getElementById("modalSterilne").style.display = "inline-flex" : document.getElementById("modalSterilne").style.display = "none";
       choosedProduct.notSterile ? document.getElementById("modalNesterilne").style.display = "inline-flex" : document.getElementById("modalNesterilne").style.display = "none";
-      document.getElementById("navigationOrder").setAttribute("onclick", "fillOrder()");
+      document.getElementById("navigationOrder").setAttribute("onclick", "fillOrder(" + "'" + products[i]._id + "'" + ")");
       $("#orderModal").modal();
     }
   }
+  console.log(choosedProduct);
 }
 var orderObject = [];
 
@@ -206,19 +260,22 @@ var orderInProgress = {
   isSterile:false,
   packed:1,
   pack:1, 
-  value:0
+  value:0,
+  id:""
 };
 
-function fillOrder(){
+function fillOrder(id){
   orderInProgress.name = document.getElementById("orderMainTitle").innerHTML;
   orderInProgress.isSterile = $("input:radio[name='Sterilizacia']:checked").val();
   orderInProgress.packed =  $("input:radio[name='Balenie']:checked").val();
   orderInProgress.pack =  $("input:radio[name='Krabica']:checked").val();
   orderInProgress.value = document.getElementById("modalPackageCount").value;
+  orderInProgress.id = id;
   orderObject.push(orderInProgress);
   orderInProgress = {};
   updateDetail();
   $("#orderModal").modal('toggle');
+  console.log(orderObject);
 }
 
 
@@ -230,7 +287,7 @@ function updateDetail(){
     row = $("<tr></tr>");
     $("<td></td>").html(orderObject[i].name).appendTo(row);
     $("<td></td>").html(orderObject[i].value).appendTo(row);
-    $("<td id='edit'></td>").html("Upravit").appendTo(row);
+    $("<td class='edit' onclick=editOrder(" + "'" + orderObject[i].id + "'" + ")></td>").html("Upravit").appendTo(row);
     row.appendTo(document.getElementById("detailOrder"));
   }
 }

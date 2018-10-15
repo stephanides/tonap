@@ -299,6 +299,9 @@ $break-xsmall:576px;
       overflow: hidden;
       transition: max-height 0.5s ease-in-out;
     }
+    img{
+      width: 100%;
+    }
   }
   .contact{
     .right{
@@ -442,6 +445,9 @@ $break-xsmall:576px;
   }
   .order{
     background-color: white;
+    img{
+      width: 100%;
+    }
     h5{
       font-size: 28px;
       font-weight: bold;
@@ -502,6 +508,24 @@ $break-xsmall:576px;
       background-color: lightgrey;
       color: #808e99;
       font-size: 12px;
+    }
+    #detailOrder{
+      tr{
+        &:hover{
+          background-color: white;
+        }
+      }
+      td{
+        &:hover{
+          background-color: white;
+        }
+      }
+      .edit{
+        cursor:pointer;
+        &:hover{
+          color:red;
+        }
+      }
     }
     form{
       padding-bottom: 30px;
@@ -653,6 +677,23 @@ $break-xsmall:576px;
     .modal-content{
       min-height: 500px;
     }
+  }
+}
+#orderModal{
+  #modalPackageType1{
+    display: none;
+  }
+  #modalPackageType2{
+    display: none;
+  }
+  #modalPackage1{
+    display: none;
+  }
+  #modalPackage2{
+    display: none;
+  }
+  .alert{
+    color:red;
   }
 }
 

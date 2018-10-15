@@ -56,13 +56,13 @@ block content
             h5.pl-2 3. Dokončenie objednávky
             form.pl-2.mt-4
               p Meno a priezvisko/Názov firmy
-              input(name="name" type="text" reqiured="true" placeholder="Vaše meno alebo názov firmy")
+              input(name="name" type="text" reqiured="true" placeholder="Vaše meno alebo názov firmy" required)
               p Adresa dodania
-              input(name="adress" type="text" reqiured="true" placeholder="Vaša dodacia adresa")
+              input(name="adress" type="text" reqiured="true" placeholder="Vaša dodacia adresa" required)
               p E-mailová adresa
-              input(name="email" type="text" reqiured="true" placeholder="Vaša e-mailová adresa")
+              input(name="email" type="text" reqiured="true" placeholder="Vaša e-mailová adresa" required)
               p Telefónne číslo
-              input(name="tel" type="text" reqiured="true" placeholder="Vaše telefónne číslo")
+              input(name="tel" type="text" reqiured="true" placeholder="Vaše telefónne číslo" required)
               p IČO
               input(name="ico" type="text" reqiured="true" placeholder="Vaše IČO")
               p Správa
@@ -94,29 +94,31 @@ block content
                           h5.pt-2 Typ produktu
                             .choose
                               .form-check.form-check-inline#modalSterilne
-                                input.form-check-input(type="radio" name="Sterilizacia" id="sterilizovany" value="sterilizovany")  
+                                input.form-check-input(type="radio" name="Sterilizacia" id="sterilizovany" value="sterilizovany" onclick="chooseSterility(0)")  
                                 label.form-check-label(for="sterilizovany") Sterilný
                               .form-check.form-check-inline#modalNesterilne
-                                input.form-check-input(type="radio" name="Sterilizacia" id="nesterilizovany" value="nesterilizovany")  
+                                input.form-check-input(type="radio" name="Sterilizacia" id="nesterilizovany" value="nesterilizovany" onclick="chooseSterility(1)")  
                                 label.form-check-label(for="nesterilizovany") Nesterilný
                         .form-group
                           h5.pt-2 Balené
                             .choose
-                              .form-check.form-check-inline#modalPackageType
+                              .form-check.form-check-inline#modalPackageType1
                                 input.form-check-input(type="radio" name="Balenie" id="balenie1" value="1")  
-                                label.form-check-label(for="balenie1") Po 1 kuse
-                              .form-check.form-check-inline
+                                label.form-check-label#labelBalenie1(for="balenie1") 
+                              .form-check.form-check-inline#modalPackageType2
                                 input.form-check-input(type="radio" name="Balenie" id="balenie2" value="20")  
-                                label.form-check-label(for="balenie2") Po 20 kusov
+                                label.form-check-label#labelBalenie2(for="balenie2")
+                              p.alert#nonPackageType Zvoľte typ produktu
                         .form-group
                           h5.pt-2 Veľkosť krabice
                             .choose
-                              .form-check.form-check-inline#modalPackage
+                              .form-check.form-check-inline#modalPackage1
                                 input.form-check-input(type="radio" name="Krabica" id="krabica1" value="500")  
-                                label.form-check-label(for="krabica1") 500 ks
-                              .form-check.form-check-inline
+                                label.form-check-label#package1(for="krabica1")
+                              .form-check.form-check-inline#modalPackage2
                                 input.form-check-input(type="radio" name="Krabica" id="krabica2" value="1000")  
-                                label.form-check-label(for="krabica2") 1000 ks
+                                label.form-check-label#package2(for="krabica2")
+                              p.alert#nonPackage Zvoľte typ produktu
                         .form-group
                           h5.pt-2 Počet krabíc
                             .choose
