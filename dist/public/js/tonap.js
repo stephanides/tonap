@@ -120,7 +120,7 @@ function fillProducts(products){
 }
 var choosedProduct;
 function orderProduct(id){
-  
+  document.getElementById("navigationOrder").innerHTML = "Pridať objednávku";
   for(var i=0; i<products.length;i++){
     if(products[i]._id == id){
       if(document.location.href.indexOf('online-objednavka') === -1){
@@ -141,6 +141,19 @@ function orderProduct(id){
         document.getElementById("orderModalMainImage").setAttribute("src",choosedProduct.imageFilesData[0].url);
         document.getElementById("orderMainTitle").innerHTML = choosedProduct.title;
         document.getElementById("isOrderSterilized").innerHTML = choosedProduct.sterile && choosedProduct.notSterile ? "Sterilné/Nesterilné" : choosedProduct.sterile ? "Sterilné" : "Nesterilné";
+        
+        if(choosedProduct.sterile && !choosedProduct.notSterile ){
+          document.getElementById("sterilizovany").checked = true;
+          chooseSterility(0);
+        }
+        else if(!choosedProduct.sterile && choosedProduct.notSterile ){
+          document.getElementById("nesterilizovany").checked = true;
+          chooseSterility(1);
+        }
+        else if(choosedProduct.sterile && choosedProduct.notSterile ){
+          document.getElementById("sterilizovany").checked = true;
+          chooseSterility(0);
+        }
         choosedProduct.sterile ? document.getElementById("modalSterilne").style.display = "inline-flex" : document.getElementById("modalSterilne").style.display = "none";
         choosedProduct.notSterile ? document.getElementById("modalNesterilne").style.display = "inline-flex" : document.getElementById("modalNesterilne").style.display = "none";
         document.getElementById("navigationOrder").setAttribute("onclick", "fillOrder(" + "'" + products[i]._id + "'" + ")");
@@ -248,6 +261,18 @@ function getURL(){
       choosedProduct.sterile ? document.getElementById("modalSterilne").style.display = "inline-flex" : document.getElementById("modalSterilne").style.display = "none";
       choosedProduct.notSterile ? document.getElementById("modalNesterilne").style.display = "inline-flex" : document.getElementById("modalNesterilne").style.display = "none";
       document.getElementById("navigationOrder").setAttribute("onclick", "fillOrder(" + "'" + products[i]._id + "'" + ")");
+      if(choosedProduct.sterile && !choosedProduct.notSterile ){
+        document.getElementById("sterilizovany").checked = true;
+        chooseSterility(0);
+      }
+      else if(!choosedProduct.sterile && choosedProduct.notSterile ){
+        document.getElementById("nesterilizovany").checked = true;
+        chooseSterility(1);
+      }
+      else if(choosedProduct.sterile && choosedProduct.notSterile ){
+        document.getElementById("sterilizovany").checked = true;
+        chooseSterility(0);
+      }
       $("#orderModal").modal();
     }
   }
@@ -287,9 +312,29 @@ function updateDetail(){
     row = $("<tr></tr>");
     $("<td></td>").html(orderObject[i].name).appendTo(row);
     $("<td></td>").html(orderObject[i].value).appendTo(row);
-    $("<td class='edit' onclick=editOrder(" + "'" + orderObject[i].id + "'" + ")></td>").html("Upravit").appendTo(row);
+    $("<td class='edit' onclick=editOrder("+ i +")></td>").html("Upravit").appendTo(row);
     row.appendTo(document.getElementById("detailOrder"));
   }
 }
+
+function editOrder(param){
+  console.log(orderObject[param]);
+  orderProduct(orderObject[param].id);
+  document.getElementById("modalPackageCount").value = orderObject[param].value;
+  document.getElementById("navigationOrder").innerHTML = "Zmeniť objednávku";
+  document.getElementById("navigationOrder").setAttribute("onclick", "updateOrder(" + param + ")");
+}
+
+function updateOrder(param){
+  orderObject[param].name = document.getElementById("orderMainTitle").innerHTML;
+  orderObject[param].isSterile = $("input:radio[name='Sterilizacia']:checked").val();
+  orderObject[param].packed =  $("input:radio[name='Balenie']:checked").val();
+  orderObject[param].pack =  $("input:radio[name='Krabica']:checked").val();
+  orderObject[param].value = document.getElementById("modalPackageCount").value;
+  updateDetail();
+  $("#orderModal").modal('toggle');
+}
+
+
 
 

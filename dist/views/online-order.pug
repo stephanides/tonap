@@ -66,7 +66,7 @@ block content
               p IČO
               input(name="ico" type="text" reqiured="true" placeholder="Vaše IČO")
               p Správa
-              textarea(name="message" rows="4") Správa pre nás
+              textarea(name="message" rows="4" placeholder="Správa pre nás")
               input(name="submit" type="submit" value="Odoslať objednávku")
     .footer
       .container
@@ -125,6 +125,7 @@ block content
                               input(type="number" id="modalPackageCount" min="1" step="1" value="1")
 
                       button.mt-4.mb-4#navigationOrder Pridať objednávku
+    
 
   
     script(src="./assets/js/lazysizes.min.js", deffer)
