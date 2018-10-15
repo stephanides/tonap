@@ -5,7 +5,7 @@ export default interface IOrder {
   ico?: number;
   name: string;
   orderNum: number;
-  surname: string;
+  // surname: string;
   street: string;
   products: object[];
 }

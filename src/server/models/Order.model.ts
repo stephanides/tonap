@@ -8,7 +8,7 @@ export class Order {
   public ico?: number;
   public name: string;
   public orderNum: number;
-  public surname: string;
+  // public surname: string;
   public street: string;
   public products: object[];
 
@@ -19,7 +19,7 @@ export class Order {
     this.ico = data.ico;
     this.name = data.name;
     this.orderNum = data.orderNum;
-    this.surname = data.surname;
+    // this.surname = data.surname;
     this.street = data.street;
     this.products = data.products;
   }
@@ -38,7 +38,7 @@ const OrderSchema = new Schema({
   orderNum: Number,
   products: Array,
   street: String,
-  surname: String,
+  // surname: String,
 });
 
 export interface IOrderDocument extends Order, Document {}
