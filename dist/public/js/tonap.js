@@ -9,6 +9,10 @@ function exampleFunction() {
   console.log("App runs.");
 }
 
+function goto(param){
+  console.log(param);
+  $('html, body').animate({scrollTop:$(param).position().top}, 'slow');
+}
 
   var isopen = false;
   if(document.getElementById("showProducts") != null){

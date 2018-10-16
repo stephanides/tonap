@@ -7,7 +7,7 @@ block headerStyle
 
 block content
   #wrapper
-    .container-fluid.white
+    .container-fluid.white#navMenu
       .container.nav-menu
         .row.justify-content-between
           a.logo(href="")
@@ -17,15 +17,15 @@ block content
           input#show-menu(type = 'checkbox' role = 'button')
           ul#menu
             li
-              a Domov
+              a(onclick="goto('#header')") Domov
             li
-              a Čo robíme?
+              a(onclick="goto('#products')") Čo robíme?
             li
-              a Kto sme?
+              a(onclick="goto('#orderProduct')") Naše produkty
             li
-              a Naše produkty
+              a(onclick="goto('#aboutus')") Kto sme?
             li
-              a Kontakt
+              a(onclick="goto('#contact')") Kontakt
             li
               a.online-order(href="/online-objednavka") Online objednávka
     section#header
@@ -110,7 +110,7 @@ block content
             .divider
             p Sweet poweder topping cupcake fruitcake liquorice cookie. Liquorice apple pie apple pie fruitcake pie oat cake carrot cake lemon drops. Wafet pastry marshmallow cotoon candy pastry marzipan. Cake fruit cake brownie cupcake gingerbread. Tiramius gummies icing halvah. Cake muffin icing liquorice jelly cookie sweet.
             button Kontaktujte nás
-    .container-fluid.contact.position-relative
+    .container-fluid.contact.position-relative#contact
       .row
         .col-md-6.pr-0.pl-0
           #map
