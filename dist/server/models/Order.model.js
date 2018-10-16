@@ -9,7 +9,7 @@ class Order {
         this.ico = data.ico;
         this.name = data.name;
         this.orderNum = data.orderNum;
-        this.surname = data.surname;
+        // this.surname = data.surname;
         this.street = data.street;
         this.products = data.products;
     }
@@ -28,6 +28,5 @@ const OrderSchema = new mongoose_1.Schema({
     orderNum: Number,
     products: Array,
     street: String,
-    surname: String,
 });
 exports.Orders = mongoose_1.model("Order", OrderSchema);

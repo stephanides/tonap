@@ -21,7 +21,7 @@ export default class OrderController {
         orderNum: req.body.orderNum,
         products: req.body.products,
         street: req.body.street,
-        surname: req.body.surname,
+        // surname: req.body.surname,
       };
       const productArr: object[] = [];
 
