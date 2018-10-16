@@ -10,30 +10,8 @@ function exampleFunction() {
 }
 
 function goto(param){
-  console.log(param);
-  $('html, body').animate({scrollTop:$(param).position().top}, 'slow');
+  $('html, body').animate({scrollTop:$(param).position().top-120}, 'slow');
 }
-
-  var isopen = false;
-  if(document.getElementById("showProducts") != null){
-  document.getElementById("showProducts").addEventListener("click", function(){
-    if(!isopen){
-      document.getElementById("showProducts").firstChild.style.transform = "rotate(270deg)";
-      document.getElementById("moreProducts").style.maxHeight = 2000 + "px";
-      setTimeout(function(){
-        document.getElementById("moreProducts").style.overflow = "unset";
-      },500);
-      isopen = true;
-    }
-    else{
-      document.getElementById("showProducts").firstChild.style.transform = "rotate(90deg)";
-      document.getElementById("moreProducts").style.maxHeight = 0 + "px";
-      document.getElementById("moreProducts").style.overflow = "hidden";
-      isopen = false;
-    }
-  });
-}
-
 
 function loadMap(){
   var mapOptions = {
@@ -97,7 +75,7 @@ function getProducts(){
 function fillProducts(products){
   for (let i = 0; i < products.length; i++) {
     if(products[i].category == 1){
-      var div = $("<div></div>").addClass("col-md-3 text-center");
+      var div = $("<div></div>").addClass("col-lg-3 col-md-6 col-12 text-center");
       $("<img>").attr("src", products[i].imageFilesData[0].url).appendTo(div);
       $("<p></p>").text(products[i].sterile && products[i].notSterile ? "Sterilné/Nesterilné" : products[i].sterile ? "Sterilné" : "Nesterilné").appendTo(div);
       $("<h6></h6>").text(products[i].title).appendTo(div);
@@ -105,7 +83,7 @@ function fillProducts(products){
       div.appendTo("#productKelimky");
     }
     if(products[i].category == 2){
-      var div = $("<div></div>").addClass("col-md-3 text-center");
+      var div = $("<div></div>").addClass("col-lg-3 col-md-6 col-12 text-center");
       $("<img>").attr("src", products[i].imageFilesData[0].url).appendTo(div);
       $("<p></p>").text(products[i].sterile && products[i].notSterile ? "Sterilné/Nesterilné" : products[i].sterile ? "Sterilné" : "Nesterilné").appendTo(div);
       $("<h6></h6>").text(products[i].title).appendTo(div);
@@ -113,7 +91,7 @@ function fillProducts(products){
       div.appendTo("#productOdberniky");
     }
     if(products[i].category == 3){
-      var div = $("<div></div>").addClass("col-md-3 text-center");
+      var div = $("<div></div>").addClass("col-lg-3 col-md-6 col-12 text-center");
       $("<img>").attr("src", products[i].imageFilesData[0].url).appendTo(div);
       $("<p></p>").text(products[i].sterile && products[i].notSterile ? "Sterilné/Nesterilné" : products[i].sterile ? "Sterilné" : "Nesterilné").appendTo(div);
       $("<h6></h6>").text(products[i].title).appendTo(div);

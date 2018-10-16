@@ -5,7 +5,7 @@ $breakpoint-tablet: 768px;
 $tonap-color:rgb(59,138,204);
 $tonap-color-hover: #85d4ec;
 $tonap-p-text:rgb(128,142,153);
-
+$break-large:1200px;
 $break-medium:992px;
 $break-small:768px;
 $break-xsmall:576px;
@@ -113,8 +113,17 @@ $break-xsmall:576px;
     background-image: radial-gradient(farthest-corner at 70% 50%,#8cdff5 0%,$tonap-color 100%);
     position: relative;
     top:101px;
+    @media screen and (max-width: $break-small) {
+      height: unset;
+    }
     .header-text{
       bottom: 150px;
+      @media screen and (max-width: $break-medium) {
+        bottom: 60px;
+      }
+      @media screen and (max-width: $break-small) {
+        bottom: 10px;
+      }
     }
     img{
       width: 100%;
@@ -123,12 +132,18 @@ $break-xsmall:576px;
       color:white;
       font-size: 26px;
       font-weight: 400;
+      @media screen and (max-width: $break-small) {
+        font-size: 24px;
+      }
     }
     h3{
       color: white;
       font-size: 50px;
       font-weight: bold;
       line-height: 1;
+      @media screen and (max-width: $break-small) {
+        font-size: 36px;
+      }
     }
     button{
       outline: none;
@@ -146,25 +161,52 @@ $break-xsmall:576px;
   #products{
     position: relative;
     bottom: 200px;
+    @media screen and (max-width: $break-small) {
+      position: relative;
+      top: 101px;
+      bottom: 0;
+    }
     @media screen and (max-width: $breakpoint-tablet) {
       bottom: 0;
     }
+    @media screen and (max-width: $break-large) {
+      bottom: 180px;
+    }
+    
     .col-md-4{
       padding: 28px 32px;
       background-color: white;
       @media screen and (min-width: $breakpoint-tablet) {
         max-width: 31.333%;
       }
+      @media screen and (max-width: $break-small) {
+        margin: 15px 0px;
+      }
       h4{
         font-size: 28px;
         font-weight: bold;
         line-height: 1;
-        margin-top: 16px;
+        margin-top: 16px;  
+        @media screen and (max-width: $break-large) {
+          font-size: 22px;
+        }
+        @media screen and (max-width: $break-medium) {
+          font-size: 16px;
+        }
+        @media screen and (max-width: $break-small) {
+          font-size: 26px;
+        }
       }
       p{
         font-size: 14px;
         color:$tonap-p-text;
         font-weight: 500;
+        @media screen and (max-width: $break-medium) {
+          font-size: 12px;
+        }
+        @media screen and (max-width: $break-small) {
+          font-size: 16px;
+        }
       }
       .divider{
         height: 6px;
@@ -175,6 +217,22 @@ $break-xsmall:576px;
       }
       .icon{
         display: flex;
+        picture{
+          @media screen and (max-width: $break-medium) {
+            width: 60px;
+            height: 60px;
+          }
+        }
+        img{
+          @media screen and (max-width: $break-medium) {
+            width:100%;
+            height: 100%;
+          }
+          @media screen and (max-width: $break-small) {
+            width:unset;
+            height: unset;
+          }
+        }
         .textarea{
           display: block;
           margin: 0 auto;
@@ -190,6 +248,7 @@ $break-xsmall:576px;
     bottom: 80px;
     @media screen and (max-width: $breakpoint-tablet) {
       bottom: 0;
+      top:130px;
     }
     img{
       width:100%;
@@ -235,6 +294,17 @@ $break-xsmall:576px;
   #orderProduct{
     position: relative;
     bottom: 140px;
+    @media screen and (max-width: $break-small) {
+      top: 101px;
+      padding-top: 20px;
+    }
+    .mainselect{
+      width: 100%;
+      #mainselect{
+        display: block;
+        margin: 0 auto !important;
+      }
+    }
     h4{
       font-size: 32px;
     }
@@ -242,14 +312,33 @@ $break-xsmall:576px;
       font-size: 14px;
       color:$tonap-p-text;
     }
-    .col-md-3{
+    .col-lg-3{
       background-color: white;
       box-shadow: 1px 1px 18px 3px lightgrey;
-      @media screen and (min-width: $breakpoint-tablet) {
+      @media screen and (min-width: $break-medium) {
         max-width: 23%;
         margin-left: 8px;
         margin-right: 8px;
         margin-top: 10 px;
+      }
+    }
+    .col-md-6{
+      background-color: white;
+      box-shadow: 1px 1px 18px 3px lightgrey;
+      @media screen and (min-width: $break-xsmall) and (max-width: $break-medium) {
+        max-width: 46%;
+        margin-left: 8px;
+        margin-right: 8px;
+        margin-top: 10px;
+      }
+    }
+    .col-12{
+      background-color: white;
+      box-shadow: 1px 1px 18px 3px lightgrey;
+      @media screen and (max-width: $break-xsmall) {
+        max-width: 80%;
+        margin: 0 auto;
+        margin-bottom: 10px;
       }
     }
     button{
@@ -262,6 +351,9 @@ $break-xsmall:576px;
       border: solid 2px $tonap-color;
       font-weight: bold;
       font-size: 12px;
+      @media screen and (max-width: $break-large) {
+        padding: 15px 40px;
+      }
       cursor: pointer;
       margin-top: 20px;
       margin-bottom: 20px;
@@ -270,6 +362,9 @@ $break-xsmall:576px;
         background: linear-gradient(to right,$tonap-color, #54bde2);
         border: none;
         padding: 16px 52px;
+        @media screen and (max-width: $break-large) {
+          padding: 16px 42px;
+        }
       }
     }
     .showProducts{
@@ -316,6 +411,48 @@ $break-xsmall:576px;
     }
     #map{
       height: 400px;
+    }
+    .contactHolder{
+      margin-top: 20px;
+      @media screen and (max-width: $break-medium) {
+        position: relative !important;
+      }
+      input[type=text]{
+        @media screen and (max-width: $break-medium) {
+          width: 60% !important;
+        }
+        @media screen and (max-width: $break-small) {
+          width: 80% !important;
+        }
+      }
+      textarea{
+        @media screen and (max-width: $break-medium) {
+          width: 60% !important;
+        }
+        @media screen and (max-width: $break-small) {
+          width: 80% !important;
+        }
+      }
+      input[type=submit]{
+        @media screen and (max-width: $break-small) {
+          margin: 0 auto !important;
+          display: block;
+          margin-top: 10px !important;
+          margin-bottom: 10px !important;
+        }
+      }
+      form{
+        @media screen and (max-width: $break-small) {
+          padding-bottom: 12px;
+        }
+      }
+      .contactcard{
+        @media screen and (max-width: $break-small) {
+          position: relative;
+          top: 10px;
+          right: 0;
+        }
+      }
     }
     .contactform{
       background: linear-gradient(#3b8bcd, #55bee2);
@@ -377,6 +514,11 @@ $break-xsmall:576px;
       padding-bottom: 30px;
       padding-left: 20px;
       padding-right: 20px;
+      @media screen and (max-width: $break-large) {
+        right:-35px;
+        padding-left: 10px;
+        padding-right: 10px;
+      }
       .info{
         display: flex;
         justify-content: center;
@@ -415,6 +557,9 @@ $break-xsmall:576px;
       justify-content: space-between;
       width: 100%;
       padding: 20px 200px;
+      @media screen and (max-width: $break-large) {
+        padding: 20px 100px;
+      }
       a{
         font-size: 14px;
         color:$tonap-p-text;
