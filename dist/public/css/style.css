@@ -113,8 +113,23 @@
   position: relative;
   top: 101px;
 }
+@media screen and (max-width: 768px) {
+  #wrapper #header {
+    height: unset;
+  }
+}
 #wrapper #header .header-text {
   bottom: 150px;
+}
+@media screen and (max-width: 992px) {
+  #wrapper #header .header-text {
+    bottom: 60px;
+  }
+}
+@media screen and (max-width: 768px) {
+  #wrapper #header .header-text {
+    bottom: 10px;
+  }
 }
 #wrapper #header img {
   width: 100%;
@@ -124,11 +139,21 @@
   font-size: 26px;
   font-weight: 400;
 }
+@media screen and (max-width: 768px) {
+  #wrapper #header h6 {
+    font-size: 24px;
+  }
+}
 #wrapper #header h3 {
   color: white;
   font-size: 50px;
   font-weight: bold;
   line-height: 1;
+}
+@media screen and (max-width: 768px) {
+  #wrapper #header h3 {
+    font-size: 36px;
+  }
 }
 #wrapper #header button {
   outline: none;
@@ -148,7 +173,19 @@
 }
 @media screen and (max-width: 768px) {
   #wrapper #products {
+    position: relative;
+    top: 101px;
     bottom: 0;
+  }
+}
+@media screen and (max-width: 768px) {
+  #wrapper #products {
+    bottom: 0;
+  }
+}
+@media screen and (max-width: 1200px) {
+  #wrapper #products {
+    bottom: 180px;
   }
 }
 #wrapper #products .col-md-4 {
@@ -160,16 +197,46 @@
     max-width: 31.333%;
   }
 }
+@media screen and (max-width: 768px) {
+  #wrapper #products .col-md-4 {
+    margin: 15px 0px;
+  }
+}
 #wrapper #products .col-md-4 h4 {
   font-size: 28px;
   font-weight: bold;
   line-height: 1;
   margin-top: 16px;
 }
+@media screen and (max-width: 1200px) {
+  #wrapper #products .col-md-4 h4 {
+    font-size: 22px;
+  }
+}
+@media screen and (max-width: 992px) {
+  #wrapper #products .col-md-4 h4 {
+    font-size: 16px;
+  }
+}
+@media screen and (max-width: 768px) {
+  #wrapper #products .col-md-4 h4 {
+    font-size: 26px;
+  }
+}
 #wrapper #products .col-md-4 p {
   font-size: 14px;
   color: #808e99;
   font-weight: 500;
+}
+@media screen and (max-width: 992px) {
+  #wrapper #products .col-md-4 p {
+    font-size: 12px;
+  }
+}
+@media screen and (max-width: 768px) {
+  #wrapper #products .col-md-4 p {
+    font-size: 16px;
+  }
 }
 #wrapper #products .col-md-4 .divider {
   height: 6px;
@@ -180,6 +247,24 @@
 }
 #wrapper #products .col-md-4 .icon {
   display: flex;
+}
+@media screen and (max-width: 992px) {
+  #wrapper #products .col-md-4 .icon picture {
+    width: 60px;
+    height: 60px;
+  }
+}
+@media screen and (max-width: 992px) {
+  #wrapper #products .col-md-4 .icon img {
+    width: 100%;
+    height: 100%;
+  }
+}
+@media screen and (max-width: 768px) {
+  #wrapper #products .col-md-4 .icon img {
+    width: unset;
+    height: unset;
+  }
 }
 #wrapper #products .col-md-4 .icon .textarea {
   display: block;
@@ -195,6 +280,7 @@
 @media screen and (max-width: 768px) {
   #wrapper #aboutus {
     bottom: 0;
+    top: 130px;
   }
 }
 #wrapper #aboutus img {
@@ -241,6 +327,19 @@
   position: relative;
   bottom: 140px;
 }
+@media screen and (max-width: 768px) {
+  #wrapper #orderProduct {
+    top: 101px;
+    padding-top: 20px;
+  }
+}
+#wrapper #orderProduct .mainselect {
+  width: 100%;
+}
+#wrapper #orderProduct .mainselect #mainselect {
+  display: block;
+  margin: 0 auto !important;
+}
 #wrapper #orderProduct h4 {
   font-size: 32px;
 }
@@ -248,16 +347,39 @@
   font-size: 14px;
   color: #808e99;
 }
-#wrapper #orderProduct .col-md-3 {
+#wrapper #orderProduct .col-lg-3 {
   background-color: white;
   box-shadow: 1px 1px 18px 3px lightgrey;
 }
-@media screen and (min-width: 768px) {
-  #wrapper #orderProduct .col-md-3 {
+@media screen and (min-width: 992px) {
+  #wrapper #orderProduct .col-lg-3 {
     max-width: 23%;
     margin-left: 8px;
     margin-right: 8px;
     margin-top: 10 px;
+  }
+}
+#wrapper #orderProduct .col-md-6 {
+  background-color: white;
+  box-shadow: 1px 1px 18px 3px lightgrey;
+}
+@media screen and (min-width: 576px) and (max-width: 992px) {
+  #wrapper #orderProduct .col-md-6 {
+    max-width: 46%;
+    margin-left: 8px;
+    margin-right: 8px;
+    margin-top: 10px;
+  }
+}
+#wrapper #orderProduct .col-12 {
+  background-color: white;
+  box-shadow: 1px 1px 18px 3px lightgrey;
+}
+@media screen and (max-width: 576px) {
+  #wrapper #orderProduct .col-12 {
+    max-width: 80%;
+    margin: 0 auto;
+    margin-bottom: 10px;
   }
 }
 #wrapper #orderProduct button {
@@ -274,11 +396,21 @@
   margin-top: 20px;
   margin-bottom: 20px;
 }
+@media screen and (max-width: 1200px) {
+  #wrapper #orderProduct button {
+    padding: 15px 40px;
+  }
+}
 #wrapper #orderProduct button:hover {
   color: white;
   background: linear-gradient(to right, #3b8acc, #54bde2);
   border: none;
   padding: 16px 52px;
+}
+@media screen and (max-width: 1200px) {
+  #wrapper #orderProduct button:hover {
+    padding: 16px 42px;
+  }
 }
 #wrapper #orderProduct .showProducts {
   position: relative;
@@ -322,6 +454,54 @@
 }
 #wrapper .contact #map {
   height: 400px;
+}
+#wrapper .contact .contactHolder {
+  margin-top: 20px;
+}
+@media screen and (max-width: 992px) {
+  #wrapper .contact .contactHolder {
+    position: relative !important;
+  }
+}
+@media screen and (max-width: 992px) {
+  #wrapper .contact .contactHolder input[type=text] {
+    width: 60% !important;
+  }
+}
+@media screen and (max-width: 768px) {
+  #wrapper .contact .contactHolder input[type=text] {
+    width: 80% !important;
+  }
+}
+@media screen and (max-width: 992px) {
+  #wrapper .contact .contactHolder textarea {
+    width: 60% !important;
+  }
+}
+@media screen and (max-width: 768px) {
+  #wrapper .contact .contactHolder textarea {
+    width: 80% !important;
+  }
+}
+@media screen and (max-width: 768px) {
+  #wrapper .contact .contactHolder input[type=submit] {
+    margin: 0 auto !important;
+    display: block;
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;
+  }
+}
+@media screen and (max-width: 768px) {
+  #wrapper .contact .contactHolder form {
+    padding-bottom: 12px;
+  }
+}
+@media screen and (max-width: 768px) {
+  #wrapper .contact .contactHolder .contactcard {
+    position: relative;
+    top: 10px;
+    right: 0;
+  }
 }
 #wrapper .contact .contactform {
   background: linear-gradient(#3b8bcd, #55bee2);
@@ -384,6 +564,13 @@
   padding-left: 20px;
   padding-right: 20px;
 }
+@media screen and (max-width: 1200px) {
+  #wrapper .contact .contactcard {
+    right: -35px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
 #wrapper .contact .contactcard .info {
   display: flex;
   justify-content: center;
@@ -419,6 +606,11 @@
   justify-content: space-between;
   width: 100%;
   padding: 20px 200px;
+}
+@media screen and (max-width: 1200px) {
+  #wrapper .footer .footerlinks {
+    padding: 20px 100px;
+  }
 }
 #wrapper .footer .footerlinks a {
   font-size: 14px;

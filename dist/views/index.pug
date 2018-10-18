@@ -36,7 +36,7 @@ block content
               h6 Najkvalitnejšie
               h3 ZDRAVOTNÍCKE
               h3 POTREBY
-              button Pozrieť produkty
+              button(onclick="goto('#orderProduct')") Pozrieť produkty
             .col-6
               picture
                 source(data-srcset="./assets/images/woman.webp", alt="", type="image/webp")
@@ -83,41 +83,35 @@ block content
         h4 Naše produkty
         p Sweet powder topping cupcake fruitcake liquorice cookie.
         .row
-          select.ml-2.mt-2#mainselect(onchange="showProductMainpage()")
-            option(value="kelimky" ) Masťovky a Kelímky
-            option(value="odberniky" ) Petriho misky a odberníky
-            option(value="skumavky" ) Skúmavky
+          .mainselect
+            select.ml-2.mt-2#mainselect(onchange="showProductMainpage()")
+              option(value="kelimky" ) Masťovky a Kelímky
+              option(value="odberniky" ) Petriho misky a odberníky
+              option(value="skumavky" ) Skúmavky
       .container.mt-5
         .row#productKelimky
         .row#productOdberniky
         .row#productSkumavky
-          
-      .container.showProducts.mt-8
-        .container.d-flex.justify-content-center.align-items-center
-          .divider
-          #showProducts.d-flex.justify-content-center
-            img(src="./assets/images/icons/arrow.svg", alt="")
-        p#showProductsText.text-center.mt-4 Zobraziť všetky produkty
     section#aboutus
       .container
         .row
-          .col-md-6
+          .col-lg-6.col-12
             picture
               source(data-srcset="./assets/images/aboutus.webp", alt="", type="image/webp")
               img.lazyload(data-src="./assets/images/aboutus.png", alt="")
-          .col-md-6
+          .col-lg-6.col-12
             h3 Sme 20 rokov súčasťou <br> zdravotníctva na Slovensku
             .divider
             p Sweet poweder topping cupcake fruitcake liquorice cookie. Liquorice apple pie apple pie fruitcake pie oat cake carrot cake lemon drops. Wafet pastry marshmallow cotoon candy pastry marzipan. Cake fruit cake brownie cupcake gingerbread. Tiramius gummies icing halvah. Cake muffin icing liquorice jelly cookie sweet.
             button Kontaktujte nás
     .container-fluid.contact.position-relative#contact
       .row
-        .col-md-6.pr-0.pl-0
+        .col-lg-6.col-12.pr-0.pl-0
           #map
-        .col-md-6.pl-0.pr-0.right
-      .container.position-absolute.top.ml-50
+        .col-lg-6.col-12.pl-0.pr-0.right
+      .container.position-absolute.top.ml-50.contactHolder
         .row
-          .col-md-6.pl-0.order-2
+          .col-lg-6.col-12.pl-0.order-2
             .contactform
               h5 Kontaktný formulár
               form
