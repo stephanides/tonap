@@ -27,6 +27,10 @@ const OrderSchema = new mongoose_1.Schema({
     name: String,
     orderNum: Number,
     products: Array,
+    state: {
+        default: 0,
+        type: Number
+    },
     street: String,
 });
 exports.Orders = mongoose_1.model("Order", OrderSchema);

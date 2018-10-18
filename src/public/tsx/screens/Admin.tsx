@@ -19,7 +19,9 @@ interface IProps {
   imageNum?: number;
   modalError?: boolean | null;
   modalText?: string;
+  order?: {};
   orders?: object[];
+  orderManagerOpen?: boolean;
   product?: IProduct;
   products?: object[];
   productEdit?: boolean;
@@ -41,6 +43,7 @@ interface IProps {
   imageRemoveSelect(n: number): void;
   getProducts(): Promise<void>;
   getOrders(): Promise<void>;
+  showOrderManager(orderNum: string): void;
   signOut(): void;
   storeProduct(e: React.FormEvent<HTMLElement>): Promise<void>;
 }
@@ -109,9 +112,12 @@ export default class Admin extends React.Component<IProps, {}> {
           )} />
           <Route exact path={`${this.props.routeProps.match.url}`} render={() => (
             <Orders
+              orderManagerOpen={this.props.orderManagerOpen}
               getOrders={this.props.getOrders}
+              order={this.props.order}
               orders={this.props.orders}
               products={this.props.products}
+              showOrderManager={this.props.showOrderManager}
             />
           )} />
         </div>

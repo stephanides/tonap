@@ -37,6 +37,10 @@ const OrderSchema = new Schema({
   name: String,
   orderNum: Number,
   products: Array,
+  state: {
+    default: 0,
+    type: Number
+  },
   street: String,
   // surname: String,
 });

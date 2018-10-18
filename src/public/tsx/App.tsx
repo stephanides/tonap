@@ -17,7 +17,9 @@ interface IAppState {
   imageNum?: number;
   modalError?: boolean | null;
   modalText?: string;
+  order?: {},
   orders?: object[];
+  orderManagerOpen?: boolean;
   product?: IProduct;
   products?: object[];
   productEdit?: boolean;
@@ -52,6 +54,7 @@ const productInit: IProduct = {
 const initialState: IAppState = {
   authorised: false,
   imageNum: 0,
+  orderManagerOpen: false,
   product: productInit,
   productEdit: false,
   productNumber: 0,
@@ -85,6 +88,7 @@ export default class App extends React.Component<{}, IAppState> {
     this.imageRemoveSelect = this.imageRemoveSelect.bind(this);
     this.handleShowDeleteModal = this.handleShowDeleteModal.bind(this);
     this.showModal = this.showModal.bind(this);
+    this.showOrderManager = this.showOrderManager.bind(this);
     this.signOut = this.signOut.bind(this);
     this.storeProduct = this.storeProduct.bind(this);
     this.submitForm = this.submitForm.bind(this);
@@ -135,7 +139,9 @@ export default class App extends React.Component<{}, IAppState> {
               handleShowDeleteModal={this.handleShowDeleteModal}
               modalError={this.state.modalError}
               modalText={this.state.modalText}
+              order={this.state.order}
               orders={this.state.orders}
+              orderManagerOpen={this.state.orderManagerOpen}
               product={this.state.product}
               products={this.state.products}
               productEdit={this.state.productEdit}
@@ -143,6 +149,7 @@ export default class App extends React.Component<{}, IAppState> {
               productToDelete={this.state.productToDelete}
               routeProps={routeProps}
               showDeleteModal={this.state.showDeleteModal}
+              showOrderManager={this.showOrderManager}
               signOut={this.signOut}
               storeProduct={this.storeProduct}
               user={this.state.user}
@@ -522,6 +529,23 @@ export default class App extends React.Component<{}, IAppState> {
       if (typeof callback === "function") {
         callback();
       }
+    });
+  }
+
+  private showOrderManager(orderNum: string) {
+    let order: {};
+    
+    for (let i = 0; i < this.state.orders.length; i++) {
+      if ((this.state.orders[i] as any).orderNum == orderNum) {
+        order = this.state.orders[i];
+      }
+    }
+
+    this.setState({
+      order,
+      orderManagerOpen: true,
+    }, () => {
+      $("#orderManagerModal").modal("show");
     });
   }
 

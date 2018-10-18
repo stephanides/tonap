@@ -10518,6 +10518,7 @@ const productInit = {
 const initialState = {
     authorised: false,
     imageNum: 0,
+    orderManagerOpen: false,
     product: productInit,
     productEdit: false,
     productNumber: 0,
@@ -10544,6 +10545,7 @@ class App extends React.Component {
         this.imageRemoveSelect = this.imageRemoveSelect.bind(this);
         this.handleShowDeleteModal = this.handleShowDeleteModal.bind(this);
         this.showModal = this.showModal.bind(this);
+        this.showOrderManager = this.showOrderManager.bind(this);
         this.signOut = this.signOut.bind(this);
         this.storeProduct = this.storeProduct.bind(this);
         this.submitForm = this.submitForm.bind(this);
@@ -10558,7 +10560,7 @@ class App extends React.Component {
                 React.createElement(react_router_1.Route, { path: "/admin/login", render: () => (React.createElement(Login_1.default, { modalError: this.state.modalError, modalText: this.state.modalText, authorised: this.state.authorised, submitForm: this.submitForm, handleRegister: this.handleRegister })) }),
                 React.createElement(react_router_1.Route, { path: "/admin/setup", render: () => (React.createElement(Register_1.default, { modalError: this.state.modalError, modalText: this.state.modalText, handleRegister: this.handleRegister, submitForm: this.submitForm })) }),
                 React.createElement(react_router_1.Route, { path: "/admin", render: (routeProps) => (this.state.authorised ?
-                        React.createElement(Admin_1.default, { closeDeleteModal: this.closeDeleteModal, deleteProduct: this.deleteProduct, handleChangeProducts: this.handleChangeProducts, imageDrop: this.imageDrop, imageFiles: this.state.imageFiles, imageNum: this.state.imageNum, imagePreviewSelect: this.imagePreviewSelect, imageRemoveSelect: this.imageRemoveSelect, getProducts: this.getProducts, getOrders: this.getOrders, handleProduct: this.handleProduct, handleProductEdit: this.handleProductEdit, handleProductUpdate: this.handleProductUpdate, handleShowDeleteModal: this.handleShowDeleteModal, modalError: this.state.modalError, modalText: this.state.modalText, orders: this.state.orders, product: this.state.product, products: this.state.products, productEdit: this.state.productEdit, productNumber: this.state.productNumber, productToDelete: this.state.productToDelete, routeProps: routeProps, showDeleteModal: this.state.showDeleteModal, signOut: this.signOut, storeProduct: this.storeProduct, user: this.state.user }) :
+                        React.createElement(Admin_1.default, { closeDeleteModal: this.closeDeleteModal, deleteProduct: this.deleteProduct, handleChangeProducts: this.handleChangeProducts, imageDrop: this.imageDrop, imageFiles: this.state.imageFiles, imageNum: this.state.imageNum, imagePreviewSelect: this.imagePreviewSelect, imageRemoveSelect: this.imageRemoveSelect, getProducts: this.getProducts, getOrders: this.getOrders, handleProduct: this.handleProduct, handleProductEdit: this.handleProductEdit, handleProductUpdate: this.handleProductUpdate, handleShowDeleteModal: this.handleShowDeleteModal, modalError: this.state.modalError, modalText: this.state.modalText, order: this.state.order, orders: this.state.orders, orderManagerOpen: this.state.orderManagerOpen, product: this.state.product, products: this.state.products, productEdit: this.state.productEdit, productNumber: this.state.productNumber, productToDelete: this.state.productToDelete, routeProps: routeProps, showDeleteModal: this.state.showDeleteModal, showOrderManager: this.showOrderManager, signOut: this.signOut, storeProduct: this.storeProduct, user: this.state.user }) :
                         React.createElement(react_router_1.Redirect, { to: "/admin/login" })) }))));
     }
     authenticate() {
@@ -10916,6 +10918,20 @@ class App extends React.Component {
             }
         });
     }
+    showOrderManager(orderNum) {
+        let order;
+        for (let i = 0; i < this.state.orders.length; i++) {
+            if (this.state.orders[i].orderNum == orderNum) {
+                order = this.state.orders[i];
+            }
+        }
+        this.setState({
+            order,
+            orderManagerOpen: true,
+        }, () => {
+            $("#orderManagerModal").modal("show");
+        });
+    }
     handleShowDeleteModal(productToDelete) {
         this.setState({ productToDelete, showDeleteModal: true }, () => {
             $("#deleteModal").modal();
@@ -11102,6 +11118,36 @@ exports.default = Modal;
 
 /***/ }),
 
+/***/ "./src/public/tsx/components/Order/OrderManagerModal.tsx":
+/*!***************************************************************!*\
+  !*** ./src/public/tsx/components/Order/OrderManagerModal.tsx ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const React = __webpack_require__(/*! react */ "react");
+const OrderManagerModal = (props) => {
+    const { orderManagerOpen, order } = props;
+    return (orderManagerOpen ?
+        React.createElement("div", { className: "modal", id: "orderManagerModal", role: "dialog" },
+            React.createElement("div", { className: "modal-dialog", role: "document" },
+                React.createElement("div", { className: "modal-content" },
+                    React.createElement("div", { className: "modal-header" },
+                        React.createElement("h5", { className: "modal-title" }, `Objednávka č. ${order.orderNum}`),
+                        React.createElement("button", { type: "button", className: "close", "data-dismiss": "modal", "aria-label": "Close" },
+                            React.createElement("span", { "aria-hidden": "true" }, "\u00D7"))),
+                    React.createElement("div", { className: "modal-body" }, "Order body"),
+                    React.createElement("div", { className: "modal-footer" },
+                        React.createElement("button", { type: "button", className: "btn btn-secondary", "data-dismiss": "modal" }, "Zatvori\u0165"))))) : null);
+};
+exports.default = OrderManagerModal;
+
+
+/***/ }),
+
 /***/ "./src/public/tsx/components/Orders.tsx":
 /*!**********************************************!*\
   !*** ./src/public/tsx/components/Orders.tsx ***!
@@ -11113,6 +11159,7 @@ exports.default = Modal;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(/*! react */ "react");
+const OrderManagerModal_1 = __webpack_require__(/*! ./Order/OrderManagerModal */ "./src/public/tsx/components/Order/OrderManagerModal.tsx");
 class Products extends React.Component {
     constructor(props) {
         super(props);
@@ -11122,46 +11169,38 @@ class Products extends React.Component {
     }
     render() {
         return [
-            React.createElement("h2", { key: 0 }, "Zoznam objedn\u00E1vok"),
-            React.createElement("div", { className: "list-group mb-3", key: 1 }, this.props.orders ?
+            React.createElement(OrderManagerModal_1.default, { order: this.props.order, orderManagerOpen: this.props.orderManagerOpen, key: 0 }),
+            React.createElement("h2", { key: 1 }, "Zoznam objedn\u00E1vok"),
+            React.createElement("div", { className: "list-group mb-3", key: 2 }, this.props.orders ?
                 (this.props.orders.length > 0 ?
-                    (React.createElement("div", { className: "list-group" },
-                        React.createElement("div", { className: "list-group-item bg-info d-flex justify-content-between" },
-                            React.createElement("div", { className: "col-2 text-white" }, "UID"),
-                            React.createElement("div", { className: "col-auto text-white" }, "D\u00E1tum"),
-                            React.createElement("div", { className: "col-3 text-white" }, "Objedn\u00E1vate\u013E"),
-                            React.createElement("div", { className: "col-3 text-white" }, "Detail objedn\u00E1vky"),
-                            React.createElement("div", { className: "col-3 text-white" }, "Spr\u00E1va objedn\u00E1vky")),
-                        this.props.orders.map((item, i) => {
-                            const productsInfo = item.products.map((productInfo, j) => {
-                                let product = {};
-                                if (this.props.products && this.props.products.length > 0) {
-                                    for (const prod of this.props.products) {
-                                        if (prod._id === productInfo._id) {
-                                            product = prod;
-                                        }
-                                    }
-                                    return (React.createElement("div", { key: j },
-                                        React.createElement("div", { className: "row justify-content-between" },
-                                            React.createElement("div", null, product.title),
-                                            React.createElement("div", null, productInfo.count))));
-                                }
-                                else {
-                                    return null;
-                                }
-                            });
-                            return (React.createElement("div", { className: "list-group-item d-flex justify-content-between", key: i },
-                                React.createElement("div", { className: "col-2" }, item.orderNum),
-                                React.createElement("div", { className: "col-auto" }, item.dateCreated.split("T")[0]),
-                                React.createElement("div", { className: "col-3" }, item.name + " " + item.surname),
-                                React.createElement("div", { className: "col-3" },
-                                    React.createElement("div", { className: "row justify-content-between" },
-                                        React.createElement("div", null, "N\u00E1zov produktu"),
-                                        React.createElement("div", null, "Po\u010Det produktov")),
-                                    productsInfo),
-                                React.createElement("div", { className: "col-3" },
-                                    React.createElement("button", { type: "button", className: "btn btn-primary align-items-center" }, "Spravova\u0165"))));
-                        }))) :
+                    (React.createElement("table", { className: "table" },
+                        React.createElement("thead", null,
+                            React.createElement("tr", null,
+                                React.createElement("th", { scope: "col" }, "#"),
+                                React.createElement("th", { scope: "col" }, "\u010C\u00EDslo obj."),
+                                React.createElement("th", { scope: "col" }, "D\u00E1tum"),
+                                React.createElement("th", { scope: "col" }, "Stav"),
+                                React.createElement("th", { scope: "col" }, "Objednan\u00E9 polo\u017Eky"),
+                                React.createElement("th", { scope: "col" }))),
+                        React.createElement("tbody", null, this.props.orders.map((item, i) => {
+                            const state = ["Nová obj.", "Vybavuje sa", "Vybavená"];
+                            const roughDate = item.dateCreated.split("T")[0];
+                            const date = `${roughDate.split("-")[2]}.${roughDate.split("-")[1]}.${roughDate.split("-")[0]}`;
+                            const orderedProductCount = item.products.length > 4 ?
+                                `+${item.products.length} produktov` :
+                                (item.products.length > 1 ?
+                                    `+${item.products.length} produkty` :
+                                    `+${item.products.length} produkt`);
+                            /*const products = (item as any).map((product, j) => {});*/
+                            return (React.createElement("tr", { key: i },
+                                React.createElement("th", { scope: "row" }, i),
+                                React.createElement("td", null, item.orderNum),
+                                React.createElement("td", null, date),
+                                React.createElement("td", null, state[item.state]),
+                                React.createElement("td", null, orderedProductCount),
+                                React.createElement("td", null,
+                                    React.createElement("button", { className: "btn btn-primary", onClick: () => this.props.showOrderManager(item.orderNum) }, "Detail"))));
+                        })))) :
                     (React.createElement("div", { className: "list-group-item text-center" },
                         React.createElement("p", null, "Neboli n\u00E1jden\u00E9 \u017Eiadne objedn\u00E1vky.")))) : (React.createElement("div", { className: "w-100 d-flex justify-content-center mt-3" },
                 React.createElement("img", { src: "../assets/images/icons/loading.gif", width: "50", height: "50" })))),
@@ -11857,7 +11896,7 @@ class Admin extends React.Component {
                     React.createElement(TabNav_1.default, { routeProps: this.props.routeProps }),
                     React.createElement(react_router_dom_1.Route, { path: `${this.props.routeProps.match.url}/product-insert`, render: () => (React.createElement(ProductCreate_1.default, { imageDrop: this.props.imageDrop, imageFiles: this.props.imageFiles, imageNum: this.props.imageNum, imagePreviewSelect: this.props.imagePreviewSelect, imageRemoveSelect: this.props.imageRemoveSelect, product: this.props.product, handleProduct: this.props.handleProduct, storeProduct: this.props.storeProduct })) }),
                     React.createElement(react_router_dom_1.Route, { path: `${this.props.routeProps.match.url}/product-list`, render: () => (React.createElement(ProductList_1.default, { products: this.props.products, deleteProduct: this.props.deleteProduct, getProducts: this.props.getProducts, handleChangeProducts: this.props.handleChangeProducts, handleProductEdit: this.props.handleProductEdit, handleShowDeleteModal: this.props.handleShowDeleteModal })) }),
-                    React.createElement(react_router_dom_1.Route, { exact: true, path: `${this.props.routeProps.match.url}`, render: () => (React.createElement(Orders_1.default, { getOrders: this.props.getOrders, orders: this.props.orders, products: this.props.products })) })),
+                    React.createElement(react_router_dom_1.Route, { exact: true, path: `${this.props.routeProps.match.url}`, render: () => (React.createElement(Orders_1.default, { orderManagerOpen: this.props.orderManagerOpen, getOrders: this.props.getOrders, order: this.props.order, orders: this.props.orders, products: this.props.products, showOrderManager: this.props.showOrderManager })) })),
                 React.createElement("style", null, `
           h1, h2, h3, h4, h5, h6, a, li { color: #3b8acc; }
         `)),
