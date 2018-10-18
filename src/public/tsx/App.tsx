@@ -19,6 +19,7 @@ interface IAppState {
   modalText?: string;
   order?: {},
   orders?: object[];
+  orderState?: number;
   orderManagerOpen?: boolean;
   product?: IProduct;
   products?: object[];
@@ -55,6 +56,7 @@ const initialState: IAppState = {
   authorised: false,
   imageNum: 0,
   orderManagerOpen: false,
+  orderState: 0,
   product: productInit,
   productEdit: false,
   productNumber: 0,
@@ -78,6 +80,8 @@ export default class App extends React.Component<{}, IAppState> {
     this.deleteProduct = this.deleteProduct.bind(this);
     this.getProducts = this.getProducts.bind(this);
     this.getOrders = this.getOrders.bind(this);
+    this.handleChangeOrderState = this.handleChangeOrderState.bind(this);
+    this.handleOrderStateUpdate = this.handleOrderStateUpdate.bind(this);
     this.handleChangeProducts = this.handleChangeProducts.bind(this);
     this.handleRegister = this.handleRegister.bind(this);
     this.handleProduct = this.handleProduct.bind(this);
@@ -133,6 +137,8 @@ export default class App extends React.Component<{}, IAppState> {
               imageRemoveSelect={this.imageRemoveSelect}
               getProducts={this.getProducts}
               getOrders={this.getOrders}
+              handleChangeOrderState={this.handleChangeOrderState}
+              handleOrderStateUpdate={this.handleOrderStateUpdate}
               handleProduct={this.handleProduct}
               handleProductEdit={this.handleProductEdit}
               handleProductUpdate={this.handleProductUpdate}
@@ -141,6 +147,7 @@ export default class App extends React.Component<{}, IAppState> {
               modalText={this.state.modalText}
               order={this.state.order}
               orders={this.state.orders}
+              orderState={this.state.orderState}
               orderManagerOpen={this.state.orderManagerOpen}
               product={this.state.product}
               products={this.state.products}
@@ -220,6 +227,50 @@ export default class App extends React.Component<{}, IAppState> {
         console.log(err);
       }
     });
+  }
+
+  private handleChangeOrderState(orderState: number): void {
+    const updatedOrder = this.state.order;
+
+    (updatedOrder as any).state = orderState;
+    
+    this.setState({orderState, order: updatedOrder});
+  }
+  private async handleOrderStateUpdate(e: React.FormEvent<HTMLElement>): Promise<void> {
+    e.preventDefault();
+
+    const form = e.currentTarget as HTMLFormElement;
+    const state = form.state.value as number;
+    const deliveryTime: string | null = state > 0 && state < 2 ? form.deliveryTime.value : null;
+    const message = form.message.value as string;
+    const orderId = (this.state.order as any)._id;
+    const bodyToFetch = JSON.stringify({
+      state, deliveryTime, message, orderId
+    });
+
+    try {
+      const request = await fetch("/api/order/state", {
+        body: bodyToFetch,
+        headers: {
+          "Content-type": "application/json",
+          "x-access-token": this.state.user.token,
+        },
+        method: "POST",
+      });
+
+      if (request.status === 200) {
+        const responseJSON: any = await request.json();
+
+        console.log(responseJSON.message);
+        this.setState({orderState: 0}, () => {
+          this.getOrders();
+        });
+      } else {
+        console.log(request);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   private handleProduct(product: IProduct): void {

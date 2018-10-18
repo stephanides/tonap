@@ -8,6 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const mongoose_1 = require("mongoose");
 const Order_model_1 = require("../models/Order.model");
 const nodemailer = require("nodemailer");
 class OrderController {
@@ -37,8 +38,10 @@ class OrderController {
         Ďakujeme za Vašu objednávka u spločnosti <strong>Tonap s. r. o.</strong><br /><br />
         Vaša objednácka číslo: <strong><i>${orderNum}</i></strong> bola prijatá na spracovanie.<br />
         O ďalšom priebehu objednávky Vás budeme informovať prostredníctvom emailu.<br /><br />
+        V prípade akýchkoľvek otázok nás neváhajte kontaktovať na telefónnom čísle <strong>+421 1234 123 123</strong>.<br />
+        Alebo prostredníctvom e-mailu <strong>info@tonap.sk</strong><br /><br />
         S prianim pekného dňa,<br />tím <strong>Tonap s. r. o.</strong>`;
-                    this.sendMailNotification(req, next, mailSubject, mailBody, () => {
+                    this.sendMailNotification(req, next, req.body.email, mailSubject, mailBody, () => {
                         res.json({ message: "Order has been created", success: true });
                     });
                 }
@@ -53,8 +56,62 @@ class OrderController {
     }
     handleEmailNotification(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log(req.body);
-            res.json({ message: JSON.stringify(req.body), success: true });
+            try {
+                const order = yield Order_model_1.Orders.findOne({ _id: mongoose_1.Types.ObjectId(req.body.orderId) });
+                if (!order) {
+                    this.throwError("Order not found", 404, next);
+                }
+                else {
+                    const dataToUpdate = order;
+                    const deliveryTimes = ["10. pracovných dní", "15. pracovných dní", "20. pracovných dní", "30. pracovných dní", "viac ako 30. pracovných dní"];
+                    dataToUpdate.state = req.body.state;
+                    dataToUpdate.deliveryTime = req.body.deliveryTime;
+                    const updatedOrder = yield Order_model_1.Orders.update({ _id: mongoose_1.Types.ObjectId(req.body.orderId) }, dataToUpdate);
+                    if (updatedOrder) {
+                        let mailSubject = "TONAP: Informácia o stave objednávky";
+                        let mailBody;
+                        if (req.body.message) {
+                            mailBody = req.body.message;
+                        }
+                        else {
+                            if (req.body.state > 1) {
+                                mailBody = `Dobrý deň pán/pani ${order.name}<br /><br />
+              Vaša objednácka číslo: <strong><i>${order.orderNum}</i></strong> je vybavená.<br /><br />
+              V prípade akýchkoľvek otázok nás neváhajte kontaktovať na telefónnom čísle <strong>+421 1234 123 123</strong>.<br />
+              Alebo prostredníctvom e-mailu <strong>info@tonap.sk</strong><br /><br />
+              S prianim pekného dňa,<br />tím <strong>Tonap s. r. o.</strong>`;
+                            }
+                            else {
+                                if (req.body.deliveryTime > 3) {
+                                    mailBody = `Dobrý deň pán/pani ${order.name}<br /><br />
+                Vaša objednácka číslo: <strong><i>${order.orderNum}</i></strong> bude spracovaná a pripravená za ${deliveryTimes[req.body.deliveryTime]}.<br />
+                O ďalšom priebehu spracovania objednávky Vás budeme informovať prostredníctvom emailu.<br /><br />
+                V prípade akýchkoľvek otázok nás neváhajte kontaktovať na telefónnom čísle <strong>+421 1234 123 123</strong>.<br />
+                Alebo prostredníctvom e-mailu <strong>info@tonap.sk</strong><br /><br />
+                S prianim pekného dňa,<br />tím <strong>Tonap s. r. o.</strong>`;
+                                }
+                                else {
+                                    mailBody = `Dobrý deň pán/pani ${order.name}<br /><br />
+                Vaša objednácka číslo: <strong><i>${order.orderNum}</i></strong> bude spracovaná a pripravená do ${deliveryTimes[req.body.deliveryTime]}.<br />
+                O ďalšom priebehu spracovania objednávky Vás budeme informovať prostredníctvom emailu.<br /><br />
+                V prípade akýchkoľvek otázok nás neváhajte kontaktovať na telefónnom čísle <strong>+421 1234 123 123</strong>.<br />
+                Alebo prostredníctvom e-mailu <strong>info@tonap.sk</strong><br /><br />
+                S prianim pekného dňa,<br />tím <strong>Tonap s. r. o.</strong>`;
+                                }
+                            }
+                        }
+                        this.sendMailNotification(req, next, order.email, mailSubject, mailBody, () => {
+                            res.json({ message: "Order has been successfully updated", success: true });
+                        });
+                    }
+                    else {
+                        this.throwError("Can\'t update order data", 500, next);
+                    }
+                }
+            }
+            catch (err) {
+                this.throwError(err.stack, 500, next);
+            }
         });
     }
     getAll(req, res, next) {
@@ -101,7 +158,7 @@ class OrderController {
             }
         }));
     }
-    sendMailNotification(req, next, emailSubject, emailBody, callBack) {
+    sendMailNotification(req, next, email, emailSubject, emailBody, callBack) {
         const mailTransporter = nodemailer.createTransport({
             auth: {
                 pass: "codebrothers963",
@@ -115,7 +172,7 @@ class OrderController {
             from: "info@codebrothers.sk",
             subject: emailSubject,
             html: emailBody,
-            to: req.body.email,
+            to: email,
         };
         mailTransporter.sendMail(mailOptions, (err, info) => {
             if (err) {

@@ -4,10 +4,13 @@ import OrderManagerModal from "./Order/OrderManagerModal";
 interface IProps {
   order?: {};
   orders?: object[];
+  orderState?: number;
   orderManagerOpen?: boolean;
   products?: object[];
 
   getOrders(): Promise<void>;
+  handleChangeOrderState(orderState: number): void;
+  handleOrderStateUpdate(e: React.FormEvent<HTMLElement>): Promise<void>;
   showOrderManager(orderNum: string): void;
 }
 
@@ -23,8 +26,11 @@ export default class Products extends React.Component<IProps, {}> {
   public render() {
     return[
       <OrderManagerModal
+        handleChangeOrderState={this.props.handleChangeOrderState}
+        handleOrderStateUpdate={this.props.handleOrderStateUpdate}
         order={this.props.order}
         orderManagerOpen={this.props.orderManagerOpen}
+        orderState={this.props.orderState}
         key={0}
       />,
       <h2 key={1}>Zoznam objednávok</h2>,
@@ -61,8 +67,8 @@ export default class Products extends React.Component<IProps, {}> {
                       /*const products = (item as any).map((product, j) => {});*/
 
                       return (
-                        <tr key={i}>
-                          <th scope="row">{i}</th>
+                        <tr key={i+1}>
+                          <th scope="row">{i+1}</th>
                           <td>{(item as any).orderNum}</td>
                           <td>{date}</td>
                           <td>{state[(item as any).state]}</td>

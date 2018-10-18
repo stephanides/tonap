@@ -5,11 +5,12 @@ class Order {
     constructor(data) {
         this.city = data.city;
         this.company = data.company;
+        this.deliveryTime = data.deliveryTime;
         this.email = data.email;
         this.ico = data.ico;
         this.name = data.name;
         this.orderNum = data.orderNum;
-        // this.surname = data.surname;
+        this.state = data.state;
         this.street = data.street;
         this.products = data.products;
     }
@@ -18,6 +19,10 @@ exports.Order = Order;
 const OrderSchema = new mongoose_1.Schema({
     city: String,
     company: String,
+    deliveryTime: {
+        default: 0,
+        type: Number,
+    },
     dateCreated: {
         default: Date.now(),
         type: Date,

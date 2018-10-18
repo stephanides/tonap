@@ -21,6 +21,7 @@ interface IProps {
   modalText?: string;
   order?: {};
   orders?: object[];
+  orderState?: number;
   orderManagerOpen?: boolean;
   product?: IProduct;
   products?: object[];
@@ -33,6 +34,8 @@ interface IProps {
 
   closeDeleteModal(): void;
   deleteProduct(): Promise<void>;
+  handleChangeOrderState(orderState: number): void;
+  handleOrderStateUpdate(e: React.FormEvent<HTMLElement>): Promise<void>;
   handleChangeProducts(products: object[], productNum: number): void;
   handleProduct(product: object): void;
   handleProductEdit(n: number | null): void;
@@ -114,8 +117,11 @@ export default class Admin extends React.Component<IProps, {}> {
             <Orders
               orderManagerOpen={this.props.orderManagerOpen}
               getOrders={this.props.getOrders}
+              handleChangeOrderState={this.props.handleChangeOrderState}
+              handleOrderStateUpdate={this.props.handleOrderStateUpdate}
               order={this.props.order}
               orders={this.props.orders}
+              orderState={this.props.orderState}
               products={this.props.products}
               showOrderManager={this.props.showOrderManager}
             />
