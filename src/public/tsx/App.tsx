@@ -105,6 +105,7 @@ export default class App extends React.Component<{}, IAppState> {
     this.handleProductEdit = this.handleProductEdit.bind(this);
     this.handleProductUpdate = this.handleProductUpdate.bind(this);
     this.handleReorder = this.handleReorder.bind(this);
+    this.handleSortBy = this.handleSortBy.bind(this);
     this.imageDrop = this.imageDrop.bind(this);
     this.imagePreviewSelect = this.imagePreviewSelect.bind(this);
     this.imageRemoveSelect = this.imageRemoveSelect.bind(this);
@@ -165,6 +166,7 @@ export default class App extends React.Component<{}, IAppState> {
               handleProductUpdate={this.handleProductUpdate}
               handleReorder={this.handleReorder}
               handleShowDeleteModal={this.handleShowDeleteModal}
+              handleSortBy={this.handleSortBy}
               modalError={this.state.modalError}
               modalText={this.state.modalText}
               order={this.state.order}
@@ -426,6 +428,24 @@ export default class App extends React.Component<{}, IAppState> {
     } else {
       data.sort((a: any, b: any) => (a.dateCreated.toLowerCase().localeCompare(b.dateCreated.toLowerCase())))
       this.setState({orderSystem: 0}, () => this.handlePageData(data));
+    }
+  }
+
+  private handleSortBy(category: number) {
+    const data: object[] = this.state.products;
+    
+    if (category > 0) {
+      let newData: object[] = [];
+
+      for (let i = 0; i < data.length; i++) {
+        if ((data[i] as any).category === category) {
+          newData.push(data[i]);
+        }
+      }
+      
+      this.handlePageData(newData);
+    } else {
+      this.handlePageData(data);
     }
   }
 

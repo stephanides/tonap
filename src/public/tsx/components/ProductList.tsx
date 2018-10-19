@@ -17,6 +17,7 @@ interface IProps {
   handleChangeProducts(products: object[], productNum: number): void;
   handleProductEdit(n: number | null): void;
   handleShowDeleteModal(productToDelete: number): void;
+  handleSortBy(category: number): void;
 }
 
 export default class ProductList extends React.Component<IProps, {}> {
@@ -32,6 +33,20 @@ export default class ProductList extends React.Component<IProps, {}> {
     return(
       <div>
         <h2>Zoznam produktov</h2>
+        <p>
+          Zoradiť podľa
+          <select
+            className="custom-select form-control mb-2"
+            onChange={(e) => {
+              const category = e.currentTarget.selectedIndex;
+              this.props.handleSortBy(category);
+          }}>
+            <option value={0}>Kategórie</option>
+            <option value={1}>Masťovky a Kelímky</option>
+            <option value={2}>Petriho misky a odberníky</option>
+            <option value={3}>Skúmavky</option>
+          </select>
+        </p>
         {
           this.props.pageData ?
           (
@@ -92,12 +107,13 @@ export default class ProductList extends React.Component<IProps, {}> {
                   }
                 </tbody>
               </table>,
+              this.props.pageData.length > 9 ?
               <Pagination
                 handleChangePage={this.props.handleChangePage}
                 page={this.props.page}
                 pagesCount={this.props.pagesCount}
                 key={2}
-              />
+              /> : null
             ] :
             <div className="list-group-item text-center">
               <p>Neboli nájdené žiadne produkty, <Link to="/admin/product-insert">pridaj</Link> nejaké.</p>

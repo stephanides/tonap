@@ -51,6 +51,7 @@ interface IProps {
   handlePrintSummary(e: Event): void;
   handleReorder(): void;
   handleShowDeleteModal(productToDelete: number): void;
+  handleSortBy(category: number): void;
   imageDrop(files: File[]): void;
   imagePreviewSelect(n: number): void;
   imageRemoveSelect(n: number): void;
@@ -125,6 +126,7 @@ export default class Admin extends React.Component<IProps, {}> {
               handleChangeProducts={this.props.handleChangeProducts}
               handleProductEdit={this.props.handleProductEdit}
               handleShowDeleteModal={this.props.handleShowDeleteModal}
+              handleSortBy={this.props.handleSortBy}
             />
           )} />
           <Route exact path={`${this.props.routeProps.match.url}`} render={() => (
