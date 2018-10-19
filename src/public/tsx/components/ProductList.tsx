@@ -37,7 +37,7 @@ export default class ProductList extends React.Component<IProps, {}> {
           (
             this.props.pageData.length > 0 ?
             [
-              <table className="table mb-5" key={1}>
+              <table className="table table-striped mb-5" key={1}>
                 <thead>
                   <tr>
                     <th scope="col">#</th>

@@ -22,10 +22,12 @@ interface IProps {
   order?: {};
   orders?: object[];
   orderState?: number;
+  orderSystem?: number;
   orderManagerOpen?: boolean;
   page?: number;
   pagesCount?: number;
   pageData?: object[];
+  printData?: boolean;
   product?: IProduct;
   products?: object[];
   productEdit?: boolean;
@@ -33,6 +35,7 @@ interface IProps {
   productToDelete?: number;
   routeProps: any;
   showDeleteModal?: boolean;
+  showOrderSucess?: boolean;
   user: IUserPayLoad;
 
   closeDeleteModal(): void;
@@ -45,6 +48,8 @@ interface IProps {
   handleProduct(product: object): void;
   handleProductEdit(n: number | null): void;
   handleProductUpdate(e: React.FormEvent<HTMLElement>): Promise<void>;
+  handlePrintSummary(e: Event): void;
+  handleReorder(): void;
   handleShowDeleteModal(productToDelete: number): void;
   imageDrop(files: File[]): void;
   imagePreviewSelect(n: number): void;
@@ -130,14 +135,19 @@ export default class Admin extends React.Component<IProps, {}> {
               handleChangePage={this.props.handleChangePage}
               handleOrderStateUpdate={this.props.handleOrderStateUpdate}
               handlePageData={this.props.handlePageData}
+              handlePrintSummary={this.props.handlePrintSummary}
+              handleReorder={this.props.handleReorder}
               order={this.props.order}
               orders={this.props.orders}
               orderState={this.props.orderState}
+              orderSystem={this.props.orderSystem}
               page={this.props.page}
               pagesCount={this.props.pagesCount}
               pageData={this.props.pageData}
+              printData={this.props.printData}
               products={this.props.products}
               showOrderManager={this.props.showOrderManager}
+              showOrderSucess={this.props.showOrderSucess}
             />
           )} />
         </div>

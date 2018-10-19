@@ -21,13 +21,16 @@ export default class TabNav extends React.Component<IProps, {}> {
             "active" : null
           ) : null
           }>
+            <i className="fas fa-box-open d-flex align-items-center ml-2"></i>
             <Link to="/admin">Objednávky</Link>
           </li>
-          <li className={this.props.routeProps.location.pathname.indexOf("product-insert") > -1 ? "active" : null}>
-            <Link to="/admin/product-insert">Vložiť Produkt</Link>
-          </li>
           <li className={this.props.routeProps.location.pathname.indexOf("product-list") > -1 ? "active" : null}>
+            <i className="fas fa-vial d-flex align-items-center ml-2"></i>
             <Link to="/admin/product-list">Zoznam produktov</Link>
+          </li>
+          <li className={this.props.routeProps.location.pathname.indexOf("product-insert") > -1 ? "active" : null}>
+            <i className="fas fa-plus d-flex align-items-center ml-2"></i>
+            <Link to="/admin/product-insert">Vložiť Produkt</Link>
           </li>
         </ul>
 

@@ -1,13 +1,15 @@
 import * as React from "react";
-import SuccessMark from "./SuccessMark";
 
 const OrderManagerModal = (props) => {
   const {
     handleChangeOrderState,
     handleOrderStateUpdate,
+    handlePrintSummary,
     orderManagerOpen,
     orderState,
-    order
+    order,
+    printData,
+    showOrderSucess,
   } = props;
 
   return(
@@ -24,39 +26,55 @@ const OrderManagerModal = (props) => {
             </button>
           </div>
           <div className="modal-body">
-            <h6>Súhrn objednávky:</h6>
             <div className="row">
               <div className="col-12">
-                <table className="table table-striped table-bordered">
-                  <thead>
-                    <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">Názov produktu</th>
-                      <th scope="col">Typ</th>
-                      <th scope="col">Balené po.</th>
-                      <th scope="col">Veľkosť krabice</th>
-                      <th scope="col">Počet krabíc</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {
-                      order.products.map((item, i) => {
-                        const sterility: string = item.isSterile ? "Sterilné" : "Nesterilné";
+                <div className="printable-summary position-relative">
+                  <h6>Súhrn objednávky:</h6>
+                  <p className={printData ? "" : "d-none"}>Číslo objednávky: <strong>{order.orderNum}</strong></p>
+                  <button
+                    type="button"
+                    className="btn btn-outline-info position-absolute"
+                    style={{
+                      top: 0,
+                      right: 0,
+                      fontSize: "x-small",
+                      display: printData ? "none" : "block",
+                    }}
+                    onClick={(e) => handlePrintSummary(e)}
+                  >
+                    Tlačiť <i className="fas fa-print"></i>
+                  </button>
+                  <table className="table table-striped table-bordered mt-3">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Názov produktu</th>
+                        <th scope="col">Typ</th>
+                        <th scope="col">Balené po.</th>
+                        <th scope="col">Veľkosť krabice</th>
+                        <th scope="col">Počet krabíc</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {
+                        order.products.map((item, i) => {
+                          const sterility: string = item.isSterile ? "Sterilné" : "Nesterilné";
 
-                        return (
-                          <tr key={i+1}>
-                            <td scope="row">{i+1}</td>
-                            <td>{item.title}</td>
-                            <td>{sterility}</td>
-                            <td className="text-center">{item.package}</td>
-                            <td className="text-center">{item.boxSize}</td>
-                            <td className="text-center">{item.boxCount}</td>
-                          </tr>
-                        );
-                      })
-                    }
-                  </tbody>
-                </table>
+                          return (
+                            <tr key={i+1}>
+                              <td scope="row">{i+1}</td>
+                              <td>{item.title}</td>
+                              <td>{sterility}</td>
+                              <td className="text-center">{item.package}</td>
+                              <td className="text-center">{item.boxSize}</td>
+                              <td className="text-center">{item.boxCount}</td>
+                            </tr>
+                          );
+                        })
+                      }
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
             <div className="row">
@@ -77,9 +95,9 @@ const OrderManagerModal = (props) => {
                       value={order.state}
                       disabled={order.state > 1 ? true : false}
                     >
-                      <option value="0">Nová objednávka</option>
-                      <option value="1">Vybavuje sa</option>
-                      <option value="2">Vybavená</option>
+                      <option value="0" disabled={true}>Nová objednávka</option>
+                      <option value="1" disabled={order.state == 1 ? true : false}>Vybavuje sa</option>
+                      <option value="2" disabled={order.state == 2 ? true : false}>Vybavená</option>
                     </select>
                   </div>
                   {
@@ -127,7 +145,19 @@ const OrderManagerModal = (props) => {
                 </form>
               </div>
               <div className="col-6 d-flex align-items-center justify-content-center">
-                <SuccessMark visible={false} time={1000} />
+                <img
+                  src="./assets/images/icons/check-mark-circle.svg"
+                  width="50"
+                  height="50"
+                  style={
+                    showOrderSucess ?
+                    {
+                      display: "block",
+                    } : {
+                      display: "none",
+                    }
+                  }
+                />
               </div>
             </div>
           </div>

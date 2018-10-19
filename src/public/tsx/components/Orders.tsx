@@ -6,17 +6,22 @@ interface IProps {
   order?: {};
   orders?: object[];
   orderState?: number;
+  orderSystem?: number;
   orderManagerOpen?: boolean;
   page?: number;
   pagesCount?: number;
   pageData?: object[];
+  printData?: boolean;
   products?: object[];
+  showOrderSucess?: boolean;
 
   getOrders(): Promise<void>;
   handleChangeOrderState(orderState: number): void;
   handleChangePage(page: number): void;
   handleOrderStateUpdate(e: React.FormEvent<HTMLElement>): Promise<void>;
   handlePageData(data: object[]): void;
+  handlePrintSummary(e: Event): void;
+  handleReorder(): void;
   showOrderManager(orderNum: string): void;
 }
 
@@ -34,25 +39,34 @@ export default class Products extends React.Component<IProps, {}> {
       <OrderManagerModal
         handleChangeOrderState={this.props.handleChangeOrderState}
         handleOrderStateUpdate={this.props.handleOrderStateUpdate}
+        handlePrintSummary={this.props.handlePrintSummary}
         order={this.props.order}
         orderManagerOpen={this.props.orderManagerOpen}
         orderState={this.props.orderState}
+        printData={this.props.printData}
+        showOrderSucess={this.props.showOrderSucess}
         key={0}
       />,
       <h2 key={1}>Zoznam objednávok</h2>,
       <div className="mt-3" key={2}>
+        <p>
+          <button className="btn btn-outline-primary" onClick={this.props.handleReorder}>{
+            this.props.orderSystem === 0 ?
+            "Najnovšie" : "Najstaršie"
+          }</button>
+        </p>
         {
           this.props.pageData ?
           (
             this.props.pageData.length > 0 ?
             [
-              <table className="table mb-5" key={0}>
+              <table className="table table-striped mb-5" key={0}>
                 <thead>
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">Číslo obj.</th>
                     <th scope="col">Dátum</th>
-                    <th scope="col">Stav</th>
+                    <th scope="col">Stav obj.</th>
                     <th scope="col">Objednané položky</th>
                     <th scope="col"></th>
                   </tr>
@@ -60,7 +74,7 @@ export default class Products extends React.Component<IProps, {}> {
                 <tbody>
                   {
                     this.props.pageData.map((item, i) => {
-                      const state = ["Nová obj.", "Vybavuje sa", "Vybavená"];
+                      const state = ["Nová", "Vybavuje sa", "Vybavená"];
                       const roughDate = (item as any).dateCreated.split("T")[0];
                       const date = `${roughDate.split("-")[2]}.${roughDate.split("-")[1]}.${roughDate.split("-")[0]}`;
                       let orderedProductCount;
@@ -80,7 +94,17 @@ export default class Products extends React.Component<IProps, {}> {
                           <th scope="row">{i+1}</th>
                           <td>{(item as any).orderNum}</td>
                           <td>{date}</td>
-                          <td>{state[(item as any).state]}</td>
+                          <td>
+                            <span className={
+                              (item as any).state > 0 ?
+                              (
+                                (item as any).state > 1 ?
+                                "text-success font-weight-bold" : "text-warning font-weight-bold"
+                              ) : "text-danger font-weight-bold"
+                            }>
+                              {state[(item as any).state]}
+                            </span>
+                          </td>
                           <td>{orderedProductCount}</td>
                           <td>
                             <button
