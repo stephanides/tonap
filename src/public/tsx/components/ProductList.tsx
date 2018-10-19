@@ -18,6 +18,7 @@ interface IProps {
   handleProductEdit(n: number | null): void;
   handleShowDeleteModal(productToDelete: number): void;
   handleSortBy(category: number): void;
+  handleSerachByTitle(title: string): void;
 }
 
 export default class ProductList extends React.Component<IProps, {}> {
@@ -33,20 +34,42 @@ export default class ProductList extends React.Component<IProps, {}> {
     return(
       <div>
         <h2>Zoznam produktov</h2>
-        <p>
-          Zoradiť podľa
-          <select
-            className="custom-select form-control mb-2"
-            onChange={(e) => {
-              const category = e.currentTarget.selectedIndex;
-              this.props.handleSortBy(category);
-          }}>
-            <option value={0}>Kategórie</option>
-            <option value={1}>Masťovky a Kelímky</option>
-            <option value={2}>Petriho misky a odberníky</option>
-            <option value={3}>Skúmavky</option>
-          </select>
-        </p>
+        <div className="row">
+          <div className="col-sm-4 col-md-2 col-lg-2 d-flex">Zoradiť podľa</div>
+          <div className="col-sm-4 col-md-5 col-lg-4">
+            <select
+              className="custom-select form-control mb-2"
+              onChange={(e) => {
+                const category = e.currentTarget.selectedIndex;
+                this.props.handleSortBy(category);
+            }}>
+              <option value={0}>Kategórie</option>
+              <option value={1}>Masťovky a Kelímky</option>
+              <option value={2}>Petriho misky a odberníky</option>
+              <option value={3}>Skúmavky</option>
+            </select>
+          </div>
+          <div className="form-group col-sm-4 col-md-5 col-lg-4">
+            <div className="input-group">
+              <input
+                type="text"
+                className="form-control"
+                id="searchByTitle"
+                placeholder="Vyhľadaj podľa názvu produktu"
+                onChange={(e) => {
+                  const title = e.currentTarget.value;
+
+                  this.props.handleSerachByTitle(title);
+                }}
+              />
+              <div className="input-group-apend">
+                <span className="input-group-text" style={{padding: ".635rem .75rem"}}>
+                  <i className="fas fa-search"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
         {
           this.props.pageData ?
           (

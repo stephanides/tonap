@@ -10554,6 +10554,7 @@ class App extends React.Component {
         this.handleProductUpdate = this.handleProductUpdate.bind(this);
         this.handleReorder = this.handleReorder.bind(this);
         this.handleSortBy = this.handleSortBy.bind(this);
+        this.handleSerachByTitle = this.handleSerachByTitle.bind(this);
         this.imageDrop = this.imageDrop.bind(this);
         this.imagePreviewSelect = this.imagePreviewSelect.bind(this);
         this.imageRemoveSelect = this.imageRemoveSelect.bind(this);
@@ -10574,7 +10575,7 @@ class App extends React.Component {
                 React.createElement(react_router_1.Route, { path: "/admin/login", render: () => (React.createElement(Login_1.default, { modalError: this.state.modalError, modalText: this.state.modalText, authorised: this.state.authorised, submitForm: this.submitForm, handleRegister: this.handleRegister })) }),
                 React.createElement(react_router_1.Route, { path: "/admin/setup", render: () => (React.createElement(Register_1.default, { modalError: this.state.modalError, modalText: this.state.modalText, handleRegister: this.handleRegister, submitForm: this.submitForm })) }),
                 React.createElement(react_router_1.Route, { path: "/admin", render: (routeProps) => (this.state.authorised ?
-                        React.createElement(Admin_1.default, { closeDeleteModal: this.closeDeleteModal, deleteProduct: this.deleteProduct, handleChangeProducts: this.handleChangeProducts, imageDrop: this.imageDrop, imageFiles: this.state.imageFiles, imageNum: this.state.imageNum, imagePreviewSelect: this.imagePreviewSelect, imageRemoveSelect: this.imageRemoveSelect, getProducts: this.getProducts, getOrders: this.getOrders, handleChangeOrderState: this.handleChangeOrderState, handleChangePage: this.handleChangePage, handleOrderStateUpdate: this.handleOrderStateUpdate, handlePageData: this.handlePageData, handlePrintSummary: this.handlePrintSummary, handleProduct: this.handleProduct, handleProductEdit: this.handleProductEdit, handleProductUpdate: this.handleProductUpdate, handleReorder: this.handleReorder, handleShowDeleteModal: this.handleShowDeleteModal, handleSortBy: this.handleSortBy, modalError: this.state.modalError, modalText: this.state.modalText, order: this.state.order, orders: this.state.orders, orderState: this.state.orderState, orderSystem: this.state.orderSystem, orderManagerOpen: this.state.orderManagerOpen, page: this.state.page, pagesCount: this.state.pagesCount, pageData: this.state.pageData, printData: this.state.printData, product: this.state.product, products: this.state.products, productEdit: this.state.productEdit, productNumber: this.state.productNumber, productToDelete: this.state.productToDelete, routeProps: routeProps, showDeleteModal: this.state.showDeleteModal, showOrderManager: this.showOrderManager, showOrderSucess: this.state.showOrderSucess, signOut: this.signOut, storeProduct: this.storeProduct, user: this.state.user }) :
+                        React.createElement(Admin_1.default, { closeDeleteModal: this.closeDeleteModal, deleteProduct: this.deleteProduct, handleChangeProducts: this.handleChangeProducts, imageDrop: this.imageDrop, imageFiles: this.state.imageFiles, imageNum: this.state.imageNum, imagePreviewSelect: this.imagePreviewSelect, imageRemoveSelect: this.imageRemoveSelect, getProducts: this.getProducts, getOrders: this.getOrders, handleChangeOrderState: this.handleChangeOrderState, handleChangePage: this.handleChangePage, handleOrderStateUpdate: this.handleOrderStateUpdate, handlePageData: this.handlePageData, handlePrintSummary: this.handlePrintSummary, handleProduct: this.handleProduct, handleProductEdit: this.handleProductEdit, handleProductUpdate: this.handleProductUpdate, handleReorder: this.handleReorder, handleShowDeleteModal: this.handleShowDeleteModal, handleSortBy: this.handleSortBy, handleSerachByTitle: this.handleSerachByTitle, modalError: this.state.modalError, modalText: this.state.modalText, order: this.state.order, orders: this.state.orders, orderState: this.state.orderState, orderSystem: this.state.orderSystem, orderManagerOpen: this.state.orderManagerOpen, page: this.state.page, pagesCount: this.state.pagesCount, pageData: this.state.pageData, printData: this.state.printData, product: this.state.product, products: this.state.products, productEdit: this.state.productEdit, productNumber: this.state.productNumber, productToDelete: this.state.productToDelete, routeProps: routeProps, showDeleteModal: this.state.showDeleteModal, showOrderManager: this.showOrderManager, showOrderSucess: this.state.showOrderSucess, signOut: this.signOut, storeProduct: this.storeProduct, user: this.state.user }) :
                         React.createElement(react_router_1.Redirect, { to: "/admin/login" })) }))));
     }
     authenticate() {
@@ -10806,6 +10807,21 @@ class App extends React.Component {
             let newData = [];
             for (let i = 0; i < data.length; i++) {
                 if (data[i].category === category) {
+                    newData.push(data[i]);
+                }
+            }
+            this.handlePageData(newData);
+        }
+        else {
+            this.handlePageData(data);
+        }
+    }
+    handleSerachByTitle(title) {
+        const data = this.state.products;
+        if (title) {
+            let newData = [];
+            for (let i = 0; i < data.length; i++) {
+                if (data[i].title.toLowerCase().indexOf(title.toLocaleLowerCase()) > -1) {
                     newData.push(data[i]);
                 }
             }
@@ -11974,16 +11990,26 @@ class ProductList extends React.Component {
     render() {
         return (React.createElement("div", null,
             React.createElement("h2", null, "Zoznam produktov"),
-            React.createElement("p", null,
-                "Zoradi\u0165 pod\u013Ea",
-                React.createElement("select", { className: "custom-select form-control mb-2", onChange: (e) => {
-                        const category = e.currentTarget.selectedIndex;
-                        this.props.handleSortBy(category);
-                    } },
-                    React.createElement("option", { value: 0 }, "Kateg\u00F3rie"),
-                    React.createElement("option", { value: 1 }, "Mas\u0165ovky a Kel\u00EDmky"),
-                    React.createElement("option", { value: 2 }, "Petriho misky a odbern\u00EDky"),
-                    React.createElement("option", { value: 3 }, "Sk\u00FAmavky"))),
+            React.createElement("div", { className: "row" },
+                React.createElement("div", { className: "col-sm-4 col-md-2 col-lg-2 d-flex" }, "Zoradi\u0165 pod\u013Ea"),
+                React.createElement("div", { className: "col-sm-4 col-md-5 col-lg-4" },
+                    React.createElement("select", { className: "custom-select form-control mb-2", onChange: (e) => {
+                            const category = e.currentTarget.selectedIndex;
+                            this.props.handleSortBy(category);
+                        } },
+                        React.createElement("option", { value: 0 }, "Kateg\u00F3rie"),
+                        React.createElement("option", { value: 1 }, "Mas\u0165ovky a Kel\u00EDmky"),
+                        React.createElement("option", { value: 2 }, "Petriho misky a odbern\u00EDky"),
+                        React.createElement("option", { value: 3 }, "Sk\u00FAmavky"))),
+                React.createElement("div", { className: "form-group col-sm-4 col-md-5 col-lg-4" },
+                    React.createElement("div", { className: "input-group" },
+                        React.createElement("input", { type: "text", className: "form-control", id: "searchByTitle", placeholder: "Vyh\u013Eadaj pod\u013Ea n\u00E1zvu produktu", onChange: (e) => {
+                                const title = e.currentTarget.value;
+                                this.props.handleSerachByTitle(title);
+                            } }),
+                        React.createElement("div", { className: "input-group-apend" },
+                            React.createElement("span", { className: "input-group-text", style: { padding: ".635rem .75rem" } },
+                                React.createElement("i", { className: "fas fa-search" })))))),
             this.props.pageData ?
                 (this.props.pageData.length > 0 ?
                     [
@@ -12150,7 +12176,7 @@ class Admin extends React.Component {
                 React.createElement("div", { className: "container" },
                     React.createElement(TabNav_1.default, { routeProps: this.props.routeProps }),
                     React.createElement(react_router_dom_1.Route, { path: `${this.props.routeProps.match.url}/product-insert`, render: () => (React.createElement(ProductCreate_1.default, { imageDrop: this.props.imageDrop, imageFiles: this.props.imageFiles, imageNum: this.props.imageNum, imagePreviewSelect: this.props.imagePreviewSelect, imageRemoveSelect: this.props.imageRemoveSelect, product: this.props.product, handleProduct: this.props.handleProduct, storeProduct: this.props.storeProduct })) }),
-                    React.createElement(react_router_dom_1.Route, { path: `${this.props.routeProps.match.url}/product-list`, render: () => (React.createElement(ProductList_1.default, { page: this.props.page, pagesCount: this.props.pagesCount, pageData: this.props.pageData, products: this.props.products, deleteProduct: this.props.deleteProduct, getProducts: this.props.getProducts, handleChangePage: this.props.handleChangePage, handleChangeProducts: this.props.handleChangeProducts, handleProductEdit: this.props.handleProductEdit, handleShowDeleteModal: this.props.handleShowDeleteModal, handleSortBy: this.props.handleSortBy })) }),
+                    React.createElement(react_router_dom_1.Route, { path: `${this.props.routeProps.match.url}/product-list`, render: () => (React.createElement(ProductList_1.default, { page: this.props.page, pagesCount: this.props.pagesCount, pageData: this.props.pageData, products: this.props.products, deleteProduct: this.props.deleteProduct, getProducts: this.props.getProducts, handleChangePage: this.props.handleChangePage, handleChangeProducts: this.props.handleChangeProducts, handleProductEdit: this.props.handleProductEdit, handleShowDeleteModal: this.props.handleShowDeleteModal, handleSortBy: this.props.handleSortBy, handleSerachByTitle: this.props.handleSerachByTitle })) }),
                     React.createElement(react_router_dom_1.Route, { exact: true, path: `${this.props.routeProps.match.url}`, render: () => (React.createElement(Orders_1.default, { orderManagerOpen: this.props.orderManagerOpen, getOrders: this.props.getOrders, handleChangeOrderState: this.props.handleChangeOrderState, handleChangePage: this.props.handleChangePage, handleOrderStateUpdate: this.props.handleOrderStateUpdate, handlePageData: this.props.handlePageData, handlePrintSummary: this.props.handlePrintSummary, handleReorder: this.props.handleReorder, order: this.props.order, orders: this.props.orders, orderState: this.props.orderState, orderSystem: this.props.orderSystem, page: this.props.page, pagesCount: this.props.pagesCount, pageData: this.props.pageData, printData: this.props.printData, products: this.props.products, showOrderManager: this.props.showOrderManager, showOrderSucess: this.props.showOrderSucess })) })),
                 React.createElement("style", null, `
           h1, h2, h3, h4, h5, h6, a, li { color: #3b8acc; }

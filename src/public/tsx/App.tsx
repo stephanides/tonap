@@ -106,6 +106,7 @@ export default class App extends React.Component<{}, IAppState> {
     this.handleProductUpdate = this.handleProductUpdate.bind(this);
     this.handleReorder = this.handleReorder.bind(this);
     this.handleSortBy = this.handleSortBy.bind(this);
+    this.handleSerachByTitle = this.handleSerachByTitle.bind(this);
     this.imageDrop = this.imageDrop.bind(this);
     this.imagePreviewSelect = this.imagePreviewSelect.bind(this);
     this.imageRemoveSelect = this.imageRemoveSelect.bind(this);
@@ -167,6 +168,7 @@ export default class App extends React.Component<{}, IAppState> {
               handleReorder={this.handleReorder}
               handleShowDeleteModal={this.handleShowDeleteModal}
               handleSortBy={this.handleSortBy}
+              handleSerachByTitle={this.handleSerachByTitle}
               modalError={this.state.modalError}
               modalText={this.state.modalText}
               order={this.state.order}
@@ -439,6 +441,24 @@ export default class App extends React.Component<{}, IAppState> {
 
       for (let i = 0; i < data.length; i++) {
         if ((data[i] as any).category === category) {
+          newData.push(data[i]);
+        }
+      }
+      
+      this.handlePageData(newData);
+    } else {
+      this.handlePageData(data);
+    }
+  }
+
+  private handleSerachByTitle(title: string) {
+    const data: object[] = this.state.products;
+
+    if (title) {
+      let newData: object[] = [];
+
+      for (let i = 0; i < data.length; i++) {
+        if ((data[i] as any).title.toLowerCase().indexOf(title.toLocaleLowerCase()) > -1) {
           newData.push(data[i]);
         }
       }
