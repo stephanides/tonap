@@ -334,12 +334,16 @@ export default class App extends React.Component<{}, IAppState> {
     return Math.ceil(data.length / this.state.itemsPerPage);
   }
 
-  private handlePageData(data: object[]) {
-    const begin = ((this.state.page - 1) * this.state.itemsPerPage);
-    const end = begin + this.state.itemsPerPage;
-    const dataItems = data.slice(begin, end);
-    
-    this.setState({pageData: dataItems});
+  private handlePageData(data: object[] | null) {
+    if (data) {
+      const begin = ((this.state.page - 1) * this.state.itemsPerPage);
+      const end = begin + this.state.itemsPerPage;
+      const dataItems = data.slice(begin, end);
+      
+      this.setState({pageData: dataItems});
+    } else {
+      this.setState({pageData: []});
+    }
   }
 
   private handleRegister(register: boolean): void {
@@ -419,10 +423,15 @@ export default class App extends React.Component<{}, IAppState> {
           screen: 1
         }, () => this.handlePageData(data));
       } else {
-        this.setState({products: []});
+        this.setState({products: []}, () => {
+          this.handlePageData(null);
+        });
       }
     } catch (err) {
       console.log(err);
+      this.setState({products: []}, () => {
+        this.handlePageData(null);
+      });
     }
   }
 
@@ -448,10 +457,17 @@ export default class App extends React.Component<{}, IAppState> {
           this.handlePageData(data);
         });
       } else {
-        this.setState({ orders: [] });
+        this.setState({orders:[]}, () => {
+          this.handlePageData(null);
+        });
       }
 
-    } catch (err) { console.log(err); }
+    } catch (err) {
+      console.log(err);
+      this.setState({orders:[]}, () => {
+        this.handlePageData(null);
+      });
+    }
   }
 
   private imageDrop(files: File[]): void {

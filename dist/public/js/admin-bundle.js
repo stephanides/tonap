@@ -10717,10 +10717,15 @@ class App extends React.Component {
         return Math.ceil(data.length / this.state.itemsPerPage);
     }
     handlePageData(data) {
-        const begin = ((this.state.page - 1) * this.state.itemsPerPage);
-        const end = begin + this.state.itemsPerPage;
-        const dataItems = data.slice(begin, end);
-        this.setState({ pageData: dataItems });
+        if (data) {
+            const begin = ((this.state.page - 1) * this.state.itemsPerPage);
+            const end = begin + this.state.itemsPerPage;
+            const dataItems = data.slice(begin, end);
+            this.setState({ pageData: dataItems });
+        }
+        else {
+            this.setState({ pageData: [] });
+        }
     }
     handleRegister(register) {
         if (!register) {
@@ -10796,11 +10801,16 @@ class App extends React.Component {
                     }, () => this.handlePageData(data));
                 }
                 else {
-                    this.setState({ products: [] });
+                    this.setState({ products: [] }, () => {
+                        this.handlePageData(null);
+                    });
                 }
             }
             catch (err) {
                 console.log(err);
+                this.setState({ products: [] }, () => {
+                    this.handlePageData(null);
+                });
             }
         });
     }
@@ -10826,11 +10836,16 @@ class App extends React.Component {
                     });
                 }
                 else {
-                    this.setState({ orders: [] });
+                    this.setState({ orders: [] }, () => {
+                        this.handlePageData(null);
+                    });
                 }
             }
             catch (err) {
                 console.log(err);
+                this.setState({ orders: [] }, () => {
+                    this.handlePageData(null);
+                });
             }
         });
     }
