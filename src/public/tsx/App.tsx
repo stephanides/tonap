@@ -15,18 +15,23 @@ interface IAppState {
   authorised?: boolean;
   imageFiles?: IFile[];
   imageNum?: number;
+  itemsPerPage?: number;
   modalError?: boolean | null;
   modalText?: string;
   order?: {},
   orders?: object[];
   orderState?: number;
   orderManagerOpen?: boolean;
+  page?: number;
+  pagesCount?: number;
+  pageData?: object[];
   product?: IProduct;
   products?: object[];
   productEdit?: boolean;
   productNumber?: number;
   productToDelete?: number;
   register?: boolean;
+  screen?: number;
   showDeleteModal?: boolean;
   user?: IUser;
 }
@@ -55,11 +60,14 @@ const productInit: IProduct = {
 const initialState: IAppState = {
   authorised: false,
   imageNum: 0,
+  itemsPerPage: 10,
   orderManagerOpen: false,
   orderState: 0,
+  page: 1,
   product: productInit,
   productEdit: false,
   productNumber: 0,
+  screen: 0,
 };
 
 export default class App extends React.Component<{}, IAppState> {
@@ -82,7 +90,10 @@ export default class App extends React.Component<{}, IAppState> {
     this.getOrders = this.getOrders.bind(this);
     this.handleChangeOrderState = this.handleChangeOrderState.bind(this);
     this.handleOrderStateUpdate = this.handleOrderStateUpdate.bind(this);
+    this.handleChangePage = this.handleChangePage.bind(this);
     this.handleChangeProducts = this.handleChangeProducts.bind(this);
+    this.handlePageCount = this.handlePageCount.bind(this);
+    this.handlePageData = this.handlePageData.bind(this);
     this.handleRegister = this.handleRegister.bind(this);
     this.handleProduct = this.handleProduct.bind(this);
     this.handleProductEdit = this.handleProductEdit.bind(this);
@@ -138,7 +149,9 @@ export default class App extends React.Component<{}, IAppState> {
               getProducts={this.getProducts}
               getOrders={this.getOrders}
               handleChangeOrderState={this.handleChangeOrderState}
+              handleChangePage={this.handleChangePage}
               handleOrderStateUpdate={this.handleOrderStateUpdate}
+              handlePageData={this.handlePageData}
               handleProduct={this.handleProduct}
               handleProductEdit={this.handleProductEdit}
               handleProductUpdate={this.handleProductUpdate}
@@ -149,6 +162,9 @@ export default class App extends React.Component<{}, IAppState> {
               orders={this.state.orders}
               orderState={this.state.orderState}
               orderManagerOpen={this.state.orderManagerOpen}
+              page={this.state.page}
+              pagesCount={this.state.pagesCount}
+              pageData={this.state.pageData}
               product={this.state.product}
               products={this.state.products}
               productEdit={this.state.productEdit}
@@ -202,6 +218,16 @@ export default class App extends React.Component<{}, IAppState> {
     } catch (err) {
       console.log(err);
     }
+  }
+
+  private handleChangePage(page: number) {
+    this.setState({page}, () => {
+      if (this.state.screen) {
+        this.handlePageData(this.state.products);
+      } else {
+        this.handlePageData(this.state.orders);
+      }
+    });
   }
 
   private handleChangeProducts(products: object[], productNum: number): void {
@@ -304,6 +330,18 @@ export default class App extends React.Component<{}, IAppState> {
     }
   }
 
+  private handlePageCount(data: object[]) {
+    return Math.ceil(data.length / this.state.itemsPerPage);
+  }
+
+  private handlePageData(data: object[]) {
+    const begin = ((this.state.page - 1) * this.state.itemsPerPage);
+    const end = begin + this.state.itemsPerPage;
+    const dataItems = data.slice(begin, end);
+    
+    this.setState({pageData: dataItems});
+  }
+
   private handleRegister(register: boolean): void {
     if (!register) {
       this.setState({ register: false });
@@ -373,10 +411,15 @@ export default class App extends React.Component<{}, IAppState> {
 
       if (request.status === 200) {
         const responseJSON = await request.json();
+        const data = (responseJSON as any).data;
 
-        this.setState({ products: (responseJSON as any).data });
+        this.setState({
+          pagesCount: this.handlePageCount(data),
+          products: data,
+          screen: 1
+        }, () => this.handlePageData(data));
       } else {
-        this.setState({ products: [] });
+        this.setState({products: []});
       }
     } catch (err) {
       console.log(err);
@@ -395,8 +438,15 @@ export default class App extends React.Component<{}, IAppState> {
 
       if (request.status === 200) {
         const responseJSON = await request.json();
+        const data: object[] = (responseJSON as any).data;
 
-        this.setState({ orders: (responseJSON as any).data });
+        this.setState({
+          orders: data,
+          pagesCount: this.handlePageCount(data),
+          screen: 0,
+        }, () => {
+          this.handlePageData(data);
+        });
       } else {
         this.setState({ orders: [] });
       }

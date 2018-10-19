@@ -1,16 +1,22 @@
 import * as React from "react";
 import OrderManagerModal from "./Order/OrderManagerModal";
+import Pagination from "./Pagination";
 
 interface IProps {
   order?: {};
   orders?: object[];
   orderState?: number;
   orderManagerOpen?: boolean;
+  page?: number;
+  pagesCount?: number;
+  pageData?: object[];
   products?: object[];
 
   getOrders(): Promise<void>;
   handleChangeOrderState(orderState: number): void;
+  handleChangePage(page: number): void;
   handleOrderStateUpdate(e: React.FormEvent<HTMLElement>): Promise<void>;
+  handlePageData(data: object[]): void;
   showOrderManager(orderNum: string): void;
 }
 
@@ -34,13 +40,13 @@ export default class Products extends React.Component<IProps, {}> {
         key={0}
       />,
       <h2 key={1}>Zoznam objednávok</h2>,
-      <div className="list-group mb-3" key={2}>
+      <div className="mt-3" key={2}>
         {
-          this.props.orders ?
+          this.props.pageData ?
           (
-            this.props.orders.length > 0 ?
-            (
-              <table className="table">
+            this.props.pageData.length > 0 ?
+            [
+              <table className="table mb-5" key={0}>
                 <thead>
                   <tr>
                     <th scope="col">#</th>
@@ -53,18 +59,21 @@ export default class Products extends React.Component<IProps, {}> {
                 </thead>
                 <tbody>
                   {
-                    this.props.orders.map((item, i) => {
+                    this.props.pageData.map((item, i) => {
                       const state = ["Nová obj.", "Vybavuje sa", "Vybavená"];
                       const roughDate = (item as any).dateCreated.split("T")[0];
                       const date = `${roughDate.split("-")[2]}.${roughDate.split("-")[1]}.${roughDate.split("-")[0]}`;
-                      const orderedProductCount = (item as any).products.length > 4 ?
-                       `+${(item as any).products.length} produktov` :
-                       (
-                         (item as any).products.length > 1 ?
-                         `+${(item as any).products.length} produkty` :
-                         `+${(item as any).products.length} produkt`
-                       );
-                      /*const products = (item as any).map((product, j) => {});*/
+                      let orderedProductCount;
+
+                      if ((item as any).products) {
+                        orderedProductCount = (item as any).products.length > 4 ?
+                        `+${(item as any).products.length} produktov` :
+                        (
+                          (item as any).products.length > 1 ?
+                          `+${(item as any).products.length} produkty` :
+                          `+${(item as any).products.length} produkt`
+                        );
+                      }
 
                       return (
                         <tr key={i+1}>
@@ -85,8 +94,14 @@ export default class Products extends React.Component<IProps, {}> {
                     })
                   }
                 </tbody>
-              </table>
-            ) :
+              </table>,
+              <Pagination
+                handleChangePage={this.props.handleChangePage}
+                page={this.props.page}
+                pagesCount={this.props.pagesCount}
+                key={1}
+              />
+             ] :
             (<div className="list-group-item text-center">
               <p>Neboli nájdené žiadne objednávky.</p>
             </div>)

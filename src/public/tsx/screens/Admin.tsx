@@ -1,4 +1,4 @@
-import "react";
+// import "react";
 import * as React from "react";
 import DeleteModal from "../components/DeleteModal";
 import HeaderNav from "../components/HeaderNav";
@@ -23,6 +23,9 @@ interface IProps {
   orders?: object[];
   orderState?: number;
   orderManagerOpen?: boolean;
+  page?: number;
+  pagesCount?: number;
+  pageData?: object[];
   product?: IProduct;
   products?: object[];
   productEdit?: boolean;
@@ -36,7 +39,9 @@ interface IProps {
   deleteProduct(): Promise<void>;
   handleChangeOrderState(orderState: number): void;
   handleOrderStateUpdate(e: React.FormEvent<HTMLElement>): Promise<void>;
+  handleChangePage(page: number): void;
   handleChangeProducts(products: object[], productNum: number): void;
+  handlePageData(data: object[]): void;
   handleProduct(product: object): void;
   handleProductEdit(n: number | null): void;
   handleProductUpdate(e: React.FormEvent<HTMLElement>): Promise<void>;
@@ -105,9 +110,13 @@ export default class Admin extends React.Component<IProps, {}> {
           )} />
           <Route path={`${this.props.routeProps.match.url}/product-list`} render={() => (
             <ProductList
+              page={this.props.page}
+              pagesCount={this.props.pagesCount}
+              pageData={this.props.pageData}
               products={this.props.products}
               deleteProduct={this.props.deleteProduct}
               getProducts={this.props.getProducts}
+              handleChangePage={this.props.handleChangePage}
               handleChangeProducts={this.props.handleChangeProducts}
               handleProductEdit={this.props.handleProductEdit}
               handleShowDeleteModal={this.props.handleShowDeleteModal}
@@ -118,10 +127,15 @@ export default class Admin extends React.Component<IProps, {}> {
               orderManagerOpen={this.props.orderManagerOpen}
               getOrders={this.props.getOrders}
               handleChangeOrderState={this.props.handleChangeOrderState}
+              handleChangePage={this.props.handleChangePage}
               handleOrderStateUpdate={this.props.handleOrderStateUpdate}
+              handlePageData={this.props.handlePageData}
               order={this.props.order}
               orders={this.props.orders}
               orderState={this.props.orderState}
+              page={this.props.page}
+              pagesCount={this.props.pagesCount}
+              pageData={this.props.pageData}
               products={this.props.products}
               showOrderManager={this.props.showOrderManager}
             />
