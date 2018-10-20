@@ -74,7 +74,7 @@ const OrderManagerModal = (props) => {
                       }
                     </tbody>
                   </table>
-                  <div className="row">
+                  <div className="row border pt-2" style={{marginLeft: 0, marginRight: 0}}>
                     <div className="col-6">
                       <p>{`Objednávateľ: ${order.name},`}<br />
                       {`${order.phone}`}<br />
@@ -93,7 +93,7 @@ const OrderManagerModal = (props) => {
                 </div>
               </div>
             </div>
-            <div className="row">
+            <div className="row mt-3">
               <div className="col-6">
                 <h6>Správa objednávky:</h6>
                 <form onSubmit={handleOrderStateUpdate}>

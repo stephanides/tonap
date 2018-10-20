@@ -11368,7 +11368,7 @@ const OrderManagerModal = (props) => {
                                                 React.createElement("td", { className: "text-center" }, item.boxSize),
                                                 React.createElement("td", { className: "text-center" }, item.boxCount)));
                                         }))),
-                                    React.createElement("div", { className: "row" },
+                                    React.createElement("div", { className: "row border pt-2", style: { marginLeft: 0, marginRight: 0 } },
                                         React.createElement("div", { className: "col-6" },
                                             React.createElement("p", null,
                                                 `Objednávateľ: ${order.name},`,
@@ -11381,7 +11381,7 @@ const OrderManagerModal = (props) => {
                                         React.createElement("div", { className: "col-6" },
                                             order.company ? React.createElement("p", null, `Spoločnosť: ${order.company}`) : null,
                                             order.ico ? React.createElement("p", null, `IČO: ${order.ico}`) : null))))),
-                        React.createElement("div", { className: "row" },
+                        React.createElement("div", { className: "row mt-3" },
                             React.createElement("div", { className: "col-6" },
                                 React.createElement("h6", null, "Spr\u00E1va objedn\u00E1vky:"),
                                 React.createElement("form", { onSubmit: handleOrderStateUpdate },
