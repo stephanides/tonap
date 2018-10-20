@@ -41,6 +41,7 @@ export default class ProductList extends React.Component<IProps, {}> {
               className="custom-select form-control mb-2"
               onChange={(e) => {
                 const category = e.currentTarget.selectedIndex;
+
                 this.props.handleSortBy(category);
             }}>
               <option value={0}>Kategórie</option>
@@ -130,13 +131,22 @@ export default class ProductList extends React.Component<IProps, {}> {
                   }
                 </tbody>
               </table>,
-              this.props.pageData.length > 9 ?
+              this.props.pageData.length < 9 ?
+              (
+                this.props.page > 1 ?
+                <Pagination
+                  handleChangePage={this.props.handleChangePage}
+                  page={this.props.page}
+                  pagesCount={this.props.pagesCount}
+                  key={2}
+                /> : null
+              ) :
               <Pagination
                 handleChangePage={this.props.handleChangePage}
                 page={this.props.page}
                 pagesCount={this.props.pagesCount}
                 key={2}
-              /> : null
+              />
             ] :
             <div className="list-group-item text-center">
               <p>Neboli nájdené žiadne produkty, <Link to="/admin/product-insert">pridaj</Link> nejaké.</p>

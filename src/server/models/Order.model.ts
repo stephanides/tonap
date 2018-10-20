@@ -11,6 +11,7 @@ export class Order {
   public orderNum: number;
   public state: number;
   public street: string;
+  public phone: string;
   public products: object[];
 
   constructor(data: IOrder) {
@@ -23,6 +24,7 @@ export class Order {
     this.orderNum = data.orderNum;
     this.state = data.state;
     this.street = data.street;
+    this.phone = data.phone;
     this.products = data.products;
   }
 }
@@ -42,6 +44,7 @@ const OrderSchema = new Schema({
   ico: Number,
   name: String,
   orderNum: Number,
+  phone: String,
   products: Array,
   state: {
     default: 0,

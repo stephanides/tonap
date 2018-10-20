@@ -8,5 +8,6 @@ export default interface IOrder {
   orderNum: number;
   state: number;
   street: string;
+  phone: string;
   products: object[];
 }

@@ -12,6 +12,7 @@ class Order {
         this.orderNum = data.orderNum;
         this.state = data.state;
         this.street = data.street;
+        this.phone = data.phone;
         this.products = data.products;
     }
 }
@@ -31,6 +32,7 @@ const OrderSchema = new mongoose_1.Schema({
     ico: Number,
     name: String,
     orderNum: Number,
+    phone: String,
     products: Array,
     state: {
         default: 0,

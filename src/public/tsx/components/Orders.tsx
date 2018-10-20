@@ -22,6 +22,8 @@ interface IProps {
   handlePageData(data: object[]): void;
   handlePrintSummary(e: Event): void;
   handleReorder(): void;
+  handleSortOrderByState(state: number): void;
+  handleSearchOrderByNum(orderNum: string): void;
   showOrderManager(orderNum: string): void;
 }
 
@@ -49,12 +51,48 @@ export default class Products extends React.Component<IProps, {}> {
       />,
       <h2 key={1}>Zoznam objednávok</h2>,
       <div className="mt-3" key={2}>
-        <p>
-          <button className="btn btn-outline-primary" onClick={this.props.handleReorder}>{
-            this.props.orderSystem === 0 ?
-            "Najnovšie" : "Najstaršie"
-          }</button>
-        </p>
+        <div className="row mb-2">
+          <div className="col-sm-4 col-md-2 col-lg-2">
+            <button className="btn btn-outline-primary" onClick={this.props.handleReorder}>{
+              this.props.orderSystem === 0 ?
+              "Najnovšie" : "Najstaršie"
+            }</button>
+          </div>
+          <div className="col-sm-4 col-md-5 col-lg-4">
+            <select
+              className="custom-select form-control mb-2"
+              onChange={(e) => {
+                const state = e.currentTarget.selectedIndex - 1;
+
+                this.props.handleSortOrderByState(state);
+            }}>
+              <option value={4}>Stav objednávky</option>
+              <option value={0}>Nová</option>
+              <option value={1}>Vybavuje sa</option>
+              <option value={2}>Vybavená</option>
+            </select>
+          </div>
+          <div className="form-group col-sm-4 col-md-5 col-lg-4">
+            <div className="input-group">
+              <input
+                type="text"
+                className="form-control"
+                id="searchByTitle"
+                placeholder="Vyhľadaj podľa č. objednávky"
+                onChange={(e) => {
+                  const orderNum = e.currentTarget.value;
+
+                  this.props.handleSearchOrderByNum(orderNum);
+                }}
+              />
+              <div className="input-group-apend">
+                <span className="input-group-text" style={{padding: ".635rem .75rem"}}>
+                  <i className="fas fa-search"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
         {
           this.props.pageData ?
           (
@@ -119,11 +157,21 @@ export default class Products extends React.Component<IProps, {}> {
                   }
                 </tbody>
               </table>,
+              this.props.pageData.length < 9 ?
+              (
+                this.props.page > 1 ?
+                <Pagination
+                  handleChangePage={this.props.handleChangePage}
+                  page={this.props.page}
+                  pagesCount={this.props.pagesCount}
+                  key={2}
+                /> : null
+              ) :
               <Pagination
                 handleChangePage={this.props.handleChangePage}
                 page={this.props.page}
                 pagesCount={this.props.pagesCount}
-                key={1}
+                key={2}
               />
              ] :
             (<div className="list-group-item text-center">

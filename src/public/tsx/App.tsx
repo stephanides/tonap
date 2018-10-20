@@ -66,7 +66,7 @@ const initialState: IAppState = {
   itemsPerPage: 10,
   orderManagerOpen: false,
   orderState: 0,
-  orderSystem: 0,
+  orderSystem: 1,
   page: 1,
   printData: false,
   product: productInit,
@@ -106,7 +106,9 @@ export default class App extends React.Component<{}, IAppState> {
     this.handleProductUpdate = this.handleProductUpdate.bind(this);
     this.handleReorder = this.handleReorder.bind(this);
     this.handleSortBy = this.handleSortBy.bind(this);
+    this.handleSortOrderByState = this.handleSortOrderByState.bind(this);
     this.handleSerachByTitle = this.handleSerachByTitle.bind(this);
+    this.handleSearchOrderByNum = this.handleSearchOrderByNum.bind(this);
     this.imageDrop = this.imageDrop.bind(this);
     this.imagePreviewSelect = this.imagePreviewSelect.bind(this);
     this.imageRemoveSelect = this.imageRemoveSelect.bind(this);
@@ -168,7 +170,9 @@ export default class App extends React.Component<{}, IAppState> {
               handleReorder={this.handleReorder}
               handleShowDeleteModal={this.handleShowDeleteModal}
               handleSortBy={this.handleSortBy}
+              handleSortOrderByState={this.handleSortOrderByState}
               handleSerachByTitle={this.handleSerachByTitle}
+              handleSearchOrderByNum={this.handleSearchOrderByNum}
               modalError={this.state.modalError}
               modalText={this.state.modalText}
               order={this.state.order}
@@ -428,7 +432,7 @@ export default class App extends React.Component<{}, IAppState> {
       data.sort((a: any, b: any) => (b.dateCreated.toLowerCase().localeCompare(a.dateCreated.toLowerCase())));
       this.setState({orderSystem: 1}, () => this.handlePageData(data));
     } else {
-      data.sort((a: any, b: any) => (a.dateCreated.toLowerCase().localeCompare(b.dateCreated.toLowerCase())))
+      data.sort((a: any, b: any) => (a.dateCreated.toLowerCase().localeCompare(b.dateCreated.toLowerCase())));
       this.setState({orderSystem: 0}, () => this.handlePageData(data));
     }
   }
@@ -459,6 +463,42 @@ export default class App extends React.Component<{}, IAppState> {
 
       for (let i = 0; i < data.length; i++) {
         if ((data[i] as any).title.toLowerCase().indexOf(title.toLocaleLowerCase()) > -1) {
+          newData.push(data[i]);
+        }
+      }
+      
+      this.handlePageData(newData);
+    } else {
+      this.handlePageData(data);
+    }
+  }
+
+  private handleSortOrderByState(state: number) {
+    const data: object[] = this.state.orders;
+    
+    if (state > -1) {
+      let newData: object[] = [];
+
+      for (let i = 0; i < data.length; i++) {
+        if ((data[i] as any).state === state) {
+          newData.push(data[i]);
+        }
+      }
+      
+      this.handlePageData(newData);
+    } else {
+      this.handlePageData(data);
+    }
+  }
+
+  private handleSearchOrderByNum(orderNum: string) {
+    const data: object[] = this.state.orders;
+
+    if (orderNum) {
+      let newData: object[] = [];
+
+      for (let i = 0; i < data.length; i++) {
+        if (String((data[i] as any).orderNum).indexOf(orderNum) > -1) {
           newData.push(data[i]);
         }
       }
@@ -533,6 +573,8 @@ export default class App extends React.Component<{}, IAppState> {
       if (request.status === 200) {
         const responseJSON = await request.json();
         const data: object[] = (responseJSON as any).data;
+        
+        data.sort((a: any, b: any) => (b.dateCreated.toLowerCase().localeCompare(a.dateCreated.toLowerCase())));
 
         this.setState({
           orders: data,

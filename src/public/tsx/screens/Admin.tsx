@@ -52,7 +52,9 @@ interface IProps {
   handleReorder(): void;
   handleShowDeleteModal(productToDelete: number): void;
   handleSortBy(category: number): void;
+  handleSortOrderByState(state: number): void;
   handleSerachByTitle(title: string): void;
+  handleSearchOrderByNum(orderNum: string): void;
   imageDrop(files: File[]): void;
   imagePreviewSelect(n: number): void;
   imageRemoveSelect(n: number): void;
@@ -64,10 +66,6 @@ interface IProps {
 }
 
 export default class Admin extends React.Component<IProps, {}> {
-  /*public componentWillMount() {
-    this.props.getProducts();
-  }*/
-
   public render() {
     return[
       <DeleteModal
@@ -141,6 +139,8 @@ export default class Admin extends React.Component<IProps, {}> {
               handlePageData={this.props.handlePageData}
               handlePrintSummary={this.props.handlePrintSummary}
               handleReorder={this.props.handleReorder}
+              handleSortOrderByState={this.props.handleSortOrderByState}
+              handleSearchOrderByNum={this.props.handleSearchOrderByNum}
               order={this.props.order}
               orders={this.props.orders}
               orderState={this.props.orderState}

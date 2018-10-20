@@ -25,10 +25,11 @@ class OrderController {
                     ico: req.body.ico,
                     name: req.body.name,
                     orderNum,
+                    phone: req.body.phone,
                     products: req.body.products,
                     street: req.body.street,
                 };
-                const productArr = [];
+                // const productArr: object[] = [];
                 orderObj.products = req.body.products;
                 const newOrder = new Order_model_1.Order(orderObj);
                 const asyncCreateOrder = yield Order_model_1.Orders.create(newOrder);

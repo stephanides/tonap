@@ -22,10 +22,11 @@ export default class OrderController {
         ico: req.body.ico,
         name: req.body.name,
         orderNum,
+        phone: req.body.phone,
         products: req.body.products,
         street: req.body.street,
       };
-      const productArr: object[] = [];
+      // const productArr: object[] = [];
 
       orderObj.products = req.body.products;
 
