@@ -20,9 +20,12 @@ export class Email {
 
   public sendEmail(req: Request, res: Response, next: NextFunction) {
     this.transporter.sendMail({
-      from: "info@codebrothers.sk",
-      subject: "Tonap | Správa od: " + req.body.email,
-      text: req.body.message,
+      from: req.body.email, // "info@codebrothers.sk"
+      subject: "Tonap | Správa od: " + req.body.name,
+      html: `Máte novú správu od užívateľa <strong>${req.body.name}</strong>.<br />
+      Email užívateľa: ${req.body.email}
+      Obsah správy:<br /><br />
+      ${req.body.message}`,
       to: "info@codebrothers.sk", // TODO change for Tonap e-mail address in production
     }, (err) => {
       if (err) {
