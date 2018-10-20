@@ -229,7 +229,7 @@ const OrderManagerModal = (props: IProps) => {
                           placeholder="Sem napíš správu o stave objednávky, ktorá bude odoslaná zákazníkovi.&#10;&#10;Vyplnením tohto textového poľa, budú predošlé informácie o čase vybavenia obj. ignorované."
                           disabled={orderState > 0 ? false : true}
                         ></textarea>
-                        <p className="mt-1"><i><small>V prípade akýchkoľvek otázok nás neváhajte kontaktovať na telefónnom čísle <strong>+421 1234 123 123</strong>.<br />Alebo prostredníctvom e-mailu <strong>info@tonap.sk</strong><br /><br />S prianim pekného dňa,<br />tím <strong>Tonap s. r. o.</strong></small></i></p>
+                        <p className="mt-1"><i><small>V prípade akýchkoľvek otázok nás neváhajte kontaktovať na telefónnom čísle <strong>+421 918 243 753</strong>.<br />Alebo prostredníctvom e-mailu <strong>info@tonap.sk</strong><br /><br />S prianim pekného dňa,<br />tím <strong>TONAP</strong> s. r. o.</small></i></p>
                       </div>
                     </div>
                     <div className="col-6 d-flex align-items-center justify-content- flex-column">

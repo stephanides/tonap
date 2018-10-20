@@ -50,8 +50,8 @@ export default class OrderController {
         }
 
         const mailSubject: string = "TONAP: Informácia o doručení objednávky";
-        const mailBody: string = `Dobrý deň pán/pani ${req.body.name}<br /><br />
-        Ďakujeme za Vašu objednávka u spločnosti <strong>Tonap s. r. o.</strong><br /><br />
+        const mailBody: string = `Dobrý deň pán/pani ${req.body.name}.<br /><br />
+        Ďakujeme za Vašu objednávka u spločnosti <strong>TONAP</strong> s. r. o.<br /><br />
         Vaša objednácka číslo: <strong><i>${orderNum}</i></strong> bola prijatá na spracovanie.<br /><br />
         <strong>Súhrn objednávky:</strong><br /><br />
         <table border="0" cellspacing="0" cellpadding="0">
@@ -69,9 +69,15 @@ export default class OrderController {
         }, "")}
         </tbody></table><br/>
         O ďalšom priebehu objednávky Vás budeme informovať prostredníctvom emailu.<br /><br />
-        V prípade akýchkoľvek otázok nás neváhajte kontaktovať na telefónnom čísle <strong>+421 1234 123 123</strong>.<br />
+        V prípade akýchkoľvek otázok nás neváhajte kontaktovať na telefónnom čísle <strong>+421 918 243 753</strong>.<br />
         Alebo prostredníctvom e-mailu <strong>info@tonap.sk</strong><br /><br />
-        S prianim pekného dňa,<br />tím <strong>Tonap</strong> s. r. o.`;
+        S prianim pekného dňa,<br />tím <strong>TONAP</strong> s. r. o.<br /><br />
+        <strong>TONAP</strong> s.r.o.<br />
+        Na hore 1727/4<br />
+        040 22 Košice<br />
+        IČO: 51334011<br />
+        IČ DPH: SK2120679242<br />
+        +421 918 243 753`;
 
         this.sendMailNotification(req, next, req.body.email, mailSubject, mailBody, () => {
           res.json({ message: "Order has been created", success: true });
@@ -105,42 +111,66 @@ export default class OrderController {
           let mailBody: string;
 
           if (req.body.message) {
-            mailBody = `Dobrý deň pán/pani ${order.name}<br /><br />
+            mailBody = `Dobrý deň pán/pani ${order.name}.<br /><br />
             ${req.body.message}<br /><br />
-            V prípade akýchkoľvek otázok nás neváhajte kontaktovať na telefónnom čísle <strong>+421 1234 123 123</strong>.<br />
+            V prípade akýchkoľvek otázok nás neváhajte kontaktovať na telefónnom čísle <strong>+421 918 243 753</strong>.<br />
             Alebo prostredníctvom e-mailu <strong>info@tonap.sk</strong><br /><br />
-            S prianim pekného dňa,<br />tím <strong>Tonap s. r. o.</strong>`;
+            S prianim pekného dňa,<br />tím <strong>TONAP</strong> s. r. o.<br /><br />
+            <strong>TONAP</strong> s.r.o.<br />
+            Na hore 1727/4<br />
+            040 22 Košice<br />
+            IČO: 51334011<br />
+            IČ DPH: SK2120679242<br />
+            +421 918 243 753`;
           } else {
             if (req.body.state > 1) {
-              mailBody = `Dobrý deň pán/pani ${order.name}<br /><br />
+              mailBody = `Dobrý deň pán/pani ${order.name}.<br /><br />
               Vaša objednácka číslo: <strong><i>${order.orderNum}</i></strong> je vybavená.<br /><br />
-              V prípade akýchkoľvek otázok nás neváhajte kontaktovať na telefónnom čísle <strong>+421 1234 123 123</strong>.<br />
+              V prípade akýchkoľvek otázok nás neváhajte kontaktovať na telefónnom čísle <strong>+421 918 243 753</strong>.<br />
               Alebo prostredníctvom e-mailu <strong>info@tonap.sk</strong><br /><br />
-              S prianim pekného dňa,<br />tím <strong>Tonap s. r. o.</strong>`;
+              S prianim pekného dňa,<br />tím <strong>TONAP</strong> s. r. o.<br /><br />
+              <strong>TONAP</strong> s.r.o.<br />
+              Na hore 1727/4<br />
+              040 22 Košice<br />
+              IČO: 51334011<br />
+              IČ DPH: SK2120679242<br />
+              +421 918 243 753`;
             } else {
               if (req.body.deliveryTime > 3) {
-                mailBody = `Dobrý deň pán/pani ${order.name}<br /><br />
+                mailBody = `Dobrý deň pán/pani ${order.name}.<br /><br />
                 Vaša objednácka číslo: <strong><i>${order.orderNum}</i></strong> bude spracovaná a pripravená za ${deliveryTimes[req.body.deliveryTime]}.<br />
                 O ďalšom stave objednávky Vás budeme informovať prostredníctvom emailu.<br /><br />
-                V prípade akýchkoľvek otázok nás neváhajte kontaktovať na telefónnom čísle <strong>+421 1234 123 123</strong>.<br />
+                V prípade akýchkoľvek otázok nás neváhajte kontaktovať na telefónnom čísle <strong>+421 918 243 753</strong>.<br />
                 Alebo prostredníctvom e-mailu <strong>info@tonap.sk</strong><br /><br />
-                S prianim pekného dňa,<br />tím <strong>Tonap s. r. o.</strong>`;
+                S prianim pekného dňa,<br />tím <strong>TONAP</strong> s. r. o.<br /><br />
+                <strong>TONAP</strong> s.r.o.<br />
+                Na hore 1727/4<br />
+                040 22 Košice<br />
+                IČO: 51334011<br />
+                IČ DPH: SK2120679242<br />
+                +421 918 243 753`;
               } else {
-                mailBody = `Dobrý deň pán/pani ${order.name}<br /><br />
+                mailBody = `Dobrý deň pán/pani ${order.name}.<br /><br />
                 Vaša objednácka číslo: <strong><i>${order.orderNum}</i></strong> bude spracovaná a pripravená do ${deliveryTimes[req.body.deliveryTime]}.<br />
                 O ďalšom stave objednávky Vás budeme informovať prostredníctvom emailu.<br /><br />
-                V prípade akýchkoľvek otázok nás neváhajte kontaktovať na telefónnom čísle <strong>+421 1234 123 123</strong>.<br />
+                V prípade akýchkoľvek otázok nás neváhajte kontaktovať na telefónnom čísle <strong>+421 918 243 753</strong>.<br />
                 Alebo prostredníctvom e-mailu <strong>info@tonap.sk</strong><br /><br />
-                S prianim pekného dňa,<br />tím <strong>Tonap s. r. o.</strong>`;
+                S prianim pekného dňa,<br />tím <strong>TONAP</strong> s. r. o.<br /><br />
+                <strong>TONAP</strong> s.r.o.<br />
+                Na hore 1727/4<br />
+                040 22 Košice<br />
+                IČO: 51334011<br />
+                IČ DPH: SK2120679242<br />
+                +421 918 243 753`;
               }
             }
           }
 
           this.sendMailNotification(req, next, order.email, mailSubject, mailBody, () => {
-            res.json({message: "Order has been successfully updated", success: true});
+            res.json({message: "Objednávka bola úspešne zmenená", success: true});
           });
         } else {
-          this.throwError("Can\'t update order data", 500, next);
+          this.throwError("Nie je možné upraviť dáta objednávky", 500, next);
         }
       }
     } catch (err) {
@@ -152,7 +182,7 @@ export default class OrderController {
     const orders = await Orders.find({});
 
     if (!orders || orders.length < 1) {
-      this.throwError("Nothing found", 404, next);
+      this.throwError("Not found", 404, next);
     } else {
       res.json({ data: orders, success: true });
     }
@@ -172,8 +202,6 @@ export default class OrderController {
           for (let j = 0; j < numStringToParse.length; j++) {
             if (j === 4 && parseInt(numStringToParse[j]) > 0) {
               tempNum3Dig = parseInt(numStringToParse[j]);
-              console.log("3digit start num:");
-              console.log(tempNum3Dig);
             }
             if (j === 5 && parseInt(numStringToParse[j]) > 0) {
               tempNum2Dig = parseInt(numStringToParse[j]);
@@ -228,7 +256,6 @@ export default class OrderController {
       if (err) {
         this.throwError(err.message, 500, next);
       } else {
-        console.log("Message has been sent.");
         if (typeof callBack === "function") {
           callBack();
         }

@@ -11684,7 +11684,7 @@ const OrderManagerModal = (props) => {
                                                     React.createElement("i", null,
                                                         React.createElement("small", null,
                                                             "V pr\u00EDpade ak\u00FDchko\u013Evek ot\u00E1zok n\u00E1s nev\u00E1hajte kontaktova\u0165 na telef\u00F3nnom \u010D\u00EDsle ",
-                                                            React.createElement("strong", null, "+421 1234 123 123"),
+                                                            React.createElement("strong", null, "+421 918 243 753"),
                                                             ".",
                                                             React.createElement("br", null),
                                                             "Alebo prostredn\u00EDctvom e-mailu ",
@@ -11694,7 +11694,8 @@ const OrderManagerModal = (props) => {
                                                             "S prianim pekn\u00E9ho d\u0148a,",
                                                             React.createElement("br", null),
                                                             "t\u00EDm ",
-                                                            React.createElement("strong", null, "Tonap s. r. o.")))))),
+                                                            React.createElement("strong", null, "TONAP"),
+                                                            " s. r. o."))))),
                                         React.createElement("div", { className: "col-6 d-flex align-items-center justify-content- flex-column" },
                                             React.createElement("img", { src: "./assets/images/icons/check-mark-circle.svg", width: "50", height: "50", style: showOrderSucess ? { display: "block" } : { display: "none" } }),
                                             React.createElement("p", { className: showOrderSucess ? "text-info text-center mt-2" : "d-none" }, "Inform\u00E1cie o stave objedn\u00E1vky boli \u00FAspe\u0161ne odoslan\u00E9 z\u00E1kazn\u00EDkovi."))),
@@ -11842,7 +11843,7 @@ const Pagination = (props) => {
                             React.createElement("option", { value: 10 }, "10"),
                             React.createElement("option", { value: 20 }, "20"),
                             React.createElement("option", { value: 50 }, "50"),
-                            React.createElement("option", { value: 51 }, "\u221E"))))))));
+                            React.createElement("option", { value: 5000000 }, "\u221E"))))))));
 };
 exports.default = Pagination;
 
