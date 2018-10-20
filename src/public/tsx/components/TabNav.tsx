@@ -14,7 +14,7 @@ export default class TabNav extends React.Component<IProps, {}> {
   public render() {
     return(
       <nav className="tabNav">
-        <ul className="d-flex">
+        <ul className="d-flex position-relative">
         <li className={
           this.props.routeProps.location.pathname.indexOf("product") < 0 ? (
             this.props.routeProps.location.pathname.indexOf("list") < 0 ?
@@ -23,14 +23,17 @@ export default class TabNav extends React.Component<IProps, {}> {
           }>
             <i className="fas fa-box-open d-flex align-items-center ml-2"></i>
             <Link to="/admin">Objednávky</Link>
+            <span></span>
           </li>
           <li className={this.props.routeProps.location.pathname.indexOf("product-list") > -1 ? "active" : null}>
             <i className="fas fa-vial d-flex align-items-center ml-2"></i>
             <Link to="/admin/product-list">Zoznam produktov</Link>
+            <span></span>
           </li>
           <li className={this.props.routeProps.location.pathname.indexOf("product-insert") > -1 ? "active" : null}>
             <i className="fas fa-plus d-flex align-items-center ml-2"></i>
             <Link to="/admin/product-insert">Vložiť Produkt</Link>
+            <span></span>
           </li>
         </ul>
 
@@ -42,7 +45,6 @@ export default class TabNav extends React.Component<IProps, {}> {
             border-bottom: 1px solid #55bee3;
             list-style: none;
             padding: 0;
-            position: relative;
           }
 
           .tabNav ul li {
@@ -57,12 +59,19 @@ export default class TabNav extends React.Component<IProps, {}> {
             border: 1px solid #55bee3;
             border-bottom: 1px solid #fff;
             border-radius: .5rem .5rem 0 0;
-            top: 1px;
           }
 
           .tabNav ul li a {
             padding: .5rem 1rem;
             text-decoration: none;
+          }
+
+          .tabNav ul li:hover span, .tabNav ul li.active span {
+            width: 100%;
+            height: 0;
+            border: 1px solid #fff;
+            position: absolute;
+            bottom: -2px;
           }
         `} />
       </nav>

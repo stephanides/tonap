@@ -12144,17 +12144,20 @@ class TabNav extends React.Component {
     }
     render() {
         return (React.createElement("nav", { className: "tabNav" },
-            React.createElement("ul", { className: "d-flex" },
+            React.createElement("ul", { className: "d-flex position-relative" },
                 React.createElement("li", { className: this.props.routeProps.location.pathname.indexOf("product") < 0 ? (this.props.routeProps.location.pathname.indexOf("list") < 0 ?
                         "active" : null) : null },
                     React.createElement("i", { className: "fas fa-box-open d-flex align-items-center ml-2" }),
-                    React.createElement(react_router_dom_1.Link, { to: "/admin" }, "Objedn\u00E1vky")),
+                    React.createElement(react_router_dom_1.Link, { to: "/admin" }, "Objedn\u00E1vky"),
+                    React.createElement("span", null)),
                 React.createElement("li", { className: this.props.routeProps.location.pathname.indexOf("product-list") > -1 ? "active" : null },
                     React.createElement("i", { className: "fas fa-vial d-flex align-items-center ml-2" }),
-                    React.createElement(react_router_dom_1.Link, { to: "/admin/product-list" }, "Zoznam produktov")),
+                    React.createElement(react_router_dom_1.Link, { to: "/admin/product-list" }, "Zoznam produktov"),
+                    React.createElement("span", null)),
                 React.createElement("li", { className: this.props.routeProps.location.pathname.indexOf("product-insert") > -1 ? "active" : null },
                     React.createElement("i", { className: "fas fa-plus d-flex align-items-center ml-2" }),
-                    React.createElement(react_router_dom_1.Link, { to: "/admin/product-insert" }, "Vlo\u017Ei\u0165 Produkt"))),
+                    React.createElement(react_router_dom_1.Link, { to: "/admin/product-insert" }, "Vlo\u017Ei\u0165 Produkt"),
+                    React.createElement("span", null))),
             React.createElement(style_1.default, { styleId: "tabNavUl", css: `
           .tabNav {
             margin-top: 1rem;
@@ -12163,7 +12166,6 @@ class TabNav extends React.Component {
             border-bottom: 1px solid #55bee3;
             list-style: none;
             padding: 0;
-            position: relative;
           }
 
           .tabNav ul li {
@@ -12178,12 +12180,19 @@ class TabNav extends React.Component {
             border: 1px solid #55bee3;
             border-bottom: 1px solid #fff;
             border-radius: .5rem .5rem 0 0;
-            top: 1px;
           }
 
           .tabNav ul li a {
             padding: .5rem 1rem;
             text-decoration: none;
+          }
+
+          .tabNav ul li:hover span, .tabNav ul li.active span {
+            width: 100%;
+            height: 0;
+            border: 1px solid #fff;
+            position: absolute;
+            bottom: -2px;
           }
         ` })));
     }
