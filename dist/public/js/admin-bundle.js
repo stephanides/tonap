@@ -12168,66 +12168,67 @@ class ProductList extends React.Component {
     render() {
         return (React.createElement("div", null,
             React.createElement("h2", null, "Zoznam produktov"),
-            React.createElement("div", { className: "row" },
-                React.createElement("div", { className: "col-sm-4 col-md-2 col-lg-2 d-flex" }, "Zoradi\u0165 pod\u013Ea"),
-                React.createElement("div", { className: "col-sm-4 col-md-5 col-lg-4" },
-                    React.createElement("select", { className: "custom-select form-control mb-2", onChange: (e) => {
-                            const category = e.currentTarget.selectedIndex;
-                            this.props.handleSortBy(category);
-                        } },
-                        React.createElement("option", { value: 0 }, "Kateg\u00F3rie"),
-                        React.createElement("option", { value: 1 }, "Mas\u0165ovky a Kel\u00EDmky"),
-                        React.createElement("option", { value: 2 }, "Petriho misky a odbern\u00EDky"),
-                        React.createElement("option", { value: 3 }, "Sk\u00FAmavky"))),
-                React.createElement("div", { className: "form-group col-sm-4 col-md-5 col-lg-4" },
-                    React.createElement("div", { className: "input-group" },
-                        React.createElement("input", { type: "text", className: "form-control", id: "searchByTitle", placeholder: "Vyh\u013Eadaj pod\u013Ea n\u00E1zvu produktu", onChange: (e) => {
-                                const title = e.currentTarget.value;
-                                this.props.handleSerachByTitle(title);
-                            } }),
-                        React.createElement("div", { className: "input-group-apend" },
-                            React.createElement("span", { className: "input-group-text", style: { padding: ".635rem .75rem" } },
-                                React.createElement("i", { className: "fas fa-search" })))))),
-            this.props.pageData ?
-                (this.props.pageData.length > 0 ?
-                    [
-                        React.createElement("table", { className: "table table-striped mb-5", key: 1 },
-                            React.createElement("thead", null,
-                                React.createElement("tr", null,
-                                    React.createElement("th", { scope: "col" }, "#"),
-                                    React.createElement("th", { scope: "col" }, "N\u00E1zov produktu"),
-                                    React.createElement("th", { scope: "col" }, "Akt\u00EDvny"),
-                                    React.createElement("th", { scope: "col" }),
-                                    React.createElement("th", { scope: "col" }))),
-                            React.createElement("tbody", null, this.props.pageData.map((item, i) => {
-                                const activity = item.active;
-                                return (React.createElement("tr", { key: i },
-                                    React.createElement("td", { scope: "row" }, i + 1),
-                                    React.createElement("td", null, item.title),
-                                    React.createElement("td", null, React.createElement("label", { className: "switch" },
-                                        React.createElement("input", { type: "checkbox", checked: activity || false, onChange: (e) => {
-                                                const products = this.props.pageData;
-                                                const product = products[i];
-                                                product.active = product.active ? false : true;
-                                                this.props.handleChangeProducts(this.props.pageData, i);
-                                            } }),
-                                        React.createElement("span", { className: "slider round" }))),
-                                    React.createElement("td", null,
-                                        React.createElement("button", { type: "button", className: "btn btn-primary", onClick: () => this.props.handleProductEdit(i) }, "Edit")),
-                                    React.createElement("td", null,
-                                        React.createElement("button", { type: "button", className: "btn btn-danger ml-2", onClick: () => this.props.handleShowDeleteModal(i) }, "Delete"))));
-                            }))),
-                        this.props.pageData.length < 9 ?
-                            (this.props.page > 1 ?
-                                React.createElement(Pagination_1.default, { itemsPerPage: this.props.itemsPerPage, handleChangeItemsPerPage: this.props.handleChangeItemsPerPage, handleChangePage: this.props.handleChangePage, page: this.props.page, pagesCount: this.props.pagesCount, key: 2 }) : null) :
-                            React.createElement(Pagination_1.default, { itemsPerPage: this.props.itemsPerPage, handleChangeItemsPerPage: this.props.handleChangeItemsPerPage, handleChangePage: this.props.handleChangePage, page: this.props.page, pagesCount: this.props.pagesCount, key: 2 })
-                    ] :
-                    React.createElement("div", { className: "list-group-item text-center" },
-                        React.createElement("p", null,
-                            "Neboli n\u00E1jden\u00E9 \u017Eiadne produkty, ",
-                            React.createElement(react_router_dom_1.Link, { to: "/admin/product-insert" }, "pridaj"),
-                            " nejak\u00E9."))) : (React.createElement("div", { className: "w-100 d-flex justify-content-center mt-3" },
-                React.createElement("img", { src: "../assets/images/icons/loading.gif", width: "50", height: "50" })))));
+            React.createElement("div", { className: "mt-3" },
+                React.createElement("div", { className: "row mb-2" },
+                    React.createElement("div", { className: "col-sm-4 col-md-2 col-lg-2 d-flex" }, "Zoradi\u0165 pod\u013Ea"),
+                    React.createElement("div", { className: "col-sm-4 col-md-5 col-lg-4" },
+                        React.createElement("select", { className: "custom-select form-control mb-2", onChange: (e) => {
+                                const category = e.currentTarget.selectedIndex;
+                                this.props.handleSortBy(category);
+                            } },
+                            React.createElement("option", { value: 0 }, "Kateg\u00F3rie"),
+                            React.createElement("option", { value: 1 }, "Mas\u0165ovky a Kel\u00EDmky"),
+                            React.createElement("option", { value: 2 }, "Petriho misky a odbern\u00EDky"),
+                            React.createElement("option", { value: 3 }, "Sk\u00FAmavky"))),
+                    React.createElement("div", { className: "form-group col-sm-4 col-md-5 col-lg-4" },
+                        React.createElement("div", { className: "input-group" },
+                            React.createElement("input", { type: "text", className: "form-control", id: "searchByTitle", placeholder: "Vyh\u013Eadaj pod\u013Ea n\u00E1zvu produktu", onChange: (e) => {
+                                    const title = e.currentTarget.value;
+                                    this.props.handleSerachByTitle(title);
+                                } }),
+                            React.createElement("div", { className: "input-group-apend" },
+                                React.createElement("span", { className: "input-group-text", style: { padding: ".635rem .75rem" } },
+                                    React.createElement("i", { className: "fas fa-search" })))))),
+                this.props.pageData ?
+                    (this.props.pageData.length > 0 ?
+                        [
+                            React.createElement("table", { className: "table table-striped mb-5", key: 1 },
+                                React.createElement("thead", null,
+                                    React.createElement("tr", null,
+                                        React.createElement("th", { scope: "col" }, "#"),
+                                        React.createElement("th", { scope: "col" }, "N\u00E1zov produktu"),
+                                        React.createElement("th", { scope: "col" }, "Akt\u00EDvny"),
+                                        React.createElement("th", { scope: "col" }),
+                                        React.createElement("th", { scope: "col" }))),
+                                React.createElement("tbody", null, this.props.pageData.map((item, i) => {
+                                    const activity = item.active;
+                                    return (React.createElement("tr", { key: i },
+                                        React.createElement("td", { scope: "row" }, i + 1),
+                                        React.createElement("td", null, item.title),
+                                        React.createElement("td", null, React.createElement("label", { className: "switch" },
+                                            React.createElement("input", { type: "checkbox", checked: activity || false, onChange: (e) => {
+                                                    const products = this.props.pageData;
+                                                    const product = products[i];
+                                                    product.active = product.active ? false : true;
+                                                    this.props.handleChangeProducts(this.props.pageData, i);
+                                                } }),
+                                            React.createElement("span", { className: "slider round" }))),
+                                        React.createElement("td", null,
+                                            React.createElement("button", { type: "button", className: "btn btn-primary", onClick: () => this.props.handleProductEdit(i) }, "Edit")),
+                                        React.createElement("td", null,
+                                            React.createElement("button", { type: "button", className: "btn btn-danger ml-2", onClick: () => this.props.handleShowDeleteModal(i) }, "Delete"))));
+                                }))),
+                            this.props.pageData.length < 9 ?
+                                (this.props.page > 1 ?
+                                    React.createElement(Pagination_1.default, { itemsPerPage: this.props.itemsPerPage, handleChangeItemsPerPage: this.props.handleChangeItemsPerPage, handleChangePage: this.props.handleChangePage, page: this.props.page, pagesCount: this.props.pagesCount, key: 2 }) : null) :
+                                React.createElement(Pagination_1.default, { itemsPerPage: this.props.itemsPerPage, handleChangeItemsPerPage: this.props.handleChangeItemsPerPage, handleChangePage: this.props.handleChangePage, page: this.props.page, pagesCount: this.props.pagesCount, key: 2 })
+                        ] :
+                        React.createElement("div", { className: "list-group-item text-center" },
+                            React.createElement("p", null,
+                                "Neboli n\u00E1jden\u00E9 \u017Eiadne produkty, ",
+                                React.createElement(react_router_dom_1.Link, { to: "/admin/product-insert" }, "pridaj"),
+                                " nejak\u00E9."))) : (React.createElement("div", { className: "w-100 d-flex justify-content-center mt-3" },
+                    React.createElement("img", { src: "../assets/images/icons/loading.gif", width: "50", height: "50" }))))));
     }
 }
 exports.default = ProductList;
