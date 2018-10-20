@@ -6,6 +6,7 @@ import ProductListItem from "./ProductListItem";
 import Pagination from "./Pagination";
 
 interface IProps {
+  itemsPerPage?: number;
   products?: object[];
   pageData?: object[];
   page?: number;
@@ -13,6 +14,7 @@ interface IProps {
 
   deleteProduct(i: number): Promise<void>;
   getProducts(): Promise<void>;
+  handleChangeItemsPerPage(itemsPerPage: number): void;
   handleChangePage(page: number): void;
   handleChangeProducts(products: object[], productNum: number): void;
   handleProductEdit(n: number | null): void;
@@ -135,6 +137,8 @@ export default class ProductList extends React.Component<IProps, {}> {
               (
                 this.props.page > 1 ?
                 <Pagination
+                  itemsPerPage={this.props.itemsPerPage}
+                  handleChangeItemsPerPage={this.props.handleChangeItemsPerPage}
                   handleChangePage={this.props.handleChangePage}
                   page={this.props.page}
                   pagesCount={this.props.pagesCount}
@@ -142,6 +146,8 @@ export default class ProductList extends React.Component<IProps, {}> {
                 /> : null
               ) :
               <Pagination
+                itemsPerPage={this.props.itemsPerPage}
+                handleChangeItemsPerPage={this.props.handleChangeItemsPerPage}
                 handleChangePage={this.props.handleChangePage}
                 page={this.props.page}
                 pagesCount={this.props.pagesCount}

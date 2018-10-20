@@ -17,9 +17,11 @@ import IProduct from "../interfaces/Product.interface";
 interface IProps {
   imageFiles?: IFile[];
   imageNum?: number;
+  itemsPerPage?: number;
   modalError?: boolean | null;
   modalText?: string;
   order?: {};
+  orderDeliveryTime?: number;
   orders?: object[];
   orderState?: number;
   orderSystem?: number;
@@ -40,6 +42,8 @@ interface IProps {
 
   closeDeleteModal(): void;
   deleteProduct(): Promise<void>;
+  handleChangeItemsPerPage(itemsPerPage: number): void;
+  handleChangeOrderDeliveryTime(orderDeliveryTime: number): void;
   handleChangeOrderState(orderState: number): void;
   handleOrderStateUpdate(e: React.FormEvent<HTMLElement>): Promise<void>;
   handleChangePage(page: number): void;
@@ -115,12 +119,14 @@ export default class Admin extends React.Component<IProps, {}> {
           )} />
           <Route path={`${this.props.routeProps.match.url}/product-list`} render={() => (
             <ProductList
+              itemsPerPage={this.props.itemsPerPage}
               page={this.props.page}
               pagesCount={this.props.pagesCount}
               pageData={this.props.pageData}
               products={this.props.products}
               deleteProduct={this.props.deleteProduct}
               getProducts={this.props.getProducts}
+              handleChangeItemsPerPage={this.props.handleChangeItemsPerPage}
               handleChangePage={this.props.handleChangePage}
               handleChangeProducts={this.props.handleChangeProducts}
               handleProductEdit={this.props.handleProductEdit}
@@ -131,8 +137,11 @@ export default class Admin extends React.Component<IProps, {}> {
           )} />
           <Route exact path={`${this.props.routeProps.match.url}`} render={() => (
             <Orders
+              itemsPerPage={this.props.itemsPerPage}
               orderManagerOpen={this.props.orderManagerOpen}
               getOrders={this.props.getOrders}
+              handleChangeItemsPerPage={this.props.handleChangeItemsPerPage}
+              handleChangeOrderDeliveryTime={this.props.handleChangeOrderDeliveryTime}
               handleChangeOrderState={this.props.handleChangeOrderState}
               handleChangePage={this.props.handleChangePage}
               handleOrderStateUpdate={this.props.handleOrderStateUpdate}
@@ -142,6 +151,7 @@ export default class Admin extends React.Component<IProps, {}> {
               handleSortOrderByState={this.props.handleSortOrderByState}
               handleSearchOrderByNum={this.props.handleSearchOrderByNum}
               order={this.props.order}
+              orderDeliveryTime={this.props.orderDeliveryTime}
               orders={this.props.orders}
               orderState={this.props.orderState}
               orderSystem={this.props.orderSystem}

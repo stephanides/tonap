@@ -1,16 +1,61 @@
 import * as React from "react";
 
-const OrderManagerModal = (props) => {
+interface IProps {
+  order?: IOrder;
+  orderDeliveryTime?: number;
+  orderManagerOpen?: boolean;
+  orderState?: number;
+  printData?: boolean;
+  showOrderSucess?: boolean;
+
+  handleChangeOrderDeliveryTime(orderDeliveryTime: number): void;
+  handleChangeOrderState(orderState: number): void;
+  handleOrderStateUpdate(e: React.FormEvent<HTMLElement>): Promise<void>;
+  handlePrintSummary(e: Event): void;
+}
+
+interface IOrder {
+  city?: string;
+  company?: string;
+  dateModified?: string;
+  deliveryTime?: number;
+  email?: string;
+  ico?: string;
+  name?: string;
+  state?: number;
+  phone?: string;
+  orderNum?: number;
+  products?: IProducts[];
+}
+interface IProducts {
+  isSterile?: boolean;
+  title?: string;
+  package?: number;
+  boxSize?: number;
+  boxCount?: number
+}
+
+const OrderManagerModal = (props: IProps) => {
   const {
+    handleChangeOrderDeliveryTime,
     handleChangeOrderState,
     handleOrderStateUpdate,
     handlePrintSummary,
     orderManagerOpen,
     orderState,
     order,
+    orderDeliveryTime,
     printData,
     showOrderSucess,
   } = props;
+  const date = new Date();
+  const clientDate = date.getDate() + "." + (date.getMonth() - 1) + "." + date.getFullYear();
+  const orderMDate = order ?
+  (
+    order.dateModified ?
+    order.dateModified.split("T")[0].split("-")[2] + "." + order.dateModified.split("T")[0].split("-")[1] + "." + order.dateModified.split("T")[0].split("-")[0] :
+    null
+  ) : null;
 
   return(
     orderManagerOpen ?
@@ -40,7 +85,7 @@ const OrderManagerModal = (props) => {
                       fontSize: "x-small",
                       display: printData ? "none" : "block",
                     }}
-                    onClick={(e) => handlePrintSummary(e)}
+                    onClick={(e) => handlePrintSummary(e as any)}
                   >
                     Tlačiť <i className="fas fa-print"></i>
                   </button>
@@ -76,17 +121,17 @@ const OrderManagerModal = (props) => {
                   </table>
                   <div className="row border pt-2" style={{marginLeft: 0, marginRight: 0}}>
                     <div className="col-6">
-                      <p>{`Objednávateľ: ${order.name},`}<br />
-                      {`${order.phone}`}<br />
-                      {`${order.email}`}<br />
-                      {`Mesto: ${order.city}`}</p>
+                      <p><strong>Objednávateľ:</strong>{` ${order.name},`}<br />
+                      <strong>Telefón:</strong>{` ${order.phone},`}<br />
+                      <strong>E-mail:</strong>{` ${order.email},`}<br />
+                      <strong>Mesto:</strong>{` ${order.city}`}</p>
                     </div>
                     <div className="col-6">
                     {
-                      order.company ? <p>{`Spoločnosť: ${order.company}`}</p> : null
+                      order.company ? <p><strong>Spoločnosť:</strong>{` ${order.company}`}</p> : null
                     }
                     {
-                      order.ico ? <p>{`IČO: ${order.ico}`}</p> : null
+                      order.ico ? <p><strong>IČO:</strong>{` ${order.ico}`}</p> : null
                     }
                     </div>
                   </div>
@@ -94,86 +139,125 @@ const OrderManagerModal = (props) => {
               </div>
             </div>
             <div className="row mt-3">
-              <div className="col-6">
+              <div className="col-12">
                 <h6>Správa objednávky:</h6>
-                <form onSubmit={handleOrderStateUpdate}>
-                  <div className="form-group">
-                    <label htmlFor="state">Stav objednávky</label>
-                    <select
-                      className="form-control"
-                      id="state"
-                      name="state"
-                      onChange={(e) => {
-                        const currentOrderState = e.target.selectedIndex;
+                <form onSubmit={(e) => handleOrderStateUpdate(e)}>
+                  <div className="row">
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label htmlFor="state">Stav objednávky</label>
+                        <select
+                          className="form-control"
+                          id="state"
+                          name="state"
+                          onChange={(e) => {
+                            const currentOrderState = e.target.selectedIndex;
 
-                        handleChangeOrderState(currentOrderState);
-                      }}
-                      value={order.state}
-                      disabled={order.state > 1 ? true : false}
-                    >
-                      <option value="0" disabled={true}>Nová objednávka</option>
-                      <option value="1" disabled={order.state == 1 ? true : false}>Vybavuje sa</option>
-                      <option value="2" disabled={order.state == 2 ? true : false}>Vybavená</option>
-                    </select>
+                            handleChangeOrderState(currentOrderState);
+                          }}
+                          value={orderState}
+                          disabled={order.state > 1 ? true : false}
+                        >
+                          <option value="0" disabled={true}>Nová objednávka</option>
+                          <option value="1" disabled={order.state == 1 ? true : false}>Vybavuje sa</option>
+                          <option value="2" disabled={order.state == 2 ? true : false}>Vybavená</option>
+                        </select>
+                      </div>
+                      {
+                        orderState > 0 ?
+                        (
+                          orderState < 2 ?
+                          (
+                            <div className="form-group">
+                              <label htmlFor="deliveryTime">Vybavenie objednávky do:</label>
+                              <select
+                                className="form-control"
+                                id="deliveryTime"
+                                name="deliveryTime"
+                                onChange={(e) => {
+                                  const orderDeliveryTime: number = (e.currentTarget as HTMLSelectElement).selectedIndex;
+
+                                  handleChangeOrderDeliveryTime(orderDeliveryTime);
+                                }}
+                                value={orderDeliveryTime}
+                              >
+                                <option value="0">5. prac. dní</option>
+                                <option value="1">10. prac. dní</option>
+                                <option value="2">15. prac. dní</option>
+                                <option value="3">20. prac. dní</option>
+                                <option value="4">viac ako 20. prac. dní</option>
+                              </select>
+                            </div>
+                          ) : null
+                        ) : null
+                      }
+                    </div>
+                    <div className="col-6 pt-1">
+                      {
+                        orderState > 0 ?
+                        (
+                          orderState < 2 ?
+                          (
+                            orderDeliveryTime > 0 ?
+                            (
+                              orderDeliveryTime > 1 ?
+                              (
+                                orderDeliveryTime > 2 ?
+                                (
+                                  orderDeliveryTime > 3 ?
+                                  <p className="text-danger">Dodať objednávku za viac ako 20. prac. dní, odo dňa <strong>{orderMDate ? orderMDate : clientDate}</strong>.</p> :
+                                  <p className="text-danger">Záväzne dodať objednávku do 20. prac. dní, odo dňa <strong>{orderMDate ? orderMDate : clientDate}</strong>.</p>
+                                ) : <p className="text-danger">Záväzne dodať objednávku do 15. prac. dní, odo dňa <strong>{orderMDate ? orderMDate : clientDate}</strong>.</p>
+                              ) : <p className="text-danger">Záväzne dodať objednávku do 10. prac. dní, odo dňa <strong>{orderMDate ? orderMDate : clientDate}</strong>.</p>
+                            ) : <p className="text-danger">Záväzne dodať objednávku do 5. prac. dní, odo dňa <strong>{orderMDate ? orderMDate : clientDate}</strong>.</p>
+                          ) : <p className="text-success">Objednávka je vybavená.</p>
+                        ) : null
+                      }
+                    </div>
                   </div>
-                  {
-                    orderState > 0 ?
-                    (
-                      orderState < 2 ?
-                      (
-                        <div className="form-group">
-                          <label htmlFor="deliveryTime">Vybavenie objednávky do:</label>
-                          <select
-                            className="form-control"
-                            id="deliveryTime"
-                            name="deliveryTime"
-                          >
-                            <option value="0">10 prac. dní</option>
-                            <option value="1">15 prac. dní</option>
-                            <option value="2">20 prac. dní</option>
-                            <option value="3">30 prac. dní</option>
-                            <option value="4">viac ako 30. prac. dní</option>
-                          </select>
-                        </div>
-                      ) : null
-                    ) : null
-                  }
-                  <div className="form-group">
-                    <label htmlFor="message">Správa pre zákazníka</label>
-                    <textarea
-                      aria-describedby="messageHelp"
-                      className="form-control"
-                      id="message"
-                      name="message"
-                      rows={3}
-                      placeholder="Sem napíš správu o stave objednávky, ktorá bude odoslaná zákazníkovi."
-                      disabled={orderState > 0 ? false : true}
-                    ></textarea>
-                    <small id="messageHelp" className="form-text text-muted">Vyplnením tohto textového poľa, budú predošlé informácie ignorované.</small>
+                  <div className="row">
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label htmlFor="message">Správa pre zákazníka:</label>
+                        <p><i><small>{`Dobrý deň pán/pani ${order.name}`}</small></i></p>
+                        <textarea
+                          aria-describedby="messageHelp"
+                          className="form-control"
+                          id="message"
+                          name="message"
+                          rows={6}
+                          placeholder="Sem napíš správu o stave objednávky, ktorá bude odoslaná zákazníkovi.&#10;&#10;Vyplnením tohto textového poľa, budú predošlé informácie o čase vybavenia obj. ignorované."
+                          disabled={orderState > 0 ? false : true}
+                        ></textarea>
+                        <p className="mt-1"><i><small>V prípade akýchkoľvek otázok nás neváhajte kontaktovať na telefónnom čísle <strong>+421 1234 123 123</strong>.<br />Alebo prostredníctvom e-mailu <strong>info@tonap.sk</strong><br /><br />S prianim pekného dňa,<br />tím <strong>Tonap s. r. o.</strong></small></i></p>
+                      </div>
+                    </div>
+                    <div className="col-6 d-flex align-items-center justify-content- flex-column">
+                      <img
+                        src="./assets/images/icons/check-mark-circle.svg"
+                        width="50"
+                        height="50"
+                        style={showOrderSucess ? {display: "block"} : {display: "none"}}
+                      />
+                      <p className={showOrderSucess ? "text-info text-center mt-2" : "d-none"}>Informácie o stave objednávky boli úspešne odoslané zákazníkovi.</p>
+                    </div>
                   </div>
-                  <div className="form-group">
-                    <button
-                      type="submit"
-                      className="btn btn-primary"
-                      disabled={orderState > 0 ? false : true}
-                    >Upraviť stav objednávky</button>
+                  <div className="row">
+                    <div className="col-12">
+                      <div className="form-group">
+                        <button
+                          type="submit"
+                          className="btn btn-primary"
+                          disabled={
+                            orderState > 0 ? (
+                              order.state > 1 ?
+                              true : false
+                            ) : true}
+                        >Upraviť stav objednávky</button>
+                      </div>
+                    </div>
                   </div>
                 </form>
-              </div>
-              <div className="col-6 d-flex align-items-center justify-content-center">
-                <img
-                  src="./assets/images/icons/check-mark-circle.svg"
-                  width="50"
-                  height="50"
-                  style={
-                    showOrderSucess ?
-                    {
-                      display: "block",
-                    } : {
-                      display: "none",
-                    }
-                  }
-                />
               </div>
             </div>
           </div>

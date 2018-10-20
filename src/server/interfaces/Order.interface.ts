@@ -1,6 +1,7 @@
 export default interface IOrder {
   city: string;
   company?: string;
+  dateModified?: string;
   deliveryTime?: number;
   email: string;
   ico?: number;

@@ -3,7 +3,9 @@ import OrderManagerModal from "./Order/OrderManagerModal";
 import Pagination from "./Pagination";
 
 interface IProps {
+  itemsPerPage?: number;
   order?: {};
+  orderDeliveryTime?: number;
   orders?: object[];
   orderState?: number;
   orderSystem?: number;
@@ -16,6 +18,8 @@ interface IProps {
   showOrderSucess?: boolean;
 
   getOrders(): Promise<void>;
+  handleChangeItemsPerPage(itemsPerPage: number): void;
+  handleChangeOrderDeliveryTime(orderDeliveryTime: number): void;
   handleChangeOrderState(orderState: number): void;
   handleChangePage(page: number): void;
   handleOrderStateUpdate(e: React.FormEvent<HTMLElement>): Promise<void>;
@@ -39,10 +43,12 @@ export default class Products extends React.Component<IProps, {}> {
   public render() {
     return[
       <OrderManagerModal
+        handleChangeOrderDeliveryTime={this.props.handleChangeOrderDeliveryTime}
         handleChangeOrderState={this.props.handleChangeOrderState}
         handleOrderStateUpdate={this.props.handleOrderStateUpdate}
         handlePrintSummary={this.props.handlePrintSummary}
         order={this.props.order}
+        orderDeliveryTime={this.props.orderDeliveryTime}
         orderManagerOpen={this.props.orderManagerOpen}
         orderState={this.props.orderState}
         printData={this.props.printData}
@@ -161,6 +167,8 @@ export default class Products extends React.Component<IProps, {}> {
               (
                 this.props.page > 1 ?
                 <Pagination
+                  itemsPerPage={this.props.itemsPerPage}
+                  handleChangeItemsPerPage={this.props.handleChangeItemsPerPage}
                   handleChangePage={this.props.handleChangePage}
                   page={this.props.page}
                   pagesCount={this.props.pagesCount}
@@ -168,6 +176,8 @@ export default class Products extends React.Component<IProps, {}> {
                 /> : null
               ) :
               <Pagination
+                itemsPerPage={this.props.itemsPerPage}
+                handleChangeItemsPerPage={this.props.handleChangeItemsPerPage}
                 handleChangePage={this.props.handleChangePage}
                 page={this.props.page}
                 pagesCount={this.props.pagesCount}

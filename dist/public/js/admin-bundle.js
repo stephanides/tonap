@@ -10519,6 +10519,7 @@ const initialState = {
     authorised: false,
     imageNum: 0,
     itemsPerPage: 10,
+    orderDeliveryTime: 0,
     orderManagerOpen: false,
     orderState: 0,
     orderSystem: 1,
@@ -10544,7 +10545,9 @@ class App extends React.Component {
         this.handleChangeOrderState = this.handleChangeOrderState.bind(this);
         this.handleOrderStateUpdate = this.handleOrderStateUpdate.bind(this);
         this.handleChangePage = this.handleChangePage.bind(this);
+        this.handleChangeItemsPerPage = this.handleChangeItemsPerPage.bind(this);
         this.handleChangeProducts = this.handleChangeProducts.bind(this);
+        this.handleChangeOrderDeliveryTime = this.handleChangeOrderDeliveryTime.bind(this);
         this.handlePageCount = this.handlePageCount.bind(this);
         this.handlePageData = this.handlePageData.bind(this);
         this.handleRegister = this.handleRegister.bind(this);
@@ -10577,7 +10580,7 @@ class App extends React.Component {
                 React.createElement(react_router_1.Route, { path: "/admin/login", render: () => (React.createElement(Login_1.default, { modalError: this.state.modalError, modalText: this.state.modalText, authorised: this.state.authorised, submitForm: this.submitForm, handleRegister: this.handleRegister })) }),
                 React.createElement(react_router_1.Route, { path: "/admin/setup", render: () => (React.createElement(Register_1.default, { modalError: this.state.modalError, modalText: this.state.modalText, handleRegister: this.handleRegister, submitForm: this.submitForm })) }),
                 React.createElement(react_router_1.Route, { path: "/admin", render: (routeProps) => (this.state.authorised ?
-                        React.createElement(Admin_1.default, { closeDeleteModal: this.closeDeleteModal, deleteProduct: this.deleteProduct, handleChangeProducts: this.handleChangeProducts, imageDrop: this.imageDrop, imageFiles: this.state.imageFiles, imageNum: this.state.imageNum, imagePreviewSelect: this.imagePreviewSelect, imageRemoveSelect: this.imageRemoveSelect, getProducts: this.getProducts, getOrders: this.getOrders, handleChangeOrderState: this.handleChangeOrderState, handleChangePage: this.handleChangePage, handleOrderStateUpdate: this.handleOrderStateUpdate, handlePageData: this.handlePageData, handlePrintSummary: this.handlePrintSummary, handleProduct: this.handleProduct, handleProductEdit: this.handleProductEdit, handleProductUpdate: this.handleProductUpdate, handleReorder: this.handleReorder, handleShowDeleteModal: this.handleShowDeleteModal, handleSortBy: this.handleSortBy, handleSortOrderByState: this.handleSortOrderByState, handleSerachByTitle: this.handleSerachByTitle, handleSearchOrderByNum: this.handleSearchOrderByNum, modalError: this.state.modalError, modalText: this.state.modalText, order: this.state.order, orders: this.state.orders, orderState: this.state.orderState, orderSystem: this.state.orderSystem, orderManagerOpen: this.state.orderManagerOpen, page: this.state.page, pagesCount: this.state.pagesCount, pageData: this.state.pageData, printData: this.state.printData, product: this.state.product, products: this.state.products, productEdit: this.state.productEdit, productNumber: this.state.productNumber, productToDelete: this.state.productToDelete, routeProps: routeProps, showDeleteModal: this.state.showDeleteModal, showOrderManager: this.showOrderManager, showOrderSucess: this.state.showOrderSucess, signOut: this.signOut, storeProduct: this.storeProduct, user: this.state.user }) :
+                        React.createElement(Admin_1.default, { closeDeleteModal: this.closeDeleteModal, deleteProduct: this.deleteProduct, handleChangeProducts: this.handleChangeProducts, imageDrop: this.imageDrop, imageFiles: this.state.imageFiles, imageNum: this.state.imageNum, imagePreviewSelect: this.imagePreviewSelect, imageRemoveSelect: this.imageRemoveSelect, itemsPerPage: this.state.itemsPerPage, getProducts: this.getProducts, getOrders: this.getOrders, handleChangeOrderState: this.handleChangeOrderState, handleChangeOrderDeliveryTime: this.handleChangeOrderDeliveryTime, handleChangeItemsPerPage: this.handleChangeItemsPerPage, handleChangePage: this.handleChangePage, handleOrderStateUpdate: this.handleOrderStateUpdate, handlePageData: this.handlePageData, handlePrintSummary: this.handlePrintSummary, handleProduct: this.handleProduct, handleProductEdit: this.handleProductEdit, handleProductUpdate: this.handleProductUpdate, handleReorder: this.handleReorder, handleShowDeleteModal: this.handleShowDeleteModal, handleSortBy: this.handleSortBy, handleSortOrderByState: this.handleSortOrderByState, handleSerachByTitle: this.handleSerachByTitle, handleSearchOrderByNum: this.handleSearchOrderByNum, modalError: this.state.modalError, modalText: this.state.modalText, order: this.state.order, orderDeliveryTime: this.state.orderDeliveryTime, orders: this.state.orders, orderState: this.state.orderState, orderSystem: this.state.orderSystem, orderManagerOpen: this.state.orderManagerOpen, page: this.state.page, pagesCount: this.state.pagesCount, pageData: this.state.pageData, printData: this.state.printData, product: this.state.product, products: this.state.products, productEdit: this.state.productEdit, productNumber: this.state.productNumber, productToDelete: this.state.productToDelete, routeProps: routeProps, showDeleteModal: this.state.showDeleteModal, showOrderManager: this.showOrderManager, showOrderSucess: this.state.showOrderSucess, signOut: this.signOut, storeProduct: this.storeProduct, user: this.state.user }) :
                         React.createElement(react_router_1.Redirect, { to: "/admin/login" })) }))));
     }
     authenticate() {
@@ -10626,6 +10629,24 @@ class App extends React.Component {
             }
         });
     }
+    handleChangeItemsPerPage(itemsPerPage) {
+        this.setState({ itemsPerPage }, () => {
+            if (this.state.screen > 0) {
+                this.setState({
+                    pagesCount: this.handlePageCount(this.state.products)
+                }, () => {
+                    this.handlePageData(this.state.products);
+                });
+            }
+            else {
+                this.setState({
+                    pagesCount: this.handlePageCount(this.state.orders)
+                }, () => {
+                    this.handlePageData(this.state.orders);
+                });
+            }
+        });
+    }
     handleChangeProducts(products, productNum) {
         this.setState({ products }, () => __awaiter(this, void 0, void 0, function* () {
             try {
@@ -10651,21 +10672,29 @@ class App extends React.Component {
         }));
     }
     handleChangeOrderState(orderState) {
-        const updatedOrder = this.state.order;
-        updatedOrder.state = orderState;
-        this.setState({ orderState, order: updatedOrder });
+        // const updatedOrder = this.state.order;
+        // (updatedOrder as any).state = orderState;
+        this.setState({ orderState }); // order: updatedOrder
     }
+    handleChangeOrderDeliveryTime(orderDeliveryTime) {
+        this.setState({ orderDeliveryTime });
+    }
+    // private handleCloseOrderManagerModal(): void {}
     handleOrderStateUpdate(e) {
         return __awaiter(this, void 0, void 0, function* () {
             e.preventDefault();
             const form = e.currentTarget;
-            const state = form.state.value;
-            const deliveryTime = state > 0 && state < 2 ? form.deliveryTime.value : null;
-            const message = form.message.value;
+            console.log(form);
+            console.log(form.state);
+            console.log(form.state.selectedIndex);
+            const state = this.state.orderState; // form.state.selectedIndex;
+            const deliveryTime = form.deliveryTime ? form.deliveryTime.selectedIndex : null;
+            const message = form.message.value ? form.message.value : null;
             const orderId = this.state.order._id;
             const bodyToFetch = JSON.stringify({
                 state, deliveryTime, message, orderId
             });
+            console.log(bodyToFetch);
             try {
                 const request = yield fetch("/api/order/state", {
                     body: bodyToFetch,
@@ -10677,15 +10706,14 @@ class App extends React.Component {
                 });
                 if (request.status === 200) {
                     const responseJSON = yield request.json();
-                    console.log(responseJSON.message);
                     this.setState({
-                        orderState: 0,
+                        // orderState: state,
                         showOrderSucess: true,
                     }, () => {
                         this.getOrders();
                         setTimeout(() => {
                             this.setState({ showOrderSucess: false });
-                        }, 3000);
+                        }, 4000);
                     });
                 }
                 else {
@@ -10744,10 +10772,15 @@ class App extends React.Component {
     }
     handlePageData(data) {
         if (data) {
-            const begin = ((this.state.page - 1) * this.state.itemsPerPage);
-            const end = begin + this.state.itemsPerPage;
-            const dataItems = data.slice(begin, end);
-            this.setState({ pageData: dataItems });
+            if (this.state.itemsPerPage < 51) {
+                const begin = ((this.state.page - 1) * this.state.itemsPerPage);
+                const end = begin + this.state.itemsPerPage;
+                const dataItems = data.slice(begin, end);
+                this.setState({ pageData: dataItems });
+            }
+            else {
+                this.setState({ pageData: data });
+            }
         }
         else {
             this.setState({ pageData: [] });
@@ -11113,7 +11146,12 @@ class App extends React.Component {
         });
     }
     showOrderManager(orderNum) {
-        let order;
+        let order = {};
+        this.setState({
+            orderDeliveryTime: 0,
+            orderState: 0,
+            order,
+        });
         for (let i = 0; i < this.state.orders.length; i++) {
             if (this.state.orders[i].orderNum == orderNum) {
                 order = this.state.orders[i];
@@ -11121,6 +11159,8 @@ class App extends React.Component {
         }
         this.setState({
             order,
+            orderDeliveryTime: order.deliveryTime,
+            orderState: order.state,
             orderManagerOpen: true,
         }, () => {
             $("#orderManagerModal").modal("show");
@@ -11324,7 +11364,13 @@ exports.default = Modal;
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(/*! react */ "react");
 const OrderManagerModal = (props) => {
-    const { handleChangeOrderState, handleOrderStateUpdate, handlePrintSummary, orderManagerOpen, orderState, order, printData, showOrderSucess, } = props;
+    const { handleChangeOrderDeliveryTime, handleChangeOrderState, handleOrderStateUpdate, handlePrintSummary, orderManagerOpen, orderState, order, orderDeliveryTime, printData, showOrderSucess, } = props;
+    const date = new Date();
+    const clientDate = date.getDate() + "." + (date.getMonth() - 1) + "." + date.getFullYear();
+    const orderMDate = order ?
+        (order.dateModified ?
+            order.dateModified.split("T")[0].split("-")[2] + "." + order.dateModified.split("T")[0].split("-")[1] + "." + order.dateModified.split("T")[0].split("-")[0] :
+            null) : null;
     return (orderManagerOpen ?
         React.createElement("div", { className: "modal", id: "orderManagerModal", role: "dialog" },
             React.createElement("div", { className: "modal-dialog modal-lg", role: "document" },
@@ -11371,52 +11417,106 @@ const OrderManagerModal = (props) => {
                                     React.createElement("div", { className: "row border pt-2", style: { marginLeft: 0, marginRight: 0 } },
                                         React.createElement("div", { className: "col-6" },
                                             React.createElement("p", null,
-                                                `Objednávateľ: ${order.name},`,
+                                                React.createElement("strong", null, "Objedn\u00E1vate\u013E:"),
+                                                ` ${order.name},`,
                                                 React.createElement("br", null),
-                                                `${order.phone}`,
+                                                React.createElement("strong", null, "Telef\u00F3n:"),
+                                                ` ${order.phone},`,
                                                 React.createElement("br", null),
-                                                `${order.email}`,
+                                                React.createElement("strong", null, "E-mail:"),
+                                                ` ${order.email},`,
                                                 React.createElement("br", null),
-                                                `Mesto: ${order.city}`)),
+                                                React.createElement("strong", null, "Mesto:"),
+                                                ` ${order.city}`)),
                                         React.createElement("div", { className: "col-6" },
-                                            order.company ? React.createElement("p", null, `Spoločnosť: ${order.company}`) : null,
-                                            order.ico ? React.createElement("p", null, `IČO: ${order.ico}`) : null))))),
+                                            order.company ? React.createElement("p", null,
+                                                React.createElement("strong", null, "Spolo\u010Dnos\u0165:"),
+                                                ` ${order.company}`) : null,
+                                            order.ico ? React.createElement("p", null,
+                                                React.createElement("strong", null, "I\u010CO:"),
+                                                ` ${order.ico}`) : null))))),
                         React.createElement("div", { className: "row mt-3" },
-                            React.createElement("div", { className: "col-6" },
+                            React.createElement("div", { className: "col-12" },
                                 React.createElement("h6", null, "Spr\u00E1va objedn\u00E1vky:"),
-                                React.createElement("form", { onSubmit: handleOrderStateUpdate },
-                                    React.createElement("div", { className: "form-group" },
-                                        React.createElement("label", { htmlFor: "state" }, "Stav objedn\u00E1vky"),
-                                        React.createElement("select", { className: "form-control", id: "state", name: "state", onChange: (e) => {
-                                                const currentOrderState = e.target.selectedIndex;
-                                                handleChangeOrderState(currentOrderState);
-                                            }, value: order.state, disabled: order.state > 1 ? true : false },
-                                            React.createElement("option", { value: "0", disabled: true }, "Nov\u00E1 objedn\u00E1vka"),
-                                            React.createElement("option", { value: "1", disabled: order.state == 1 ? true : false }, "Vybavuje sa"),
-                                            React.createElement("option", { value: "2", disabled: order.state == 2 ? true : false }, "Vybaven\u00E1"))),
-                                    orderState > 0 ?
-                                        (orderState < 2 ?
-                                            (React.createElement("div", { className: "form-group" },
-                                                React.createElement("label", { htmlFor: "deliveryTime" }, "Vybavenie objedn\u00E1vky do:"),
-                                                React.createElement("select", { className: "form-control", id: "deliveryTime", name: "deliveryTime" },
-                                                    React.createElement("option", { value: "0" }, "10 prac. dn\u00ED"),
-                                                    React.createElement("option", { value: "1" }, "15 prac. dn\u00ED"),
-                                                    React.createElement("option", { value: "2" }, "20 prac. dn\u00ED"),
-                                                    React.createElement("option", { value: "3" }, "30 prac. dn\u00ED"),
-                                                    React.createElement("option", { value: "4" }, "viac ako 30. prac. dn\u00ED")))) : null) : null,
-                                    React.createElement("div", { className: "form-group" },
-                                        React.createElement("label", { htmlFor: "message" }, "Spr\u00E1va pre z\u00E1kazn\u00EDka"),
-                                        React.createElement("textarea", { "aria-describedby": "messageHelp", className: "form-control", id: "message", name: "message", rows: 3, placeholder: "Sem nap\u00ED\u0161 spr\u00E1vu o stave objedn\u00E1vky, ktor\u00E1 bude odoslan\u00E1 z\u00E1kazn\u00EDkovi.", disabled: orderState > 0 ? false : true }),
-                                        React.createElement("small", { id: "messageHelp", className: "form-text text-muted" }, "Vyplnen\u00EDm tohto textov\u00E9ho po\u013Ea, bud\u00FA predo\u0161l\u00E9 inform\u00E1cie ignorovan\u00E9.")),
-                                    React.createElement("div", { className: "form-group" },
-                                        React.createElement("button", { type: "submit", className: "btn btn-primary", disabled: orderState > 0 ? false : true }, "Upravi\u0165 stav objedn\u00E1vky")))),
-                            React.createElement("div", { className: "col-6 d-flex align-items-center justify-content-center" },
-                                React.createElement("img", { src: "./assets/images/icons/check-mark-circle.svg", width: "50", height: "50", style: showOrderSucess ?
-                                        {
-                                            display: "block",
-                                        } : {
-                                        display: "none",
-                                    } })))),
+                                React.createElement("form", { onSubmit: (e) => handleOrderStateUpdate(e) },
+                                    React.createElement("div", { className: "row" },
+                                        React.createElement("div", { className: "col-6" },
+                                            React.createElement("div", { className: "form-group" },
+                                                React.createElement("label", { htmlFor: "state" }, "Stav objedn\u00E1vky"),
+                                                React.createElement("select", { className: "form-control", id: "state", name: "state", onChange: (e) => {
+                                                        const currentOrderState = e.target.selectedIndex;
+                                                        handleChangeOrderState(currentOrderState);
+                                                    }, value: orderState, disabled: order.state > 1 ? true : false },
+                                                    React.createElement("option", { value: "0", disabled: true }, "Nov\u00E1 objedn\u00E1vka"),
+                                                    React.createElement("option", { value: "1", disabled: order.state == 1 ? true : false }, "Vybavuje sa"),
+                                                    React.createElement("option", { value: "2", disabled: order.state == 2 ? true : false }, "Vybaven\u00E1"))),
+                                            orderState > 0 ?
+                                                (orderState < 2 ?
+                                                    (React.createElement("div", { className: "form-group" },
+                                                        React.createElement("label", { htmlFor: "deliveryTime" }, "Vybavenie objedn\u00E1vky do:"),
+                                                        React.createElement("select", { className: "form-control", id: "deliveryTime", name: "deliveryTime", onChange: (e) => {
+                                                                const orderDeliveryTime = e.currentTarget.selectedIndex;
+                                                                handleChangeOrderDeliveryTime(orderDeliveryTime);
+                                                            }, value: orderDeliveryTime },
+                                                            React.createElement("option", { value: "0" }, "5. prac. dn\u00ED"),
+                                                            React.createElement("option", { value: "1" }, "10. prac. dn\u00ED"),
+                                                            React.createElement("option", { value: "2" }, "15. prac. dn\u00ED"),
+                                                            React.createElement("option", { value: "3" }, "20. prac. dn\u00ED"),
+                                                            React.createElement("option", { value: "4" }, "viac ako 20. prac. dn\u00ED")))) : null) : null),
+                                        React.createElement("div", { className: "col-6 pt-1" }, orderState > 0 ?
+                                            (orderState < 2 ?
+                                                (orderDeliveryTime > 0 ?
+                                                    (orderDeliveryTime > 1 ?
+                                                        (orderDeliveryTime > 2 ?
+                                                            (orderDeliveryTime > 3 ?
+                                                                React.createElement("p", { className: "text-danger" },
+                                                                    "Doda\u0165 objedn\u00E1vku za viac ako 20. prac. dn\u00ED, odo d\u0148a ",
+                                                                    React.createElement("strong", null, orderMDate ? orderMDate : clientDate),
+                                                                    ".") :
+                                                                React.createElement("p", { className: "text-danger" },
+                                                                    "Z\u00E1v\u00E4zne doda\u0165 objedn\u00E1vku do 20. prac. dn\u00ED, odo d\u0148a ",
+                                                                    React.createElement("strong", null, orderMDate ? orderMDate : clientDate),
+                                                                    ".")) : React.createElement("p", { className: "text-danger" },
+                                                            "Z\u00E1v\u00E4zne doda\u0165 objedn\u00E1vku do 15. prac. dn\u00ED, odo d\u0148a ",
+                                                            React.createElement("strong", null, orderMDate ? orderMDate : clientDate),
+                                                            ".")) : React.createElement("p", { className: "text-danger" },
+                                                        "Z\u00E1v\u00E4zne doda\u0165 objedn\u00E1vku do 10. prac. dn\u00ED, odo d\u0148a ",
+                                                        React.createElement("strong", null, orderMDate ? orderMDate : clientDate),
+                                                        ".")) : React.createElement("p", { className: "text-danger" },
+                                                    "Z\u00E1v\u00E4zne doda\u0165 objedn\u00E1vku do 5. prac. dn\u00ED, odo d\u0148a ",
+                                                    React.createElement("strong", null, orderMDate ? orderMDate : clientDate),
+                                                    ".")) : React.createElement("p", { className: "text-success" }, "Objedn\u00E1vka je vybaven\u00E1.")) : null)),
+                                    React.createElement("div", { className: "row" },
+                                        React.createElement("div", { className: "col-6" },
+                                            React.createElement("div", { className: "form-group" },
+                                                React.createElement("label", { htmlFor: "message" }, "Spr\u00E1va pre z\u00E1kazn\u00EDka:"),
+                                                React.createElement("p", null,
+                                                    React.createElement("i", null,
+                                                        React.createElement("small", null, `Dobrý deň pán/pani ${order.name}`))),
+                                                React.createElement("textarea", { "aria-describedby": "messageHelp", className: "form-control", id: "message", name: "message", rows: 6, placeholder: "Sem nap\u00ED\u0161 spr\u00E1vu o stave objedn\u00E1vky, ktor\u00E1 bude odoslan\u00E1 z\u00E1kazn\u00EDkovi.\n\nVyplnen\u00EDm tohto textov\u00E9ho po\u013Ea, bud\u00FA predo\u0161l\u00E9 inform\u00E1cie o \u010Dase vybavenia obj. ignorovan\u00E9.", disabled: orderState > 0 ? false : true }),
+                                                React.createElement("p", { className: "mt-1" },
+                                                    React.createElement("i", null,
+                                                        React.createElement("small", null,
+                                                            "V pr\u00EDpade ak\u00FDchko\u013Evek ot\u00E1zok n\u00E1s nev\u00E1hajte kontaktova\u0165 na telef\u00F3nnom \u010D\u00EDsle ",
+                                                            React.createElement("strong", null, "+421 1234 123 123"),
+                                                            ".",
+                                                            React.createElement("br", null),
+                                                            "Alebo prostredn\u00EDctvom e-mailu ",
+                                                            React.createElement("strong", null, "info@tonap.sk"),
+                                                            React.createElement("br", null),
+                                                            React.createElement("br", null),
+                                                            "S prianim pekn\u00E9ho d\u0148a,",
+                                                            React.createElement("br", null),
+                                                            "t\u00EDm ",
+                                                            React.createElement("strong", null, "Tonap s. r. o.")))))),
+                                        React.createElement("div", { className: "col-6 d-flex align-items-center justify-content- flex-column" },
+                                            React.createElement("img", { src: "./assets/images/icons/check-mark-circle.svg", width: "50", height: "50", style: showOrderSucess ? { display: "block" } : { display: "none" } }),
+                                            React.createElement("p", { className: showOrderSucess ? "text-info text-center mt-2" : "d-none" }, "Inform\u00E1cie o stave objedn\u00E1vky boli \u00FAspe\u0161ne odoslan\u00E9 z\u00E1kazn\u00EDkovi."))),
+                                    React.createElement("div", { className: "row" },
+                                        React.createElement("div", { className: "col-12" },
+                                            React.createElement("div", { className: "form-group" },
+                                                React.createElement("button", { type: "submit", className: "btn btn-primary", disabled: orderState > 0 ? (order.state > 1 ?
+                                                        true : false) : true }, "Upravi\u0165 stav objedn\u00E1vky")))))))),
                     React.createElement("div", { className: "modal-footer" },
                         React.createElement("button", { type: "button", className: "btn btn-secondary", "data-dismiss": "modal" }, "Zatvori\u0165"))))) : null);
 };
@@ -11447,7 +11547,7 @@ class Products extends React.Component {
     }
     render() {
         return [
-            React.createElement(OrderManagerModal_1.default, { handleChangeOrderState: this.props.handleChangeOrderState, handleOrderStateUpdate: this.props.handleOrderStateUpdate, handlePrintSummary: this.props.handlePrintSummary, order: this.props.order, orderManagerOpen: this.props.orderManagerOpen, orderState: this.props.orderState, printData: this.props.printData, showOrderSucess: this.props.showOrderSucess, key: 0 }),
+            React.createElement(OrderManagerModal_1.default, { handleChangeOrderDeliveryTime: this.props.handleChangeOrderDeliveryTime, handleChangeOrderState: this.props.handleChangeOrderState, handleOrderStateUpdate: this.props.handleOrderStateUpdate, handlePrintSummary: this.props.handlePrintSummary, order: this.props.order, orderDeliveryTime: this.props.orderDeliveryTime, orderManagerOpen: this.props.orderManagerOpen, orderState: this.props.orderState, printData: this.props.printData, showOrderSucess: this.props.showOrderSucess, key: 0 }),
             React.createElement("h2", { key: 1 }, "Zoznam objedn\u00E1vok"),
             React.createElement("div", { className: "mt-3", key: 2 },
                 React.createElement("div", { className: "row mb-2" },
@@ -11510,8 +11610,8 @@ class Products extends React.Component {
                                 }))),
                             this.props.pageData.length < 9 ?
                                 (this.props.page > 1 ?
-                                    React.createElement(Pagination_1.default, { handleChangePage: this.props.handleChangePage, page: this.props.page, pagesCount: this.props.pagesCount, key: 2 }) : null) :
-                                React.createElement(Pagination_1.default, { handleChangePage: this.props.handleChangePage, page: this.props.page, pagesCount: this.props.pagesCount, key: 2 })
+                                    React.createElement(Pagination_1.default, { itemsPerPage: this.props.itemsPerPage, handleChangeItemsPerPage: this.props.handleChangeItemsPerPage, handleChangePage: this.props.handleChangePage, page: this.props.page, pagesCount: this.props.pagesCount, key: 2 }) : null) :
+                                React.createElement(Pagination_1.default, { itemsPerPage: this.props.itemsPerPage, handleChangeItemsPerPage: this.props.handleChangeItemsPerPage, handleChangePage: this.props.handleChangePage, page: this.props.page, pagesCount: this.props.pagesCount, key: 2 })
                         ] :
                         (React.createElement("div", { className: "list-group-item text-center" },
                             React.createElement("p", null, "Neboli n\u00E1jden\u00E9 \u017Eiadne objedn\u00E1vky.")))) : (React.createElement("div", { className: "w-100 d-flex justify-content-center mt-3" },
@@ -11536,7 +11636,7 @@ exports.default = Products;
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(/*! react */ "react");
 const Pagination = (props) => {
-    const { handleChangePage, page, pagesCount } = props;
+    const { handleChangeItemsPerPage, handleChangePage, itemsPerPage, page, pagesCount } = props;
     let pageItemBtn = [];
     for (let i = 0; i < pagesCount; i++) {
         pageItemBtn.push(React.createElement("li", { className: page === (i + 1) ? "page-item active" : "page-item", key: i + 1 },
@@ -11546,13 +11646,23 @@ const Pagination = (props) => {
             bottom: 0,
             backgroundColor: "#fff",
         } },
-        React.createElement("nav", { "aria-label": "Page navigation" },
-            React.createElement("ul", { className: "pagination" },
-                React.createElement("li", { className: page > 1 ? "page-item" : "page-item disabled" },
-                    React.createElement("button", { type: "button", disabled: page > 1 ? false : true, className: "page-link btn-link", onClick: () => handleChangePage(page - 1) }, "Previous")),
-                pageItemBtn,
-                React.createElement("li", { className: page === pagesCount ? "page-item disabled" : "page-item" },
-                    React.createElement("button", { type: "button", disabled: page === (pagesCount) ? true : false, className: "page-link btn-link", onClick: () => handleChangePage(page + 1) }, "Next"))))));
+        React.createElement("div", { className: "row" },
+            React.createElement("nav", { "aria-label": "Page navigation" },
+                React.createElement("ul", { className: "pagination" },
+                    React.createElement("li", { className: page > 1 ? "page-item" : "page-item disabled" },
+                        React.createElement("button", { type: "button", disabled: page > 1 ? false : true, className: "page-link btn-link", onClick: () => handleChangePage(page - 1) }, "Previous")),
+                    pageItemBtn,
+                    React.createElement("li", { className: page === pagesCount ? "page-item disabled" : "page-item" },
+                        React.createElement("button", { type: "button", disabled: page === (pagesCount) ? true : false, className: "page-link btn-link", onClick: () => handleChangePage(page + 1) }, "Next")))),
+            React.createElement("div", { className: "form-group ml-2" },
+                React.createElement("select", { className: "form-control", onChange: (e) => {
+                        const itemsPerPage = parseInt(e.currentTarget.value);
+                        handleChangeItemsPerPage(itemsPerPage);
+                    }, value: itemsPerPage },
+                    React.createElement("option", { value: 10 }, "10"),
+                    React.createElement("option", { value: 20 }, "20"),
+                    React.createElement("option", { value: 50 }, "50"),
+                    React.createElement("option", { value: 51 }, "\u221E"))))));
 };
 exports.default = Pagination;
 
@@ -12109,8 +12219,8 @@ class ProductList extends React.Component {
                             }))),
                         this.props.pageData.length < 9 ?
                             (this.props.page > 1 ?
-                                React.createElement(Pagination_1.default, { handleChangePage: this.props.handleChangePage, page: this.props.page, pagesCount: this.props.pagesCount, key: 2 }) : null) :
-                            React.createElement(Pagination_1.default, { handleChangePage: this.props.handleChangePage, page: this.props.page, pagesCount: this.props.pagesCount, key: 2 })
+                                React.createElement(Pagination_1.default, { itemsPerPage: this.props.itemsPerPage, handleChangeItemsPerPage: this.props.handleChangeItemsPerPage, handleChangePage: this.props.handleChangePage, page: this.props.page, pagesCount: this.props.pagesCount, key: 2 }) : null) :
+                            React.createElement(Pagination_1.default, { itemsPerPage: this.props.itemsPerPage, handleChangeItemsPerPage: this.props.handleChangeItemsPerPage, handleChangePage: this.props.handleChangePage, page: this.props.page, pagesCount: this.props.pagesCount, key: 2 })
                     ] :
                     React.createElement("div", { className: "list-group-item text-center" },
                         React.createElement("p", null,
@@ -12252,8 +12362,8 @@ class Admin extends React.Component {
                 React.createElement("div", { className: "container" },
                     React.createElement(TabNav_1.default, { routeProps: this.props.routeProps }),
                     React.createElement(react_router_dom_1.Route, { path: `${this.props.routeProps.match.url}/product-insert`, render: () => (React.createElement(ProductCreate_1.default, { imageDrop: this.props.imageDrop, imageFiles: this.props.imageFiles, imageNum: this.props.imageNum, imagePreviewSelect: this.props.imagePreviewSelect, imageRemoveSelect: this.props.imageRemoveSelect, product: this.props.product, handleProduct: this.props.handleProduct, storeProduct: this.props.storeProduct })) }),
-                    React.createElement(react_router_dom_1.Route, { path: `${this.props.routeProps.match.url}/product-list`, render: () => (React.createElement(ProductList_1.default, { page: this.props.page, pagesCount: this.props.pagesCount, pageData: this.props.pageData, products: this.props.products, deleteProduct: this.props.deleteProduct, getProducts: this.props.getProducts, handleChangePage: this.props.handleChangePage, handleChangeProducts: this.props.handleChangeProducts, handleProductEdit: this.props.handleProductEdit, handleShowDeleteModal: this.props.handleShowDeleteModal, handleSortBy: this.props.handleSortBy, handleSerachByTitle: this.props.handleSerachByTitle })) }),
-                    React.createElement(react_router_dom_1.Route, { exact: true, path: `${this.props.routeProps.match.url}`, render: () => (React.createElement(Orders_1.default, { orderManagerOpen: this.props.orderManagerOpen, getOrders: this.props.getOrders, handleChangeOrderState: this.props.handleChangeOrderState, handleChangePage: this.props.handleChangePage, handleOrderStateUpdate: this.props.handleOrderStateUpdate, handlePageData: this.props.handlePageData, handlePrintSummary: this.props.handlePrintSummary, handleReorder: this.props.handleReorder, handleSortOrderByState: this.props.handleSortOrderByState, handleSearchOrderByNum: this.props.handleSearchOrderByNum, order: this.props.order, orders: this.props.orders, orderState: this.props.orderState, orderSystem: this.props.orderSystem, page: this.props.page, pagesCount: this.props.pagesCount, pageData: this.props.pageData, printData: this.props.printData, products: this.props.products, showOrderManager: this.props.showOrderManager, showOrderSucess: this.props.showOrderSucess })) })),
+                    React.createElement(react_router_dom_1.Route, { path: `${this.props.routeProps.match.url}/product-list`, render: () => (React.createElement(ProductList_1.default, { itemsPerPage: this.props.itemsPerPage, page: this.props.page, pagesCount: this.props.pagesCount, pageData: this.props.pageData, products: this.props.products, deleteProduct: this.props.deleteProduct, getProducts: this.props.getProducts, handleChangeItemsPerPage: this.props.handleChangeItemsPerPage, handleChangePage: this.props.handleChangePage, handleChangeProducts: this.props.handleChangeProducts, handleProductEdit: this.props.handleProductEdit, handleShowDeleteModal: this.props.handleShowDeleteModal, handleSortBy: this.props.handleSortBy, handleSerachByTitle: this.props.handleSerachByTitle })) }),
+                    React.createElement(react_router_dom_1.Route, { exact: true, path: `${this.props.routeProps.match.url}`, render: () => (React.createElement(Orders_1.default, { itemsPerPage: this.props.itemsPerPage, orderManagerOpen: this.props.orderManagerOpen, getOrders: this.props.getOrders, handleChangeItemsPerPage: this.props.handleChangeItemsPerPage, handleChangeOrderDeliveryTime: this.props.handleChangeOrderDeliveryTime, handleChangeOrderState: this.props.handleChangeOrderState, handleChangePage: this.props.handleChangePage, handleOrderStateUpdate: this.props.handleOrderStateUpdate, handlePageData: this.props.handlePageData, handlePrintSummary: this.props.handlePrintSummary, handleReorder: this.props.handleReorder, handleSortOrderByState: this.props.handleSortOrderByState, handleSearchOrderByNum: this.props.handleSearchOrderByNum, order: this.props.order, orderDeliveryTime: this.props.orderDeliveryTime, orders: this.props.orders, orderState: this.props.orderState, orderSystem: this.props.orderSystem, page: this.props.page, pagesCount: this.props.pagesCount, pageData: this.props.pageData, printData: this.props.printData, products: this.props.products, showOrderManager: this.props.showOrderManager, showOrderSucess: this.props.showOrderSucess })) })),
                 React.createElement("style", null, `
           h1, h2, h3, h4, h5, h6, a, li { color: #3b8acc; }
         `)),

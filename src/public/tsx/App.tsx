@@ -19,6 +19,7 @@ interface IAppState {
   modalError?: boolean | null;
   modalText?: string;
   order?: {},
+  orderDeliveryTime?: number;
   orders?: object[];
   orderState?: number;
   orderManagerOpen?: boolean;
@@ -64,6 +65,7 @@ const initialState: IAppState = {
   authorised: false,
   imageNum: 0,
   itemsPerPage: 10,
+  orderDeliveryTime: 0,
   orderManagerOpen: false,
   orderState: 0,
   orderSystem: 1,
@@ -96,7 +98,9 @@ export default class App extends React.Component<{}, IAppState> {
     this.handleChangeOrderState = this.handleChangeOrderState.bind(this);
     this.handleOrderStateUpdate = this.handleOrderStateUpdate.bind(this);
     this.handleChangePage = this.handleChangePage.bind(this);
+    this.handleChangeItemsPerPage = this.handleChangeItemsPerPage.bind(this);
     this.handleChangeProducts = this.handleChangeProducts.bind(this);
+    this.handleChangeOrderDeliveryTime = this.handleChangeOrderDeliveryTime.bind(this);
     this.handlePageCount = this.handlePageCount.bind(this);
     this.handlePageData = this.handlePageData.bind(this);
     this.handleRegister = this.handleRegister.bind(this);
@@ -157,9 +161,12 @@ export default class App extends React.Component<{}, IAppState> {
               imageNum={this.state.imageNum}
               imagePreviewSelect={this.imagePreviewSelect}
               imageRemoveSelect={this.imageRemoveSelect}
+              itemsPerPage={this.state.itemsPerPage}
               getProducts={this.getProducts}
               getOrders={this.getOrders}
               handleChangeOrderState={this.handleChangeOrderState}
+              handleChangeOrderDeliveryTime={this.handleChangeOrderDeliveryTime}
+              handleChangeItemsPerPage={this.handleChangeItemsPerPage}
               handleChangePage={this.handleChangePage}
               handleOrderStateUpdate={this.handleOrderStateUpdate}
               handlePageData={this.handlePageData}
@@ -176,6 +183,7 @@ export default class App extends React.Component<{}, IAppState> {
               modalError={this.state.modalError}
               modalText={this.state.modalText}
               order={this.state.order}
+              orderDeliveryTime={this.state.orderDeliveryTime}
               orders={this.state.orders}
               orderState={this.state.orderState}
               orderSystem={this.state.orderSystem}
@@ -250,6 +258,24 @@ export default class App extends React.Component<{}, IAppState> {
     });
   }
 
+  private handleChangeItemsPerPage(itemsPerPage: number): void {
+    this.setState({itemsPerPage}, () => {
+      if (this.state.screen > 0) {
+        this.setState({
+          pagesCount: this.handlePageCount(this.state.products)
+        }, () => {
+          this.handlePageData(this.state.products);
+        });
+      } else {
+        this.setState({
+          pagesCount: this.handlePageCount(this.state.orders)
+        }, () => {
+          this.handlePageData(this.state.orders);
+        });
+      }
+    });
+  }
+
   private handleChangeProducts(products: object[], productNum: number): void {
     this.setState({ products }, async () => {
       try {
@@ -276,24 +302,37 @@ export default class App extends React.Component<{}, IAppState> {
   }
 
   private handleChangeOrderState(orderState: number): void {
-    const updatedOrder = this.state.order;
+    // const updatedOrder = this.state.order;
 
-    (updatedOrder as any).state = orderState;
+    // (updatedOrder as any).state = orderState;
     
-    this.setState({orderState, order: updatedOrder});
+    this.setState({orderState}); // order: updatedOrder
   }
+
+  private handleChangeOrderDeliveryTime(orderDeliveryTime: number): void {
+    this.setState({orderDeliveryTime});
+  }
+
+  // private handleCloseOrderManagerModal(): void {}
 
   private async handleOrderStateUpdate(e: React.FormEvent<HTMLElement>): Promise<void> {
     e.preventDefault();
 
     const form = e.currentTarget as HTMLFormElement;
-    const state = form.state.value as number;
-    const deliveryTime: string | null = state > 0 && state < 2 ? form.deliveryTime.value : null;
-    const message = form.message.value as string;
+
+    console.log(form);
+    console.log(form.state);
+    console.log(form.state.selectedIndex);
+
+    const state: number = this.state.orderState; // form.state.selectedIndex;
+    const deliveryTime: number = form.deliveryTime ? form.deliveryTime.selectedIndex : null;
+    const message: string | null = form.message.value ? form.message.value : null;
     const orderId = (this.state.order as any)._id;
     const bodyToFetch = JSON.stringify({
       state, deliveryTime, message, orderId
     });
+
+    console.log(bodyToFetch);
 
     try {
       const request = await fetch("/api/order/state", {
@@ -308,15 +347,14 @@ export default class App extends React.Component<{}, IAppState> {
       if (request.status === 200) {
         const responseJSON: any = await request.json();
 
-        console.log(responseJSON.message);
         this.setState({
-          orderState: 0,
+          // orderState: state,
           showOrderSucess: true,
         }, () => {
           this.getOrders();
           setTimeout(() => {
             this.setState({showOrderSucess: false});
-          }, 3000);
+          }, 4000);
         });
       } else {
         console.log(request);
@@ -377,11 +415,15 @@ export default class App extends React.Component<{}, IAppState> {
 
   private handlePageData(data: object[] | null) {
     if (data) {
-      const begin = ((this.state.page - 1) * this.state.itemsPerPage);
-      const end = begin + this.state.itemsPerPage;
-      const dataItems = data.slice(begin, end);
-      
-      this.setState({pageData: dataItems});
+      if (this.state.itemsPerPage < 51) {
+        const begin = ((this.state.page - 1) * this.state.itemsPerPage);
+        const end = begin + this.state.itemsPerPage;
+        const dataItems = data.slice(begin, end);
+        
+        this.setState({pageData: dataItems});
+      } else {
+        this.setState({pageData: data});
+      }
     } else {
       this.setState({pageData: []});
     }
@@ -777,7 +819,13 @@ export default class App extends React.Component<{}, IAppState> {
   }
 
   private showOrderManager(orderNum: string) {
-    let order: {};
+    let order: {} = {};
+
+    this.setState({
+      orderDeliveryTime: 0,
+      orderState: 0,
+      order,
+    });
     
     for (let i = 0; i < this.state.orders.length; i++) {
       if ((this.state.orders[i] as any).orderNum == orderNum) {
@@ -787,6 +835,8 @@ export default class App extends React.Component<{}, IAppState> {
 
     this.setState({
       order,
+      orderDeliveryTime: (order as any).deliveryTime,
+      orderState: (order as any).state,
       orderManagerOpen: true,
     }, () => {
       $("#orderManagerModal").modal("show");

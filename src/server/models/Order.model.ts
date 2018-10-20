@@ -4,6 +4,7 @@ import IOrder from "../interfaces/Order.interface";
 export class Order {
   public city: string;
   public company?: string;
+  public dateModified?: string;
   public deliveryTime?: number;
   public email: string;
   public ico?: number;
@@ -17,6 +18,7 @@ export class Order {
   constructor(data: IOrder) {
     this.city = data.city;
     this.company = data.company;
+    this.dateModified = data.dateModified;
     this.deliveryTime = data.deliveryTime;
     this.email = data.email;
     this.ico = data.ico;
@@ -32,6 +34,7 @@ export class Order {
 const OrderSchema = new Schema({
   city: String,
   company: String,
+  dateModified: Date,
   deliveryTime: {
     default: 0,
     type: Number,

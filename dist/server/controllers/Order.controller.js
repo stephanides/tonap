@@ -34,14 +34,42 @@ class OrderController {
                 const newOrder = new Order_model_1.Order(orderObj);
                 const asyncCreateOrder = yield Order_model_1.Orders.create(newOrder);
                 if (asyncCreateOrder) {
+                    const products = req.body.products;
+                    let productRows = [];
+                    for (let i = 0; i < products.length; i++) {
+                        let row = `<div>
+          <div>${i + 1}</div>
+          <div>${products[i].title}</div>
+          <div>${products[i].isSterile ? "Sterilné" : "Nesterilné"}</div>
+          <div>${products[i].package}</div>
+          <div>${products[i].boxSize}</div>
+          <div>${products[i].boxCount}</div>
+        </div>`;
+                        productRows.push(row);
+                    }
                     const mailSubject = "TONAP: Informácia o doručení objednávky";
                     const mailBody = `Dobrý deň pán/pani ${req.body.name}<br /><br />
         Ďakujeme za Vašu objednávka u spločnosti <strong>Tonap s. r. o.</strong><br /><br />
-        Vaša objednácka číslo: <strong><i>${orderNum}</i></strong> bola prijatá na spracovanie.<br />
+        Vaša objednácka číslo: <strong><i>${orderNum}</i></strong> bola prijatá na spracovanie.<br /><br />
+        <strong>Súhrn objednávky:</strong><br /><br />
+        <table border="0" cellspacing="0" cellpadding="0">
+        <thead>
+        <tr><th style="border: 1px solid black; border-collapse: collapse; padding: 5px;">#</th>
+        <th style="border: 1px solid black; border-collapse: collapse; padding: 5px;">Názov produktu</th>
+        <th style="border: 1px solid black; border-collapse: collapse; padding: 5px;">Typ produktu</th>
+        <th style="border: 1px solid black; border-collapse: collapse; padding: 5px;">Balené po.</th>
+        <th style="border: 1px solid black; border-collapse: collapse; padding: 5px;">Veľkosť krabice</th>
+        <th style="border: 1px solid black; border-collapse: collapse; padding: 5px;">Počet krabíc</th></tr>
+        </thead>
+        <tbody>
+        ${req.body.products.reduce((a, b, i) => {
+                        return `${a}<tr><td style="border: 1px solid black; border-collapse: collapse; padding: 5px;">${i + 1}</td><td style="border: 1px solid black; border-collapse: collapse; padding: 5px;">${b.title}</td><td style="border: 1px solid black; border-collapse: collapse; padding: 5px;">${b.isSterile ? "Sterilné" : "Nesterilné"}</td><td style="border: 1px solid black; border-collapse: collapse; padding: 5px; text-align: center;">${b.package}</td><td style="border: 1px solid black; border-collapse: collapse; padding: 5px; text-align: center;">${b.boxSize}</td><td style="border: 1px solid black; border-collapse: collapse; padding: 5px; text-align: center;">${b.boxCount}</td></tr>`;
+                    }, "")}
+        </tbody></table><br/>
         O ďalšom priebehu objednávky Vás budeme informovať prostredníctvom emailu.<br /><br />
         V prípade akýchkoľvek otázok nás neváhajte kontaktovať na telefónnom čísle <strong>+421 1234 123 123</strong>.<br />
         Alebo prostredníctvom e-mailu <strong>info@tonap.sk</strong><br /><br />
-        S prianim pekného dňa,<br />tím <strong>Tonap s. r. o.</strong>`;
+        S prianim pekného dňa,<br />tím <strong>Tonap</strong> s. r. o.`;
                     this.sendMailNotification(req, next, req.body.email, mailSubject, mailBody, () => {
                         res.json({ message: "Order has been created", success: true });
                     });
@@ -64,15 +92,20 @@ class OrderController {
                 }
                 else {
                     const dataToUpdate = order;
-                    const deliveryTimes = ["10. pracovných dní", "15. pracovných dní", "20. pracovných dní", "30. pracovných dní", "viac ako 30. pracovných dní"];
+                    const deliveryTimes = ["5. pracovných dní", "10. pracovných dní", "15. pracovných dní", "20. pracovných dní", "viac ako 20. pracovných dní"];
                     dataToUpdate.state = req.body.state;
+                    dataToUpdate.dateModified = new Date().toISOString();
                     dataToUpdate.deliveryTime = req.body.deliveryTime;
                     const updatedOrder = yield Order_model_1.Orders.update({ _id: mongoose_1.Types.ObjectId(req.body.orderId) }, dataToUpdate);
                     if (updatedOrder) {
                         let mailSubject = "TONAP: Informácia o stave objednávky";
                         let mailBody;
                         if (req.body.message) {
-                            mailBody = req.body.message;
+                            mailBody = `Dobrý deň pán/pani ${order.name}<br /><br />
+            ${req.body.message}<br /><br />
+            V prípade akýchkoľvek otázok nás neváhajte kontaktovať na telefónnom čísle <strong>+421 1234 123 123</strong>.<br />
+            Alebo prostredníctvom e-mailu <strong>info@tonap.sk</strong><br /><br />
+            S prianim pekného dňa,<br />tím <strong>Tonap s. r. o.</strong>`;
                         }
                         else {
                             if (req.body.state > 1) {
@@ -86,7 +119,7 @@ class OrderController {
                                 if (req.body.deliveryTime > 3) {
                                     mailBody = `Dobrý deň pán/pani ${order.name}<br /><br />
                 Vaša objednácka číslo: <strong><i>${order.orderNum}</i></strong> bude spracovaná a pripravená za ${deliveryTimes[req.body.deliveryTime]}.<br />
-                O ďalšom priebehu spracovania objednávky Vás budeme informovať prostredníctvom emailu.<br /><br />
+                O ďalšom stave objednávky Vás budeme informovať prostredníctvom emailu.<br /><br />
                 V prípade akýchkoľvek otázok nás neváhajte kontaktovať na telefónnom čísle <strong>+421 1234 123 123</strong>.<br />
                 Alebo prostredníctvom e-mailu <strong>info@tonap.sk</strong><br /><br />
                 S prianim pekného dňa,<br />tím <strong>Tonap s. r. o.</strong>`;
@@ -94,7 +127,7 @@ class OrderController {
                                 else {
                                     mailBody = `Dobrý deň pán/pani ${order.name}<br /><br />
                 Vaša objednácka číslo: <strong><i>${order.orderNum}</i></strong> bude spracovaná a pripravená do ${deliveryTimes[req.body.deliveryTime]}.<br />
-                O ďalšom priebehu spracovania objednávky Vás budeme informovať prostredníctvom emailu.<br /><br />
+                O ďalšom stave objednávky Vás budeme informovať prostredníctvom emailu.<br /><br />
                 V prípade akýchkoľvek otázok nás neváhajte kontaktovať na telefónnom čísle <strong>+421 1234 123 123</strong>.<br />
                 Alebo prostredníctvom e-mailu <strong>info@tonap.sk</strong><br /><br />
                 S prianim pekného dňa,<br />tím <strong>Tonap s. r. o.</strong>`;

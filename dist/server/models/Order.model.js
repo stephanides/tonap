@@ -5,6 +5,7 @@ class Order {
     constructor(data) {
         this.city = data.city;
         this.company = data.company;
+        this.dateModified = data.dateModified;
         this.deliveryTime = data.deliveryTime;
         this.email = data.email;
         this.ico = data.ico;
@@ -20,6 +21,7 @@ exports.Order = Order;
 const OrderSchema = new mongoose_1.Schema({
     city: String,
     company: String,
+    dateModified: Date,
     deliveryTime: {
         default: 0,
         type: Number,
