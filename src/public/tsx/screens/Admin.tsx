@@ -28,6 +28,7 @@ interface IProps {
   orderManagerOpen?: boolean;
   page?: number;
   pagesCount?: number;
+  pagesMax?: number;
   pageData?: object[];
   printData?: boolean;
   product?: IProduct;
@@ -122,6 +123,7 @@ export default class Admin extends React.Component<IProps, {}> {
               itemsPerPage={this.props.itemsPerPage}
               page={this.props.page}
               pagesCount={this.props.pagesCount}
+              pagesMax={this.props.pagesMax}
               pageData={this.props.pageData}
               products={this.props.products}
               deleteProduct={this.props.deleteProduct}
@@ -157,6 +159,7 @@ export default class Admin extends React.Component<IProps, {}> {
               orderSystem={this.props.orderSystem}
               page={this.props.page}
               pagesCount={this.props.pagesCount}
+              pagesMax={this.props.pagesMax}
               pageData={this.props.pageData}
               printData={this.props.printData}
               products={this.props.products}

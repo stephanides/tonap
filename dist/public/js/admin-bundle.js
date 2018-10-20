@@ -86,201 +86,6 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "../../../../usr/local/lib/node_modules/webpack/node_modules/process/browser.js":
-/*!*************************************************!*\
-  !*** (webpack)/node_modules/process/browser.js ***!
-  \*************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-process.prependListener = noop;
-process.prependOnceListener = noop;
-
-process.listeners = function (name) { return [] }
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-
-/***/ }),
-
 /***/ "./node_modules/attr-accept/dist/index.js":
 /*!************************************************!*\
   !*** ./node_modules/attr-accept/dist/index.js ***!
@@ -623,6 +428,68 @@ exports.default = typeof _symbol2.default === "function" && _typeof(_iterator2.d
 } : function (obj) {
   return obj && typeof _symbol2.default === "function" && obj.constructor === _symbol2.default && obj !== _symbol2.default.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof(obj);
 };
+
+/***/ }),
+
+/***/ "./node_modules/classnames/index.js":
+/*!******************************************!*\
+  !*** ./node_modules/classnames/index.js ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+  Copyright (c) 2017 Jed Watson.
+  Licensed under the MIT License (MIT), see
+  http://jedwatson.github.io/classnames
+*/
+/* global define */
+
+(function () {
+	'use strict';
+
+	var hasOwn = {}.hasOwnProperty;
+
+	function classNames () {
+		var classes = [];
+
+		for (var i = 0; i < arguments.length; i++) {
+			var arg = arguments[i];
+			if (!arg) continue;
+
+			var argType = typeof arg;
+
+			if (argType === 'string' || argType === 'number') {
+				classes.push(arg);
+			} else if (Array.isArray(arg) && arg.length) {
+				var inner = classNames.apply(null, arg);
+				if (inner) {
+					classes.push(inner);
+				}
+			} else if (argType === 'object') {
+				for (var key in arg) {
+					if (hasOwn.call(arg, key) && arg[key]) {
+						classes.push(key);
+					}
+				}
+			}
+		}
+
+		return classes.join(' ');
+	}
+
+	if (typeof module !== 'undefined' && module.exports) {
+		classNames.default = classNames;
+		module.exports = classNames;
+	} else if (true) {
+		// register as 'classnames', consistent with npm package name
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = (function () {
+			return classNames;
+		}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else {}
+}());
+
 
 /***/ }),
 
@@ -6035,6 +5902,300 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 
 /***/ }),
 
+/***/ "./node_modules/paginator/index.js":
+/*!*****************************************!*\
+  !*** ./node_modules/paginator/index.js ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = Paginator;
+
+// Paginator constructor
+//
+// `per_page` is the number of results per page, `length` is the number of
+// pages to display. They default to `25` and `10` respectively.
+function Paginator(per_page, length) {
+  // You really should be calling this with `new Paginator`, but WHATEVER.
+  if (!(this instanceof Paginator)) {
+    return new Paginator(per_page, length);
+  }
+
+  // Woo, defaults!
+  this.per_page = per_page || 25;
+  this.length = length || 10;
+}
+
+// Build an object with all the necessary information for outputting pagination
+// controls.
+//
+// (new Paginator(paginator.build(100, 2)
+Paginator.prototype.build = function(total_results, current_page) {
+  // We want the number of pages, rounded up to the nearest page.
+  var total_pages = Math.ceil(total_results / this.per_page);
+
+  // Ensure both total_results and current_page are treated as Numbers
+  total_results = parseInt(total_results, 10);
+  current_page  = parseInt(current_page, 10) || 1;
+
+  // Obviously we can't be on a negative or 0 page.
+  if (current_page < 1) { current_page = 1; }
+  // If the user has done something like /page/99999 we want to clamp that back
+  // down.
+  if (current_page > total_pages) { current_page = total_pages; }
+
+  // This is the first page to be displayed as a numbered link.
+  var first_page = Math.max(1, current_page - Math.floor(this.length / 2));
+
+  // And here's the last page to be displayed specifically.
+  var last_page = Math.min(total_pages, current_page + Math.floor(this.length / 2));
+
+  // This is triggered if we're at or near one of the extremes; we won't have
+  // enough page links. We need to adjust our bounds accordingly.
+  if (last_page - first_page + 1 < this.length) {
+    if (current_page < (total_pages / 2)) {
+      last_page = Math.min(total_pages, last_page + (this.length - (last_page - first_page)));
+    } else {
+      first_page = Math.max(1, first_page - (this.length - (last_page - first_page)));
+    }
+  }
+
+  // This can be triggered if the user wants an odd number of pages.
+  if (last_page - first_page + 1 > this.length) {
+    // We want to move towards whatever extreme we're closest to at the time.
+    if (current_page > (total_pages / 2)) {
+      first_page++;
+    } else {
+      last_page--;
+    }
+  }
+
+  // First result on the page. This, along with the field below, can be used to
+  // do "showing x to y of z results" style things.
+  var first_result = this.per_page * (current_page - 1);
+  if (first_result < 0) { first_result = 0; }
+
+  // Last result on the page.
+  var last_result = (this.per_page * current_page) - 1;
+  if (last_result < 0) { last_result = 0; }
+  if (last_result > Math.max(total_results - 1, 0)) { last_result = Math.max(total_results - 1, 0); }
+
+  // GIMME THAT OBJECT
+  return {
+    total_pages: total_pages,
+    pages: Math.min(last_page - first_page + 1, total_pages),
+    current_page: current_page,
+    first_page: first_page,
+    last_page: last_page,
+    previous_page: current_page - 1,
+    next_page: current_page + 1,
+    has_previous_page: current_page > 1,
+    has_next_page: current_page < total_pages,
+    total_results: total_results,
+    results: Math.min(last_result - first_result + 1, total_results),
+    first_result: first_result,
+    last_result: last_result,
+  };
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/process/browser.js":
+/*!*****************************************!*\
+  !*** ./node_modules/process/browser.js ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) { return [] }
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+
+/***/ }),
+
 /***/ "./node_modules/prop-types/checkPropTypes.js":
 /*!***************************************************!*\
   !*** ./node_modules/prop-types/checkPropTypes.js ***!
@@ -7480,6 +7641,30 @@ __webpack_require__.r(__webpack_exports__);
     borderRadius: 5
   }
 });
+
+/***/ }),
+
+/***/ "./node_modules/react-js-pagination/dist/Page.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/react-js-pagination/dist/Page.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports,"__esModule",{value:!0});var _createClass=function(){function e(e,t){for(var r=0;r<t.length;r++){var a=t[r];a.enumerable=a.enumerable||!1,a.configurable=!0,"value"in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}}return function(t,r,a){return r&&e(t.prototype,r),a&&e(t,a),t}}(),_react=__webpack_require__(/*! react */ "react"),_react2=_interopRequireDefault(_react),_propTypes=__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"),_propTypes2=_interopRequireDefault(_propTypes),_classnames=__webpack_require__(/*! classnames */ "./node_modules/classnames/index.js"),_classnames2=_interopRequireDefault(_classnames);function _interopRequireDefault(e){return e&&e.__esModule?e:{default:e}}function _defineProperty(e,t,r){return t in e?Object.defineProperty(e,t,{value:r,enumerable:!0,configurable:!0,writable:!0}):e[t]=r,e}function _classCallCheck(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function _possibleConstructorReturn(e,t){if(!e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!t||"object"!=typeof t&&"function"!=typeof t?e:t}function _inherits(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+typeof t);e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(Object.setPrototypeOf?Object.setPrototypeOf(e,t):e.__proto__=t)}var Page=function(e){function t(){return _classCallCheck(this,t),_possibleConstructorReturn(this,(t.__proto__||Object.getPrototypeOf(t)).apply(this,arguments))}return _inherits(t,_react.Component),_createClass(t,[{key:"handleClick",value:function(e){var t=this.props,r=t.isDisabled,a=t.pageNumber;e.preventDefault(),r||this.props.onClick(a)}},{key:"render",value:function(){var e,t=this.props,r=t.pageText,a=(t.pageNumber,t.activeClass),n=t.itemClass,s=t.linkClass,i=t.activeLinkClass,o=t.disabledClass,l=t.isActive,c=t.isDisabled,u=t.href,p=(0,_classnames2.default)(n,(_defineProperty(e={},a,l),_defineProperty(e,o,c),e)),f=(0,_classnames2.default)(s,_defineProperty({},i,l));return _react2.default.createElement("li",{className:p,onClick:this.handleClick.bind(this)},_react2.default.createElement("a",{className:f,href:u},r))}}]),t}();Page.defaultProps={activeClass:"active",disabledClass:"disabled",itemClass:void 0,linkClass:void 0,activeLinkCLass:void 0,isActive:!1,isDisabled:!1,href:"#"},exports.default=Page;
+
+/***/ }),
+
+/***/ "./node_modules/react-js-pagination/dist/Pagination.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/react-js-pagination/dist/Pagination.js ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports,"__esModule",{value:!0});var _createClass=function(){function e(e,a){for(var t=0;t<a.length;t++){var s=a[t];s.enumerable=s.enumerable||!1,s.configurable=!0,"value"in s&&(s.writable=!0),Object.defineProperty(e,s.key,s)}}return function(a,t,s){return t&&e(a.prototype,t),s&&e(a,s),a}}(),_react=__webpack_require__(/*! react */ "react"),_react2=_interopRequireDefault(_react),_propTypes=__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"),_propTypes2=_interopRequireDefault(_propTypes),_paginator=__webpack_require__(/*! paginator */ "./node_modules/paginator/index.js"),_paginator2=_interopRequireDefault(_paginator),_Page=__webpack_require__(/*! ./Page */ "./node_modules/react-js-pagination/dist/Page.js"),_Page2=_interopRequireDefault(_Page),_classnames=__webpack_require__(/*! classnames */ "./node_modules/classnames/index.js"),_classnames2=_interopRequireDefault(_classnames);function _interopRequireDefault(e){return e&&e.__esModule?e:{default:e}}function _classCallCheck(e,a){if(!(e instanceof a))throw new TypeError("Cannot call a class as a function")}function _possibleConstructorReturn(e,a){if(!e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!a||"object"!=typeof a&&"function"!=typeof a?e:a}function _inherits(e,a){if("function"!=typeof a&&null!==a)throw new TypeError("Super expression must either be null or a function, not "+typeof a);e.prototype=Object.create(a&&a.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),a&&(Object.setPrototypeOf?Object.setPrototypeOf(e,a):e.__proto__=a)}var Pagination=function(e){function a(){return _classCallCheck(this,a),_possibleConstructorReturn(this,(a.__proto__||Object.getPrototypeOf(a)).apply(this,arguments))}return _inherits(a,_react2.default.Component),_createClass(a,[{key:"isFirstPageVisible",value:function(e){var a=this.props,t=a.hideDisabled;a.hideNavigation;return!(a.hideFirstLastPages||t&&!e)}},{key:"isPrevPageVisible",value:function(e){var a=this.props,t=a.hideDisabled;return!(a.hideNavigation||t&&!e)}},{key:"isNextPageVisible",value:function(e){var a=this.props,t=a.hideDisabled;return!(a.hideNavigation||t&&!e)}},{key:"isLastPageVisible",value:function(e){var a=this.props,t=a.hideDisabled;a.hideNavigation;return!(a.hideFirstLastPages||t&&!e)}},{key:"buildPages",value:function(){for(var e=[],a=this.props,t=a.itemsCountPerPage,s=a.pageRangeDisplayed,i=a.activePage,r=a.prevPageText,l=a.nextPageText,n=a.firstPageText,u=a.lastPageText,o=a.totalItemsCount,p=a.onChange,c=a.activeClass,g=a.itemClass,_=a.itemClassFirst,f=a.itemClassPrev,d=a.itemClassNext,h=a.itemClassLast,C=a.activeLinkClass,P=a.disabledClass,b=(a.hideDisabled,a.hideNavigation,a.linkClass),v=a.linkClassFirst,m=a.linkClassPrev,k=a.linkClassNext,y=a.linkClassLast,x=(a.hideFirstLastPages,a.getPageUrl),T=new _paginator2.default(t,s).build(o,i),D=T.first_page;D<=T.last_page;D++)e.push(_react2.default.createElement(_Page2.default,{isActive:D===i,key:D,href:x(D),pageNumber:D,pageText:D+"",onClick:p,itemClass:g,linkClass:b,activeClass:c,activeLinkClass:C}));return this.isPrevPageVisible(T.has_previous_page)&&e.unshift(_react2.default.createElement(_Page2.default,{key:"prev"+T.previous_page,pageNumber:T.previous_page,onClick:p,pageText:r,isDisabled:!T.has_previous_page,itemClass:(0,_classnames2.default)(g,f),linkClass:(0,_classnames2.default)(b,m),disabledClass:P})),this.isFirstPageVisible(T.has_previous_page)&&e.unshift(_react2.default.createElement(_Page2.default,{key:"first",pageNumber:1,onClick:p,pageText:n,isDisabled:!T.has_previous_page,itemClass:(0,_classnames2.default)(g,_),linkClass:(0,_classnames2.default)(b,v),disabledClass:P})),this.isNextPageVisible(T.has_next_page)&&e.push(_react2.default.createElement(_Page2.default,{key:"next"+T.next_page,pageNumber:T.next_page,onClick:p,pageText:l,isDisabled:!T.has_next_page,itemClass:(0,_classnames2.default)(g,d),linkClass:(0,_classnames2.default)(b,k),disabledClass:P})),this.isLastPageVisible(T.has_next_page)&&e.push(_react2.default.createElement(_Page2.default,{key:"last",pageNumber:T.total_pages,onClick:p,pageText:u,isDisabled:T.current_page===T.total_pages,itemClass:(0,_classnames2.default)(g,h),linkClass:(0,_classnames2.default)(b,y),disabledClass:P})),e}},{key:"render",value:function(){var e=this.buildPages();return _react2.default.createElement("ul",{className:this.props.innerClass},e)}}]),a}();Pagination.defaultProps={itemsCountPerPage:10,pageRangeDisplayed:5,activePage:1,prevPageText:"⟨",firstPageText:"«",nextPageText:"⟩",lastPageText:"»",innerClass:"pagination",itemClass:void 0,linkClass:void 0,activeLinkClass:void 0,hideFirstLastPages:!1,getPageUrl:function(e){return"#"}},exports.default=Pagination;
 
 /***/ }),
 
@@ -9937,7 +10122,7 @@ function invariant(condition, message) {
     throw new Error('StyleSheet: ' + message + '.');
   }
 }
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../../../../usr/local/lib/node_modules/webpack/node_modules/process/browser.js */ "../../../../usr/local/lib/node_modules/webpack/node_modules/process/browser.js")))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../process/browser.js */ "./node_modules/process/browser.js")))
 
 /***/ }),
 
@@ -10524,6 +10709,7 @@ const initialState = {
     orderState: 0,
     orderSystem: 1,
     page: 1,
+    pagesMax: 5,
     printData: false,
     product: productInit,
     productEdit: false,
@@ -10580,7 +10766,7 @@ class App extends React.Component {
                 React.createElement(react_router_1.Route, { path: "/admin/login", render: () => (React.createElement(Login_1.default, { modalError: this.state.modalError, modalText: this.state.modalText, authorised: this.state.authorised, submitForm: this.submitForm, handleRegister: this.handleRegister })) }),
                 React.createElement(react_router_1.Route, { path: "/admin/setup", render: () => (React.createElement(Register_1.default, { modalError: this.state.modalError, modalText: this.state.modalText, handleRegister: this.handleRegister, submitForm: this.submitForm })) }),
                 React.createElement(react_router_1.Route, { path: "/admin", render: (routeProps) => (this.state.authorised ?
-                        React.createElement(Admin_1.default, { closeDeleteModal: this.closeDeleteModal, deleteProduct: this.deleteProduct, handleChangeProducts: this.handleChangeProducts, imageDrop: this.imageDrop, imageFiles: this.state.imageFiles, imageNum: this.state.imageNum, imagePreviewSelect: this.imagePreviewSelect, imageRemoveSelect: this.imageRemoveSelect, itemsPerPage: this.state.itemsPerPage, getProducts: this.getProducts, getOrders: this.getOrders, handleChangeOrderState: this.handleChangeOrderState, handleChangeOrderDeliveryTime: this.handleChangeOrderDeliveryTime, handleChangeItemsPerPage: this.handleChangeItemsPerPage, handleChangePage: this.handleChangePage, handleOrderStateUpdate: this.handleOrderStateUpdate, handlePageData: this.handlePageData, handlePrintSummary: this.handlePrintSummary, handleProduct: this.handleProduct, handleProductEdit: this.handleProductEdit, handleProductUpdate: this.handleProductUpdate, handleReorder: this.handleReorder, handleShowDeleteModal: this.handleShowDeleteModal, handleSortBy: this.handleSortBy, handleSortOrderByState: this.handleSortOrderByState, handleSerachByTitle: this.handleSerachByTitle, handleSearchOrderByNum: this.handleSearchOrderByNum, modalError: this.state.modalError, modalText: this.state.modalText, order: this.state.order, orderDeliveryTime: this.state.orderDeliveryTime, orders: this.state.orders, orderState: this.state.orderState, orderSystem: this.state.orderSystem, orderManagerOpen: this.state.orderManagerOpen, page: this.state.page, pagesCount: this.state.pagesCount, pageData: this.state.pageData, printData: this.state.printData, product: this.state.product, products: this.state.products, productEdit: this.state.productEdit, productNumber: this.state.productNumber, productToDelete: this.state.productToDelete, routeProps: routeProps, showDeleteModal: this.state.showDeleteModal, showOrderManager: this.showOrderManager, showOrderSucess: this.state.showOrderSucess, signOut: this.signOut, storeProduct: this.storeProduct, user: this.state.user }) :
+                        React.createElement(Admin_1.default, { closeDeleteModal: this.closeDeleteModal, deleteProduct: this.deleteProduct, handleChangeProducts: this.handleChangeProducts, imageDrop: this.imageDrop, imageFiles: this.state.imageFiles, imageNum: this.state.imageNum, imagePreviewSelect: this.imagePreviewSelect, imageRemoveSelect: this.imageRemoveSelect, itemsPerPage: this.state.itemsPerPage, getProducts: this.getProducts, getOrders: this.getOrders, handleChangeOrderState: this.handleChangeOrderState, handleChangeOrderDeliveryTime: this.handleChangeOrderDeliveryTime, handleChangeItemsPerPage: this.handleChangeItemsPerPage, handleChangePage: this.handleChangePage, handleOrderStateUpdate: this.handleOrderStateUpdate, handlePageData: this.handlePageData, handlePrintSummary: this.handlePrintSummary, handleProduct: this.handleProduct, handleProductEdit: this.handleProductEdit, handleProductUpdate: this.handleProductUpdate, handleReorder: this.handleReorder, handleShowDeleteModal: this.handleShowDeleteModal, handleSortBy: this.handleSortBy, handleSortOrderByState: this.handleSortOrderByState, handleSerachByTitle: this.handleSerachByTitle, handleSearchOrderByNum: this.handleSearchOrderByNum, modalError: this.state.modalError, modalText: this.state.modalText, order: this.state.order, orderDeliveryTime: this.state.orderDeliveryTime, orders: this.state.orders, orderState: this.state.orderState, orderSystem: this.state.orderSystem, orderManagerOpen: this.state.orderManagerOpen, page: this.state.page, pagesCount: this.state.pagesCount, pagesMax: this.state.pagesMax, pageData: this.state.pageData, printData: this.state.printData, product: this.state.product, products: this.state.products, productEdit: this.state.productEdit, productNumber: this.state.productNumber, productToDelete: this.state.productToDelete, routeProps: routeProps, showDeleteModal: this.state.showDeleteModal, showOrderManager: this.showOrderManager, showOrderSucess: this.state.showOrderSucess, signOut: this.signOut, storeProduct: this.storeProduct, user: this.state.user }) :
                         React.createElement(react_router_1.Redirect, { to: "/admin/login" })) }))));
     }
     authenticate() {
@@ -11549,7 +11735,7 @@ class Products extends React.Component {
         return [
             React.createElement(OrderManagerModal_1.default, { handleChangeOrderDeliveryTime: this.props.handleChangeOrderDeliveryTime, handleChangeOrderState: this.props.handleChangeOrderState, handleOrderStateUpdate: this.props.handleOrderStateUpdate, handlePrintSummary: this.props.handlePrintSummary, order: this.props.order, orderDeliveryTime: this.props.orderDeliveryTime, orderManagerOpen: this.props.orderManagerOpen, orderState: this.props.orderState, printData: this.props.printData, showOrderSucess: this.props.showOrderSucess, key: 0 }),
             React.createElement("h2", { key: 1 }, "Zoznam objedn\u00E1vok"),
-            React.createElement("div", { className: "mt-3", key: 2 },
+            React.createElement("div", { className: "mt-3 pb-3", key: 2 },
                 React.createElement("div", { className: "row mb-2" },
                     React.createElement("div", { className: "col-sm-4 col-md-2 col-lg-2" },
                         React.createElement("button", { className: "btn btn-outline-primary", onClick: this.props.handleReorder }, this.props.orderSystem === 0 ?
@@ -11608,10 +11794,11 @@ class Products extends React.Component {
                                         React.createElement("td", null,
                                             React.createElement("button", { className: "btn btn-primary", onClick: () => this.props.showOrderManager(item.orderNum) }, "Detail"))));
                                 }))),
-                            this.props.pageData.length < 9 ?
-                                (this.props.page > 1 ?
-                                    React.createElement(Pagination_1.default, { itemsPerPage: this.props.itemsPerPage, handleChangeItemsPerPage: this.props.handleChangeItemsPerPage, handleChangePage: this.props.handleChangePage, page: this.props.page, pagesCount: this.props.pagesCount, key: 2 }) : null) :
-                                React.createElement(Pagination_1.default, { itemsPerPage: this.props.itemsPerPage, handleChangeItemsPerPage: this.props.handleChangeItemsPerPage, handleChangePage: this.props.handleChangePage, page: this.props.page, pagesCount: this.props.pagesCount, key: 2 })
+                            this.props.orders && this.props.orders.length > 0 ?
+                                (this.props.pageData.length < 9 ?
+                                    (this.props.page > 1 ?
+                                        React.createElement(Pagination_1.default, { dataTotalLength: this.props.orders.length, itemsPerPage: this.props.itemsPerPage, handleChangeItemsPerPage: this.props.handleChangeItemsPerPage, handleChangePage: this.props.handleChangePage, page: this.props.page, pagesCount: this.props.pagesCount, pagesMax: this.props.pagesMax, key: 2 }) : null) :
+                                    React.createElement(Pagination_1.default, { dataTotalLength: this.props.orders.length, itemsPerPage: this.props.itemsPerPage, handleChangeItemsPerPage: this.props.handleChangeItemsPerPage, handleChangePage: this.props.handleChangePage, page: this.props.page, pagesCount: this.props.pagesCount, pagesMax: this.props.pagesMax, key: 2 })) : null
                         ] :
                         (React.createElement("div", { className: "list-group-item text-center" },
                             React.createElement("p", null, "Neboli n\u00E1jden\u00E9 \u017Eiadne objedn\u00E1vky.")))) : (React.createElement("div", { className: "w-100 d-flex justify-content-center mt-3" },
@@ -11635,34 +11822,27 @@ exports.default = Products;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(/*! react */ "react");
+const react_js_pagination_1 = __webpack_require__(/*! react-js-pagination */ "./node_modules/react-js-pagination/dist/Pagination.js");
 const Pagination = (props) => {
-    const { handleChangeItemsPerPage, handleChangePage, itemsPerPage, page, pagesCount } = props;
-    let pageItemBtn = [];
-    for (let i = 0; i < pagesCount; i++) {
-        pageItemBtn.push(React.createElement("li", { className: page === (i + 1) ? "page-item active" : "page-item", key: i + 1 },
-            React.createElement("button", { type: "button", className: "page-link btn-link", onClick: () => handleChangePage(i + 1) }, i + 1)));
-    }
+    const { dataTotalLength, handleChangeItemsPerPage, handleChangePage, itemsPerPage, page, pagesMax } = props;
     return (React.createElement("div", { className: "position-fixed w-100", style: {
             bottom: 0,
             backgroundColor: "#fff",
         } },
         React.createElement("div", { className: "row" },
-            React.createElement("nav", { "aria-label": "Page navigation" },
-                React.createElement("ul", { className: "pagination" },
-                    React.createElement("li", { className: page > 1 ? "page-item" : "page-item disabled" },
-                        React.createElement("button", { type: "button", disabled: page > 1 ? false : true, className: "page-link btn-link", onClick: () => handleChangePage(page - 1) }, "Previous")),
-                    pageItemBtn,
-                    React.createElement("li", { className: page === pagesCount ? "page-item disabled" : "page-item" },
-                        React.createElement("button", { type: "button", disabled: page === (pagesCount) ? true : false, className: "page-link btn-link", onClick: () => handleChangePage(page + 1) }, "Next")))),
-            React.createElement("div", { className: "form-group ml-2" },
-                React.createElement("select", { className: "form-control", onChange: (e) => {
-                        const itemsPerPage = parseInt(e.currentTarget.value);
-                        handleChangeItemsPerPage(itemsPerPage);
-                    }, value: itemsPerPage },
-                    React.createElement("option", { value: 10 }, "10"),
-                    React.createElement("option", { value: 20 }, "20"),
-                    React.createElement("option", { value: 50 }, "50"),
-                    React.createElement("option", { value: 51 }, "\u221E"))))));
+            React.createElement("div", { className: "col-12" },
+                React.createElement("div", { className: "row" },
+                    React.createElement("nav", { "aria-label": "Page navigation" },
+                        React.createElement(react_js_pagination_1.default, { activePage: page, itemsCountPerPage: itemsPerPage, totalItemsCount: dataTotalLength, pageRangeDisplayed: pagesMax, onChange: handleChangePage, prevPageText: "Predošĺa", nextPageText: "Ďalšia", firstPageText: "Prvá strana", lastPageText: "Posledná strana", itemClass: "page-item", linkClass: "page-link" })),
+                    React.createElement("div", { className: "form-group ml-2" },
+                        React.createElement("select", { className: "form-control", onChange: (e) => {
+                                const itemsPerPage = parseInt(e.currentTarget.value);
+                                handleChangeItemsPerPage(itemsPerPage);
+                            }, value: itemsPerPage },
+                            React.createElement("option", { value: 10 }, "10"),
+                            React.createElement("option", { value: 20 }, "20"),
+                            React.createElement("option", { value: 50 }, "50"),
+                            React.createElement("option", { value: 51 }, "\u221E"))))))));
 };
 exports.default = Pagination;
 
@@ -12168,7 +12348,7 @@ class ProductList extends React.Component {
     render() {
         return (React.createElement("div", null,
             React.createElement("h2", null, "Zoznam produktov"),
-            React.createElement("div", { className: "mt-3" },
+            React.createElement("div", { className: "mt-3 pb-3" },
                 React.createElement("div", { className: "row mb-2" },
                     React.createElement("div", { className: "col-sm-4 col-md-2 col-lg-2 d-flex" }, "Zoradi\u0165 pod\u013Ea"),
                     React.createElement("div", { className: "col-sm-4 col-md-5 col-lg-4" },
@@ -12218,10 +12398,11 @@ class ProductList extends React.Component {
                                         React.createElement("td", null,
                                             React.createElement("button", { type: "button", className: "btn btn-danger ml-2", onClick: () => this.props.handleShowDeleteModal(i) }, "Delete"))));
                                 }))),
-                            this.props.pageData.length < 9 ?
-                                (this.props.page > 1 ?
-                                    React.createElement(Pagination_1.default, { itemsPerPage: this.props.itemsPerPage, handleChangeItemsPerPage: this.props.handleChangeItemsPerPage, handleChangePage: this.props.handleChangePage, page: this.props.page, pagesCount: this.props.pagesCount, key: 2 }) : null) :
-                                React.createElement(Pagination_1.default, { itemsPerPage: this.props.itemsPerPage, handleChangeItemsPerPage: this.props.handleChangeItemsPerPage, handleChangePage: this.props.handleChangePage, page: this.props.page, pagesCount: this.props.pagesCount, key: 2 })
+                            this.props.products && this.props.products.length > 0 ?
+                                (this.props.pageData.length < 9 ?
+                                    (this.props.page > 1 ?
+                                        React.createElement(Pagination_1.default, { dataTotalLength: this.props.products.length, itemsPerPage: this.props.itemsPerPage, handleChangeItemsPerPage: this.props.handleChangeItemsPerPage, handleChangePage: this.props.handleChangePage, page: this.props.page, pagesCount: this.props.pagesCount, pagesMax: this.props.pagesMax, key: 2 }) : null) :
+                                    React.createElement(Pagination_1.default, { dataTotalLength: this.props.products.length, itemsPerPage: this.props.itemsPerPage, handleChangeItemsPerPage: this.props.handleChangeItemsPerPage, handleChangePage: this.props.handleChangePage, page: this.props.page, pagesCount: this.props.pagesCount, pagesMax: this.props.pagesMax, key: 2 })) : null
                         ] :
                         React.createElement("div", { className: "list-group-item text-center" },
                             React.createElement("p", null,
@@ -12363,8 +12544,8 @@ class Admin extends React.Component {
                 React.createElement("div", { className: "container" },
                     React.createElement(TabNav_1.default, { routeProps: this.props.routeProps }),
                     React.createElement(react_router_dom_1.Route, { path: `${this.props.routeProps.match.url}/product-insert`, render: () => (React.createElement(ProductCreate_1.default, { imageDrop: this.props.imageDrop, imageFiles: this.props.imageFiles, imageNum: this.props.imageNum, imagePreviewSelect: this.props.imagePreviewSelect, imageRemoveSelect: this.props.imageRemoveSelect, product: this.props.product, handleProduct: this.props.handleProduct, storeProduct: this.props.storeProduct })) }),
-                    React.createElement(react_router_dom_1.Route, { path: `${this.props.routeProps.match.url}/product-list`, render: () => (React.createElement(ProductList_1.default, { itemsPerPage: this.props.itemsPerPage, page: this.props.page, pagesCount: this.props.pagesCount, pageData: this.props.pageData, products: this.props.products, deleteProduct: this.props.deleteProduct, getProducts: this.props.getProducts, handleChangeItemsPerPage: this.props.handleChangeItemsPerPage, handleChangePage: this.props.handleChangePage, handleChangeProducts: this.props.handleChangeProducts, handleProductEdit: this.props.handleProductEdit, handleShowDeleteModal: this.props.handleShowDeleteModal, handleSortBy: this.props.handleSortBy, handleSerachByTitle: this.props.handleSerachByTitle })) }),
-                    React.createElement(react_router_dom_1.Route, { exact: true, path: `${this.props.routeProps.match.url}`, render: () => (React.createElement(Orders_1.default, { itemsPerPage: this.props.itemsPerPage, orderManagerOpen: this.props.orderManagerOpen, getOrders: this.props.getOrders, handleChangeItemsPerPage: this.props.handleChangeItemsPerPage, handleChangeOrderDeliveryTime: this.props.handleChangeOrderDeliveryTime, handleChangeOrderState: this.props.handleChangeOrderState, handleChangePage: this.props.handleChangePage, handleOrderStateUpdate: this.props.handleOrderStateUpdate, handlePageData: this.props.handlePageData, handlePrintSummary: this.props.handlePrintSummary, handleReorder: this.props.handleReorder, handleSortOrderByState: this.props.handleSortOrderByState, handleSearchOrderByNum: this.props.handleSearchOrderByNum, order: this.props.order, orderDeliveryTime: this.props.orderDeliveryTime, orders: this.props.orders, orderState: this.props.orderState, orderSystem: this.props.orderSystem, page: this.props.page, pagesCount: this.props.pagesCount, pageData: this.props.pageData, printData: this.props.printData, products: this.props.products, showOrderManager: this.props.showOrderManager, showOrderSucess: this.props.showOrderSucess })) })),
+                    React.createElement(react_router_dom_1.Route, { path: `${this.props.routeProps.match.url}/product-list`, render: () => (React.createElement(ProductList_1.default, { itemsPerPage: this.props.itemsPerPage, page: this.props.page, pagesCount: this.props.pagesCount, pagesMax: this.props.pagesMax, pageData: this.props.pageData, products: this.props.products, deleteProduct: this.props.deleteProduct, getProducts: this.props.getProducts, handleChangeItemsPerPage: this.props.handleChangeItemsPerPage, handleChangePage: this.props.handleChangePage, handleChangeProducts: this.props.handleChangeProducts, handleProductEdit: this.props.handleProductEdit, handleShowDeleteModal: this.props.handleShowDeleteModal, handleSortBy: this.props.handleSortBy, handleSerachByTitle: this.props.handleSerachByTitle })) }),
+                    React.createElement(react_router_dom_1.Route, { exact: true, path: `${this.props.routeProps.match.url}`, render: () => (React.createElement(Orders_1.default, { itemsPerPage: this.props.itemsPerPage, orderManagerOpen: this.props.orderManagerOpen, getOrders: this.props.getOrders, handleChangeItemsPerPage: this.props.handleChangeItemsPerPage, handleChangeOrderDeliveryTime: this.props.handleChangeOrderDeliveryTime, handleChangeOrderState: this.props.handleChangeOrderState, handleChangePage: this.props.handleChangePage, handleOrderStateUpdate: this.props.handleOrderStateUpdate, handlePageData: this.props.handlePageData, handlePrintSummary: this.props.handlePrintSummary, handleReorder: this.props.handleReorder, handleSortOrderByState: this.props.handleSortOrderByState, handleSearchOrderByNum: this.props.handleSearchOrderByNum, order: this.props.order, orderDeliveryTime: this.props.orderDeliveryTime, orders: this.props.orders, orderState: this.props.orderState, orderSystem: this.props.orderSystem, page: this.props.page, pagesCount: this.props.pagesCount, pagesMax: this.props.pagesMax, pageData: this.props.pageData, printData: this.props.printData, products: this.props.products, showOrderManager: this.props.showOrderManager, showOrderSucess: this.props.showOrderSucess })) })),
                 React.createElement("style", null, `
           h1, h2, h3, h4, h5, h6, a, li { color: #3b8acc; }
         `)),

@@ -12,6 +12,7 @@ interface IProps {
   orderManagerOpen?: boolean;
   page?: number;
   pagesCount?: number;
+  pagesMax?: number;
   pageData?: object[];
   printData?: boolean;
   products?: object[];
@@ -56,7 +57,7 @@ export default class Products extends React.Component<IProps, {}> {
         key={0}
       />,
       <h2 key={1}>Zoznam objednávok</h2>,
-      <div className="mt-3" key={2}>
+      <div className="mt-3 pb-3" key={2}>
         <div className="row mb-2">
           <div className="col-sm-4 col-md-2 col-lg-2">
             <button className="btn btn-outline-primary" onClick={this.props.handleReorder}>{
@@ -163,26 +164,33 @@ export default class Products extends React.Component<IProps, {}> {
                   }
                 </tbody>
               </table>,
-              this.props.pageData.length < 9 ?
+              this.props.orders && this.props.orders.length > 0 ?
               (
-                this.props.page > 1 ?
+                this.props.pageData.length < 9 ?
+                (
+                  this.props.page > 1 ?
+                  <Pagination
+                    dataTotalLength={this.props.orders.length}
+                    itemsPerPage={this.props.itemsPerPage}
+                    handleChangeItemsPerPage={this.props.handleChangeItemsPerPage}
+                    handleChangePage={this.props.handleChangePage}
+                    page={this.props.page}
+                    pagesCount={this.props.pagesCount}
+                    pagesMax={this.props.pagesMax}
+                    key={2}
+                  /> : null
+                ) :
                 <Pagination
+                  dataTotalLength={this.props.orders.length}
                   itemsPerPage={this.props.itemsPerPage}
                   handleChangeItemsPerPage={this.props.handleChangeItemsPerPage}
                   handleChangePage={this.props.handleChangePage}
                   page={this.props.page}
                   pagesCount={this.props.pagesCount}
+                  pagesMax={this.props.pagesMax}
                   key={2}
-                /> : null
-              ) :
-              <Pagination
-                itemsPerPage={this.props.itemsPerPage}
-                handleChangeItemsPerPage={this.props.handleChangeItemsPerPage}
-                handleChangePage={this.props.handleChangePage}
-                page={this.props.page}
-                pagesCount={this.props.pagesCount}
-                key={2}
-              />
+                />
+              ) : null
              ] :
             (<div className="list-group-item text-center">
               <p>Neboli nájdené žiadne objednávky.</p>

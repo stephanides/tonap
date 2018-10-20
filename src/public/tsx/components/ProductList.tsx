@@ -11,6 +11,7 @@ interface IProps {
   pageData?: object[];
   page?: number;
   pagesCount?: number;
+  pagesMax?: number;
 
   deleteProduct(i: number): Promise<void>;
   getProducts(): Promise<void>;
@@ -36,7 +37,7 @@ export default class ProductList extends React.Component<IProps, {}> {
     return(
       <div>
         <h2>Zoznam produktov</h2>
-        <div className="mt-3">
+        <div className="mt-3 pb-3">
           <div className="row mb-2">
             <div className="col-sm-4 col-md-2 col-lg-2 d-flex">Zoradiť podľa</div>
             <div className="col-sm-4 col-md-5 col-lg-4">
@@ -134,26 +135,33 @@ export default class ProductList extends React.Component<IProps, {}> {
                     }
                   </tbody>
                 </table>,
-                this.props.pageData.length < 9 ?
+                this.props.products && this.props.products.length > 0 ?
                 (
-                  this.props.page > 1 ?
+                  this.props.pageData.length < 9 ?
+                  (
+                    this.props.page > 1 ?
+                    <Pagination
+                      dataTotalLength={this.props.products.length}
+                      itemsPerPage={this.props.itemsPerPage}
+                      handleChangeItemsPerPage={this.props.handleChangeItemsPerPage}
+                      handleChangePage={this.props.handleChangePage}
+                      page={this.props.page}
+                      pagesCount={this.props.pagesCount}
+                      pagesMax={this.props.pagesMax}
+                      key={2}
+                    /> : null
+                  ) :
                   <Pagination
+                    dataTotalLength={this.props.products.length}
                     itemsPerPage={this.props.itemsPerPage}
                     handleChangeItemsPerPage={this.props.handleChangeItemsPerPage}
                     handleChangePage={this.props.handleChangePage}
                     page={this.props.page}
                     pagesCount={this.props.pagesCount}
+                    pagesMax={this.props.pagesMax}
                     key={2}
-                  /> : null
-                ) :
-                <Pagination
-                  itemsPerPage={this.props.itemsPerPage}
-                  handleChangeItemsPerPage={this.props.handleChangeItemsPerPage}
-                  handleChangePage={this.props.handleChangePage}
-                  page={this.props.page}
-                  pagesCount={this.props.pagesCount}
-                  key={2}
-                />
+                  />
+                ) : null
               ] :
               <div className="list-group-item text-center">
                 <p>Neboli nájdené žiadne produkty, <Link to="/admin/product-insert">pridaj</Link> nejaké.</p>

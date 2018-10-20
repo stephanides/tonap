@@ -26,6 +26,7 @@ interface IAppState {
   orderSystem?: number;
   page?: number;
   pagesCount?: number;
+  pagesMax?: number;
   pageData?: object[];
   printData?: boolean;
   product?: IProduct;
@@ -70,6 +71,7 @@ const initialState: IAppState = {
   orderState: 0,
   orderSystem: 1,
   page: 1,
+  pagesMax: 5,
   printData: false,
   product: productInit,
   productEdit: false,
@@ -190,6 +192,7 @@ export default class App extends React.Component<{}, IAppState> {
               orderManagerOpen={this.state.orderManagerOpen}
               page={this.state.page}
               pagesCount={this.state.pagesCount}
+              pagesMax={this.state.pagesMax}
               pageData={this.state.pageData}
               printData={this.state.printData}
               product={this.state.product}
