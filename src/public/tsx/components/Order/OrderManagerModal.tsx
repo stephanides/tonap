@@ -74,13 +74,22 @@ const OrderManagerModal = (props) => {
                       }
                     </tbody>
                   </table>
-                  <p>{`Objednávateľ: ${order.name}, ${order.phone}, ${order.email}`}</p>
-                  {
-                    order.company ? <p>{`Spoločnosť: ${order.company}`}</p> : null
-                  }
-                  {
-                    order.ico ? <p>{`IČO: ${order.ico}`}</p> : null
-                  }
+                  <div className="row">
+                    <div className="col-6">
+                      <p>{`Objednávateľ: ${order.name},`}<br />
+                      {`${order.phone}`}<br />
+                      {`${order.email}`}<br />
+                      {`Mesto: ${order.city}`}</p>
+                    </div>
+                    <div className="col-6">
+                    {
+                      order.company ? <p>{`Spoločnosť: ${order.company}`}</p> : null
+                    }
+                    {
+                      order.ico ? <p>{`IČO: ${order.ico}`}</p> : null
+                    }
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
