@@ -66,6 +66,7 @@ function getProducts(){
        var json = JSON.parse(xobj.response);
        products = json.data;
        fillProducts(products);
+       console.log(products);
        getURL();
 			}
 		};
@@ -263,20 +264,20 @@ function getURL(){
 var orderObject = [];
 
 var orderInProgress = {
-  name:"",
+  title:"",
   isSterile:false,
-  packed:1,
-  pack:1, 
-  value:0,
+  package:1,
+  boxSize:1, 
+  boxCount:0,
   id:""
 };
 
 function fillOrder(id){
-  orderInProgress.name = document.getElementById("orderMainTitle").innerHTML;
+  orderInProgress.title = document.getElementById("orderMainTitle").innerHTML;
   orderInProgress.isSterile = $("input:radio[name='Sterilizacia']:checked").val();
-  orderInProgress.packed =  $("input:radio[name='Balenie']:checked").val();
-  orderInProgress.pack =  $("input:radio[name='Krabica']:checked").val();
-  orderInProgress.value = document.getElementById("modalPackageCount").value;
+  orderInProgress.package =  $("input:radio[name='Balenie']:checked").val();
+  orderInProgress.boxSize =  $("input:radio[name='Krabica']:checked").val();
+  orderInProgress.boxCount = document.getElementById("modalPackageCount").value;
   orderInProgress.id = id;
   orderObject.push(orderInProgress);
   orderInProgress = {};
@@ -292,8 +293,8 @@ function updateDetail(){
   document.getElementById("detailOrder").innerHTML = '';
   for(var i=0; i < orderObject.length;i++){
     row = $("<tr></tr>");
-    $("<td></td>").html(orderObject[i].name).appendTo(row);
-    $("<td></td>").html(orderObject[i].value).appendTo(row);
+    $("<td></td>").html(orderObject[i].title).appendTo(row);
+    $("<td></td>").html(orderObject[i].boxCount).appendTo(row);
     $("<td class='edit' onclick=editOrder("+ i +")></td>").html("Upravit").appendTo(row);
     row.appendTo(document.getElementById("detailOrder"));
   }
@@ -308,11 +309,11 @@ function editOrder(param){
 }
 
 function updateOrder(param){
-  orderObject[param].name = document.getElementById("orderMainTitle").innerHTML;
+  orderObject[param].title = document.getElementById("orderMainTitle").innerHTML;
   orderObject[param].isSterile = $("input:radio[name='Sterilizacia']:checked").val();
-  orderObject[param].packed =  $("input:radio[name='Balenie']:checked").val();
-  orderObject[param].pack =  $("input:radio[name='Krabica']:checked").val();
-  orderObject[param].value = document.getElementById("modalPackageCount").value;
+  orderObject[param].package =  $("input:radio[name='Balenie']:checked").val();
+  orderObject[param].boxSize =  $("input:radio[name='Krabica']:checked").val();
+  orderObject[param].boxCount = document.getElementById("modalPackageCount").value;
   updateDetail();
   $("#orderModal").modal('toggle');
 }

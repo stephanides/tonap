@@ -17,15 +17,15 @@ block content
           input#show-menu(type = 'checkbox' role = 'button')
           ul#menu
             li
-              a(onclick="goto('#header')") Domov
+              a(onclick="goto('#header')" href="#") Domov
             li
-              a(onclick="goto('#products')") Čo robíme?
+              a(onclick="goto('#products')" href="#products") Čo robíme?
             li
-              a(onclick="goto('#orderProduct')") Naše produkty
+              a(onclick="goto('#orderProduct')" href="#orderProduct") Naše produkty
             li
-              a(onclick="goto('#aboutus')") Kto sme?
+              a(onclick="goto('#aboutus')" href="#aboutus") Kto sme?
             li
-              a(onclick="goto('#contact')") Kontakt
+              a(onclick="goto('#contact')" href="#contact") Kontakt
             li
               a.online-order(href="/online-objednavka") Online objednávka
     section#header
