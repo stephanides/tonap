@@ -21,10 +21,12 @@ interface IOrder {
   deliveryTime?: number;
   email?: string;
   ico?: string;
+  message?: string;
   name?: string;
   state?: number;
   phone?: string;
   orderNum?: number;
+  psc?: string;
   products?: IProducts[];
 }
 interface IProducts {
@@ -124,6 +126,7 @@ const OrderManagerModal = (props: IProps) => {
                       <p><strong>Objednávateľ:</strong>{` ${order.name},`}<br />
                       <strong>Telefón:</strong>{` ${order.phone},`}<br />
                       <strong>E-mail:</strong>{` ${order.email},`}<br />
+                      <strong>PSČ:</strong>{` ${order.psc},`}<br />
                       <strong>Mesto:</strong>{` ${order.city}`}</p>
                     </div>
                     <div className="col-6">
@@ -138,6 +141,12 @@ const OrderManagerModal = (props: IProps) => {
                 </div>
               </div>
             </div>
+            {
+              order.message ?
+              <p className="mt-2 pb-2 border-bottom">
+                <strong>Správa od zákazníka:</strong><br />{` ${order.message}`}
+              </p> : null
+            }
             <div className="row mt-3">
               <div className="col-12">
                 <h6>Správa objednávky:</h6>

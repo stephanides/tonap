@@ -9,11 +9,13 @@ class Order {
         this.deliveryTime = data.deliveryTime;
         this.email = data.email;
         this.ico = data.ico;
+        this.message = data.message;
         this.name = data.name;
         this.orderNum = data.orderNum;
         this.state = data.state;
         this.street = data.street;
         this.phone = data.phone;
+        this.psc = data.psc;
         this.products = data.products;
     }
 }
@@ -32,9 +34,11 @@ const OrderSchema = new mongoose_1.Schema({
     },
     email: String,
     ico: Number,
+    message: String,
     name: String,
     orderNum: Number,
     phone: String,
+    psc: String,
     products: Array,
     state: {
         default: 0,

@@ -8,11 +8,13 @@ export class Order {
   public deliveryTime?: number;
   public email: string;
   public ico?: number;
+  public message?: string;
   public name: string;
   public orderNum: number;
   public state: number;
   public street: string;
   public phone: string;
+  public psc: string;
   public products: object[];
 
   constructor(data: IOrder) {
@@ -22,11 +24,13 @@ export class Order {
     this.deliveryTime = data.deliveryTime;
     this.email = data.email;
     this.ico = data.ico;
+    this.message = data.message;
     this.name = data.name;
     this.orderNum = data.orderNum;
     this.state = data.state;
     this.street = data.street;
     this.phone = data.phone;
+    this.psc = data.psc;
     this.products = data.products;
   }
 }
@@ -45,9 +49,11 @@ const OrderSchema = new Schema({
   },
   email: String,
   ico: Number,
+  message: String,
   name: String,
   orderNum: Number,
   phone: String,
+  psc: String,
   products: Array,
   state: {
     default: 0,

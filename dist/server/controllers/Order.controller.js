@@ -23,9 +23,11 @@ class OrderController {
                     company: req.body.company,
                     email: req.body.email,
                     ico: req.body.ico,
+                    message: req.body.message,
                     name: req.body.name,
                     orderNum,
                     phone: req.body.phone,
+                    psc: req.body.psc,
                     products: req.body.products,
                     street: req.body.street,
                 };
