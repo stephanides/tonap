@@ -11061,6 +11061,7 @@ class App extends React.Component {
                     newData.push(data[i]);
                 }
             }
+            // this.setState({}, () => {});
             this.handlePageData(newData);
         }
         else {
@@ -11736,7 +11737,7 @@ class Products extends React.Component {
         return [
             React.createElement(OrderManagerModal_1.default, { handleChangeOrderDeliveryTime: this.props.handleChangeOrderDeliveryTime, handleChangeOrderState: this.props.handleChangeOrderState, handleOrderStateUpdate: this.props.handleOrderStateUpdate, handlePrintSummary: this.props.handlePrintSummary, order: this.props.order, orderDeliveryTime: this.props.orderDeliveryTime, orderManagerOpen: this.props.orderManagerOpen, orderState: this.props.orderState, printData: this.props.printData, showOrderSucess: this.props.showOrderSucess, key: 0 }),
             React.createElement("h2", { key: 1 }, "Zoznam objedn\u00E1vok"),
-            React.createElement("div", { className: "mt-3 pb-3", key: 2 },
+            React.createElement("div", { className: "mt-3 pb-3 position-relative", key: 2 },
                 React.createElement("div", { className: "row mb-2" },
                     React.createElement("div", { className: "col-sm-4 col-md-2 col-lg-2" },
                         React.createElement("button", { className: "btn btn-outline-primary", onClick: this.props.handleReorder }, this.props.orderSystem === 0 ?
@@ -11826,7 +11827,7 @@ const React = __webpack_require__(/*! react */ "react");
 const react_js_pagination_1 = __webpack_require__(/*! react-js-pagination */ "./node_modules/react-js-pagination/dist/Pagination.js");
 const Pagination = (props) => {
     const { dataTotalLength, handleChangeItemsPerPage, handleChangePage, itemsPerPage, page, pagesMax } = props;
-    return (React.createElement("div", { className: "position-fixed w-100", style: {
+    return (React.createElement("div", { className: "position-absolute w-100", style: {
             bottom: 0,
             backgroundColor: "#fff",
         } },
@@ -11834,7 +11835,7 @@ const Pagination = (props) => {
             React.createElement("div", { className: "col-12" },
                 React.createElement("div", { className: "row" },
                     React.createElement("nav", { "aria-label": "Page navigation" },
-                        React.createElement(react_js_pagination_1.default, { activePage: page, itemsCountPerPage: itemsPerPage, totalItemsCount: dataTotalLength, pageRangeDisplayed: pagesMax, onChange: handleChangePage, prevPageText: "Predošĺa", nextPageText: "Ďalšia", firstPageText: "Prvá strana", lastPageText: "Posledná strana", itemClass: "page-item", linkClass: "page-link" })),
+                        React.createElement(react_js_pagination_1.default, { activePage: page, itemsCountPerPage: itemsPerPage, totalItemsCount: dataTotalLength, pageRangeDisplayed: pagesMax, onChange: handleChangePage, prevPageText: "Predošlá", nextPageText: "Ďalšia", firstPageText: "Prvá strana", lastPageText: "Posledná strana", itemClass: "page-item", linkClass: "page-link" })),
                     React.createElement("div", { className: "form-group ml-2" },
                         React.createElement("select", { className: "form-control", onChange: (e) => {
                                 const itemsPerPage = parseInt(e.currentTarget.value);
@@ -12349,7 +12350,7 @@ class ProductList extends React.Component {
     render() {
         return (React.createElement("div", null,
             React.createElement("h2", null, "Zoznam produktov"),
-            React.createElement("div", { className: "mt-3 pb-3" },
+            React.createElement("div", { className: "mt-3 pb-3 position-relative" },
                 React.createElement("div", { className: "row mb-2" },
                     React.createElement("div", { className: "col-sm-4 col-md-2 col-lg-2 d-flex" }, "Zoradi\u0165 pod\u013Ea"),
                     React.createElement("div", { className: "col-sm-4 col-md-5 col-lg-4" },
@@ -12540,16 +12541,35 @@ class Admin extends React.Component {
             React.createElement(DeleteModal_1.default, { closeDeleteModal: this.props.closeDeleteModal, deleteProduct: this.props.deleteProduct, handleShowDeleteModal: this.props.handleShowDeleteModal, products: this.props.products, productToDelete: this.props.productToDelete, showDeleteModal: this.props.showDeleteModal, key: 0 }),
             React.createElement(Modal_1.default, { modalError: this.props.modalError, modalText: this.props.modalText, key: 1 }),
             React.createElement(ProductEditModal_1.default, { product: this.props.product, products: this.props.products, productEdit: this.props.productEdit, productNumber: this.props.productNumber, handleProduct: this.props.handleProduct, handleProductEdit: this.props.handleProductEdit, handleProductUpdate: this.props.handleProductUpdate, storeProduct: this.props.storeProduct, key: 2 }),
-            React.createElement("div", { key: 3 },
+            React.createElement("div", { key: 3, style: { minHeight: "calc(100vh - 100px)" } },
                 React.createElement(HeaderNav_1.default, { user: this.props.user, signOut: this.props.signOut }),
-                React.createElement("div", { className: "container" },
+                React.createElement("div", { className: "container", style: { marginBottom: "100px" } },
                     React.createElement(TabNav_1.default, { routeProps: this.props.routeProps }),
                     React.createElement(react_router_dom_1.Route, { path: `${this.props.routeProps.match.url}/product-insert`, render: () => (React.createElement(ProductCreate_1.default, { imageDrop: this.props.imageDrop, imageFiles: this.props.imageFiles, imageNum: this.props.imageNum, imagePreviewSelect: this.props.imagePreviewSelect, imageRemoveSelect: this.props.imageRemoveSelect, product: this.props.product, handleProduct: this.props.handleProduct, storeProduct: this.props.storeProduct })) }),
                     React.createElement(react_router_dom_1.Route, { path: `${this.props.routeProps.match.url}/product-list`, render: () => (React.createElement(ProductList_1.default, { itemsPerPage: this.props.itemsPerPage, page: this.props.page, pagesCount: this.props.pagesCount, pagesMax: this.props.pagesMax, pageData: this.props.pageData, products: this.props.products, deleteProduct: this.props.deleteProduct, getProducts: this.props.getProducts, handleChangeItemsPerPage: this.props.handleChangeItemsPerPage, handleChangePage: this.props.handleChangePage, handleChangeProducts: this.props.handleChangeProducts, handleProductEdit: this.props.handleProductEdit, handleShowDeleteModal: this.props.handleShowDeleteModal, handleSortBy: this.props.handleSortBy, handleSerachByTitle: this.props.handleSerachByTitle })) }),
                     React.createElement(react_router_dom_1.Route, { exact: true, path: `${this.props.routeProps.match.url}`, render: () => (React.createElement(Orders_1.default, { itemsPerPage: this.props.itemsPerPage, orderManagerOpen: this.props.orderManagerOpen, getOrders: this.props.getOrders, handleChangeItemsPerPage: this.props.handleChangeItemsPerPage, handleChangeOrderDeliveryTime: this.props.handleChangeOrderDeliveryTime, handleChangeOrderState: this.props.handleChangeOrderState, handleChangePage: this.props.handleChangePage, handleOrderStateUpdate: this.props.handleOrderStateUpdate, handlePageData: this.props.handlePageData, handlePrintSummary: this.props.handlePrintSummary, handleReorder: this.props.handleReorder, handleSortOrderByState: this.props.handleSortOrderByState, handleSearchOrderByNum: this.props.handleSearchOrderByNum, order: this.props.order, orderDeliveryTime: this.props.orderDeliveryTime, orders: this.props.orders, orderState: this.props.orderState, orderSystem: this.props.orderSystem, page: this.props.page, pagesCount: this.props.pagesCount, pagesMax: this.props.pagesMax, pageData: this.props.pageData, printData: this.props.printData, products: this.props.products, showOrderManager: this.props.showOrderManager, showOrderSucess: this.props.showOrderSucess })) })),
                 React.createElement("style", null, `
-          h1, h2, h3, h4, h5, h6, a, li { color: #3b8acc; }
+          h1, h2, h3, h4, h5, h6, a, li {color: #3b8acc;}
         `)),
+            React.createElement("div", { className: "footer d-flex align-items-center position-absolute" },
+                React.createElement("div", { className: "container" },
+                    React.createElement("div", { className: "row" },
+                        React.createElement("div", { className: "col-6" },
+                            React.createElement("p", null,
+                                React.createElement("img", { src: "../assets/images/tonap_logo.svg", alt: "Tonap" }))),
+                        React.createElement("div", { className: "col-6" },
+                            React.createElement("p", { className: "text-right" },
+                                React.createElement("small", null, "\u00A9 2018 | Designed and assembled by codebrothers s. r. o."))))),
+                React.createElement("style", null, `
+          .footer {
+            width: 100%;
+            background-color: #f9fdff;
+            height: 100px;
+            bottom: -100px;
+          }
+          .footer div img {width:100px;}
+          .footer div p {color:#3b8acc;}
+        `))
         ];
     }
 }

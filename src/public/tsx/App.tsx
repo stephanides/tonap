@@ -530,6 +530,7 @@ export default class App extends React.Component<{}, IAppState> {
         }
       }
       
+      // this.setState({}, () => {});
       this.handlePageData(newData);
     } else {
       this.handlePageData(data);

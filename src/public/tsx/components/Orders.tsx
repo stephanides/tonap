@@ -57,7 +57,7 @@ export default class Products extends React.Component<IProps, {}> {
         key={0}
       />,
       <h2 key={1}>Zoznam objednávok</h2>,
-      <div className="mt-3 pb-3" key={2}>
+      <div className="mt-3 pb-3 position-relative" key={2}>
         <div className="row mb-2">
           <div className="col-sm-4 col-md-2 col-lg-2">
             <button className="btn btn-outline-primary" onClick={this.props.handleReorder}>{

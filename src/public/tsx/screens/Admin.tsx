@@ -99,12 +99,12 @@ export default class Admin extends React.Component<IProps, {}> {
         storeProduct={this.props.storeProduct}
         key={2}
       />,
-      <div key={3}>
+      <div key={3} style={{minHeight: "calc(100vh - 100px)"}}>
         <HeaderNav
           user={this.props.user}
           signOut={this.props.signOut}
         />
-        <div className="container">
+        <div className="container" style={{marginBottom: "100px"}}>
           <TabNav routeProps={this.props.routeProps} />
           <Route path={`${this.props.routeProps.match.url}/product-insert`} render={() => (
             <ProductCreate
@@ -170,9 +170,33 @@ export default class Admin extends React.Component<IProps, {}> {
         </div>
 
         <style>{`
-          h1, h2, h3, h4, h5, h6, a, li { color: #3b8acc; }
+          h1, h2, h3, h4, h5, h6, a, li {color: #3b8acc;}
         `}</style>
       </div>,
+      <div className="footer d-flex align-items-center position-absolute">
+        <div className="container">
+          <div className="row">
+            <div className="col-6">
+              <p>
+                <img src="../assets/images/tonap_logo.svg" alt="Tonap" />
+              </p>
+            </div>
+            <div className="col-6">
+              <p className="text-right"><small>&copy; 2018 | Designed and assembled by codebrothers s. r. o.</small></p>
+            </div>
+          </div>
+        </div>
+        <style>{`
+          .footer {
+            width: 100%;
+            background-color: #f9fdff;
+            height: 100px;
+            bottom: -100px;
+          }
+          .footer div img {width:100px;}
+          .footer div p {color:#3b8acc;}
+        `}</style>
+      </div>
     ];
   }
 }

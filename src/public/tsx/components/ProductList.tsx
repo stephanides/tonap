@@ -37,7 +37,7 @@ export default class ProductList extends React.Component<IProps, {}> {
     return(
       <div>
         <h2>Zoznam produktov</h2>
-        <div className="mt-3 pb-3">
+        <div className="mt-3 pb-3 position-relative">
           <div className="row mb-2">
             <div className="col-sm-4 col-md-2 col-lg-2 d-flex">Zoradiť podľa</div>
             <div className="col-sm-4 col-md-5 col-lg-4">

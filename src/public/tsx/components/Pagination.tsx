@@ -5,7 +5,7 @@ const Pagination = (props) => {
   const {dataTotalLength, handleChangeItemsPerPage, handleChangePage, itemsPerPage, page, pagesMax} = props;
   
   return(
-    <div className="position-fixed w-100" style={{
+    <div className="position-absolute w-100" style={{
       bottom: 0,
       backgroundColor: "#fff",
     }}>
@@ -19,7 +19,7 @@ const Pagination = (props) => {
                 totalItemsCount={dataTotalLength}
                 pageRangeDisplayed={pagesMax}
                 onChange={handleChangePage}
-                prevPageText={"Predošĺa"}
+                prevPageText={"Predošlá"}
                 nextPageText={"Ďalšia"}
                 firstPageText={"Prvá strana"}
                 lastPageText={"Posledná strana"}
