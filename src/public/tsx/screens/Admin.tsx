@@ -173,7 +173,7 @@ export default class Admin extends React.Component<IProps, {}> {
           h1, h2, h3, h4, h5, h6, a, li {color: #3b8acc;}
         `}</style>
       </div>,
-      <div className="footer d-flex align-items-center position-absolute">
+      <div className="footer d-flex align-items-center position-absolute" key={4}>
         <div className="container">
           <div className="row">
             <div className="col-6">

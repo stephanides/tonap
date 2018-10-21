@@ -12559,7 +12559,7 @@ class Admin extends React.Component {
                 React.createElement("style", null, `
           h1, h2, h3, h4, h5, h6, a, li {color: #3b8acc;}
         `)),
-            React.createElement("div", { className: "footer d-flex align-items-center position-absolute" },
+            React.createElement("div", { className: "footer d-flex align-items-center position-absolute", key: 4 },
                 React.createElement("div", { className: "container" },
                     React.createElement("div", { className: "row" },
                         React.createElement("div", { className: "col-6" },
