@@ -2,9 +2,10 @@ extends layout
 
 block headerStyle
   link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css", media="screen")
+  link(rel="stylesheet", href="https://use.fontawesome.com/releases/v5.4.1/css/all.css", media="screen")
 
 block content 
-  #wrapper.admin
+  #wrapper.admin.position-relative
 
 block scripts
   // jQuery first, then Popper.js, then Bootstrap JS
@@ -12,3 +13,5 @@ block scripts
   script(src='../assets/js/react-dom.development.js' deffer)
   script(src='../assets/js/socket.io.slim.js' deffer)
   script(src='../assets/js/admin-bundle.js')
+  script.
+    var socket = io();

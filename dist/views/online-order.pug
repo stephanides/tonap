@@ -53,16 +53,21 @@ block content
           .col-lg-6
             h5.pl-2 3. Dokončenie objednávky
             form.pl-2.mt-4(onclick="sendOrder()")
-              p Meno a priezvisko/Názov firmy
-              input(name="name" type="text" id = "name" reqiured="true" placeholder="Vaše meno alebo názov firmy" required)
-              p Adresa dodania
-              input(name="deliveryAdress" type="text" id="deliveryAdress" reqiured="true" placeholder="Zadajte adresu dodania" required)
-              input(name="deliveryCity" type="text" id="deliveryCity" reqiured="true" placeholder="Zadajte mesto dodania" class="mt-2" required)
-              p Adresa spoločnosti
-              input(name="companyAdress" id="companyAdress" type="text" reqiured="true" placeholder="Vaša dodacia adresa" required)
-              p E-mailová adresa
+              p Meno a priezvisko *
+              input(name="name" type="text" id = "name" reqiured="true" placeholder="Vaše meno a priezvisko" required)
+              p Názov firmy
+              input(name="company" type="text" id = "company" placeholder="Názov firmy")
+              p Fakturačná adresa *
+              input(name="companyAdress" id="companyAdress" type="text" placeholder="Ulica" required)
+              input(name="companyCity" id="companyCity" type="text" placeholder="Mesto" class="mt-2" required)
+              input(name="companyPSC" id="companyPSC" type="text" placeholder="PSČ" class="mt-2" required)
+              p Adresa dodania (ak sa nezhoduje s fakturačnou adresou)
+              input(name="deliveryAdress" type="text" id="deliveryAdress" placeholder="Ulica" )
+              input(name="deliveryCity" type="text" id="deliveryCity" placeholder="Mesto" class="mt-2" )
+              input(name="deliveryPSC" type="text" id="deliveryPSC" placeholder="PSČ" class="mt-2" )
+              p E-mailová adresa *
               input(name="email" type="text" id="email" reqiured="true" placeholder="Vaša e-mailová adresa" required)
-              p Telefónne číslo
+              p Telefónne číslo *
               input(name="tel" type="text" id="phone" reqiured="true" placeholder="Vaše telefónne číslo" required)
               p IČO
               input(name="ico" type="text" id="ico" placeholder="Vaše IČO")

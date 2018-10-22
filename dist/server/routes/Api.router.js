@@ -7,6 +7,11 @@ const CheckToken_helper_1 = require("./helpers/CheckToken.helper");
 const router = express.Router();
 const order = new Order_controller_1.default();
 const product = new Product_controller_1.default();
+router.post("/order/state", (req, res, next) => {
+    CheckToken_helper_1.checkToken(req, res, next, () => {
+        order.handleEmailNotification(req, res, next);
+    });
+});
 router.get("/order", (req, res, next) => {
     CheckToken_helper_1.checkToken(req, res, next, () => {
         order.getAll(req, res, next);
@@ -20,11 +25,6 @@ router.delete("/product/:id", (req, res, next) => {
 router.get("/product", (req, res, next) => {
     CheckToken_helper_1.checkToken(req, res, next, () => {
         product.getAll(req, res, next);
-    });
-});
-router.post("/order/notify", (req, res, next) => {
-    CheckToken_helper_1.checkToken(req, res, next, () => {
-        order.handleEmailNotification(req, res, next);
     });
 });
 router.post("/product", (req, res, next) => {

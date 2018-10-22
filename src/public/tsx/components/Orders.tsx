@@ -1,10 +1,37 @@
 import * as React from "react";
+import OrderManagerModal from "./Order/OrderManagerModal";
+import Pagination from "./Pagination";
 
 interface IProps {
+  itemsPerPage?: number;
+  order?: {};
+  orderDeliveryTime?: number;
   orders?: object[];
+  orderState?: number;
+  oldOrderState?: number;
+  orderSystem?: number;
+  orderManagerOpen?: boolean;
+  page?: number;
+  pagesCount?: number;
+  pagesMax?: number;
+  pageData?: object[];
+  printData?: boolean;
   products?: object[];
+  showOrderSucess?: boolean;
 
   getOrders(): Promise<void>;
+  handleChangeItemsPerPage(itemsPerPage: number): void;
+  handleChangeOrderDeliveryTime(orderDeliveryTime: number): void;
+  handleChangeOrderState(orderState: number): void;
+  handleChangePage(page: number): void;
+  handleOrderStateUpdate(e: React.FormEvent<HTMLElement>): Promise<void>;
+  handlePageData(data: object[]): void;
+  handlePrintSummary(e: Event): void;
+  handleReorder(): void;
+  handleSocketListener(): void;
+  handleSortOrderByState(state: number): void;
+  handleSearchOrderByNum(orderNum: string): void;
+  showOrderManager(orderNum: string): void;
 }
 
 export default class Products extends React.Component<IProps, {}> {
@@ -13,72 +40,162 @@ export default class Products extends React.Component<IProps, {}> {
   }
 
   public componentDidMount() {
+    this.props.handleSocketListener();
     this.props.getOrders();
   }
 
   public render() {
     return[
-      <h2 key={0}>Zoznam objednávok</h2>,
-      <div className="list-group mb-3" key={1}>
-        {
-          this.props.orders ?
-          (
-            this.props.orders.length > 0 ?
-            (
-              <div className="list-group">
-                <div className="list-group-item bg-info d-flex justify-content-between">
-                  <div className="col-2 text-white">UID</div>
-                  <div className="col-auto text-white">Dátum</div>
-                  <div className="col-3 text-white">Objednávateľ</div>
-                  <div className="col-3 text-white">Detail objednávky</div>
-                  <div className="col-3 text-white">Správa objednávky</div>
-                </div>
-                {
-                  this.props.orders.map((item, i) => {
-                    const productsInfo = (item as any).products.map((productInfo, j) => {
-                      let product: object = {};
+      <OrderManagerModal
+        handleChangeOrderDeliveryTime={this.props.handleChangeOrderDeliveryTime}
+        handleChangeOrderState={this.props.handleChangeOrderState}
+        handleOrderStateUpdate={this.props.handleOrderStateUpdate}
+        handlePrintSummary={this.props.handlePrintSummary}
+        order={this.props.order}
+        orderDeliveryTime={this.props.orderDeliveryTime}
+        orderManagerOpen={this.props.orderManagerOpen}
+        orderState={this.props.orderState}
+        oldOrderState={this.props.oldOrderState}
+        printData={this.props.printData}
+        showOrderSucess={this.props.showOrderSucess}
+        key={0}
+      />,
+      <h2 key={1}>Zoznam objednávok</h2>,
+      <div className="mt-3 pb-3 position-relative" key={2}>
+        <div className="row mb-2">
+          <div className="col-sm-4 col-md-2 col-lg-2">
+            <button className="btn btn-outline-primary" onClick={this.props.handleReorder}>{
+              this.props.orderSystem === 0 ?
+              "Najnovšie" : "Najstaršie"
+            }</button>
+          </div>
+          <div className="col-sm-4 col-md-5 col-lg-4">
+            <select
+              className="custom-select form-control mb-2"
+              onChange={(e) => {
+                const state = e.currentTarget.selectedIndex - 1;
 
-                      if (this.props.products && this.props.products.length > 0) {
-                        for (const prod of this.props.products) {
-                          if ((prod as any)._id === (productInfo as any)._id) {
-                            product = prod;
-                          }
-                        }
+                this.props.handleSortOrderByState(state);
+            }}>
+              <option value={4}>Stav objednávky</option>
+              <option value={0}>Nová</option>
+              <option value={1}>Vybavuje sa</option>
+              <option value={2}>Vybavená</option>
+            </select>
+          </div>
+          <div className="form-group col-sm-4 col-md-5 col-lg-4">
+            <div className="input-group">
+              <input
+                type="text"
+                className="form-control"
+                id="searchByTitle"
+                placeholder="Vyhľadaj podľa č. objednávky"
+                onChange={(e) => {
+                  const orderNum = e.currentTarget.value;
 
-                        return(
-                          <div key={j}>
-                            <div className="row justify-content-between">
-                              <div>{(product as any).title}</div>
-                              <div>{(productInfo as any).count}</div>
-                            </div>
-                          </div>
-                        );
-                      } else {
-                        return null;
-                      }
-                    });
-
-                    return (
-                      <div className="list-group-item d-flex justify-content-between" key={i}>
-                        <div className="col-2">{(item as any).orderNum}</div>
-                        <div className="col-auto">{(item as any).dateCreated.split("T")[0]}</div>
-                        <div className="col-3">{(item as any).name + " " + (item as any).surname}</div>
-                        <div className="col-3">
-                          <div className="row justify-content-between">
-                            <div>Názov produktu</div>
-                            <div>Počet produktov</div>
-                          </div>
-                          {productsInfo}
-                        </div>
-                        <div className="col-3">
-                          <button type="button" className="btn btn-primary align-items-center">Spravovať</button>
-                        </div>
-                      </div>
-                    );
-                  })
-                }
+                  this.props.handleSearchOrderByNum(orderNum);
+                }}
+              />
+              <div className="input-group-apend">
+                <span className="input-group-text" style={{padding: ".635rem .75rem"}}>
+                  <i className="fas fa-search"></i>
+                </span>
               </div>
-            ) :
+            </div>
+          </div>
+        </div>
+        {
+          this.props.pageData ?
+          (
+            this.props.pageData.length > 0 ?
+            [
+              <table className="table table-striped mb-5" key={0}>
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Číslo obj.</th>
+                    <th scope="col">Dátum</th>
+                    <th scope="col">Stav obj.</th>
+                    <th scope="col">Objednané položky</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    this.props.pageData.map((item, i) => {
+                      const state = ["Nová", "Vybavuje sa", "Vybavená"];
+                      const roughDate = (item as any).dateCreated.split("T")[0];
+                      const date = `${roughDate.split("-")[2]}.${roughDate.split("-")[1]}.${roughDate.split("-")[0]}`;
+                      let orderedProductCount;
+
+                      if ((item as any).products) {
+                        orderedProductCount = (item as any).products.length > 4 ?
+                        `+${(item as any).products.length} produktov` :
+                        (
+                          (item as any).products.length > 1 ?
+                          `+${(item as any).products.length} produkty` :
+                          `+${(item as any).products.length} produkt`
+                        );
+                      }
+
+                      return (
+                        <tr key={i+1}>
+                          <th scope="row">{i+1}</th>
+                          <td>{(item as any).orderNum}</td>
+                          <td>{date}</td>
+                          <td>
+                            <span className={
+                              (item as any).state > 0 ?
+                              (
+                                (item as any).state > 1 ?
+                                "text-success font-weight-bold" : "text-warning font-weight-bold"
+                              ) : "text-danger font-weight-bold"
+                            }>
+                              {state[(item as any).state]}
+                            </span>
+                          </td>
+                          <td>{orderedProductCount}</td>
+                          <td>
+                            <button
+                              className="btn btn-primary"
+                              onClick={
+                                () => this.props.showOrderManager((item as any).orderNum)
+                              }>Detail</button>
+                          </td>
+                        </tr>
+                      );
+                    })
+                  }
+                </tbody>
+              </table>,
+              this.props.orders && this.props.orders.length > 0 ?
+              (
+                this.props.pageData.length < 9 ?
+                (
+                  this.props.page > 1 ?
+                  <Pagination
+                    dataTotalLength={this.props.orders.length}
+                    itemsPerPage={this.props.itemsPerPage}
+                    handleChangeItemsPerPage={this.props.handleChangeItemsPerPage}
+                    handleChangePage={this.props.handleChangePage}
+                    page={this.props.page}
+                    pagesCount={this.props.pagesCount}
+                    pagesMax={this.props.pagesMax}
+                    key={2}
+                  /> : null
+                ) :
+                <Pagination
+                  dataTotalLength={this.props.orders.length}
+                  itemsPerPage={this.props.itemsPerPage}
+                  handleChangeItemsPerPage={this.props.handleChangeItemsPerPage}
+                  handleChangePage={this.props.handleChangePage}
+                  page={this.props.page}
+                  pagesCount={this.props.pagesCount}
+                  pagesMax={this.props.pagesMax}
+                  key={2}
+                />
+              ) : null
+             ] :
             (<div className="list-group-item text-center">
               <p>Neboli nájdené žiadne objednávky.</p>
             </div>)

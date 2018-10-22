@@ -103,11 +103,10 @@ class App {
         });
         this.io.on("connection", (socket) => {
             const admin = this.io.of("/admin");
+            console.log("IO: conntected");
             socket.on("order created", () => {
                 admin.emit("order been created", { success: true });
-            });
-            socket.on("claim created", () => {
-                admin.emit("claim been created", { success: true });
+                console.log("IO: Order created");
             });
         });
         this.app.use("/api", Api_router_1.default);

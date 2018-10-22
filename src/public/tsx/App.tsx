@@ -4,6 +4,7 @@ import Admin from "./screens/Admin";
 import Login from "./screens/Login";
 import Register from "./screens/Register";
 import { Redirect, Router, Route, Switch } from "react-router";
+import * as io from "socket.io-client";
 
 import IFile from "./interfaces/File.interface";
 import IProduct from "./interfaces/Product.interface";
@@ -15,16 +16,30 @@ interface IAppState {
   authorised?: boolean;
   imageFiles?: IFile[];
   imageNum?: number;
+  itemsPerPage?: number;
   modalError?: boolean | null;
   modalText?: string;
+  order?: {},
+  orderDeliveryTime?: number;
   orders?: object[];
+  orderState?: number;
+  oldOrderState?: number;
+  orderManagerOpen?: boolean;
+  orderSystem?: number;
+  page?: number;
+  pagesCount?: number;
+  pagesMax?: number;
+  pageData?: object[];
+  printData?: boolean;
   product?: IProduct;
   products?: object[];
   productEdit?: boolean;
   productNumber?: number;
   productToDelete?: number;
   register?: boolean;
+  screen?: number;
   showDeleteModal?: boolean;
+  showOrderSucess?: boolean;
   user?: IUser;
 }
 
@@ -52,21 +67,33 @@ const productInit: IProduct = {
 const initialState: IAppState = {
   authorised: false,
   imageNum: 0,
+  itemsPerPage: 10,
+  orderDeliveryTime: 0,
+  orderManagerOpen: false,
+  orderState: 0,
+  oldOrderState: 0,
+  orderSystem: 1,
+  page: 1,
+  pagesMax: 5,
+  printData: false,
   product: productInit,
   productEdit: false,
   productNumber: 0,
+  screen: 0,
 };
 
 export default class App extends React.Component<{}, IAppState> {
   private baseURL: string;
   private intervalCheckAuthenticate: number;
   private myStorage: Storage;
+  private socket: any;
 
   constructor(props: any) {
     super(props);
 
     this.baseURL = window.location.protocol + "//" + window.location.host;
     this.intervalCheckAuthenticate = 0;
+    this.socket = io("/admin");
     this.state = initialState;
     this.myStorage = window.localStorage;
 
@@ -75,23 +102,38 @@ export default class App extends React.Component<{}, IAppState> {
     this.deleteProduct = this.deleteProduct.bind(this);
     this.getProducts = this.getProducts.bind(this);
     this.getOrders = this.getOrders.bind(this);
+    this.handleChangeOrderState = this.handleChangeOrderState.bind(this);
+    this.handleOrderStateUpdate = this.handleOrderStateUpdate.bind(this);
+    this.handleChangePage = this.handleChangePage.bind(this);
+    this.handleChangeItemsPerPage = this.handleChangeItemsPerPage.bind(this);
     this.handleChangeProducts = this.handleChangeProducts.bind(this);
+    this.handleChangeOrderDeliveryTime = this.handleChangeOrderDeliveryTime.bind(this);
+    this.handlePageCount = this.handlePageCount.bind(this);
+    this.handlePageData = this.handlePageData.bind(this);
     this.handleRegister = this.handleRegister.bind(this);
+    this.handlePrintSummary = this.handlePrintSummary.bind(this);
     this.handleProduct = this.handleProduct.bind(this);
     this.handleProductEdit = this.handleProductEdit.bind(this);
     this.handleProductUpdate = this.handleProductUpdate.bind(this);
+    this.handleReorder = this.handleReorder.bind(this);
+    this.handleSocketListener = this.handleSocketListener.bind(this);
+    this.handleSortBy = this.handleSortBy.bind(this);
+    this.handleSortOrderByState = this.handleSortOrderByState.bind(this);
+    this.handleSerachByTitle = this.handleSerachByTitle.bind(this);
+    this.handleSearchOrderByNum = this.handleSearchOrderByNum.bind(this);
     this.imageDrop = this.imageDrop.bind(this);
     this.imagePreviewSelect = this.imagePreviewSelect.bind(this);
     this.imageRemoveSelect = this.imageRemoveSelect.bind(this);
     this.handleShowDeleteModal = this.handleShowDeleteModal.bind(this);
     this.showModal = this.showModal.bind(this);
+    this.showOrderManager = this.showOrderManager.bind(this);
     this.signOut = this.signOut.bind(this);
     this.storeProduct = this.storeProduct.bind(this);
     this.submitForm = this.submitForm.bind(this);
   }
 
   public componentWillMount() {
-    this.intervalCheckAuthenticate = window.setInterval(this.authenticate, 12 * 60 * 1000);
+    this.intervalCheckAuthenticate = window.setInterval(this.authenticate, 8 * 60 * 1000);
     this.authenticate();
   }
 
@@ -127,15 +169,40 @@ export default class App extends React.Component<{}, IAppState> {
               imageNum={this.state.imageNum}
               imagePreviewSelect={this.imagePreviewSelect}
               imageRemoveSelect={this.imageRemoveSelect}
+              itemsPerPage={this.state.itemsPerPage}
               getProducts={this.getProducts}
               getOrders={this.getOrders}
+              handleChangeOrderState={this.handleChangeOrderState}
+              handleChangeOrderDeliveryTime={this.handleChangeOrderDeliveryTime}
+              handleChangeItemsPerPage={this.handleChangeItemsPerPage}
+              handleChangePage={this.handleChangePage}
+              handleOrderStateUpdate={this.handleOrderStateUpdate}
+              handlePageData={this.handlePageData}
+              handlePrintSummary={this.handlePrintSummary}
               handleProduct={this.handleProduct}
               handleProductEdit={this.handleProductEdit}
               handleProductUpdate={this.handleProductUpdate}
+              handleReorder={this.handleReorder}
               handleShowDeleteModal={this.handleShowDeleteModal}
+              handleSocketListener={this.handleSocketListener}
+              handleSortBy={this.handleSortBy}
+              handleSortOrderByState={this.handleSortOrderByState}
+              handleSerachByTitle={this.handleSerachByTitle}
+              handleSearchOrderByNum={this.handleSearchOrderByNum}
               modalError={this.state.modalError}
               modalText={this.state.modalText}
+              order={this.state.order}
+              orderDeliveryTime={this.state.orderDeliveryTime}
               orders={this.state.orders}
+              oldOrderState={this.state.oldOrderState}
+              orderState={this.state.orderState}
+              orderSystem={this.state.orderSystem}
+              orderManagerOpen={this.state.orderManagerOpen}
+              page={this.state.page}
+              pagesCount={this.state.pagesCount}
+              pagesMax={this.state.pagesMax}
+              pageData={this.state.pageData}
+              printData={this.state.printData}
               product={this.state.product}
               products={this.state.products}
               productEdit={this.state.productEdit}
@@ -143,6 +210,8 @@ export default class App extends React.Component<{}, IAppState> {
               productToDelete={this.state.productToDelete}
               routeProps={routeProps}
               showDeleteModal={this.state.showDeleteModal}
+              showOrderManager={this.showOrderManager}
+              showOrderSucess={this.state.showOrderSucess}
               signOut={this.signOut}
               storeProduct={this.storeProduct}
               user={this.state.user}
@@ -190,6 +259,34 @@ export default class App extends React.Component<{}, IAppState> {
     }
   }
 
+  private handleChangePage(page: number) {
+    this.setState({page}, () => {
+      if (this.state.screen) {
+        this.handlePageData(this.state.products);
+      } else {
+        this.handlePageData(this.state.orders);
+      }
+    });
+  }
+
+  private handleChangeItemsPerPage(itemsPerPage: number): void {
+    this.setState({itemsPerPage}, () => {
+      if (this.state.screen > 0) {
+        this.setState({
+          pagesCount: this.handlePageCount(this.state.products)
+        }, () => {
+          this.handlePageData(this.state.products);
+        });
+      } else {
+        this.setState({
+          pagesCount: this.handlePageCount(this.state.orders)
+        }, () => {
+          this.handlePageData(this.state.orders);
+        });
+      }
+    });
+  }
+
   private handleChangeProducts(products: object[], productNum: number): void {
     this.setState({ products }, async () => {
       try {
@@ -212,6 +309,77 @@ export default class App extends React.Component<{}, IAppState> {
       } catch (err) {
         console.log(err);
       }
+    });
+  }
+
+  private handleChangeOrderState(orderState: number): void {
+    // const updatedOrder = this.state.order;
+
+    // (updatedOrder as any).state = orderState;
+    const oldOrderState = this.state.orderState; 
+    
+    this.setState({orderState, oldOrderState}); // order: updatedOrder
+  }
+
+  private handleChangeOrderDeliveryTime(orderDeliveryTime: number): void {
+    this.setState({orderDeliveryTime});
+  }
+
+  // private handleCloseOrderManagerModal(): void {}
+
+  private async handleOrderStateUpdate(e: React.FormEvent<HTMLElement>): Promise<void> {
+    e.preventDefault();
+
+    const form = e.currentTarget as HTMLFormElement;
+    const state: number = this.state.orderState;
+    const deliveryTime: number = form.deliveryTime ? form.deliveryTime.selectedIndex : null;
+    const message: string | null = form.message.value ? form.message.value : null;
+    const orderId = (this.state.order as any)._id;
+    const bodyToFetch = JSON.stringify({
+      state, deliveryTime, message, orderId
+    });
+
+    try {
+      const request = await fetch("/api/order/state", {
+        body: bodyToFetch,
+        headers: {
+          "Content-type": "application/json",
+          "x-access-token": this.state.user.token,
+        },
+        method: "POST",
+      });
+
+      if (request.status === 200) {
+        const responseJSON: any = await request.json();
+
+        this.setState({
+          // orderState: state,
+          showOrderSucess: true,
+        }, () => {
+          this.getOrders();
+          setTimeout(() => {
+            this.setState({showOrderSucess: false});
+          }, 4000);
+        });
+      } else {
+        console.log(request);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  private handlePrintSummary(e: Event): void {
+    const printableSummmary = (e.currentTarget as HTMLElement).parentElement;
+    const printWindow = window.open("");
+
+    this.setState({printData: true}, () => {
+      printWindow.document.write(printableSummmary.outerHTML);
+      printWindow.print();
+      printWindow.addEventListener("beforeunload", () => {
+        this.setState({printData: false});
+      });
+      printWindow.close();
     });
   }
 
@@ -243,6 +411,26 @@ export default class App extends React.Component<{}, IAppState> {
       }
     } catch (err) {
       console.log(err);
+    }
+  }
+
+  private handlePageCount(data: object[]) {
+    return Math.ceil(data.length / this.state.itemsPerPage);
+  }
+
+  private handlePageData(data: object[] | null) {
+    if (data) {
+      if (this.state.itemsPerPage < 51) {
+        const begin = ((this.state.page - 1) * this.state.itemsPerPage);
+        const end = begin + this.state.itemsPerPage;
+        const dataItems = data.slice(begin, end);
+        
+        this.setState({pageData: dataItems});
+      } else {
+        this.setState({pageData: data});
+      }
+    } else {
+      this.setState({pageData: []});
     }
   }
 
@@ -284,6 +472,100 @@ export default class App extends React.Component<{}, IAppState> {
     }
   }
 
+  private handleReorder() {
+    const data = this.state.orders;
+    
+    if (this.state.orderSystem === 0) {
+      data.sort((a: any, b: any) => (b.dateCreated.toLowerCase().localeCompare(a.dateCreated.toLowerCase())));
+      this.setState({orderSystem: 1}, () => this.handlePageData(data));
+    } else {
+      data.sort((a: any, b: any) => (a.dateCreated.toLowerCase().localeCompare(b.dateCreated.toLowerCase())));
+      this.setState({orderSystem: 0}, () => this.handlePageData(data));
+    }
+  }
+
+  private handleSortBy(category: number) {
+    const data: object[] = this.state.products;
+    
+    if (category > 0) {
+      let newData: object[] = [];
+
+      for (let i = 0; i < data.length; i++) {
+        if ((data[i] as any).category === category) {
+          newData.push(data[i]);
+        }
+      }
+      
+      this.handlePageData(newData);
+    } else {
+      this.handlePageData(data);
+    }
+  }
+
+  private handleSerachByTitle(title: string) {
+    const data: object[] = this.state.products;
+
+    if (title) {
+      let newData: object[] = [];
+
+      for (let i = 0; i < data.length; i++) {
+        if ((data[i] as any).title.toLowerCase().indexOf(title.toLocaleLowerCase()) > -1) {
+          newData.push(data[i]);
+        }
+      }
+      
+      this.handlePageData(newData);
+    } else {
+      this.handlePageData(data);
+    }
+  }
+
+  private handleSocketListener() {
+    this.socket.on("order been created", (data) => {
+      if (data.success) {
+        this.getOrders();
+        return;
+      }
+    });
+  }
+
+  private handleSortOrderByState(state: number) {
+    const data: object[] = this.state.orders;
+    
+    if (state > -1) {
+      let newData: object[] = [];
+
+      for (let i = 0; i < data.length; i++) {
+        if ((data[i] as any).state === state) {
+          newData.push(data[i]);
+        }
+      }
+      
+      // this.setState({}, () => {});
+      this.handlePageData(newData);
+    } else {
+      this.handlePageData(data);
+    }
+  }
+
+  private handleSearchOrderByNum(orderNum: string) {
+    const data: object[] = this.state.orders;
+
+    if (orderNum) {
+      let newData: object[] = [];
+
+      for (let i = 0; i < data.length; i++) {
+        if (String((data[i] as any).orderNum).indexOf(orderNum) > -1) {
+          newData.push(data[i]);
+        }
+      }
+      
+      this.handlePageData(newData);
+    } else {
+      this.handlePageData(data);
+    }
+  }
+
   private getUserData(): object {
     let user: object | null = null;
 
@@ -315,13 +597,23 @@ export default class App extends React.Component<{}, IAppState> {
 
       if (request.status === 200) {
         const responseJSON = await request.json();
+        const data = (responseJSON as any).data;
 
-        this.setState({ products: (responseJSON as any).data });
+        this.setState({
+          pagesCount: this.handlePageCount(data),
+          products: data,
+          screen: 1
+        }, () => this.handlePageData(data));
       } else {
-        this.setState({ products: [] });
+        this.setState({products: []}, () => {
+          this.handlePageData(null);
+        });
       }
     } catch (err) {
       console.log(err);
+      this.setState({products: []}, () => {
+        this.handlePageData(null);
+      });
     }
   }
 
@@ -337,13 +629,29 @@ export default class App extends React.Component<{}, IAppState> {
 
       if (request.status === 200) {
         const responseJSON = await request.json();
+        const data: object[] = (responseJSON as any).data;
+        
+        data.sort((a: any, b: any) => (b.dateCreated.toLowerCase().localeCompare(a.dateCreated.toLowerCase())));
 
-        this.setState({ orders: (responseJSON as any).data });
+        this.setState({
+          orders: data,
+          pagesCount: this.handlePageCount(data),
+          screen: 0,
+        }, () => {
+          this.handlePageData(data);
+        });
       } else {
-        this.setState({ orders: [] });
+        this.setState({orders:[]}, () => {
+          this.handlePageData(null);
+        });
       }
 
-    } catch (err) { console.log(err); }
+    } catch (err) {
+      console.log(err);
+      this.setState({orders:[]}, () => {
+        this.handlePageData(null);
+      });
+    }
   }
 
   private imageDrop(files: File[]): void {
@@ -522,6 +830,31 @@ export default class App extends React.Component<{}, IAppState> {
       if (typeof callback === "function") {
         callback();
       }
+    });
+  }
+
+  private showOrderManager(orderNum: string) {
+    let order: {} = {};
+
+    this.setState({
+      orderDeliveryTime: 0,
+      orderState: 0,
+      order,
+    });
+    
+    for (let i = 0; i < this.state.orders.length; i++) {
+      if ((this.state.orders[i] as any).orderNum == orderNum) {
+        order = this.state.orders[i];
+      }
+    }
+
+    this.setState({
+      order,
+      orderDeliveryTime: (order as any).deliveryTime,
+      orderState: (order as any).state,
+      orderManagerOpen: true,
+    }, () => {
+      $("#orderManagerModal").modal("show");
     });
   }
 
