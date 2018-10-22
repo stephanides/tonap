@@ -368,6 +368,7 @@ function sendOrder(){
     contentType: "application/json; charset=utf-8",
     dataType: "json",
     success: function(msg) {
+      socket.emit("order created");
       $(document.getElementById("successOrder")).modal("show");
     }
    });
