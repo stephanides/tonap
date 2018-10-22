@@ -368,8 +368,7 @@ function sendOrder(){
     contentType: "application/json; charset=utf-8",
     dataType: "json",
     success: function(msg) {
-      console.log("odoslane");
-      //$(document.getElementById("successEmail")).modal("show");
+      $(document.getElementById("successOrder")).modal("show");
     }
    });
 }
