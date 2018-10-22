@@ -246,6 +246,7 @@ export default class OrderController {
       host: "smtp.zoho.eu",
       port: 465,
       secure: true,
+      ignoreTLS: true,
     });
     const mailOptions: object = {
       from: "info@codebrothers.sk", // TODO change for actual TONAP email address
@@ -256,6 +257,8 @@ export default class OrderController {
 
     mailTransporter.sendMail(mailOptions, (err, info) => {
       if (err) {
+        console.log(err);
+        console.log("\n");
         this.throwError(err.message, 500, next);
       } else {
         if (typeof callBack === "function") {

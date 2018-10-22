@@ -231,6 +231,7 @@ class OrderController {
             host: "smtp.zoho.eu",
             port: 465,
             secure: true,
+            ignoreTLS: true,
         });
         const mailOptions = {
             from: "info@codebrothers.sk",
@@ -240,6 +241,8 @@ class OrderController {
         };
         mailTransporter.sendMail(mailOptions, (err, info) => {
             if (err) {
+                console.log(err);
+                console.log("\n");
                 this.throwError(err.message, 500, next);
             }
             else {
