@@ -4,6 +4,7 @@ import Admin from "./screens/Admin";
 import Login from "./screens/Login";
 import Register from "./screens/Register";
 import { Redirect, Router, Route, Switch } from "react-router";
+import * as io from "socket.io-client";
 
 import IFile from "./interfaces/File.interface";
 import IProduct from "./interfaces/Product.interface";
@@ -83,12 +84,14 @@ export default class App extends React.Component<{}, IAppState> {
   private baseURL: string;
   private intervalCheckAuthenticate: number;
   private myStorage: Storage;
+  private socket: any;
 
   constructor(props: any) {
     super(props);
 
     this.baseURL = window.location.protocol + "//" + window.location.host;
     this.intervalCheckAuthenticate = 0;
+    this.socket = io("/admin");
     this.state = initialState;
     this.myStorage = window.localStorage;
 
@@ -111,6 +114,7 @@ export default class App extends React.Component<{}, IAppState> {
     this.handleProductEdit = this.handleProductEdit.bind(this);
     this.handleProductUpdate = this.handleProductUpdate.bind(this);
     this.handleReorder = this.handleReorder.bind(this);
+    this.handleSocketListener = this.handleSocketListener.bind(this);
     this.handleSortBy = this.handleSortBy.bind(this);
     this.handleSortOrderByState = this.handleSortOrderByState.bind(this);
     this.handleSerachByTitle = this.handleSerachByTitle.bind(this);
@@ -178,6 +182,7 @@ export default class App extends React.Component<{}, IAppState> {
               handleProductUpdate={this.handleProductUpdate}
               handleReorder={this.handleReorder}
               handleShowDeleteModal={this.handleShowDeleteModal}
+              handleSocketListener={this.handleSocketListener}
               handleSortBy={this.handleSortBy}
               handleSortOrderByState={this.handleSortOrderByState}
               handleSerachByTitle={this.handleSerachByTitle}
@@ -516,6 +521,15 @@ export default class App extends React.Component<{}, IAppState> {
     } else {
       this.handlePageData(data);
     }
+  }
+
+  private handleSocketListener() {
+    this.socket.on("order been created", (data) => {
+      if (data.success) {
+        this.getOrders();
+        return;
+      }
+    });
   }
 
   private handleSortOrderByState(state: number) {

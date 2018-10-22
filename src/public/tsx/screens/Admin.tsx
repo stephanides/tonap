@@ -56,6 +56,7 @@ interface IProps {
   handlePrintSummary(e: Event): void;
   handleReorder(): void;
   handleShowDeleteModal(productToDelete: number): void;
+  handleSocketListener(): void;
   handleSortBy(category: number): void;
   handleSortOrderByState(state: number): void;
   handleSerachByTitle(title: string): void;
@@ -150,6 +151,7 @@ export default class Admin extends React.Component<IProps, {}> {
               handlePageData={this.props.handlePageData}
               handlePrintSummary={this.props.handlePrintSummary}
               handleReorder={this.props.handleReorder}
+              handleSocketListener={this.props.handleSocketListener}
               handleSortOrderByState={this.props.handleSortOrderByState}
               handleSearchOrderByNum={this.props.handleSearchOrderByNum}
               order={this.props.order}

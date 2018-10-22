@@ -27,6 +27,7 @@ interface IProps {
   handlePageData(data: object[]): void;
   handlePrintSummary(e: Event): void;
   handleReorder(): void;
+  handleSocketListener(): void;
   handleSortOrderByState(state: number): void;
   handleSearchOrderByNum(orderNum: string): void;
   showOrderManager(orderNum: string): void;
@@ -38,6 +39,7 @@ export default class Products extends React.Component<IProps, {}> {
   }
 
   public componentDidMount() {
+    this.props.handleSocketListener();
     this.props.getOrders();
   }
 
