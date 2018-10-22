@@ -24,6 +24,7 @@ interface IProps {
   orderDeliveryTime?: number;
   orders?: object[];
   orderState?: number;
+  oldOrderState?: number;
   orderSystem?: number;
   orderManagerOpen?: boolean;
   page?: number;
@@ -158,6 +159,7 @@ export default class Admin extends React.Component<IProps, {}> {
               orderDeliveryTime={this.props.orderDeliveryTime}
               orders={this.props.orders}
               orderState={this.props.orderState}
+              oldOrderState={this.props.oldOrderState}
               orderSystem={this.props.orderSystem}
               page={this.props.page}
               pagesCount={this.props.pagesCount}

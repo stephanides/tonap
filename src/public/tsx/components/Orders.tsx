@@ -8,6 +8,7 @@ interface IProps {
   orderDeliveryTime?: number;
   orders?: object[];
   orderState?: number;
+  oldOrderState?: number;
   orderSystem?: number;
   orderManagerOpen?: boolean;
   page?: number;
@@ -54,6 +55,7 @@ export default class Products extends React.Component<IProps, {}> {
         orderDeliveryTime={this.props.orderDeliveryTime}
         orderManagerOpen={this.props.orderManagerOpen}
         orderState={this.props.orderState}
+        oldOrderState={this.props.oldOrderState}
         printData={this.props.printData}
         showOrderSucess={this.props.showOrderSucess}
         key={0}

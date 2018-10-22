@@ -23,6 +23,7 @@ interface IAppState {
   orderDeliveryTime?: number;
   orders?: object[];
   orderState?: number;
+  oldOrderState?: number;
   orderManagerOpen?: boolean;
   orderSystem?: number;
   page?: number;
@@ -70,6 +71,7 @@ const initialState: IAppState = {
   orderDeliveryTime: 0,
   orderManagerOpen: false,
   orderState: 0,
+  oldOrderState: 0,
   orderSystem: 1,
   page: 1,
   pagesMax: 5,
@@ -192,6 +194,7 @@ export default class App extends React.Component<{}, IAppState> {
               order={this.state.order}
               orderDeliveryTime={this.state.orderDeliveryTime}
               orders={this.state.orders}
+              oldOrderState={this.state.oldOrderState}
               orderState={this.state.orderState}
               orderSystem={this.state.orderSystem}
               orderManagerOpen={this.state.orderManagerOpen}
@@ -313,8 +316,9 @@ export default class App extends React.Component<{}, IAppState> {
     // const updatedOrder = this.state.order;
 
     // (updatedOrder as any).state = orderState;
+    const oldOrderState = this.state.orderState; 
     
-    this.setState({orderState}); // order: updatedOrder
+    this.setState({orderState, oldOrderState}); // order: updatedOrder
   }
 
   private handleChangeOrderDeliveryTime(orderDeliveryTime: number): void {

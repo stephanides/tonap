@@ -5,6 +5,7 @@ interface IProps {
   orderDeliveryTime?: number;
   orderManagerOpen?: boolean;
   orderState?: number;
+  oldOrderState?: number;
   printData?: boolean;
   showOrderSucess?: boolean;
 
@@ -45,6 +46,7 @@ const OrderManagerModal = (props: IProps) => {
     handlePrintSummary,
     orderManagerOpen,
     orderState,
+    oldOrderState,
     order,
     orderDeliveryTime,
     printData,
@@ -235,8 +237,13 @@ const OrderManagerModal = (props: IProps) => {
                           id="message"
                           name="message"
                           rows={6}
+                          onFocus={() => handleChangeOrderState(-1)}
+                          onBlur={() => {
+                            console.log("Lost focus");
+                            handleChangeOrderState(oldOrderState);
+                          }}
                           placeholder="Sem napíš správu o stave objednávky, ktorá bude odoslaná zákazníkovi.&#10;&#10;Vyplnením tohto textového poľa, budú predošlé informácie o čase vybavenia obj. ignorované."
-                          disabled={orderState > 0 ? false : true}
+                          disabled={orderState !== 0 ? false : true}
                         ></textarea>
                         <p className="mt-1"><i><small>V prípade akýchkoľvek otázok nás neváhajte kontaktovať na telefónnom čísle <strong>+421 918 243 753</strong>.<br />Alebo prostredníctvom e-mailu <strong>info@tonap.sk</strong><br /><br />S prianim pekného dňa,<br />tím <strong>TONAP</strong> s. r. o.</small></i></p>
                       </div>
