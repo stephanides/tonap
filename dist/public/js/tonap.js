@@ -318,6 +318,16 @@ function updateOrder(param){
   $("#orderModal").modal('toggle');
 }
 
+var informationObject = [];
+
+function sendOrder(){
+  informationObject.name = document.getElementById("name").value;
+  informationObject.email = document.getElementById("email").value;
+  informationObject.phone = document.getElementById("phone").value;
+  informationObject.ico = document.getElementById("ico").value;
+  informationObject.message = document.getElementById("message").value;
+}
+
 
 
 

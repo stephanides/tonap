@@ -52,19 +52,22 @@ block content
               tbody#detailOrder
           .col-lg-6
             h5.pl-2 3. Dokončenie objednávky
-            form.pl-2.mt-4
+            form.pl-2.mt-4(onclick="sendOrder()")
               p Meno a priezvisko/Názov firmy
-              input(name="name" type="text" reqiured="true" placeholder="Vaše meno alebo názov firmy" required)
+              input(name="name" type="text" id = "name" reqiured="true" placeholder="Vaše meno alebo názov firmy" required)
               p Adresa dodania
-              input(name="adress" type="text" reqiured="true" placeholder="Vaša dodacia adresa" required)
+              input(name="deliveryAdress" type="text" id="deliveryAdress" reqiured="true" placeholder="Zadajte adresu dodania" required)
+              input(name="deliveryCity" type="text" id="deliveryCity" reqiured="true" placeholder="Zadajte mesto dodania" class="mt-2" required)
+              p Adresa spoločnosti
+              input(name="companyAdress" id="companyAdress" type="text" reqiured="true" placeholder="Vaša dodacia adresa" required)
               p E-mailová adresa
-              input(name="email" type="text" reqiured="true" placeholder="Vaša e-mailová adresa" required)
+              input(name="email" type="text" id="email" reqiured="true" placeholder="Vaša e-mailová adresa" required)
               p Telefónne číslo
-              input(name="tel" type="text" reqiured="true" placeholder="Vaše telefónne číslo" required)
+              input(name="tel" type="text" id="phone" reqiured="true" placeholder="Vaše telefónne číslo" required)
               p IČO
-              input(name="ico" type="text" reqiured="true" placeholder="Vaše IČO")
+              input(name="ico" type="text" id="ico" placeholder="Vaše IČO")
               p Správa
-              textarea(name="message" rows="4" placeholder="Správa pre nás")
+              textarea(name="message" id="message" rows="4" placeholder="Správa pre nás")
               input(name="submit" type="submit" value="Odoslať objednávku")
     .footer
       .container
@@ -123,9 +126,7 @@ block content
                               input(type="number" id="modalPackageCount" min="1" step="1" value="1")
 
                       button.mt-4.mb-4#navigationOrder Pridať objednávku
-    
 
-  
     script(src="./assets/js/lazysizes.min.js", deffer)
     script(src="./assets/js/jquery-3.3.1.min.js")
     script(src="./assets/js/tonap.js")
