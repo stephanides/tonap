@@ -20,6 +20,8 @@ interface IProps {
   showOrderSucess?: boolean;
 
   getOrders(): Promise<void>;
+  handleCancelOrder(cancellation: boolean): Promise<void>;
+  handleCancelOrderState(orderId: string): void;
   handleChangeItemsPerPage(itemsPerPage: number): void;
   handleChangeOrderDeliveryTime(orderDeliveryTime: number): void;
   handleChangeOrderState(orderState: number): void;
@@ -118,6 +120,7 @@ export default class Products extends React.Component<IProps, {}> {
                     <th scope="col">Stav obj.</th>
                     <th scope="col">Objednané položky</th>
                     <th scope="col"></th>
+                    <th scope="col"></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -139,7 +142,7 @@ export default class Products extends React.Component<IProps, {}> {
                       }
 
                       return (
-                        <tr key={i+1}>
+                        <tr key={i+1} className={(item as any).cancellation ? "disable" : null}>
                           <th scope="row">{i+1}</th>
                           <td>{(item as any).orderNum}</td>
                           <td>{date}</td>
@@ -160,7 +163,18 @@ export default class Products extends React.Component<IProps, {}> {
                               className="btn btn-primary"
                               onClick={
                                 () => this.props.showOrderManager((item as any).orderNum)
-                              }>Detail</button>
+                              }
+                              type="button"
+                              disabled={(item as any).cancellation ? true : false}
+                            >Detail</button>
+                          </td>
+                          <td>
+                            <button
+                              className="btn btn-danger"
+                              type="button"
+                              onClick={() => this.props.handleCancelOrderState((item as any)._id)}
+                              disabled={(item as any).state > 1 ? true : ((item as any).cancellation ? true : false)}
+                            >Storno</button>
                           </td>
                         </tr>
                       );
@@ -205,6 +219,9 @@ export default class Products extends React.Component<IProps, {}> {
             </div>
           )
         }
+        <style>{`
+          table tr.disable td, table tr.disable th, table tr.disable td span {color:#c0c0c0!important;}
+        `}</style>
       </div>,
     ];
   }

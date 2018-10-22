@@ -120,14 +120,14 @@ export default class ProductList extends React.Component<IProps, {}> {
                                 type="button"
                                 className="btn btn-primary"
                                 onClick={() => this.props.handleProductEdit(i)}
-                              >Edit</button>
+                              >Upraviť</button>
                             </td>
                             <td>
                               <button
                                 type="button"
                                 className="btn btn-danger ml-2"
                                 onClick={() => this.props.handleShowDeleteModal(i)}
-                              >Delete</button>
+                              >Vymazať</button>
                             </td>
                           </tr>
                         );

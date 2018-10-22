@@ -1,8 +1,11 @@
 import * as React from "react";
 
 interface IProps {
+  cancellation?: boolean;
   modalError?: boolean | null;
   modalText?: string;
+
+  handleCancelOrder(cancellation: boolean): void;
 }
 
 export default class Modal extends React.PureComponent<IProps, {}> {
@@ -28,7 +31,13 @@ export default class Modal extends React.PureComponent<IProps, {}> {
               <p>{this.props.modalText}</p>
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+              {
+                this.props.cancellation ?
+                (
+                  <button type="button" className="btn btn-danger" data-dismiss="modal" onClick={() => this.props.handleCancelOrder(true)}>Stornovať</button>
+                ) : null
+              }
+              <button type="button" className="btn btn-secondary" data-dismiss="modal">Zatvoriť</button>
             </div>
           </div>
         </div>

@@ -15,6 +15,7 @@ import { TSImportEqualsDeclaration } from "babel-types";
 import IProduct from "../interfaces/Product.interface";
 
 interface IProps {
+  cancellation?: boolean;
   imageFiles?: IFile[];
   imageNum?: number;
   itemsPerPage?: number;
@@ -44,6 +45,8 @@ interface IProps {
 
   closeDeleteModal(): void;
   deleteProduct(): Promise<void>;
+  handleCancelOrder(cancellation: boolean): Promise<void>;
+  handleCancelOrderState(orderId: string): void;
   handleChangeItemsPerPage(itemsPerPage: number): void;
   handleChangeOrderDeliveryTime(orderDeliveryTime: number): void;
   handleChangeOrderState(orderState: number): void;
@@ -85,8 +88,11 @@ export default class Admin extends React.Component<IProps, {}> {
 
         key={0} />,
       <Modal
+        cancellation={this.props.cancellation}
         modalError={this.props.modalError}
         modalText={this.props.modalText}
+
+        handleCancelOrder={this.props.handleCancelOrder}
 
         key={1}
       />,
@@ -144,6 +150,8 @@ export default class Admin extends React.Component<IProps, {}> {
               itemsPerPage={this.props.itemsPerPage}
               orderManagerOpen={this.props.orderManagerOpen}
               getOrders={this.props.getOrders}
+              handleCancelOrder={this.props.handleCancelOrder}
+              handleCancelOrderState={this.props.handleCancelOrderState}
               handleChangeItemsPerPage={this.props.handleChangeItemsPerPage}
               handleChangeOrderDeliveryTime={this.props.handleChangeOrderDeliveryTime}
               handleChangeOrderState={this.props.handleChangeOrderState}

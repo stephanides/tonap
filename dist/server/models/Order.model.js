@@ -5,6 +5,7 @@ class Order {
     constructor(data) {
         // this.city = data.city;
         this.billingAddress = data.billingAddress;
+        this.cancellation = data.cancellation;
         this.company = data.company;
         this.dateModified = data.dateModified;
         this.deliveryAddress = data.deliveryAddress;
@@ -25,6 +26,10 @@ exports.Order = Order;
 const OrderSchema = new mongoose_1.Schema({
     billingAddress: Object,
     // city: String,
+    cancellation: {
+        default: false,
+        type: Boolean,
+    },
     company: String,
     dateModified: Date,
     deliveryAddress: Object,

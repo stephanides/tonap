@@ -14,6 +14,8 @@ const history = createBrowserHistory();
 
 interface IAppState {
   authorised?: boolean;
+  cancellation?: boolean;
+  cancellationOrderNumber?: number;
   imageFiles?: IFile[];
   imageNum?: number;
   itemsPerPage?: number;
@@ -66,6 +68,7 @@ const productInit: IProduct = {
 
 const initialState: IAppState = {
   authorised: false,
+  cancellation: false,
   imageNum: 0,
   itemsPerPage: 10,
   orderDeliveryTime: 0,
@@ -102,6 +105,8 @@ export default class App extends React.Component<{}, IAppState> {
     this.deleteProduct = this.deleteProduct.bind(this);
     this.getProducts = this.getProducts.bind(this);
     this.getOrders = this.getOrders.bind(this);
+    this.handleCancelOrder = this.handleCancelOrder.bind(this);
+    this.handleCancelOrderState = this.handleCancelOrderState.bind(this);
     this.handleChangeOrderState = this.handleChangeOrderState.bind(this);
     this.handleOrderStateUpdate = this.handleOrderStateUpdate.bind(this);
     this.handleChangePage = this.handleChangePage.bind(this);
@@ -148,6 +153,7 @@ export default class App extends React.Component<{}, IAppState> {
               authorised={this.state.authorised}
               submitForm={this.submitForm}
               handleRegister={this.handleRegister}
+              handleCancelOrder={this.handleCancelOrder}
             />
           )} />
           <Route path="/admin/setup" render={() => (
@@ -156,11 +162,13 @@ export default class App extends React.Component<{}, IAppState> {
               modalText={this.state.modalText}
               handleRegister={this.handleRegister}
               submitForm={this.submitForm}
+              handleCancelOrder={this.handleCancelOrder}
             />
           )} />
           <Route path="/admin" render={(routeProps) => (
             this.state.authorised ?
             <Admin
+              cancellation={this.state.cancellation}
               closeDeleteModal={this.closeDeleteModal}
               deleteProduct={this.deleteProduct}
               handleChangeProducts={this.handleChangeProducts}
@@ -172,6 +180,8 @@ export default class App extends React.Component<{}, IAppState> {
               itemsPerPage={this.state.itemsPerPage}
               getProducts={this.getProducts}
               getOrders={this.getOrders}
+              handleCancelOrder={this.handleCancelOrder}
+              handleCancelOrderState={this.handleCancelOrderState}
               handleChangeOrderState={this.handleChangeOrderState}
               handleChangeOrderDeliveryTime={this.handleChangeOrderDeliveryTime}
               handleChangeItemsPerPage={this.handleChangeItemsPerPage}
@@ -256,6 +266,60 @@ export default class App extends React.Component<{}, IAppState> {
       }
     } catch (err) {
       console.log(err);
+    }
+  }
+
+  private handleCancelOrderState(orderId: string) {
+    let orderNum: number;
+    
+    for (let i = 0; i < this.state.orders.length; i++) {
+      if (orderId == (this.state.orders as any)[i]._id) {
+        orderNum = (this.state.orders as any)[i].orderNum;
+      }
+    }
+
+    this.setState({cancellationOrderNumber: orderNum}, () => {
+      this.showModal(`Stornovať objednávku číslo: ${orderNum}?`, false, true);
+    });
+  }
+
+  private async handleCancelOrder(cancellation: boolean): Promise<void> {
+    let orderId: number;
+    
+    for (let i = 0; i < this.state.orders.length; i++) {
+      if (this.state.cancellationOrderNumber == (this.state.orders as any)[i].orderNum) {
+        orderId = (this.state.orders as any)[i]._id;
+      }
+    } 
+    const bodyToFetch = JSON.stringify({cancellation, orderId});
+  
+    try {
+      const request = await fetch("/api/order/state", {
+        body: bodyToFetch,
+        headers: {
+          "Content-type": "application/json",
+          "x-access-token": this.state.user.token,
+        },
+        method: "POST",
+      });
+
+      if (request.status === 200) {
+        const responseJSON: any = await request.json();
+
+        this.setState({
+          // orderState: state,
+          showOrderSucess: true,
+        }, () => {
+          this.getOrders();
+          setTimeout(() => {
+            this.setState({showOrderSucess: false});
+          }, 4000);
+        });
+      } else {
+        console.log(request);
+      }
+    } catch (err) {
+      this.showModal(err.stack, true);
     }
   }
 
@@ -521,9 +585,7 @@ export default class App extends React.Component<{}, IAppState> {
   }
 
   private handleSocketListener() {
-    console.log("SOCKET LISTENER");
     this.socket.on("order been created", (data) => {
-      console.log("REALTIME LISTENING");
       if (data.success) {
         this.getOrders();
         return;
@@ -612,7 +674,6 @@ export default class App extends React.Component<{}, IAppState> {
         });
       }
     } catch (err) {
-      console.log(err);
       this.setState({products: []}, () => {
         this.handlePageData(null);
       });
@@ -790,7 +851,7 @@ export default class App extends React.Component<{}, IAppState> {
         if (request.status === 200) {
           const responseJSON: Promise<any> = await request.json();
 
-          this.showModal((responseJSON as any).message, false, () => {
+          this.showModal((responseJSON as any).message, false, undefined, () => {
             this.setState({
               imageFiles: [],
               product: {
@@ -826,9 +887,12 @@ export default class App extends React.Component<{}, IAppState> {
     }
   }
 
-  private showModal(text: string, error: boolean, callback?: () => void): void {
+  private showModal(text: string, error: boolean, cancellation?: boolean, callback?: () => void): void {
     this.setState({ modalText: text, modalError: error }, () => {
       $("#commonModal").modal();
+      if (typeof cancellation !== "undefined") {
+        this.setState({cancellation});
+      }
       if (typeof callback === "function") {
         callback();
       }

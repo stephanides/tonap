@@ -140,32 +140,54 @@ const OrderManagerModal = (props: IProps) => {
                         </td>
                         <td>
                         {
-                          order.company ? <p><strong>Spoločnosť:</strong>{` ${order.company}`}</p> : null
-                        }
-                        {
-                          order.ico ? <p><strong>IČO:</strong>{` ${order.ico}`}</p> : null
+                          order.company ?
+                          (
+                            order.ico ?
+                            (
+                              <span>
+                                <span><strong>Spoločnosť:</strong>{` ${order.company}`}</span><br />
+                                <span><strong>IČO:</strong>{` ${order.ico}`}</span>
+                              </span>
+                            ) :
+                            <span><strong>Spoločnosť:</strong>{` ${order.company}`}</span>
+                          ) : 
+                          (
+                            <span>
+                              <strong>Fakturačná adresa:</strong><br />
+                              <strong>Ulica:</strong>{` ${order.billingAddress.street}`}<br />
+                              <strong>PSČ:</strong>{` ${order.billingAddress.psc}`}<br />
+                              <strong>Mesto:</strong>{` ${order.billingAddress.city}`}
+                            </span>
+                          )
                         }
                         </td>
                       </tr>
                       <tr>
-                        <td>
+                        <td className={order.deliveryAddress.city? "border-top" : null}>
                         {
                           order.deliveryAddress.city ?
                           (
                             <span>
                               <strong>Doručovacia adresa:</strong><br />
-                              <strong>Ulica</strong>{` ${order.deliveryAddress.street}`}<br />
-                              <strong>PSČ</strong>{` ${order.deliveryAddress.psc}`}<br />
-                              <strong>Mesto</strong>{` ${order.deliveryAddress.city}`}
+                              <strong>Ulica:</strong>{` ${order.deliveryAddress.street}`}<br />
+                              <strong>PSČ:</strong>{` ${order.deliveryAddress.psc}`}<br />
+                              <strong>Mesto:</strong>{` ${order.deliveryAddress.city}`}
                             </span>
                           ) : null
                         }
                         </td>
-                        <td>
-                          <strong>Fakturačná adresa:</strong><br />
-                          <strong>Ulica</strong>{` ${order.billingAddress.street}`}<br />
-                          <strong>PSČ</strong>{` ${order.billingAddress.psc}`}<br />
-                          <strong>Mesto</strong>{` ${order.billingAddress.city}`}
+                        <td className={order.company ? "border-top" : null}>
+                          {
+                            order.company ?
+                            (
+                              <span>
+                                <strong>Fakturačná adresa:</strong><br />
+                                <strong>Ulica:</strong>{` ${order.billingAddress.street}`}<br />
+                                <strong>PSČ:</strong>{` ${order.billingAddress.psc}`}<br />
+                                <strong>Mesto:</strong>{` ${order.billingAddress.city}`}
+                              </span>
+                            ) : null
+                          }
                         </td>
                       </tr>
                     </tbody>

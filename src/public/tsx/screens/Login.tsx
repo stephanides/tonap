@@ -11,6 +11,7 @@ interface IProps {
 
   submitForm(event: React.FormEvent<HTMLFormElement>): void;
   handleRegister(register: boolean): void;
+  handleCancelOrder(cancellation: boolean): void;
 }
 
 export default class Login extends React.PureComponent<IProps, {}> {
@@ -28,6 +29,7 @@ export default class Login extends React.PureComponent<IProps, {}> {
         <Modal
           modalError={this.props.modalError}
           modalText={this.props.modalText}
+          handleCancelOrder={this.props.handleCancelOrder}
           key={0}
         />,
         <div className="container login" key={1}>
