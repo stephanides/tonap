@@ -3,3 +3,5 @@
 .vscode
 node_modules
 dist/public/images/products/
+dist/public/js/admin-bundle.js
+dist/public/js/admin-bundle.js.map
