@@ -130,38 +130,46 @@ const OrderManagerModal = (props: IProps) => {
                       }
                     </tbody>
                   </table>
-                  <div className="row border pt-2" style={{marginLeft: 0, marginRight: 0}}>
-                    <div className="col-6">
-                      <p><strong>Objednávateľ:</strong>{` ${order.name},`}<br />
-                      <strong>Telefón:</strong>{` ${order.phone},`}<br />
-                      <strong>E-mail:</strong>{` ${order.email},`}</p>
-                      <p className="border-top">
-                      <strong>Fakturačná adresa:</strong><br />
-                      <strong>Ulica</strong>{` ${order.billingAddress.street}`}<br />
-                      <strong>PSČ</strong>{` ${order.billingAddress.psc}`}<br />
-                      <strong>Mesto</strong>{` ${order.billingAddress.city}`}
-                      </p>
-                      {
-                        order.deliveryAddress.city ?
-                        (
-                          <p className="border-top">
-                          <strong>Doručovacia adresa:</strong><br />
-                          <strong>Ulica</strong>{` ${order.deliveryAddress.street}`}<br />
-                          <strong>PSČ</strong>{` ${order.deliveryAddress.psc}`}<br />
-                          <strong>Mesto</strong>{` ${order.deliveryAddress.city}`}
-                          </p>
-                        ) : null
-                      }
-                    </div>
-                    <div className="col-6">
-                    {
-                      order.company ? <p><strong>Spoločnosť:</strong>{` ${order.company}`}</p> : null
-                    }
-                    {
-                      order.ico ? <p><strong>IČO:</strong>{` ${order.ico}`}</p> : null
-                    }
-                    </div>
-                  </div>
+                  <table className="border w-100" cellPadding="10" cellSpacing="5">
+                    <tbody>
+                      <tr>
+                        <td>
+                          <strong>Objednávateľ:</strong>{` ${order.name},`}<br />
+                          <strong>Telefón:</strong>{` ${order.phone},`}<br />
+                          <strong>E-mail:</strong>{` ${order.email},`}
+                        </td>
+                        <td>
+                        {
+                          order.company ? <p><strong>Spoločnosť:</strong>{` ${order.company}`}</p> : null
+                        }
+                        {
+                          order.ico ? <p><strong>IČO:</strong>{` ${order.ico}`}</p> : null
+                        }
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                        {
+                          order.deliveryAddress.city ?
+                          (
+                            <span>
+                              <strong>Doručovacia adresa:</strong><br />
+                              <strong>Ulica</strong>{` ${order.deliveryAddress.street}`}<br />
+                              <strong>PSČ</strong>{` ${order.deliveryAddress.psc}`}<br />
+                              <strong>Mesto</strong>{` ${order.deliveryAddress.city}`}
+                            </span>
+                          ) : null
+                        }
+                        </td>
+                        <td>
+                          <strong>Fakturačná adresa:</strong><br />
+                          <strong>Ulica</strong>{` ${order.billingAddress.street}`}<br />
+                          <strong>PSČ</strong>{` ${order.billingAddress.psc}`}<br />
+                          <strong>Mesto</strong>{` ${order.billingAddress.city}`}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>

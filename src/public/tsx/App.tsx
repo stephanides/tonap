@@ -521,7 +521,9 @@ export default class App extends React.Component<{}, IAppState> {
   }
 
   private handleSocketListener() {
+    console.log("SOCKET LISTENER");
     this.socket.on("order been created", (data) => {
+      console.log("REALTIME LISTENING");
       if (data.success) {
         this.getOrders();
         return;
