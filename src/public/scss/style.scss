@@ -480,7 +480,7 @@ $break-xsmall:576px;
         ::placeholder {
           color: white;
           opacity: 1;
-          
+
         }
       }
       h5{
@@ -565,6 +565,9 @@ $break-xsmall:576px;
       padding: 20px 200px;
       @media screen and (max-width: $break-large) {
         padding: 20px 100px;
+      }
+      @media screen and (max-width: $break-small) {
+        padding: 20px 10px;
       }
       a{
         font-size: 14px;

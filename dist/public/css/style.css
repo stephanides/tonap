@@ -616,6 +616,11 @@
     padding: 20px 100px;
   }
 }
+@media screen and (max-width: 768px) {
+  #wrapper .footer .footerlinks {
+    padding: 20px 10px;
+  }
+}
 #wrapper .footer .footerlinks a {
   font-size: 14px;
   color: #808e99;
