@@ -16,7 +16,9 @@ export default class OrderController {
           )
         ) : new Date().getFullYear() + "001";
       const orderObj: any = {
-        city: req.body.city,
+        // city: req.body.city,
+        billingAddress: req.body.billingAddress,
+        deliveryAddress: req.body.deliveryAddress,
         company: req.body.company,
         email: req.body.email,
         ico: req.body.ico,
@@ -24,9 +26,9 @@ export default class OrderController {
         name: req.body.name,
         orderNum,
         phone: req.body.phone,
-        psc: req.body.psc,
+        // psc: req.body.psc,
         products: req.body.products,
-        street: req.body.street,
+        // street: req.body.street,
       };
       // const productArr: object[] = [];
 

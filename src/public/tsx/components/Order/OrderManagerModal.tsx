@@ -16,9 +16,11 @@ interface IProps {
 }
 
 interface IOrder {
-  city?: string;
+  // city?: string;
+  billingAddress?: IAddress;
   company?: string;
   dateModified?: string;
+  deliveryAddress?: IAddress;
   deliveryTime?: number;
   email?: string;
   ico?: string;
@@ -27,8 +29,13 @@ interface IOrder {
   state?: number;
   phone?: string;
   orderNum?: number;
-  psc?: string;
+  // psc?: string;
   products?: IProducts[];
+}
+interface IAddress {
+  city?: string;
+  psc?: string;
+  street?: string;
 }
 interface IProducts {
   isSterile?: boolean;
@@ -127,9 +134,24 @@ const OrderManagerModal = (props: IProps) => {
                     <div className="col-6">
                       <p><strong>Objednávateľ:</strong>{` ${order.name},`}<br />
                       <strong>Telefón:</strong>{` ${order.phone},`}<br />
-                      <strong>E-mail:</strong>{` ${order.email},`}<br />
-                      <strong>PSČ:</strong>{` ${order.psc},`}<br />
-                      <strong>Mesto:</strong>{` ${order.city}`}</p>
+                      <strong>E-mail:</strong>{` ${order.email},`}</p>
+                      <p className="border-top">
+                      <strong>Fakturačná adresa:</strong><br />
+                      <strong>Ulica</strong>{` ${order.billingAddress.street}`}<br />
+                      <strong>PSČ</strong>{` ${order.billingAddress.psc}`}<br />
+                      <strong>Mesto</strong>{` ${order.billingAddress.city}`}
+                      </p>
+                      {
+                        order.deliveryAddress.city ?
+                        (
+                          <p className="border-top">
+                          <strong>Doručovacia adresa:</strong><br />
+                          <strong>Ulica</strong>{` ${order.deliveryAddress.street}`}<br />
+                          <strong>PSČ</strong>{` ${order.deliveryAddress.psc}`}<br />
+                          <strong>Mesto</strong>{` ${order.deliveryAddress.city}`}
+                          </p>
+                        ) : null
+                      }
                     </div>
                     <div className="col-6">
                     {

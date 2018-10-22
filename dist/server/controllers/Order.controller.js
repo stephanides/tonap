@@ -19,7 +19,9 @@ class OrderController {
                 const orderNum = lastOrderNum ?
                     new Date().getFullYear() + ((lastOrderNum + 1) > 99 ? String(lastOrderNum + 1) : ((lastOrderNum + 1) > 9 ? "0" + (lastOrderNum + 1) : "00" + (lastOrderNum + 1))) : new Date().getFullYear() + "001";
                 const orderObj = {
-                    city: req.body.city,
+                    // city: req.body.city,
+                    billingAddress: req.body.billingAddress,
+                    deliveryAddress: req.body.deliveryAddress,
                     company: req.body.company,
                     email: req.body.email,
                     ico: req.body.ico,
@@ -27,9 +29,8 @@ class OrderController {
                     name: req.body.name,
                     orderNum,
                     phone: req.body.phone,
-                    psc: req.body.psc,
+                    // psc: req.body.psc,
                     products: req.body.products,
-                    street: req.body.street,
                 };
                 // const productArr: object[] = [];
                 orderObj.products = req.body.products;

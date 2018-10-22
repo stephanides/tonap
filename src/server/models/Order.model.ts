@@ -2,9 +2,11 @@ import { Document, Schema, model } from "mongoose";
 import IOrder from "../interfaces/Order.interface";
 
 export class Order {
-  public city: string;
+  // public city: string;
+  public billingAddress?: object;
   public company?: string;
   public dateModified?: string;
+  public deliveryAddress?: object;
   public deliveryTime?: number;
   public email: string;
   public ico?: number;
@@ -12,15 +14,17 @@ export class Order {
   public name: string;
   public orderNum: number;
   public state: number;
-  public street: string;
+  // public street: string;
   public phone: string;
-  public psc: string;
+  // public psc: string;
   public products: object[];
 
   constructor(data: IOrder) {
-    this.city = data.city;
+    // this.city = data.city;
+    this.billingAddress = data.billingAddress;
     this.company = data.company;
     this.dateModified = data.dateModified;
+    this.deliveryAddress = data.deliveryAddress;
     this.deliveryTime = data.deliveryTime;
     this.email = data.email;
     this.ico = data.ico;
@@ -28,17 +32,19 @@ export class Order {
     this.name = data.name;
     this.orderNum = data.orderNum;
     this.state = data.state;
-    this.street = data.street;
+    // this.street = data.street;
     this.phone = data.phone;
-    this.psc = data.psc;
+    // this.psc = data.psc;
     this.products = data.products;
   }
 }
 
 const OrderSchema = new Schema({
-  city: String,
+  billingAddress: Object,
+  // city: String,
   company: String,
   dateModified: Date,
+  deliveryAddress: Object,
   deliveryTime: {
     default: 0,
     type: Number,
@@ -53,13 +59,13 @@ const OrderSchema = new Schema({
   name: String,
   orderNum: Number,
   phone: String,
-  psc: String,
+  // psc: String,
   products: Array,
   state: {
     default: 0,
     type: Number
   },
-  street: String,
+  // street: String,
   // surname: String,
 });
 
