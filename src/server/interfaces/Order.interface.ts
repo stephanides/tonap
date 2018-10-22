@@ -1,7 +1,9 @@
 export default interface IOrder {
-  city: string;
+  // city: string;
+  billingAddress?: object;
   company?: string;
   dateModified?: string;
+  deliveryAddress?: object;
   deliveryTime?: number;
   email: string;
   ico?: number;
@@ -9,8 +11,14 @@ export default interface IOrder {
   name: string;
   orderNum: number;
   state: number;
-  street: string;
+  // street: string;
   phone: string;
-  psc: string;
+  // psc: string;
   products: object[];
+}
+
+interface IAddress {
+  city?: string;
+  psc?: string;
+  street?: string;
 }
