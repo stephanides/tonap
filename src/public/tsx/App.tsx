@@ -331,20 +331,13 @@ export default class App extends React.Component<{}, IAppState> {
     e.preventDefault();
 
     const form = e.currentTarget as HTMLFormElement;
-
-    console.log(form);
-    console.log(form.state);
-    console.log(form.state.selectedIndex);
-
-    const state: number = this.state.orderState; // form.state.selectedIndex;
+    const state: number = this.state.orderState;
     const deliveryTime: number = form.deliveryTime ? form.deliveryTime.selectedIndex : null;
     const message: string | null = form.message.value ? form.message.value : null;
     const orderId = (this.state.order as any)._id;
     const bodyToFetch = JSON.stringify({
       state, deliveryTime, message, orderId
     });
-
-    console.log(bodyToFetch);
 
     try {
       const request = await fetch("/api/order/state", {

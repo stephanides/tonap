@@ -20509,17 +20509,13 @@ class App extends React.Component {
         return __awaiter(this, void 0, void 0, function* () {
             e.preventDefault();
             const form = e.currentTarget;
-            console.log(form);
-            console.log(form.state);
-            console.log(form.state.selectedIndex);
-            const state = this.state.orderState; // form.state.selectedIndex;
+            const state = this.state.orderState;
             const deliveryTime = form.deliveryTime ? form.deliveryTime.selectedIndex : null;
             const message = form.message.value ? form.message.value : null;
             const orderId = this.state.order._id;
             const bodyToFetch = JSON.stringify({
                 state, deliveryTime, message, orderId
             });
-            console.log(bodyToFetch);
             try {
                 const request = yield fetch("/api/order/state", {
                     body: bodyToFetch,
