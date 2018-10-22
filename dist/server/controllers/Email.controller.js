@@ -19,9 +19,9 @@ class Email {
             from: "info@codebrothers.sk",
             subject: "Tonap | Správa od: " + req.body.name,
             html: `Máte novú správu od užívateľa <strong>${req.body.name}</strong>.<br />
-      Email užívateľa: ${req.body.email}<br />
+      Email užívateľa: ${req.body.email}<br /><br />
       Predmet správy: ${req.body.subject}<br />
-      Obsah správy:<br /><br />
+      Obsah správy:<br />
       ${req.body.message}`,
             to: "info@codebrothers.sk",
         }, (err) => {
