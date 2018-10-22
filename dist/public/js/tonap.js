@@ -144,11 +144,9 @@ function orderProduct(id){
       }
     }
   }
-  console.log(choosedProduct);
 }
 
 function chooseSterility(e){
-  console.log(choosedProduct);
   if(e === 0){
     document.getElementById("nonPackageType").style.display = "none";
     document.getElementById("nonPackage").style.display = "none";
@@ -274,7 +272,12 @@ var orderInProgress = {
 
 function fillOrder(id){
   orderInProgress.title = document.getElementById("orderMainTitle").innerHTML;
-  orderInProgress.isSterile = $("input:radio[name='Sterilizacia']:checked").val();
+  if(document.getElementById('sterilizovany').checked){
+    orderInProgress.isSterile = true;
+  }
+  if(document.getElementById('nesterilizovany').checked){
+    orderInProgress.isSterile = false;
+  }
   orderInProgress.package =  $("input:radio[name='Balenie']:checked").val();
   orderInProgress.boxSize =  $("input:radio[name='Krabica']:checked").val();
   orderInProgress.boxCount = document.getElementById("modalPackageCount").value;
@@ -310,24 +313,89 @@ function editOrder(param){
 
 function updateOrder(param){
   orderObject[param].title = document.getElementById("orderMainTitle").innerHTML;
-  orderObject[param].isSterile = $("input:radio[name='Sterilizacia']:checked").val();
+  if(document.getElementById('sterilizovany').checked){
+    orderObject[param].isSterile = true;
+  }
+  if(document.getElementById('nesterilizovany').checked){
+    orderObject[param].isSterile = false;
+  }
   orderObject[param].package =  $("input:radio[name='Balenie']:checked").val();
   orderObject[param].boxSize =  $("input:radio[name='Krabica']:checked").val();
   orderObject[param].boxCount = document.getElementById("modalPackageCount").value;
   updateDetail();
   $("#orderModal").modal('toggle');
+  console.log(orderObject);
 }
 
-var informationObject = [];
+
+var socket = null;
+
+if(typeof io === "function") {
+	socket = io();
+}
+
 
 function sendOrder(){
+  event.preventDefault(); 
+
+  var billingA = {};
+  billingA.city = document.getElementById("companyCity").value;
+  billingA.psc = document.getElementById("companyPSC").value;
+  billingA.street = document.getElementById("companyAdress").value;
+
+  var deliveryA = {};
+  deliveryA.city = document.getElementById("deliveryCity").value;
+  deliveryA.psc = document.getElementById("deliveryPSC").value;
+  deliveryA.street = document.getElementById("deliveryAdress").value;
+
+  var informationObject = {};
+  
+  informationObject.billingAddress = billingA;
+  informationObject.company = document.getElementById("company").value;
+  informationObject.deliveryAddress = deliveryA;
   informationObject.name = document.getElementById("name").value;
   informationObject.email = document.getElementById("email").value;
   informationObject.phone = document.getElementById("phone").value;
   informationObject.ico = document.getElementById("ico").value;
   informationObject.message = document.getElementById("message").value;
+  informationObject.products = orderObject;
+  var dataToSend = JSON.stringify(informationObject);
+
+  $.ajax({
+    type: "POST",
+    url: window.location.origin + "/order",
+    data: dataToSend,
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+    success: function(msg) {
+      console.log("odoslane");
+      //$(document.getElementById("successEmail")).modal("show");
+    }
+   });
 }
 
+
+
+function sendEmail(){
+  var contactObject = {};
+  event.preventDefault(); 
+  contactObject.name = document.getElementById("contactName").value;
+  contactObject.email = document.getElementById("contactEmail").value;
+  contactObject.subject = document.getElementById("contactSubject").value;
+  contactObject.message = document.getElementById("contactMessage").value;
+  jsonData = JSON.stringify(contactObject);
+
+  $.ajax({
+    type: "POST",
+    url: window.location.origin + "/email/send",
+    data: jsonData,
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+    success: function(msg) {
+      $(document.getElementById("successEmail")).modal("show");
+    }
+   });
+}
 
 
 

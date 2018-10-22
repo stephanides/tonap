@@ -114,11 +114,11 @@ block content
           .col-lg-6.col-12.pl-0.order-2
             .contactform
               h5 Kontaktný formulár
-              form
-                input(name="name" type="text" reqiured="true" placeholder="Meno a priezvisko")
-                input(name="email" type="text" reqiured="true" placeholder="Váš email")
-                input(name="subject" type="text" reqiured="true" placeholder="Predmet")
-                textarea(name="message" rows="4") Text správy
+              form(onsubmit="sendEmail()")
+                input(name="contactName" id="contactName" type="text" placeholder="Meno a priezvisko" required)
+                input(name="contactEmail" id="contactEmail" type="text" placeholder="Váš email" required)
+                input(name="contactSubject" id="contactSubject" type="text" placeholder="Predmet" required)
+                textarea(name="contactMessage" id="contactMessage" rows="4" placeholder="Text správy")
                 input(name="submit" type="submit" value="Odoslať správu")
             .contactcard
               h4 Kontakt
@@ -164,6 +164,14 @@ block content
                       p.mb-0#productVolume
                       p.mb-0#productWeight
                       button.mt-4.mb-4#navigationOrder Prejsť do objednávky
+    .modal.fade#successEmail
+      .modal-dialog
+        .modal-content
+          .modal-header
+            h4.modal-title.text-center Ďakujeme!
+          .modal-body.text-center Vaša správa bola úspešne odoslaná!
+          .modal-footer
+            button.btn.btn-danger(type="button" data-dismiss="modal") Zavrieť
                       
       
 

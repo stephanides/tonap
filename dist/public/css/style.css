@@ -528,6 +528,10 @@
   color: white;
   font-size: 12px;
 }
+#wrapper .contact .contactform textarea ::placeholder {
+  color: white;
+  opacity: 1;
+}
 #wrapper .contact .contactform h5 {
   font-size: 24px;
   color: white;

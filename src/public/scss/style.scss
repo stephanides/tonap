@@ -477,6 +477,11 @@ $break-xsmall:576px;
         border-bottom: 1px solid white;
         color:white;
         font-size: 12px;
+        ::placeholder {
+          color: white;
+          opacity: 1;
+          
+        }
       }
       h5{
         font-size: 24px;
@@ -505,6 +510,7 @@ $break-xsmall:576px;
         opacity: 0.8;
         font-size: 12px;
       }
+      
     }
     .contactcard{
       position: absolute;

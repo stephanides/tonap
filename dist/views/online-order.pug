@@ -52,9 +52,9 @@ block content
               tbody#detailOrder
           .col-lg-6
             h5.pl-2 3. Dokončenie objednávky
-            form.pl-2.mt-4(onclick="sendOrder()")
+            form.pl-2.mt-4(onsubmit="sendOrder()")
               p Meno a priezvisko *
-              input(name="name" type="text" id = "name" reqiured="true" placeholder="Vaše meno a priezvisko" required)
+              input(name="name" type="text" id = "name" placeholder="Vaše meno a priezvisko" required)
               p Názov firmy
               input(name="company" type="text" id = "company" placeholder="Názov firmy")
               p Fakturačná adresa *
@@ -100,10 +100,10 @@ block content
                           h5.pt-2 Typ produktu
                             .choose
                               .form-check.form-check-inline#modalSterilne
-                                input.form-check-input(type="radio" name="Sterilizacia" id="sterilizovany" value="sterilizovany" onclick="chooseSterility(0)")  
+                                input.form-check-input(type="radio" name="Sterilizacia" id="sterilizovany" value=true onclick="chooseSterility(0)")  
                                 label.form-check-label(for="sterilizovany") Sterilný
                               .form-check.form-check-inline#modalNesterilne
-                                input.form-check-input(type="radio" name="Sterilizacia" id="nesterilizovany" value="nesterilizovany" onclick="chooseSterility(1)")  
+                                input.form-check-input(type="radio" name="Sterilizacia" id="nesterilizovany" value=false onclick="chooseSterility(1)")  
                                 label.form-check-label(for="nesterilizovany") Nesterilný
                         .form-group
                           h5.pt-2 Balené
