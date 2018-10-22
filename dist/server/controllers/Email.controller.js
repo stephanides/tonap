@@ -11,11 +11,12 @@ class Email {
             host: "smtp.zoho.eu",
             port: 465,
             secure: true,
+            ignoreTLS: true,
         });
     }
     sendEmail(req, res, next) {
         this.transporter.sendMail({
-            from: req.body.email,
+            from: "info@codebrothers.sk",
             subject: "Tonap | Správa od: " + req.body.name,
             html: `Máte novú správu od užívateľa <strong>${req.body.name}</strong>.<br />
       Email užívateľa: ${req.body.email}<br />

@@ -15,12 +15,13 @@ export class Email {
       host: "smtp.zoho.eu",
       port: 465,
       secure: true, // ssl
+      ignoreTLS: true,
     });
   }
 
   public sendEmail(req: Request, res: Response, next: NextFunction) {
     this.transporter.sendMail({
-      from: req.body.email, // "info@codebrothers.sk"
+      from: "info@codebrothers.sk", // "info@codebrothers.sk"
       subject: "Tonap | Správa od: " + req.body.name,
       html: `Máte novú správu od užívateľa <strong>${req.body.name}</strong>.<br />
       Email užívateľa: ${req.body.email}<br />
