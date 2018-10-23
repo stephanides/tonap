@@ -299,6 +299,7 @@ function updateDetail(){
     $("<td></td>").html(orderObject[i].title).appendTo(row);
     $("<td></td>").html(orderObject[i].boxCount).appendTo(row);
     $("<td class='edit' onclick=editOrder("+ i +")></td>").html("Upravit").appendTo(row);
+    $("<td class='edit' onclick=deleteOrder("+ i +")></td>").html("Odstrániť").appendTo(row);
     row.appendTo(document.getElementById("detailOrder"));
   }
 }
@@ -325,6 +326,22 @@ function updateOrder(param){
   updateDetail();
   $("#orderModal").modal('toggle');
   console.log(orderObject);
+}
+
+function deleteOrder(param){
+  for(var i=orderObject.length; i > 0;i--){
+    document.getElementById("detailOrder").deleteRow(i-1);
+  }
+  orderObject.splice(param,1);
+ 
+  for(var i=0; i < orderObject.length;i++){
+    row = $("<tr></tr>");
+    $("<td></td>").html(orderObject[i].title).appendTo(row);
+    $("<td></td>").html(orderObject[i].boxCount).appendTo(row);
+    $("<td class='edit' onclick=editOrder("+ i +")></td>").html("Upravit").appendTo(row);
+    $("<td class='edit' onclick=deleteOrder("+ i +")></td>").html("Odstrániť").appendTo(row);
+    row.appendTo(document.getElementById("detailOrder"));
+  }
 }
 
 
