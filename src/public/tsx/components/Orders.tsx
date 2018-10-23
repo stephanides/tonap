@@ -154,7 +154,7 @@ export default class Products extends React.Component<IProps, {}> {
                                 (item as any).state > 1 ?
                                 (
                                   (item as any).state > 2 ?
-                                  "text-secondary font-weight-bold" : "text-success font-weight-bold"
+                                  "text-muted font-weight-bold" : "text-success font-weight-bold"
                                 ) : "text-warning font-weight-bold"
                               ) : "text-danger font-weight-bold"
                             }>

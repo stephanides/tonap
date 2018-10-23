@@ -60,7 +60,7 @@ export default class ProductList extends React.Component<IProps, {}> {
                   type="text"
                   className="form-control"
                   id="searchByTitle"
-                  placeholder="Vyhľadaj podľa názvu produktu"
+                  placeholder="Vyhľadaj podľa názvu"
                   onChange={(e) => {
                     const title = e.currentTarget.value;
 
@@ -85,7 +85,7 @@ export default class ProductList extends React.Component<IProps, {}> {
                     <tr>
                       <th scope="col">#</th>
                       <th scope="col">Názov produktu</th>
-                      <th scope="col">Aktívny</th>
+                      <th scope="col" className="text-center">Aktívny</th>
                       <th scope="col"></th>
                       <th scope="col"></th>
                     </tr>
@@ -98,7 +98,7 @@ export default class ProductList extends React.Component<IProps, {}> {
                           <tr key={i}>
                             <td scope="row">{i+1}</td>
                             <td>{(item as any).title}</td>
-                            <td>{
+                            <td className="text-center">{
                               <label className="switch">
                                 <input
                                   type="checkbox"
@@ -116,18 +116,22 @@ export default class ProductList extends React.Component<IProps, {}> {
                               </label>
                             }</td>
                             <td>
-                              <button
-                                type="button"
-                                className="btn btn-primary"
-                                onClick={() => this.props.handleProductEdit(i)}
-                              >Upraviť</button>
+                              <span className="w-100 d-flex justify-content-end">
+                                <button
+                                  type="button"
+                                  className="btn btn-primary"
+                                  onClick={() => this.props.handleProductEdit(i)}
+                                >Upraviť</button>
+                              </span>
                             </td>
                             <td>
-                              <button
-                                type="button"
-                                className="btn btn-danger ml-2"
-                                onClick={() => this.props.handleShowDeleteModal(i)}
-                              >Vymazať</button>
+                              <span className="w-100 d-flex justify-content-center">
+                                <button
+                                  type="button"
+                                  className="btn btn-danger ml-2"
+                                  onClick={() => this.props.handleShowDeleteModal(i)}
+                                >Vymazať</button>
+                              </span>
                             </td>
                           </tr>
                         );
