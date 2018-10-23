@@ -19,43 +19,44 @@ export default class ProductFormTechInfo extends React.Component<IProps, {}> {
           <h6>Technické parametre</h6>
         </div>
         <div className="col-3">
-          <label className="sr-only" htmlFor="length">Dĺžka</label>
+          <label className="sr-only" htmlFor="height">Výška</label>
           <input
             type="number"
-            className="form-control mb-2" id="length" placeholder="Dĺžka v mm" min="10" max="100"
+            className="form-control mb-2" id="height" placeholder="Výška v mm" min="10" max="1000"
             onChange={(e) => {
               const product: IProduct = this.props.product;
 
-              product.length = parseInt(e.currentTarget.value, 10);
+              product.height = parseInt(e.currentTarget.value, 10);
               this.props.handleProduct(product);
             }}
             value={
               this.props.product ?
               (
-                this.props.product.length ?
-                this.props.product.length : ""
+                this.props.product.height ?
+                this.props.product.height : ""
               ) : ""
             }
             required />
         </div>
         <div className="col-3">
-          <label className="sr-only" htmlFor="wide">Širka</label>
+          <label className="sr-only" htmlFor="gauge">Širka</label>
           <input
             type="number"
-            className="form-control mb-2" id="wide" placeholder="Šír. v mm" min="10" max="100"
+            className="form-control mb-2" id="gauge" placeholder="Priemer v mm" min="10" max="1000"
             onChange={(e) => {
               const product: IProduct = this.props.product;
 
-              product.wide = parseInt(e.currentTarget.value, 10);
+              product.gauge = parseInt(e.currentTarget.value, 10);
               this.props.handleProduct(product);
             }}
             value={this.props.product ?
               (
-                this.props.product.wide ?
-                this.props.product.wide : ""
+                this.props.product.gauge ?
+                this.props.product.gauge : ""
               ) : ""}
             required />
         </div>
+        {/*
         <div className="col-3">
           <label className="sr-only" htmlFor="depth">Hĺbka</label>
           <input
@@ -76,11 +77,12 @@ export default class ProductFormTechInfo extends React.Component<IProps, {}> {
             }
             required/>
         </div>
+          */}
         <div className="col-3">
           <label className="sr-only" htmlFor="volume">Objem</label>
           <input
             type="number"
-            className="form-control mb-2" id="volume" placeholder="Obj. v ml" min="0" max="1000"
+            className="form-control mb-2" id="volume" placeholder="Objem v ml" min="0" max="1000"
             onChange={(e) => {
               const product: IProduct = this.props.product;
 

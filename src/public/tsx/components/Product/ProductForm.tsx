@@ -1,9 +1,9 @@
 import * as React from "react";
 
-import ProductFormBasicInfo from "./Product/ProductFormBasicInfo";
-import ProductFormTechInfo from "./Product/ProductFormTechInfo";
-import ProductFormSterilityInfo from "./Product/ProductFormSterilityInfo";
-import IProduct from "../interfaces/Product.interface";
+import ProductFormBasicInfo from "./ProductFormBasicInfo";
+import ProductFormTechInfo from "./ProductFormTechInfo";
+import ProductFormSterilityInfo from "./ProductFormSterilityInfo";
+import IProduct from "../../interfaces/Product.interface";
 
 interface IProps {
   product?: IProduct;

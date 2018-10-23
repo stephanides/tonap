@@ -1,6 +1,6 @@
 import * as React from "react";
-import OrderManagerModal from "./Order/OrderManagerModal";
-import Pagination from "./Pagination";
+import OrderManagerModal from "./OrderManagerModal";
+import Pagination from "../Layout/Pagination";
 
 interface IProps {
   itemsPerPage?: number;

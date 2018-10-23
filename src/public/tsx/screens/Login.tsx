@@ -1,7 +1,7 @@
 import * as React from "react";
 import Form from "../components/Form";
 import { Link } from "react-router-dom";
-import Modal from "../components/Modal";
+import Modal from "../components/Layout/Modal";
 import { Redirect } from "react-router";
 
 interface IProps {

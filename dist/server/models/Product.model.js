@@ -6,8 +6,10 @@ class Product {
         this.active = data.active;
         this.category = data.category;
         this.description = data.description;
+        this.height = data.height;
+        this.gauge = data.gauge;
         this.imageFilesData = data.imageFilesData;
-        this.depth = data.depth;
+        // this.depth = data.depth;
         this.length = data.length;
         this.notSterile = data.notSterile;
         this.notSterileProductMinCount = data.notSterileProductMinCount;
@@ -21,7 +23,7 @@ class Product {
         this.sterileProductMaxPackageCount = data.sterileProductMaxPackageCount;
         this.title = data.title;
         this.volume = data.volume;
-        this.wide = data.wide;
+        // this.wide = data.wide;
         this.weight = data.weight;
     }
 }
@@ -36,8 +38,10 @@ const ProductSchema = new mongoose_1.Schema({
         default: Date.now(),
         type: Date,
     },
-    depth: Number,
+    // depth: Number,
     description: String,
+    height: Number,
+    gauge: Number,
     imageFilesData: Array,
     length: Number,
     notSterile: Boolean,
@@ -57,6 +61,5 @@ const ProductSchema = new mongoose_1.Schema({
     },
     volume: Number,
     weight: Number,
-    wide: Number,
 });
 exports.Products = mongoose_1.model("Product", ProductSchema);

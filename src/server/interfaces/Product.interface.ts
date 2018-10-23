@@ -2,7 +2,9 @@ export interface IProduct {
   active?: boolean;
   category: number;
   description: string;
-  depth: number;
+  // depth: number;
+  height: number;
+  gauge: number;
   imageFilesData: object[];
   length: number;
   notSterile: boolean;
@@ -18,5 +20,5 @@ export interface IProduct {
   title: string;
   volume: number;
   weight: number;
-  wide: number;
+  // wide: number;
 }

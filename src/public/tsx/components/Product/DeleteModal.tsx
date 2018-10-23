@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import IProduct from "../interfaces/Product.interface";
+import IProduct from "../../interfaces/Product.interface";
 
 interface IProps {
   products?: object[];

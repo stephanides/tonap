@@ -111,8 +111,10 @@ class ProductController {
                                         if (jnum === req.body.imageFilesData.length) {
                                             const newProduct = new Product_model_1.Product({
                                                 category: req.body.category,
-                                                depth: req.body.depth,
+                                                // depth: req.body.depth,
                                                 description: req.body.description,
+                                                gauge: req.body.gauge,
+                                                height: req.body.height,
                                                 imageFilesData: imgUrlArr,
                                                 length: req.body.length,
                                                 notSterile: req.body.notSterile,
@@ -128,7 +130,6 @@ class ProductController {
                                                 title: req.body.title,
                                                 volume: req.body.volume,
                                                 weight: req.body.weight,
-                                                wide: req.body.wide,
                                             });
                                             const asyncCreate = () => __awaiter(this, void 0, void 0, function* () {
                                                 try {

@@ -2,7 +2,7 @@ import "react";
 import * as React from "react";
 import _JSXStyle from "styled-jsx/style";
 import { Link } from "react-router-dom";
-import { IUserPayLoad } from "../interfaces/UserPayLoad.interface";
+import { IUserPayLoad } from "../../interfaces/UserPayLoad.interface";
 
 interface IProps {
   user: IUserPayLoad;

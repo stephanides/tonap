@@ -3,7 +3,7 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 // import ProductEditModal from "./ProductEditModal";
 import ProductListItem from "./ProductListItem";
-import Pagination from "./Pagination";
+import Pagination from "../Layout/Pagination";
 
 interface IProps {
   itemsPerPage?: number;

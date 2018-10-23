@@ -103,8 +103,10 @@ export default class ProductController {
                   if (jnum === req.body.imageFilesData.length) {
                     const newProduct: IProduct = new Product({
                       category: req.body.category,
-                      depth: req.body.depth,
+                      // depth: req.body.depth,
                       description: req.body.description,
+                      gauge: req.body.gauge,
+                      height: req.body.height,
                       imageFilesData: imgUrlArr,
                       length: req.body.length,
                       notSterile: req.body.notSterile,
@@ -120,7 +122,7 @@ export default class ProductController {
                       title: req.body.title,
                       volume: req.body.volume,
                       weight: req.body.weight,
-                      wide: req.body.wide,
+                      //wide: req.body.wide,
                     });
 
                     const asyncCreate = async () => {

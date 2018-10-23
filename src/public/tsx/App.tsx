@@ -47,9 +47,11 @@ interface IAppState {
 
 const productInit: IProduct = {
   category: 0,
-  depth: 0,
+  // depth: 0,
   description: "",
-  length: 0,
+  height: 0,
+  gauge: 0,
+  // length: 0,
   notSterile: false,
   notSterileProductMaxCount: 0,
   notSterileProductMaxPackageCount: 0,
@@ -63,7 +65,7 @@ const productInit: IProduct = {
   title: "",
   volume: 0,
   weight: 0,
-  wide: 0,
+  // wide: 0,
 };
 
 const initialState: IAppState = {
@@ -513,9 +515,11 @@ export default class App extends React.Component<{}, IAppState> {
       this.setState({
         product: {
           category: 0,
-          depth: 0,
+          // depth: 0,
           description: "",
-          length: 0,
+          height: 0,
+          gauge: 0,
+          // length: 0,
           notSterile: false,
           notSterileProductMaxCount: 0,
           notSterileProductMaxPackageCount: 0,
@@ -529,7 +533,7 @@ export default class App extends React.Component<{}, IAppState> {
           title: "",
           volume: 0,
           weight: 0,
-          wide: 0,
+          // wide: 0,
         },
         productEdit: false });
     }
@@ -855,9 +859,11 @@ export default class App extends React.Component<{}, IAppState> {
               imageFiles: [],
               product: {
                 category: 0,
-                depth: 0,
+                // depth: 0,
                 description: "",
-                length: 0,
+                height: 0,
+                gauge: 0,
+                // length: 0,
                 notSterile: false,
                 notSterileProductMaxCount: 0,
                 notSterileProductMaxPackageCount: 0,
@@ -871,7 +877,7 @@ export default class App extends React.Component<{}, IAppState> {
                 title: "",
                 volume: 0,
                 weight: 0,
-                wide: 0,
+                // wide: 0,
               },
             });
           });

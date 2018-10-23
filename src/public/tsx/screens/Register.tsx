@@ -1,6 +1,6 @@
 import * as React from "react";
 import Form from "../components/Form";
-import Modal from "../components/Modal";
+import Modal from "../components/Layout/Modal";
 import { Link } from "react-router-dom";
 
 interface IProps {

@@ -17,7 +17,7 @@ export default class ProductFormSterilityInfo extends React.Component<IProps, {}
           <div className="col-12">
             <h6>Sterilita</h6>
           </div>
-          <div className="col-12">
+          <div className="col-12 border-bottom mb-3">
             <div className="row form-group">
               <div className="col-auto">
                 <div className="form-check">
@@ -53,8 +53,9 @@ export default class ProductFormSterilityInfo extends React.Component<IProps, {}
               </div>
             </div>
           </div>
-          <div className="col-6" ref={"sterile"}>
-            <h6>Počet ks. sterilné:</h6>
+          <div className="col-5" ref={"sterile"}>
+            <h5>Sterilné</h5>
+            <h6>Počet ks. v sáčku:</h6>
             <div className="row">
               <div className="col-auto">
                 <label className="sr-only" htmlFor="sterileProductMinCount">Min.</label>
@@ -108,7 +109,7 @@ export default class ProductFormSterilityInfo extends React.Component<IProps, {}
                 />
               </div>
             </div>
-            <h6>Balenie sterilné:</h6>
+            <h6>Počet ks. v krabici:</h6>
             <div className="row">
               <div className="col-auto">
                 <label className="sr-only" htmlFor="sterileProductMinPackageCount">Min.</label>
@@ -166,8 +167,9 @@ export default class ProductFormSterilityInfo extends React.Component<IProps, {}
               </div>
             </div>
           </div>
-          <div className="col-6" ref={"notSterile"}>
-            <h6>Počet ks. nesterilné:</h6>
+          <div className="col-5 ml-auto" ref={"notSterile"}>
+            <h5>Nesterilné</h5>
+            <h6>Počet ks. v sáčku:</h6>
             <div className="row">
               <div className="col-auto">
                 <label className="sr-only" htmlFor="notSterileProductMinCount">Min.</label>
@@ -224,7 +226,7 @@ export default class ProductFormSterilityInfo extends React.Component<IProps, {}
                 />
               </div>
             </div>
-            <h6>Balenie nesterilné:</h6>
+            <h6>Počet ks. v krabici:</h6>
             <div className="row">
               <div className="col-auto">
                 <label className="sr-only" htmlFor="notSterileProductMinPackageCount">Min.</label>

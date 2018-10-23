@@ -1,7 +1,7 @@
 import * as React from "react";
 import _JSXStyle from "styled-jsx/style";
 import ProductForm from "./ProductForm";
-import IProduct from "../interfaces/Product.interface";
+import IProduct from "../../interfaces/Product.interface";
 
 interface IProps {
   product?: IProduct;

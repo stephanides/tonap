@@ -1,17 +1,19 @@
 // import "react";
 import * as React from "react";
-import DeleteModal from "../components/DeleteModal";
-import HeaderNav from "../components/HeaderNav";
-import Modal from "../components/Modal";
-import Orders from "../components/Orders";
-import ProductCreate from "../components/ProductCreate";
-import ProductEditModal from "../components/ProductEditModal";
-import ProductList from "../components/ProductList";
+import DeleteModal from "../components/Product/DeleteModal";
+import HeaderNav from "../components/Layout/HeaderNav";
+import Modal from "../components/Layout/Modal";
+import Orders from "../components/Order/Orders";
+
+import ProductCreate from "../components/Product/ProductCreate";
+import ProductEditModal from "../components/Product/ProductEditModal";
+import ProductList from "../components/Product/ProductList";
+
 import { IUserPayLoad } from "../interfaces/UserPayLoad.interface";
 import { Route } from "react-router-dom";
-import TabNav from "../components/TabNav";
+import TabNav from "../components/Layout/TabNav";
 import IFile from "../interfaces/File.interface";
-import { TSImportEqualsDeclaration } from "babel-types";
+// import { TSImportEqualsDeclaration } from "babel-types";
 import IProduct from "../interfaces/Product.interface";
 
 interface IProps {
