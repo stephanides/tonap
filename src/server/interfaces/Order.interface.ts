@@ -1,7 +1,7 @@
 export default interface IOrder {
   // city: string;
   billingAddress?: object;
-  cancellation?: boolean;
+  // cancellation?: boolean;
   company?: string;
   dateModified?: string;
   deliveryAddress?: object;

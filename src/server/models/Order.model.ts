@@ -4,7 +4,7 @@ import IOrder from "../interfaces/Order.interface";
 export class Order {
   // public city: string;
   public billingAddress?: object;
-  public cancellation?: boolean;
+  // public cancellation?: boolean;
   public company?: string;
   public dateModified?: string;
   public deliveryAddress?: object;
@@ -23,7 +23,7 @@ export class Order {
   constructor(data: IOrder) {
     // this.city = data.city;
     this.billingAddress = data.billingAddress;
-    this.cancellation = data.cancellation;
+    // this.cancellation = data.cancellation;
     this.company = data.company;
     this.dateModified = data.dateModified;
     this.deliveryAddress = data.deliveryAddress;
@@ -44,10 +44,10 @@ export class Order {
 const OrderSchema = new Schema({
   billingAddress: Object,
   // city: String,
-  cancellation: {
+  /*cancellation: {
     default: false,
     type: Boolean,
-  },
+  },*/
   company: String,
   dateModified: Date,
   deliveryAddress: Object,

@@ -284,14 +284,18 @@ export default class App extends React.Component<{}, IAppState> {
   }
 
   private async handleCancelOrder(cancellation: boolean): Promise<void> {
-    let orderId: number;
+    let orderId: number, state: number;
+
+    if (cancellation) {
+      state = 3;
+    }
     
     for (let i = 0; i < this.state.orders.length; i++) {
       if (this.state.cancellationOrderNumber == (this.state.orders as any)[i].orderNum) {
         orderId = (this.state.orders as any)[i]._id;
       }
     } 
-    const bodyToFetch = JSON.stringify({cancellation, orderId});
+    const bodyToFetch = JSON.stringify({orderId, state}); // cancellation
   
     try {
       const request = await fetch("/api/order/state", {
@@ -377,19 +381,14 @@ export default class App extends React.Component<{}, IAppState> {
   }
 
   private handleChangeOrderState(orderState: number): void {
-    // const updatedOrder = this.state.order;
-
-    // (updatedOrder as any).state = orderState;
-    const oldOrderState = this.state.orderState; 
+    const oldOrderState = this.state.orderState;
     
-    this.setState({orderState, oldOrderState}); // order: updatedOrder
+    this.setState({orderState, oldOrderState});
   }
 
   private handleChangeOrderDeliveryTime(orderDeliveryTime: number): void {
     this.setState({orderDeliveryTime});
   }
-
-  // private handleCloseOrderManagerModal(): void {}
 
   private async handleOrderStateUpdate(e: React.FormEvent<HTMLElement>): Promise<void> {
     e.preventDefault();

@@ -83,6 +83,7 @@ export default class Products extends React.Component<IProps, {}> {
               <option value={0}>Nová</option>
               <option value={1}>Vybavuje sa</option>
               <option value={2}>Vybavená</option>
+              <option value={3}>Stornovaná</option>
             </select>
           </div>
           <div className="form-group col-sm-4 col-md-5 col-lg-4">
@@ -126,7 +127,7 @@ export default class Products extends React.Component<IProps, {}> {
                 <tbody>
                   {
                     this.props.pageData.map((item, i) => {
-                      const state = ["Nová", "Vybavuje sa", "Vybavená"];
+                      const state = ["Nová", "Vybavuje sa", "Vybavená", "Stornovaná"];
                       const roughDate = (item as any).dateCreated.split("T")[0];
                       const date = `${roughDate.split("-")[2]}.${roughDate.split("-")[1]}.${roughDate.split("-")[0]}`;
                       let orderedProductCount;
@@ -142,7 +143,7 @@ export default class Products extends React.Component<IProps, {}> {
                       }
 
                       return (
-                        <tr key={i+1} className={(item as any).cancellation ? "disable" : null}>
+                        <tr key={i+1} className={(item as any).state > 2 ? "disable" : null}>
                           <th scope="row">{i+1}</th>
                           <td>{(item as any).orderNum}</td>
                           <td>{date}</td>
@@ -151,7 +152,10 @@ export default class Products extends React.Component<IProps, {}> {
                               (item as any).state > 0 ?
                               (
                                 (item as any).state > 1 ?
-                                "text-success font-weight-bold" : "text-warning font-weight-bold"
+                                (
+                                  (item as any).state > 2 ?
+                                  "text-secondary font-weight-bold" : "text-success font-weight-bold"
+                                ) : "text-warning font-weight-bold"
                               ) : "text-danger font-weight-bold"
                             }>
                               {state[(item as any).state]}
@@ -165,7 +169,7 @@ export default class Products extends React.Component<IProps, {}> {
                                 () => this.props.showOrderManager((item as any).orderNum)
                               }
                               type="button"
-                              disabled={(item as any).cancellation ? true : false}
+                              disabled={(item as any).state > 2 ? true : false}
                             >Detail</button>
                           </td>
                           <td>
@@ -173,7 +177,7 @@ export default class Products extends React.Component<IProps, {}> {
                               className="btn btn-danger"
                               type="button"
                               onClick={() => this.props.handleCancelOrderState((item as any)._id)}
-                              disabled={(item as any).state > 1 ? true : ((item as any).cancellation ? true : false)}
+                              disabled={(item as any).state > 1 ? true : ((item as any).state > 2 ? true : false)}
                             >Storno</button>
                           </td>
                         </tr>
@@ -220,7 +224,7 @@ export default class Products extends React.Component<IProps, {}> {
           )
         }
         <style>{`
-          table tr.disable td, table tr.disable th, table tr.disable td span {color:#c0c0c0!important;}
+          table tr.disable td, table tr.disable th, table tr.disable td span {color:#6c757d!important;}
         `}</style>
       </div>,
     ];

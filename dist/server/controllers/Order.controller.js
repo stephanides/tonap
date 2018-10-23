@@ -102,32 +102,34 @@ class OrderController {
                 else {
                     const dataToUpdate = order;
                     const deliveryTimes = ["5. pracovných dní", "10. pracovných dní", "15. pracovných dní", "20. pracovných dní", "viac ako 20. pracovných dní"];
-                    if ((typeof req.body.cancellation !== "undefined") && req.body.cancellation !== order.cancellation) {
-                        dataToUpdate.cancellation = req.body.cancellation;
-                    }
-                    else {
-                        dataToUpdate.state = req.body.state;
-                        dataToUpdate.dateModified = new Date().toISOString();
-                        dataToUpdate.deliveryTime = req.body.deliveryTime;
-                    }
+                    /*if ((typeof req.body.cancellation !== "undefined") && req.body.cancellation !== order.cancellation) {
+                      dataToUpdate.cancellation = req.body.cancellation;
+                    } else {
+                      dataToUpdate.state = req.body.state;
+                      dataToUpdate.dateModified = new Date().toISOString();
+                      dataToUpdate.deliveryTime = req.body.deliveryTime;
+                    }*/
+                    dataToUpdate.state = req.body.state;
+                    dataToUpdate.dateModified = new Date().toISOString();
+                    dataToUpdate.deliveryTime = req.body.deliveryTime;
                     const updatedOrder = yield Order_model_1.Orders.update({ _id: mongoose_1.Types.ObjectId(req.body.orderId) }, dataToUpdate);
                     if (updatedOrder) {
                         let mailSubject = "TONAP: Informácia o stave objednávky";
                         let mailBody;
-                        if (req.body.cancellation !== order.cancellation) {
-                            mailBody = `Dobrý deň pán/pani ${order.name}.<br /><br />
-            Vaša objednávka bola stornovaná.<br /><br />
-            V prípade akýchkoľvek otázok nás neváhajte kontaktovať na telefónnom čísle <strong>+421 918 243 753</strong>.<br />
-            Alebo prostredníctvom e-mailu <strong>info@tonap.sk</strong><br /><br />
-            S prianim pekného dňa,<br />tím <strong>TONAP</strong> s. r. o.<br /><br />
-            <strong>TONAP</strong> s.r.o.<br />
-            Na hore 1727/4<br />
-            040 22 Košice<br />
-            IČO: 51334011<br />
-            IČ DPH: SK2120679242<br />
-            +421 918 243 753`;
-                        }
-                        else if (req.body.message) {
+                        /*if (req.body.cancellation !== order.cancellation) {
+                          mailBody = `Dobrý deň pán/pani ${order.name}.<br /><br />
+                          Vaša objednávka bola stornovaná.<br /><br />
+                          V prípade akýchkoľvek otázok nás neváhajte kontaktovať na telefónnom čísle <strong>+421 918 243 753</strong>.<br />
+                          Alebo prostredníctvom e-mailu <strong>info@tonap.sk</strong><br /><br />
+                          S prianim pekného dňa,<br />tím <strong>TONAP</strong> s. r. o.<br /><br />
+                          <strong>TONAP</strong> s.r.o.<br />
+                          Na hore 1727/4<br />
+                          040 22 Košice<br />
+                          IČO: 51334011<br />
+                          IČ DPH: SK2120679242<br />
+                          +421 918 243 753`;
+                        } else*/
+                        if (req.body.message) {
                             mailBody = `Dobrý deň pán/pani ${order.name}.<br /><br />
             ${req.body.message}<br /><br />
             V prípade akýchkoľvek otázok nás neváhajte kontaktovať na telefónnom čísle <strong>+421 918 243 753</strong>.<br />
@@ -141,9 +143,22 @@ class OrderController {
             +421 918 243 753`;
                         }
                         else {
-                            if (req.body.state > 1) {
+                            if (req.body.state > 1 && req.body.state < 3) {
                                 mailBody = `Dobrý deň pán/pani ${order.name}.<br /><br />
               Vaša objednácka číslo: <strong><i>${order.orderNum}</i></strong> je vybavená.<br /><br />
+              V prípade akýchkoľvek otázok nás neváhajte kontaktovať na telefónnom čísle <strong>+421 918 243 753</strong>.<br />
+              Alebo prostredníctvom e-mailu <strong>info@tonap.sk</strong><br /><br />
+              S prianim pekného dňa,<br />tím <strong>TONAP</strong> s. r. o.<br /><br />
+              <strong>TONAP</strong> s.r.o.<br />
+              Na hore 1727/4<br />
+              040 22 Košice<br />
+              IČO: 51334011<br />
+              IČ DPH: SK2120679242<br />
+              +421 918 243 753`;
+                            }
+                            else if (req.body.state === 3) {
+                                mailBody = `Dobrý deň pán/pani ${order.name}.<br /><br />
+              Vaša objednávka číslo ${order.orderNum} bola stornovaná.<br /><br />
               V prípade akýchkoľvek otázok nás neváhajte kontaktovať na telefónnom čísle <strong>+421 918 243 753</strong>.<br />
               Alebo prostredníctvom e-mailu <strong>info@tonap.sk</strong><br /><br />
               S prianim pekného dňa,<br />tím <strong>TONAP</strong> s. r. o.<br /><br />
