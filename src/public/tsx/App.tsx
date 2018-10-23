@@ -850,7 +850,7 @@ export default class App extends React.Component<{}, IAppState> {
         if (request.status === 200) {
           const responseJSON: Promise<any> = await request.json();
 
-          this.showModal("Produkt bol úspešne vytvorený.", false, undefined, () => { // (responseJSON as any).message
+          this.showModal("Dáta boli úspešne uložené.", false, undefined, () => { // (responseJSON as any).message
             this.setState({
               imageFiles: [],
               product: {
