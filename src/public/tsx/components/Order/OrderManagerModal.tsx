@@ -145,8 +145,8 @@ const OrderManagerModal = (props: IProps) => {
                             order.ico ?
                             (
                               <span>
-                                <span><strong>Spoločnosť:</strong>{` ${order.company}`}</span><br />
-                                <span><strong>IČO:</strong>{` ${order.ico}`}</span>
+                                <strong>Spoločnosť:</strong>{` ${order.company}`}<br />
+                                <strong>IČO:</strong>{` ${order.ico}`}
                               </span>
                             ) :
                             <span><strong>Spoločnosť:</strong>{` ${order.company}`}</span>
