@@ -244,7 +244,10 @@ export default class ProductFormSterilityInfo extends React.Component<IProps, {}
                       false : true
                     ) : true
                   }
-                  value={this.props.product ? this.props.product.notSterileProductMinPackageCount : ""}
+                  value={this.props.product ? (
+                    this.props.product.notSterileProductMinPackageCount ?
+                    this.props.product.notSterileProductMinPackageCount : ""
+                  ) : ""}
                 />
               </div>
               <div className="col-auto">
