@@ -295,11 +295,19 @@ function updateDetail(){
   var row;
   document.getElementById("detailOrder").innerHTML = '';
   for(var i=0; i < orderObject.length;i++){
+
+    var btnDel = document.createElement("a");
+    btnDel.className = "btn-danger rounded-circle";
+    btnDel.innerHTML = "&times;";
+
+    btnDel.setAttribute("onclick", "deleteOrder(" + i + ");");
+
     row = $("<tr></tr>");
     $("<td></td>").html(orderObject[i].title).appendTo(row);
     $("<td></td>").html(orderObject[i].boxCount).appendTo(row);
     $("<td class='edit' onclick=editOrder("+ i +")></td>").html("Upravit").appendTo(row);
-    $("<td class='edit' onclick=deleteOrder("+ i +")></td>").html("Odstrániť").appendTo(row);
+    //$("<td class='edit' onclick=deleteOrder("+ i +")></td>").html("Odstrániť").appendTo(row);
+    $("<td class='delete'></td>").html(btnDel).appendTo(row);
     row.appendTo(document.getElementById("detailOrder"));
   }
 }
@@ -329,17 +337,24 @@ function updateOrder(param){
 }
 
 function deleteOrder(param){
-  for(var i=orderObject.length; i > 0;i--){
-    document.getElementById("detailOrder").deleteRow(i-1);
+  console.log(param);
+  console.log(orderObject);
+  for(var j=orderObject.length; j > 0;j--){
+    document.getElementById("detailOrder").deleteRow(j-1);
   }
   orderObject.splice(param,1);
  
   for(var i=0; i < orderObject.length;i++){
+    var btnDel = document.createElement("a");
+    btnDel.className = "btn-danger rounded-circle";
+    btnDel.innerHTML = "&times;";
+
+    btnDel.setAttribute("onclick", "deleteOrder(" + (i) + ");");
     row = $("<tr></tr>");
     $("<td></td>").html(orderObject[i].title).appendTo(row);
     $("<td></td>").html(orderObject[i].boxCount).appendTo(row);
     $("<td class='edit' onclick=editOrder("+ i +")></td>").html("Upravit").appendTo(row);
-    $("<td class='edit' onclick=deleteOrder("+ i +")></td>").html("Odstrániť").appendTo(row);
+    $("<td class='delete'></td>").html(btnDel).appendTo(row);
     row.appendTo(document.getElementById("detailOrder"));
   }
 }
@@ -387,7 +402,7 @@ function sendOrder(){
     success: function(msg) {
       socket.emit("order created");
       $(document.getElementById("successOrder")).modal("show");
-    }
+    },
    });
 }
 
