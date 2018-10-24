@@ -1,6 +1,20 @@
 // Main javascript file
 var map;
-var marker;
+var marker = {};
+var products = [{}];
+var intervalId = null;
+var intervalStarted = false;
+var choosedProduct = {};
+var orderObject = [];
+var orderInProgress = {
+  title:"",
+  isSterile:false,
+  package:1,
+  boxSize:1, 
+  boxCount:0,
+  id:""
+};
+var socket = null;
 
 $(document).ready(function() {
   getProducts();
@@ -83,15 +97,25 @@ function loadMap() {
 
 function scrollPage() {
   window.addEventListener("scroll", function (e) {
-    if (window.pageYOffset >= 1550) {
+    var pY = window.pageYOffset;
+
+    if (pY >= 580) {
+      if (intervalStarted) {
+        clearInterval(intervalId);
+        intervalId = null;
+      }
+    } else {
+      if (intervalStarted && intervalId === null) {
+        counterInterval();
+      }
+    }
+    if (pY >= 1550) {
       if(marker && !marker.getMap()) {
         marker.setMap(map);
       }
     }
   });
 }
-
-var intervalId = 0;
 
 function startCounter() {
   $(".count").each(function () {
@@ -102,28 +126,29 @@ function startCounter() {
       easing: 'swing',
       step: function (now) {
         var number = Math.ceil(now);
-        var output = number.toLocaleString(); // number.toString().match(/\d{1,3}/g);
+        var output = number.toLocaleString();
 
-        // console.log(output);
         $(this).text(output);
       }
     });
   });
 
-  setTimeout(function () {
-    intervalId = setInterval(function () {
-      $(".count").each(function (i, item) {
-        var val = parseInt(item.innerHTML.replace(/,/g, ""));
-        
-        val += 1;
-        val = val.toLocaleString();
-        item.innerHTML = val;
-      });
-    }, 1000);
-  }, 4010);
+  setTimeout(counterInterval, 4010);
 }
 
-var products;
+function counterInterval() {
+  intervalId = setInterval(function () {
+    $(".count").each(function (i, item) {
+      var val = parseInt(item.innerHTML.replace(/,/g, ""));
+      
+      val += 1;
+      val = val.toLocaleString();
+      item.innerHTML = val;
+    });
+    
+    intervalStarted = true;
+  }, 1000);
+}
 
 function getProducts(){
   var xobj = new XMLHttpRequest();
@@ -170,10 +195,9 @@ function fillProducts(products){
   }
 }
 
-var choosedProduct;
-
 function orderProduct(id){
   document.getElementById("navigationOrder").innerHTML = "Pridať objednávku";
+
   for(var i=0; i<products.length;i++){
     if(products[i]._id == id){
       if(document.location.href.indexOf('online-objednavka') === -1){
@@ -330,16 +354,6 @@ function getURL(){
   }
 }
 
-var orderObject = [];
-var orderInProgress = {
-  title:"",
-  isSterile:false,
-  package:1,
-  boxSize:1, 
-  boxCount:0,
-  id:""
-};
-
 function fillOrder(id){
   orderInProgress.title = document.getElementById("orderMainTitle").innerHTML;
   if(document.getElementById('sterilizovany').checked){
@@ -440,8 +454,6 @@ function deleteOrder(param){
     row.appendTo(document.getElementById("detailOrder"));
   }
 }
-
-var socket = null;
 
 if(typeof io === "function") {
 	socket = io();
