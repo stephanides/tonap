@@ -27,7 +27,7 @@ block content
             li
               a(onclick="goto('#contact')" href="#contact") Kontakt
             li
-              a.online-order(href="/online-objednavka") Online objednávka
+              a.online-order.ml-2(href="/online-objednavka") Online objednávka
     section#header
       .container-fluid
         .container
@@ -49,9 +49,9 @@ block content
               picture
                 source(data-srcset="./assets/images/icons/firstcard.webp", alt="", type="image/webp")
                 img.lazyload(data-src="./assets/images/icons/firstcard.png", alt="")
-              .textarea
+              .textarea.ml-3
                 p Vyrobili sme
-                h4 #[span.count 12700000] ks
+                h4.position-relative.counter-h.first-h #[span.count.position-absolute 12700000] #[span.position-absolute ks]
             h4 Výroba kelimkov <br>na lieky a krémy
             .divider
             p Macaroon brownie cake carrot cake. Sesame snaps sweet icing cake sweet roll. Tart halvah tiramisu sweet liquorice bear claw. Tart cotton candy chupa chups lolipoop tart pastrz liquorice muffin.
@@ -60,9 +60,9 @@ block content
               picture
                 source(data-srcset="./assets/images/icons/secondcard.webp", alt="", type="image/webp")
                 img.lazyload(data-src="./assets/images/icons/secondcard.png", alt="")
-              .textarea
+              .textarea.ml-3
                 p Vyrobili sme
-                h4 #[span.count 9000000] ks
+                h4.position-relative.counter-h #[span.count.position-absolute 9000000] #[span.position-absolute ks]
             h4 Výroba skúmaviek <br>a odberníkov
             .divider
             p Macaroon brownie cake carrot cake. Sesame snaps sweet icing cake sweet roll. Tart halvah tiramisu sweet liquorice bear claw. Tart cotton candy chupa chups lolipoop tart pastrz liquorice muffin.
@@ -71,9 +71,9 @@ block content
               picture
                 source(data-srcset="./assets/images/icons/thirdcard.webp", alt="", type="image/webp")
                 img.lazyload(data-src="./assets/images/icons/thirdcard.png", alt="")
-              .textarea
+              .textarea.ml-3
                 p Vyrobili sme
-                h4 #[span.count 3300000] ks
+                h4.position-relative.counter-h #[span.count.position-absolute 3300000] #[span.position-absolute ks]
             h4 Výroba petriho misiek <br>
             .divider
             p Macaroon brownie cake carrot cake. Sesame snaps sweet icing cake sweet roll. Tart halvah tiramisu sweet liquorice bear claw. Tart cotton candy chupa chups lolipoop tart pastrz liquorice muffin.
@@ -192,12 +192,7 @@ block content
           .modal-body.text-center Vaša správa bola úspešne odoslaná!
           .modal-footer
             button.btn.btn-danger(type="button" data-dismiss="modal") Zavrieť
-                      
-      
-
-      
-            
-
+             
 block scripts
   script(src="./assets/js/lazysizes.min.js", deffer)
   script(src="./assets/js/tonap.js")

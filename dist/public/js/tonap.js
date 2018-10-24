@@ -1,4 +1,6 @@
 // Main javascript file
+var map;
+var marker;
 
 $(document).ready(function() {
   // exampleFunction();
@@ -23,6 +25,7 @@ $(document).ready(function() {
     }, 10);
   });
   startCounter();
+  scrollPage();
 });
 
 /*function exampleFunction() {
@@ -33,7 +36,8 @@ function goto(param){
   $('html, body').animate({scrollTop:$(param).position().top-120}, 'slow');
 }
 
-function loadMap(){
+function loadMap() {
+  var latlng = {lat: 48.635896, lng: 21.714897};
   var mapOptions = {
     center: new google.maps.LatLng(48.635896, 21.714897),
     zoom: 15,
@@ -41,6 +45,23 @@ function loadMap(){
     fullscreenControl:false,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
+
+  var markerIcon = {
+    url: window.location.origin + '/assets/images/map-marker.png',
+    scaledSize: new google.maps.Size(42, 60),
+    labelOrigin: new google.maps.Point(21, 80),
+    labelAnchor: new google.maps.Point(0, 0)
+  };
+
+  marker = new google.maps.Marker({
+    position: latlng,
+    animation: google.maps.Animation.DROP,
+    icon: markerIcon, //'./dist/img/map-marker.png',
+    label: { color: '#fff', fontWeight: 'bold', fontSize: '14px', text: 'ENLI SHOWROOM' },
+    map: map
+  });
+
+  map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
   loadJSON(function(response) {
 		var loaded_json = JSON.parse(response);
@@ -61,30 +82,48 @@ function loadMap(){
 		};
 		xobj.send(null);
 	}
-
-  var map = new google.maps.Map(document.getElementById("map"), mapOptions);
 }
 
-function startCounter() {
-  var intervalId = 0;
+function scrollPage() {
+  window.addEventListener("scroll", function (e) {
+    if (window.pageYOffset >= 1550) {
+      if(marker && !marker.getMap()) {
+        marker.setMap(map);
+      }
+    }
+  });
+}
 
+var intervalId = 0;
+
+function startCounter() {
   $(".count").each(function () {
-    $(this).prop('Counter', 143758).animate({
+    $(this).prop("Counter", 3297585).animate({
       Counter: $(this).text()
     }, {
       duration: 4000,
       easing: 'swing',
       step: function (now) {
-        $(this).text(Math.ceil(now));
+        var number = Math.ceil(now);
+        var output = number.toLocaleString(); // number.toString().match(/\d{1,3}/g);
+
+        // console.log(output);
+        $(this).text(output);
       }
     });
   });
 
   setTimeout(function () {
     intervalId = setInterval(function () {
-      console.log("+1 sec.");
+      $(".count").each(function (i, item) {
+        var val = parseInt(item.innerHTML.replace(/,/g, ""));
+        
+        val += 1;
+        val = val.toLocaleString();
+        item.innerHTML = val;
+      });
     }, 1000);
-  }, 5000);
+  }, 4010);
 }
 
 var products;
@@ -97,7 +136,6 @@ function getProducts(){
        var json = JSON.parse(xobj.response);
        products = json.data;
        fillProducts(products);
-       console.log(products);
        getURL();
 			}
 		};
