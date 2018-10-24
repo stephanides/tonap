@@ -3,8 +3,13 @@ var map;
 var marker;
 
 $(document).ready(function() {
-  // exampleFunction();
   getProducts();
+  revealProducts();
+  startCounter();
+  scrollPage();
+});
+
+function revealProducts() {
   $(".productShowAllContainer > button").on("click", function(e) {
     var showAllProductsBtn = e.currentTarget;
     var btnIcon = $(showAllProductsBtn).find("i");
@@ -12,21 +17,17 @@ $(document).ready(function() {
     
     setTimeout(function () {
       if (btnIcon.hasClass("fa-caret-down")) {
-        console.log("SHOULD DO UP")
         $("#orderProduct").find(".productRowContainer:nth-child(2), .productRowContainer:nth-child(3)").addClass("active");
         btnIcon.removeClass("fa-caret-down").addClass("fa-caret-up");
         paragraph.html("Zobraziť menej");
       } else {
-        console.log("SHOULD DO DOWN");
         $("#orderProduct").find(".productRowContainer:nth-child(2), .productRowContainer:nth-child(3)").removeClass("active");
         btnIcon.removeClass("fa-caret-up").addClass("fa-caret-down");
         paragraph.html("Zobraziť všetky produkty");
       }
     }, 10);
   });
-  startCounter();
-  scrollPage();
-});
+}
 
 function goto(param){
   $('html, body').animate({scrollTop:$(param).position().top-120}, 'slow');
