@@ -17,11 +17,11 @@ function revealProducts() {
     
     setTimeout(function () {
       if (btnIcon.hasClass("fa-caret-down")) {
-        $("#orderProduct").find(".productRowContainer:nth-child(2), .productRowContainer:nth-child(3)").addClass("active");
+        $("#orderProduct").find(".productRowContainer:nth-child(2), .productRowContainer:nth-child(3)").show("slow"); // addClass("active");
         btnIcon.removeClass("fa-caret-down").addClass("fa-caret-up");
         paragraph.html("Zobraziť menej");
       } else {
-        $("#orderProduct").find(".productRowContainer:nth-child(2), .productRowContainer:nth-child(3)").removeClass("active");
+        $("#orderProduct").find(".productRowContainer:nth-child(2), .productRowContainer:nth-child(3)").hide("slow"); // removeClass("active");
         btnIcon.removeClass("fa-caret-up").addClass("fa-caret-down");
         paragraph.html("Zobraziť všetky produkty");
       }
