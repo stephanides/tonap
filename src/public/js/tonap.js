@@ -3,22 +3,24 @@
 $(document).ready(function() {
   // exampleFunction();
   getProducts();
-  $(".productShowAllContainer").on("click", function(e) {
-    var showAllProductsBtn = e.target;
+  $(".productShowAllContainer > button").on("click", function(e) {
+    var showAllProductsBtn = e.currentTarget;
     var btnIcon = $(showAllProductsBtn).find("i");
-    // var productsContainer = $("#orderProduct")// e.target.parentElement.parentElement;
-
-    console.log(btnIcon.hasClass("fa-caret-down"));
-
-    if ($(btnIcon).hasClass("fa-caret-down")) {
-      console.log("SHOULD DHO UP")
-      $("#orderProduct").find(".productRowContainer:nth-child(2), .productRowContainer:nth-child(3)").addClass("active");
-      $(btnIcon).removeClass("fa-caret-down").addClass("fa-caret-up");
-    } else {
-      console.log("SHOULD DO DOWN");
-      $("#orderProduct").find(".productRowContainer:nth-child(2), .productRowContainer:nth-child(3)").removeClass("active");
-      $(btnIcon).removeClass("fa-caret-up").addClass("fa-caret-down");
-    }
+    var paragraph = $(showAllProductsBtn).parent(".productShowAllContainer").find("p");
+    
+    setTimeout(function () {
+      if (btnIcon.hasClass("fa-caret-down")) {
+        console.log("SHOULD DO UP")
+        $("#orderProduct").find(".productRowContainer:nth-child(2), .productRowContainer:nth-child(3)").addClass("active");
+        btnIcon.removeClass("fa-caret-down").addClass("fa-caret-up");
+        paragraph.html("Zobraziť menej");
+      } else {
+        console.log("SHOULD DO DOWN");
+        $("#orderProduct").find(".productRowContainer:nth-child(2), .productRowContainer:nth-child(3)").removeClass("active");
+        btnIcon.removeClass("fa-caret-up").addClass("fa-caret-down");
+        paragraph.html("Zobraziť všetky produkty");
+      }
+    }, 10);
   });
 });
 
