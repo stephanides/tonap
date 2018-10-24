@@ -301,6 +301,14 @@ $break-xsmall:576px;
       }
     }
   }
+  #order {
+    #productOdberniky {
+      display: none;
+    }
+    #productSkumavky {
+      display: none;
+    }
+  }
   #orderProduct {
     position: relative;
     bottom: 140px;
@@ -827,21 +835,6 @@ $break-xsmall:576px;
 .position-absolute{position: absolute;}
 .top{top:0;margin-left: 50%;transform: translateX(-50%);}
 .white{background-color: white;}
-
-/*#productOdberniky {
-  display: none;
-
-  &.show {
-    display: block;
-  }
-}
-#productSkumavky {
-  display: none;
-
-  &.show {
-    display: block;
-  }
-}*/
 .modal{
   h4{
     color:$tonap-color;
