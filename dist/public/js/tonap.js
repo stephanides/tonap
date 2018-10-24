@@ -1,13 +1,30 @@
 // Main javascript file
 
 $(document).ready(function() {
-  exampleFunction();
+  // exampleFunction();
   getProducts();
+  $(".productShowAllContainer").on("click", function(e) {
+    var showAllProductsBtn = e.target;
+    var btnIcon = $(showAllProductsBtn).find("i");
+    // var productsContainer = $("#orderProduct")// e.target.parentElement.parentElement;
+
+    console.log(btnIcon.hasClass("fa-caret-down"));
+
+    if ($(btnIcon).hasClass("fa-caret-down")) {
+      console.log("SHOULD DHO UP")
+      $("#orderProduct").find(".productRowContainer:nth-child(2), .productRowContainer:nth-child(3)").addClass("active");
+      $(btnIcon).removeClass("fa-caret-down").addClass("fa-caret-up");
+    } else {
+      console.log("SHOULD DO DOWN");
+      $("#orderProduct").find(".productRowContainer:nth-child(2), .productRowContainer:nth-child(3)").removeClass("active");
+      $(btnIcon).removeClass("fa-caret-up").addClass("fa-caret-down");
+    }
+  });
 });
 
-function exampleFunction() {
+/*function exampleFunction() {
   console.log("App runs.");
-}
+}*/
 
 function goto(param){
   $('html, body').animate({scrollTop:$(param).position().top-120}, 'slow');
@@ -21,6 +38,7 @@ function loadMap(){
     fullscreenControl:false,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
+
   loadJSON(function(response) {
 		var loaded_json = JSON.parse(response);
 		var styledMapType = new google.maps.StyledMapType(loaded_json, {name: "Map"});
@@ -44,15 +62,15 @@ function loadMap(){
   var map = new google.maps.Map(document.getElementById("map"), mapOptions);
 }
 
-$('.count').each(function () {
+$(".count").each(function () {
     $(this).prop('Counter',0).animate({
-        Counter: $(this).text()
+      Counter: $(this).text()
     }, {
-        duration: 4000,
-        easing: 'swing',
-        step: function (now) {
-            $(this).text(Math.ceil(now));
-        }
+      duration: 4000,
+      easing: 'swing',
+      step: function (now) {
+        $(this).text(Math.ceil(now));
+      }
     });
 });
 
@@ -74,13 +92,15 @@ function getProducts(){
 }
 
 function fillProducts(products){
+  var orderPage = window.location.pathname.indexOf("online-objednavka") > -1 ? true : false;
+
   for (let i = 0; i < products.length; i++) {
     if(products[i].category == 1){
       var div = $("<div></div>").addClass("col-lg-3 col-md-6 col-12 text-center");
       $("<img>").attr("src", products[i].imageFilesData[0].url).appendTo(div);
       $("<p></p>").text(products[i].sterile && products[i].notSterile ? "Sterilné/Nesterilné" : products[i].sterile ? "Sterilné" : "Nesterilné").appendTo(div);
       $("<h6></h6>").text(products[i].title).appendTo(div);
-      $("<button></button>").text("Objednať teraz").attr("onclick", "orderProduct(" + "'" + products[i]._id + "'" + ")").appendTo(div);
+      $("<button></button>").text(orderPage ? "Objednať" : "Detail produktu").attr("onclick", "orderProduct(" + "'" + products[i]._id + "'" + ")").appendTo(div);
       div.appendTo("#productKelimky");
     }
     if(products[i].category == 2){
@@ -88,7 +108,7 @@ function fillProducts(products){
       $("<img>").attr("src", products[i].imageFilesData[0].url).appendTo(div);
       $("<p></p>").text(products[i].sterile && products[i].notSterile ? "Sterilné/Nesterilné" : products[i].sterile ? "Sterilné" : "Nesterilné").appendTo(div);
       $("<h6></h6>").text(products[i].title).appendTo(div);
-      $("<button></button>").text("Objednať teraz").attr("onclick", "orderProduct(" + "'" + products[i]._id + "'" + ")").appendTo(div);
+      $("<button></button>").text(orderPage ? "Objednať" : "Detail produktu").attr("onclick", "orderProduct(" + "'" + products[i]._id + "'" + ")").appendTo(div);
       div.appendTo("#productOdberniky");
     }
     if(products[i].category == 3){
@@ -96,12 +116,14 @@ function fillProducts(products){
       $("<img>").attr("src", products[i].imageFilesData[0].url).appendTo(div);
       $("<p></p>").text(products[i].sterile && products[i].notSterile ? "Sterilné/Nesterilné" : products[i].sterile ? "Sterilné" : "Nesterilné").appendTo(div);
       $("<h6></h6>").text(products[i].title).appendTo(div);
-      $("<button></button>").text("Objednať teraz").attr("onclick", "orderProduct(" + "'" + products[i]._id + "'" + ")").appendTo(div);
+      $("<button></button>").text(orderPage ? "Objednať" : "Detail produktu").attr("onclick", "orderProduct(" + "'" + products[i]._id + "'" + ")").appendTo(div);
       div.appendTo("#productSkumavky");
     }
   }
 }
+
 var choosedProduct;
+
 function orderProduct(id){
   document.getElementById("navigationOrder").innerHTML = "Pridať objednávku";
   for(var i=0; i<products.length;i++){
@@ -203,6 +225,7 @@ function showProduct(){
   }
   else{$("#productSkumavky").hide();}
 }
+
 function showProductMainpage(){
   if($("#mainselect").val()=="kelimky"){
     $("#productKelimky").show();
@@ -221,18 +244,18 @@ function showProductMainpage(){
   else{$("#productSkumavky").hide();}
 }
 
-
 function goToOrder(id){
   window.location = '/online-objednavka?id=' + id;
-  
 }
 
 function getURL(){
   if (document.location.href.indexOf('id=') === -1){ 
     return;
   }
+
   var URL = window.location.href;
   var id = URL.substring(URL.lastIndexOf('=') + 1);
+
   for(var i=0; i<products.length;i++){
     if(products[i]._id == id){
       choosedProduct = products[i];
@@ -257,10 +280,9 @@ function getURL(){
       $("#orderModal").modal();
     }
   }
-  console.log(choosedProduct);
 }
-var orderObject = [];
 
+var orderObject = [];
 var orderInProgress = {
   title:"",
   isSterile:false,
@@ -289,25 +311,38 @@ function fillOrder(id){
   console.log(orderObject);
 }
 
-
-
 function updateDetail(){
   var row;
   document.getElementById("detailOrder").innerHTML = '';
+
   for(var i=0; i < orderObject.length;i++){
+    var btnDel = document.createElement("button");
+    var btnEdit = document.createElement("button");
+    var iconDel = document.createElement("i");
+    var iconEdit = document.createElement("i"); 
 
-    var btnDel = document.createElement("a");
-    btnDel.className = "btn-danger rounded-circle";
-    btnDel.innerHTML = "&times;";
-
+    iconDel.className = "fas fa-trash ml-3" // "fas fa-trash";
+    iconEdit.className = "fas fa-pen";
+    btnDel.type = "button";
+    btnDel.appendChild(iconDel);
     btnDel.setAttribute("onclick", "deleteOrder(" + i + ");");
+    btnEdit.type = "button";
+    btnEdit.appendChild(iconEdit);
+    btnEdit.setAttribute("onclick", "editOrder(" + i + ");");
+
+    var sterility = orderObject[i].isSterile ? "Sterilný" : "Nesterilný";
+    var lastCell = document.createElement("td");
+    lastCell.className = "text-center";
 
     row = $("<tr></tr>");
     $("<td></td>").html(orderObject[i].title).appendTo(row);
-    $("<td></td>").html(orderObject[i].boxCount).appendTo(row);
-    $("<td class='edit' onclick=editOrder("+ i +")></td>").html("Upravit").appendTo(row);
+    $("<td class=\"border-right-0\"></td>").html(sterility).appendTo(row);
+    $("<td class=\"border-left-0\"></td>").html("<span class=\"font-weight-bold\">" + orderObject[i].boxCount + " ks.</span>").appendTo(row);
+    $(lastCell).append(btnEdit);
+    $(lastCell).append(btnDel).appendTo(row);
+    // $("<td class='edit' onclick=editOrder("+ i +") colspan=\"2\"></td>").html("Upravit").appendTo(row);
     //$("<td class='edit' onclick=deleteOrder("+ i +")></td>").html("Odstrániť").appendTo(row);
-    $("<td class='delete'></td>").html(btnDel).appendTo(row);
+    // $("<td class='delete'></td>").html(btnDel).appendTo(row);
     row.appendTo(document.getElementById("detailOrder"));
   }
 }
@@ -337,11 +372,10 @@ function updateOrder(param){
 }
 
 function deleteOrder(param){
-  console.log(param);
-  console.log(orderObject);
   for(var j=orderObject.length; j > 0;j--){
     document.getElementById("detailOrder").deleteRow(j-1);
   }
+
   orderObject.splice(param,1);
  
   for(var i=0; i < orderObject.length;i++){
@@ -359,13 +393,11 @@ function deleteOrder(param){
   }
 }
 
-
 var socket = null;
 
 if(typeof io === "function") {
 	socket = io();
 }
-
 
 function sendOrder(){
   event.preventDefault(); 
@@ -406,8 +438,6 @@ function sendOrder(){
    });
 }
 
-
-
 function sendEmail(){
   var contactObject = {};
   event.preventDefault(); 
@@ -428,6 +458,3 @@ function sendEmail(){
     }
    });
 }
-
-
-

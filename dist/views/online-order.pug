@@ -3,7 +3,7 @@ extends layout.pug
 block headerStyle
   link(rel="stylesheet", href="./assets/css/bootstrap-reboot.min.css", media="screen")
   link(rel="stylesheet", href="./assets/css/bootstrap-grid.min.css", media="screen")
-  link(rel="stylesheet", href="./assets/css/style.css", media="screen")
+  link(rel="stylesheet", href="./assets/css/style.min.css", media="screen")
 
 block content
   #wrapper
@@ -32,27 +32,30 @@ block content
         .row
           .col-12
             h5.pl-2.pt-4 1. Vyberte si produkty
-            select.ml-2.mt-2#orderselect(onchange="showProduct()")
-              option(value="kelimky" ) Masťovky a Kelímky
-              option(value="odberniky" ) Petriho misky a odberníky
-              option(value="skumavky" ) Skúmavky
+            .order-filter-container.col-4.pt-2.pb-2.pl-4.pr-4.mt-4.d-flex.jsutify-content-between
+              div
+                i.fas.fa-list-ul.pr-2
+                span.text-capitalize Filter
+              select.w-75.font-weight-bold#orderselect(onchange="showProduct()")
+                option(value="kelimky" ) Masťovky a Kelímky
+                option(value="odberniky" ) Petriho misky a odberníky
+                option(value="skumavky" ) Skúmavky
         .row.mr-0.ml-0.mt-6#productKelimky
         .row.mr-0.ml-0.mt-6#productOdberniky
         .row.mr-0.ml-0.mt-6#productSkumavky
           
         .row
           .col-lg-6
-            h5.pl-2 2. Detail objednávky
+            h5.mt-5.mb-4 2. Detail objednávky
             table#orderTable
               thead
                 tr
                   th Názov produktu
-                  th Množstvo
-                  th Upraviť
-                  th Odstrániť
+                  th(colspan="2").text-center Množstvo
+                  th.text-center Upraviť
               tbody#detailOrder
           .col-lg-6
-            h5.pl-2 3. Dokončenie objednávky
+            h5.mt-5.mb-4 3. Dokončenie objednávky
             form.pl-2.mt-4(onsubmit="sendOrder()")
               p Meno a priezvisko *
               input(name="name" type="text" id = "name" placeholder="Vaše meno a priezvisko" required)
@@ -88,6 +91,9 @@ block content
     .modal.fade#orderModal(tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true")
         .modal-dialog.modal-dialog-centered(role="document")
             .modal-content
+              .modal-header.justify-content-end
+                button(type="button", class="close", data-dismiss="modal", aria-label="Close")
+                  span(aria-hidden="true") &times;
               .modal-body
                 .container
                   .row
@@ -99,37 +105,37 @@ block content
                       form(action="")
                         .form-group
                           h5.pt-2 Typ produktu
-                            .choose
-                              .form-check.form-check-inline#modalSterilne
-                                input.form-check-input(type="radio" name="Sterilizacia" id="sterilizovany" value=true onclick="chooseSterility(0)")  
-                                label.form-check-label(for="sterilizovany") Sterilný
-                              .form-check.form-check-inline#modalNesterilne
-                                input.form-check-input(type="radio" name="Sterilizacia" id="nesterilizovany" value=false onclick="chooseSterility(1)")  
-                                label.form-check-label(for="nesterilizovany") Nesterilný
+                          .choose
+                            .form-check.form-check-inline#modalSterilne
+                              input.form-check-input(type="radio" name="Sterilizacia" id="sterilizovany" value=true onclick="chooseSterility(0)")  
+                              label.form-check-label(for="sterilizovany") Sterilný
+                            .form-check.form-check-inline#modalNesterilne
+                              input.form-check-input(type="radio" name="Sterilizacia" id="nesterilizovany" value=false onclick="chooseSterility(1)")  
+                              label.form-check-label(for="nesterilizovany") Nesterilný
                         .form-group
                           h5.pt-2 Balené
-                            .choose
-                              .form-check.form-check-inline#modalPackageType1
-                                input.form-check-input(type="radio" name="Balenie" id="balenie1" value="1")  
-                                label.form-check-label#labelBalenie1(for="balenie1") 
-                              .form-check.form-check-inline#modalPackageType2
-                                input.form-check-input(type="radio" name="Balenie" id="balenie2" value="20")  
-                                label.form-check-label#labelBalenie2(for="balenie2")
-                              p.alert#nonPackageType Zvoľte typ produktu
+                          .choose
+                            .form-check.form-check-inline#modalPackageType1
+                              input.form-check-input(type="radio" name="Balenie" id="balenie1" value="1")  
+                              label.form-check-label#labelBalenie1(for="balenie1") 
+                            .form-check.form-check-inline#modalPackageType2
+                              input.form-check-input(type="radio" name="Balenie" id="balenie2" value="20")  
+                              label.form-check-label#labelBalenie2(for="balenie2")
+                            p.alert#nonPackageType Zvoľte typ produktu
                         .form-group
                           h5.pt-2 Veľkosť krabice
-                            .choose
-                              .form-check.form-check-inline#modalPackage1
-                                input.form-check-input(type="radio" name="Krabica" id="krabica1" value="500")  
-                                label.form-check-label#package1(for="krabica1")
-                              .form-check.form-check-inline#modalPackage2
-                                input.form-check-input(type="radio" name="Krabica" id="krabica2" value="1000")  
-                                label.form-check-label#package2(for="krabica2")
-                              p.alert#nonPackage Zvoľte typ produktu
+                          .choose
+                            .form-check.form-check-inline#modalPackage1
+                              input.form-check-input(type="radio" name="Krabica" id="krabica1" value="500")  
+                              label.form-check-label#package1(for="krabica1")
+                            .form-check.form-check-inline#modalPackage2
+                              input.form-check-input(type="radio" name="Krabica" id="krabica2" value="1000")  
+                              label.form-check-label#package2(for="krabica2")
+                            p.alert#nonPackage Zvoľte typ produktu
                         .form-group
                           h5.pt-2 Počet krabíc
-                            .choose
-                              input(type="number" id="modalPackageCount" min="1" step="1" value="1")
+                          .choose.productItemsCount.position-relative
+                            input(type="number" id="modalPackageCount" min="1" step="1" value="1")
 
                       button.mt-4.mb-4#navigationOrder Pridať objednávku
     .modal.fade#successOrder

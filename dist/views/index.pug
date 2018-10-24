@@ -3,14 +3,14 @@ extends layout.pug
 block headerStyle
   link(rel="stylesheet", href="./assets/css/bootstrap-reboot.min.css", media="screen")
   link(rel="stylesheet", href="./assets/css/bootstrap-grid.min.css", media="screen")
-  link(rel="stylesheet", href="./assets/css/style.css", media="screen")
+  link(rel="stylesheet", href="./assets/css/style.min.css", media="screen")
 
 block content
   #wrapper
     .container-fluid.white#navMenu
       .container.nav-menu
         .row.justify-content-between
-          a.logo(href="")
+          a.logo(href="" title="Tonap")
             img(src="./assets/images/tonap_logo.svg", alt="")
           label.show-menu(for = 'show-menu')
             img(src="./assets/images/icons/menu.svg", alt="")
@@ -51,7 +51,7 @@ block content
                 img.lazyload(data-src="./assets/images/icons/firstcard.png", alt="")
               .textarea
                 p Vyrobili sme
-                h4 #[span.count 10000] ks
+                h4 #[span.count 12700000] ks
             h4 Výroba kelimkov <br>na lieky a krémy
             .divider
             p Macaroon brownie cake carrot cake. Sesame snaps sweet icing cake sweet roll. Tart halvah tiramisu sweet liquorice bear claw. Tart cotton candy chupa chups lolipoop tart pastrz liquorice muffin.
@@ -62,7 +62,7 @@ block content
                 img.lazyload(data-src="./assets/images/icons/secondcard.png", alt="")
               .textarea
                 p Vyrobili sme
-                h4 #[span.count 10000] ks
+                h4 #[span.count 9000000] ks
             h4 Výroba skúmaviek <br>a odberníkov
             .divider
             p Macaroon brownie cake carrot cake. Sesame snaps sweet icing cake sweet roll. Tart halvah tiramisu sweet liquorice bear claw. Tart cotton candy chupa chups lolipoop tart pastrz liquorice muffin.
@@ -73,8 +73,8 @@ block content
                 img.lazyload(data-src="./assets/images/icons/thirdcard.png", alt="")
               .textarea
                 p Vyrobili sme
-                h4 #[span.count 10000] ks
-            h4 Výroba stojanov <br>na skúmavky
+                h4 #[span.count 3300000] ks
+            h4 Výroba petriho misiek <br>
             .divider
             p Macaroon brownie cake carrot cake. Sesame snaps sweet icing cake sweet roll. Tart halvah tiramisu sweet liquorice bear claw. Tart cotton candy chupa chups lolipoop tart pastrz liquorice muffin.
     
@@ -83,15 +83,26 @@ block content
         h4 Naše produkty
         p Sweet powder topping cupcake fruitcake liquorice cookie.
         .row
-          .mainselect
+          // .mainselect
             select.ml-2.mt-2#mainselect(onchange="showProductMainpage()")
               option(value="kelimky" ) Masťovky a Kelímky
               option(value="odberniky" ) Petriho misky a odberníky
               option(value="skumavky" ) Skúmavky
       .container.mt-5
-        .row#productKelimky
-        .row#productOdberniky
-        .row#productSkumavky
+        .productRowContainer
+          h5.text-center Kelímky
+          .row.mb-4#productKelimky
+        .productRowContainer
+          h5.text-center Skúmavky a odberníky
+          .row.mb-4#productOdberniky
+        .productRowContainer
+          h5.text-center Petriho misky
+          .row.mb-4#productSkumavky
+      .container.mt-4.text-center.productShowAllContainer
+        button(type="button") 
+          i.fas.fa-caret-down
+        //&#x25BC;
+        //&#x25B2;
     section#aboutus
       .container
         .row
@@ -103,7 +114,7 @@ block content
             h3 Sme 20 rokov súčasťou <br> zdravotníctva na Slovensku
             .divider
             p Sweet poweder topping cupcake fruitcake liquorice cookie. Liquorice apple pie apple pie fruitcake pie oat cake carrot cake lemon drops. Wafet pastry marshmallow cotoon candy pastry marzipan. Cake fruit cake brownie cupcake gingerbread. Tiramius gummies icing halvah. Cake muffin icing liquorice jelly cookie sweet.
-            button Kontaktujte nás
+            //button Kontaktujte nás
     .container-fluid.contact.position-relative#contact
       .row
         .col-lg-6.col-12.pr-0.pl-0
@@ -144,7 +155,7 @@ block content
               a(href="/obchodne-podmienky") Obchodné podmienky
             .footerlink
               a(href="/reklamacne-podmienky") Reklamačné podmienky
-            .footerlink
+            //.footerlink
               a(href="/cennik") Cenník PDF
             .footerlink
               a(href="/ochrana-osobnych-udajov") Ochrana osobných údajov
@@ -162,7 +173,7 @@ block content
                       h4.pt-4#mainTitle
                       p#isSterilized
                       p#productDescription
-                      h5.pt-2 Parametre produktu
+                      h5.pt-2.font-weight-bold Parametre produktu
                       p.mb-0#productHeight
                       p.mb-0#productDepth
                       p.mb-0#productVolume
