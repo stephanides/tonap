@@ -15,20 +15,20 @@ export default class Form extends React.PureComponent<IProps, {}> {
       <form onSubmit={this.props.submitForm}>
         {this.props.register ? registerElements : null}
         <div className="form-group">
-          <label htmlFor="email">Email address</label>
+          <label htmlFor="email">Emailová addresa</label>
           <input
             type="email"
             className="form-control"
             id="email"
             aria-describedby="emailHelp"
-            placeholder="Enter email"
+            placeholder="Zadaj svoju emailovú adresu"
             required
           />
-          <small id="emailHelp" className="form-text text-muted">We"ll never share your email with anyone else.</small>
+          <small id="emailHelp" className="form-text text-muted">Systém nezdieľa tvoje dáta s žiadnymi tretími stranami.</small>
         </div>
         <div className="form-group">
-          <label htmlFor="password">Password</label>
-          <input type="password" className="form-control" id="password" placeholder="Password" required />
+          <label htmlFor="password">Heslo</label>
+          <input type="password" className="form-control" id="password" placeholder="Zadaj heslo" required />
         </div>
         {this.props.register ? retypePassword : null}
         <div className="form-group text-center">
@@ -41,17 +41,17 @@ export default class Form extends React.PureComponent<IProps, {}> {
 
 const registerElements = [
   <div className="form-group" key={0}>
-    <label htmlFor="firstName">First Name</label>
-    <input id="firstName" type="text" className="form-control" placeholder="Enter first name" required />
+    <label htmlFor="firstName">Meno</label>
+    <input id="firstName" type="text" className="form-control" placeholder="Zadaj svoje meno" required />
   </div>,
   <div className="form-group" key={1}>
-    <label htmlFor="lastName">Last Name</label>
-    <input id="lastName" type="text" className="form-control" placeholder="Enter last name" required />
+    <label htmlFor="lastName">Priezvisko</label>
+    <input id="lastName" type="text" className="form-control" placeholder="Zadaj svoje priezvisko" required />
   </div>];
 
 const retypePassword = (
   <div className="form-group">
-    <label htmlFor="retypePassword">Retype Password</label>
-    <input type="password" className="form-control" id="retypePassword" placeholder="Retype Password" required />
+    <label htmlFor="retypePassword">Zopakuj heslo</label>
+    <input type="password" className="form-control" id="retypePassword" placeholder="Zopakuj heslo" required />
   </div>
 );
