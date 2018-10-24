@@ -22,6 +22,7 @@ $(document).ready(function() {
       }
     }, 10);
   });
+  startCounter();
 });
 
 /*function exampleFunction() {
@@ -64,8 +65,11 @@ function loadMap(){
   var map = new google.maps.Map(document.getElementById("map"), mapOptions);
 }
 
-$(".count").each(function () {
-    $(this).prop('Counter',0).animate({
+function startCounter() {
+  var intervalId = 0;
+
+  $(".count").each(function () {
+    $(this).prop('Counter', 143758).animate({
       Counter: $(this).text()
     }, {
       duration: 4000,
@@ -74,7 +78,14 @@ $(".count").each(function () {
         $(this).text(Math.ceil(now));
       }
     });
-});
+  });
+
+  setTimeout(function () {
+    intervalId = setInterval(function () {
+      console.log("+1 sec.");
+    }, 1000);
+  }, 5000);
+}
 
 var products;
 
