@@ -90,13 +90,13 @@ block content
               option(value="skumavky" ) Skúmavky
       .container.mt-5
         .productRowContainer
-          h5.text-center Kelímky
+          h5.text-center.mb-4 Kelímky
           .row.mb-4#productKelimky
-        .productRowContainer
-          h5.text-center Skúmavky a odberníky
+        .productRowContainer.mb-4
+          h5.text-center.mb-4 Petriho misky
           .row.mb-4#productOdberniky
         .productRowContainer
-          h5.text-center Petriho misky
+          h5.text-center.mb-4 Skúmavky a odberníky
           .row.mb-4#productSkumavky
       .container.mt-4.text-center.productShowAllContainer
         button(type="button") 
@@ -164,6 +164,9 @@ block content
     .modal.fade#productModal(tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true")
         .modal-dialog.modal-dialog-centered(role="document")
             .modal-content
+              .modal-header.justify-content-end
+                button(type="button", class="close", data-dismiss="modal", aria-label="Close")
+                  span(aria-hidden="true") &times;
               .modal-body
                 .container
                   .row
