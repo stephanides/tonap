@@ -603,7 +603,9 @@ export default class App extends React.Component<{}, IAppState> {
       let newData: object[] = [];
 
       for (let i = 0; i < data.length; i++) {
-        if ((data[i] as any).state === state) {
+        if ((data[i] as any).state === 4 && state === 1) {
+          newData.push(data[i]);
+        } else if ((data[i] as any).state === state) {
           newData.push(data[i]);
         }
       }

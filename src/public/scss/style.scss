@@ -866,6 +866,10 @@ $break-xsmall:576px;
     color:$tonap-color;
     font-size: 24px;
     font-weight: bold;
+
+    &.position-absolute {
+      top: 0;
+    }
   }
   p{
     font-size: 16px;

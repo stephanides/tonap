@@ -19,6 +19,7 @@ interface IOrder {
   // city?: string;
   billingAddress?: IAddress;
   company?: string;
+  dateCreated?: string;
   dateModified?: string;
   deliveryAddress?: IAddress;
   deliveryTime?: number;
@@ -65,6 +66,12 @@ const OrderManagerModal = (props: IProps) => {
   (
     order.dateModified ?
     order.dateModified.split("T")[0].split("-")[2] + "." + order.dateModified.split("T")[0].split("-")[1] + "." + order.dateModified.split("T")[0].split("-")[0] :
+    null
+  ) : null;
+  const orderDateCreated = order ?
+  (
+    order.dateCreated ?
+    order.dateCreated.split("T")[0].split("-")[2] + "." + order.dateCreated.split("T")[0].split("-")[1] + "." + order.dateCreated.split("T")[0].split("-")[0] :
     null
   ) : null;
 
@@ -130,6 +137,7 @@ const OrderManagerModal = (props: IProps) => {
                       }
                     </tbody>
                   </table>
+                  <h6>Dátum prijatia objednávky: <span className="text-info">{orderDateCreated}</span></h6>
                   <table className="border w-100" cellPadding="10" cellSpacing="5">
                     <tbody>
                       <tr>
@@ -219,7 +227,7 @@ const OrderManagerModal = (props: IProps) => {
                             handleChangeOrderState(currentOrderState);
                           }}
                           value={orderState}
-                          disabled={order.state > 1 ? true : false}
+                          disabled={order.state > 1 && order.state < 4 ? true : false}
                         >
                           <option value="0" disabled={true}>Nová objednávka</option>
                           <option value="1" disabled={order.state == 1 ? true : false}>Vybavuje sa</option>
@@ -273,7 +281,11 @@ const OrderManagerModal = (props: IProps) => {
                                 ) : <p className="text-danger">Záväzne dodať objednávku do 15. prac. dní, odo dňa <strong>{orderMDate ? orderMDate : clientDate}</strong>.</p>
                               ) : <p className="text-danger">Záväzne dodať objednávku do 10. prac. dní, odo dňa <strong>{orderMDate ? orderMDate : clientDate}</strong>.</p>
                             ) : <p className="text-danger">Záväzne dodať objednávku do 5. prac. dní, odo dňa <strong>{orderMDate ? orderMDate : clientDate}</strong>.</p>
-                          ) : <p className="text-success">Objednávka je vybavená.</p>
+                          ) : 
+                          orderState > 3 ?
+                          <p className="text-danger">Nie je špecifikovaný čas dodania objednávky.<br />
+                          Objednávka sa <strong>VYBAVUJE</strong> odo dňa: <strong>{orderMDate ? orderMDate : clientDate}</strong></p> :
+                          <p className="text-success">Objednávka je vybavená.</p>
                         ) : null
                       }
                     </div>
@@ -289,10 +301,9 @@ const OrderManagerModal = (props: IProps) => {
                           id="message"
                           name="message"
                           rows={6}
-                          onFocus={() => handleChangeOrderState(-1)}
+                          onFocus={() => handleChangeOrderState(4) /*-1*/}
                           onBlur={() => {
-                            console.log("Lost focus");
-                            handleChangeOrderState(oldOrderState);
+                            // handleChangeOrderState(oldOrderState);
                           }}
                           placeholder="Sem napíš správu o stave objednávky, ktorá bude odoslaná zákazníkovi.&#10;&#10;Vyplnením tohto textového poľa, budú predošlé informácie o čase vybavenia obj. ignorované."
                           disabled={orderState !== 0 ? false : true}
@@ -319,8 +330,12 @@ const OrderManagerModal = (props: IProps) => {
                           disabled={
                             orderState > 0 ? (
                               order.state > 1 ?
-                              true : false
-                            ) : true}
+                              (
+                                order.state < 3 ?
+                                true : false 
+                              ) : false
+                            ) : true
+                          }
                         >Upraviť stav objednávky</button>
                       </div>
                     </div>

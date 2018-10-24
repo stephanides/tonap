@@ -127,7 +127,7 @@ export default class Products extends React.Component<IProps, {}> {
                 <tbody>
                   {
                     this.props.pageData.map((item, i) => {
-                      const state = ["Nová", "Vybavuje sa", "Vybavená", "Stornovaná"];
+                      const state = ["Nová", "Vybavuje sa", "Vybavená", "Stornovaná", "Vybavuje sa"];
                       const roughDate = (item as any).dateCreated.split("T")[0];
                       const date = `${roughDate.split("-")[2]}.${roughDate.split("-")[1]}.${roughDate.split("-")[0]}`;
                       let orderedProductCount;
@@ -143,7 +143,7 @@ export default class Products extends React.Component<IProps, {}> {
                       }
 
                       return (
-                        <tr key={i+1} className={(item as any).state > 2 ? "disable" : null}>
+                        <tr key={i+1} className={((item as any).state === 3) ? "disable" : null}>
                           <th scope="row">{i+1}</th>
                           <td>{(item as any).orderNum}</td>
                           <td>{date}</td>
@@ -154,7 +154,11 @@ export default class Products extends React.Component<IProps, {}> {
                                 (item as any).state > 1 ?
                                 (
                                   (item as any).state > 2 ?
-                                  "text-muted font-weight-bold" : "text-success font-weight-bold"
+                                  (
+                                    (item as any).state > 3 ?
+                                    "text-warning font-weight-bold" : "text-muted font-weight-bold"
+                                  )
+                                  : "text-success font-weight-bold"
                                 ) : "text-warning font-weight-bold"
                               ) : "text-danger font-weight-bold"
                             }>
@@ -169,7 +173,7 @@ export default class Products extends React.Component<IProps, {}> {
                                 () => this.props.showOrderManager((item as any).orderNum)
                               }
                               type="button"
-                              disabled={(item as any).state > 2 ? true : false}
+                              disabled={(item as any).state === 3 ? true : false}
                             >Detail</button>
                           </td>
                           <td>
@@ -177,7 +181,7 @@ export default class Products extends React.Component<IProps, {}> {
                               className="btn btn-danger"
                               type="button"
                               onClick={() => this.props.handleCancelOrderState((item as any)._id)}
-                              disabled={(item as any).state > 1 ? true : ((item as any).state > 2 ? true : false)}
+                              disabled={(item as any).state > 1 ? true : ((item as any).state > 2 && (item as any).state < 4 ? true : false)}
                             >Storno</button>
                           </td>
                         </tr>
