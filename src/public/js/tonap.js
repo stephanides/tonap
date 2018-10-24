@@ -28,10 +28,6 @@ $(document).ready(function() {
   scrollPage();
 });
 
-/*function exampleFunction() {
-  console.log("App runs.");
-}*/
-
 function goto(param){
   $('html, body').animate({scrollTop:$(param).position().top-120}, 'slow');
 }
@@ -145,7 +141,7 @@ function getProducts(){
 function fillProducts(products){
   var orderPage = window.location.pathname.indexOf("online-objednavka") > -1 ? true : false;
 
-  for (let i = 0; i < products.length; i++) {
+  for (var i = 0; i < products.length; i++) {
     if(products[i].category == 1){
       var div = $("<div></div>").addClass("col-lg-3 col-md-6 col-12 text-center");
       $("<img>").attr("src", products[i].imageFilesData[0].url).appendTo(div);

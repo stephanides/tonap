@@ -28,10 +28,6 @@ $(document).ready(function() {
   scrollPage();
 });
 
-/*function exampleFunction() {
-  console.log("App runs.");
-}*/
-
 function goto(param){
   $('html, body').animate({scrollTop:$(param).position().top-120}, 'slow');
 }
