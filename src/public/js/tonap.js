@@ -44,7 +44,7 @@ function loadMap() {
   };
 
   var markerIcon = {
-    url: window.location.origin + '/assets/images/map-marker.png',
+    url: window.location.origin + "/assets/images/icons/logofooter.png", // map-marker.png',
     scaledSize: new google.maps.Size(42, 60),
     labelOrigin: new google.maps.Point(21, 80),
     labelAnchor: new google.maps.Point(0, 0)
@@ -54,7 +54,7 @@ function loadMap() {
     position: latlng,
     animation: google.maps.Animation.DROP,
     icon: markerIcon, //'./dist/img/map-marker.png',
-    label: { color: '#fff', fontWeight: 'bold', fontSize: '14px', text: 'ENLI SHOWROOM' },
+    label: { color: "#0669bb", fontWeight: "bold", fontSize: '14px', text: "Tonap s. r. o." },
     map: map
   });
 
