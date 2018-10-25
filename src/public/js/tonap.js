@@ -75,7 +75,6 @@ function loadMap() {
   });
 
   map = new google.maps.Map(document.getElementById("map"), mapOptions);
-  console.log("MAP LOADED");
 
   loadJSON(function(response) {
 		var loaded_json = JSON.parse(response);
@@ -113,12 +112,11 @@ function scrollPage() {
       }
     }
     if (pY >= 1500) {
-      if (map === null) {
+      if (map === null && !googleScriptLoaded) {
         var googleScript = document.createElement("script");
+        googleScriptLoaded = true;
         
-        googleScript.onload = function () {
-          googleScriptLoaded = true;
-        };
+        googleScript.onload = function () {};
         googleScript.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyBGuAMy2poB-W_gNCuKoKejHIh3LeyDZ_E&callback=loadMap";
         
         document.body.append(googleScript);
