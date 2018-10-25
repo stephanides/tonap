@@ -112,7 +112,7 @@ function scrollPage() {
         counterInterval();
       }
     }
-    if (pY >= 1800) {
+    if (pY >= 1500) {
       if (map === null) {
         var googleScript = document.createElement("script");
         
@@ -123,9 +123,11 @@ function scrollPage() {
         
         document.body.append(googleScript);
       }
-      if(marker && map && googleScriptLoaded && !markerJumped) {
-        marker.setMap(map);
-        markerJumped = true;
+      if (pY >= 1800) {
+        if(marker && map && googleScriptLoaded && !markerJumped) {
+          marker.setMap(map);
+          markerJumped = true;
+        }
       }
     }
   });
