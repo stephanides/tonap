@@ -182,6 +182,9 @@ $break-xsmall:576px;
     @media screen and (max-width: $break-large) {
       bottom: 180px;
     }
+    @media screen and (max-width: $break-medium) {
+      bottom: 70px;
+    }
 
     .col-md-4 {
       padding: 25px;
