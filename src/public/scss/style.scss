@@ -189,6 +189,14 @@ $break-xsmall:576px;
     .col-md-4 {
       padding: 25px;
       background-color: white;
+
+      &:first-child {
+        .icon {
+          picture {
+            width: 15%;
+          }
+        }
+      }
       
       h4 {
         // width: 145px;
@@ -294,26 +302,6 @@ $break-xsmall:576px;
         margin: 15px 0px;
       }
     }
-
-    /*.col-sm-12 {
-      h4 {
-        span {
-          &:last-child {
-            left: 33%;
-          }
-        }
-      }
-    }
-
-    .col-lg-4 {
-      h4 {
-        span {
-          &:last-child {
-            left: 75%;
-          }
-        }
-      }
-    }*/
   }
   #aboutus{
     position: relative;
@@ -373,7 +361,8 @@ $break-xsmall:576px;
   }
   #orderProduct {
     position: relative;
-    bottom: 140px;
+    bottom: 90px; // 140px;
+
     @media screen and (max-width: $break-small) {
       top: 101px;
       padding-top: 20px;
