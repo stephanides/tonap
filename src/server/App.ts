@@ -95,22 +95,26 @@ class App {
   * Methode listing all routes of the application
   */
   private routes(): void {
-    this.router.get("/", (req, res) => { res.render("index", { page: "index" }); });
-    this.router.get("/admin", (req, res) => { res.render("admin"); });
+    this.router.get("/", (req, res) => { res.render("index", { page: "Tonap" }); });
+    this.router.get("/admin", (req, res) => { res.render("admin", { page: "Admin"}); });
     this.router.get("/admin/setup", async (req, res) => {
       const user: object = await Users.findOne({ role: 2 });
 
       if (!user) {
-        res.render("admin");
+        res.render("admin", { page: "Admin"});
       } else {
-        res.render("error");
+        res.render("error", { page: "Admin"});
       }
     });
-    this.router.get("/admin/:action", (req, res) => { res.render("admin"); });
-    this.router.get("/gdpr", (req, res) => { res.render("gdpr", { page: "gdpr" }); });
-    this.router.get("/online-objednavka", (req, res) => { res.render("online-order", { page: "online-order" }); });
+    this.router.get("/admin/:action", (req, res) => {
+      const title = req.params.action.charAt(0).toUpperCase() + req.params.action.substr(1);
+      
+      res.render("admin", { page: `Tonap | ${title}` });
+    });
+    this.router.get("/gdpr", (req, res) => { res.render("gdpr", { page: `Tonap | GDPR` }); });
+    this.router.get("/online-objednavka", (req, res) => { res.render("online-order", { page: "Tonap | Objednávka" }); });
     this.router.get("/obchodne-podmienky", (req, res) => {
-      res.render("business-conditions", { page: "business-conditions" });
+      res.render("business-conditions", { page: "Tonap | Obchodné podmienky" });
     });
 
     this.io.on("connection", (socket) => {

@@ -145,6 +145,17 @@ export default class App extends React.Component<{}, IAppState> {
   }
 
   public render() {
+    const locationInput: string[] = window.location.pathname.split("/");
+    let loc: string;
+
+    if (locationInput.length > 2) {
+      loc = locationInput[2].charAt(0).toUpperCase() + locationInput[2].substr(1);
+    } else {
+      loc = locationInput[1].charAt(0).toUpperCase() + locationInput[1].substr(1);
+    }
+
+    document.getElementsByTagName("title")[0].innerHTML = loc === "Admin" ? "Tonap | Admin" : `Tonap | Admin - ${loc}`;
+
     return(
       <Router history={history}>
         <Switch>
