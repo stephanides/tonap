@@ -18,9 +18,9 @@ block content
         .row.justify-content-between
           a.logo(href="" title="Tonap")
             img(src="./assets/images/tonap_logo.svg", alt="Tonap s. r. o.")
-          label.show-menu(for = 'show-menu')
+          label.show-menu(for="show-menu")
             img(src="./assets/images/icons/menu.svg", alt="Menu navigation - Tonap")
-          input#show-menu(type = 'checkbox' role = 'button')
+          input#show-menu(type="checkbox" role="button" aria-label="Zobraziť navigáciu")
           ul#menu
             li
               a(onclick="goto('#header')" href="#") Domov
@@ -42,7 +42,7 @@ block content
               h6 Najkvalitnejšie
               h3 ZDRAVOTNÍCKE
               h3 POTREBY
-              button(onclick="goto('#orderProduct')") Pozrieť produkty
+              button(onclick="goto('#orderProduct')", aria-label="Pozrieť produkty") Pozrieť produkty
             .col-6
               picture
                 source(data-srcset="./assets/images/woman.webp", alt="", type="image/webp")
@@ -106,7 +106,7 @@ block content
           .row.mb-4#productSkumavky
       .container.mt-4.text-center.productShowAllContainer.position-relative
         .line-trought.position-absolute
-        button(type="button") 
+        button(type="button", aria-label="Zobraziť/Skryť produkty") 
           i.fas.fa-caret-down
         p.text-center.font-weight-bold.text-dark.mt-2 Zobraziť všetky produkty
         //&#x25BC;
@@ -122,7 +122,6 @@ block content
             h3 Sme 20 rokov súčasťou <br> zdravotníctva na Slovensku
             .divider
             p Sweet poweder topping cupcake fruitcake liquorice cookie. Liquorice apple pie apple pie fruitcake pie oat cake carrot cake lemon drops. Wafet pastry marshmallow cotoon candy pastry marzipan. Cake fruit cake brownie cupcake gingerbread. Tiramius gummies icing halvah. Cake muffin icing liquorice jelly cookie sweet.
-            //button Kontaktujte nás
     .container-fluid.contact.position-relative#contact
       .row
         .col-lg-6.col-12.pr-0.pl-0
@@ -189,7 +188,7 @@ block content
                       p.mb-0#productDepth
                       p.mb-0#productVolume
                       p.mb-0#productWeight
-                      button.mt-4.mb-4#navigationOrder Prejsť do objednávky
+                      button.mt-4.mb-4#navigationOrder(aria-label="Prejsť do objednávky") Prejsť do objednávky
     .modal.fade#successEmail
       .modal-dialog
         .modal-content
@@ -197,7 +196,7 @@ block content
             h4.modal-title.text-center Ďakujeme!
           .modal-body.text-center Vaša správa bola úspešne odoslaná!
           .modal-footer
-            button.btn.btn-danger(type="button" data-dismiss="modal") Zavrieť
+            button.btn.btn-danger(type="button" data-dismiss="modal" aria-label="Close") Zavrieť
              
 block scripts
   script(src="./assets/js/lazysizes.min.js", deffer)

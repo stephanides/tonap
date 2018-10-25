@@ -14,7 +14,7 @@ block content
             img(src="./assets/images/tonap_logo.svg", alt="Tonap s. r. o.")
           label.show-menu(for='show-menu')
             img(src="./assets/images/icons/menu.svg", alt="Tonap s. r. o.")
-          input#show-menu(type='checkbox', role='button')
+          input#show-menu(type='checkbox', role='button', aria-label="Zobraziť navigáciu")
           ul#menu
             li
               a(href="/") Domov
@@ -148,7 +148,7 @@ block content
             h4.modal-title.text-center.position-absolute Ďakujeme!
             p Vaša objednávka bola úspešne odoslaná!#[br]Bližšie informácie Vám boli zaslané na Váš email. 
           .modal-footer
-            button.btn.btn-danger(type="button" data-dismiss="modal") Zavrieť
+            button.btn.btn-danger(type="button", data-dismiss="modal", aria-label="Close") Zavrieť
     
     script(src="./assets/js/socket.io.slim.js", deffer)
     script(src="./assets/js/lazysizes.min.js", deffer)

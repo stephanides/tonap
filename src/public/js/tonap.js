@@ -184,7 +184,7 @@ function fillProducts(products){
   for (var i = 0; i < products.length; i++) {
     if(products[i].category == 1){
       var div = $("<div></div>").addClass("col-lg-3 col-md-6 col-12 text-center");
-      $("<img class=\"lazyload\">").attr("data-src", products[i].imageFilesData[0].url).appendTo(div);
+      $("<img class=\"lazyload\" alt=\"Tonap - " + products[i].title + "\">").attr("data-src", products[i].imageFilesData[0].url).appendTo(div);
       $("<p></p>").text(products[i].sterile && products[i].notSterile ? "Sterilné/Nesterilné" : products[i].sterile ? "Sterilné" : "Nesterilné").appendTo(div);
       $("<h6></h6>").text(products[i].title).appendTo(div);
       $("<button></button>").text(orderPage ? "Objednať" : "Detail produktu").attr("onclick", "orderProduct(" + "'" + products[i]._id + "'" + ")").appendTo(div);
@@ -192,7 +192,7 @@ function fillProducts(products){
     }
     if(products[i].category == 2){
       var div = $("<div></div>").addClass("col-lg-3 col-md-6 col-12 text-center");
-      $("<img class=\"lazyload\">").attr("data-src", products[i].imageFilesData[0].url).appendTo(div);
+      $("<img class=\"lazyload\" alt=\"Tonap - " + products[i].title + "\">").attr("data-src", products[i].imageFilesData[0].url).appendTo(div);
       $("<p></p>").text(products[i].sterile && products[i].notSterile ? "Sterilné/Nesterilné" : products[i].sterile ? "Sterilné" : "Nesterilné").appendTo(div);
       $("<h6></h6>").text(products[i].title).appendTo(div);
       $("<button></button>").text(orderPage ? "Objednať" : "Detail produktu").attr("onclick", "orderProduct(" + "'" + products[i]._id + "'" + ")").appendTo(div);
@@ -200,7 +200,7 @@ function fillProducts(products){
     }
     if(products[i].category == 3){
       var div = $("<div></div>").addClass("col-lg-3 col-md-6 col-12 text-center");
-      $("<img class=\"lazyload\">").attr("data-src", products[i].imageFilesData[0].url).appendTo(div);
+      $("<img class=\"lazyload\" alt=\"Tonap - " + products[i].title + "\">").attr("data-src", products[i].imageFilesData[0].url).appendTo(div);
       $("<p></p>").text(products[i].sterile && products[i].notSterile ? "Sterilné/Nesterilné" : products[i].sterile ? "Sterilné" : "Nesterilné").appendTo(div);
       $("<h6></h6>").text(products[i].title).appendTo(div);
       $("<button></button>").text(orderPage ? "Objednať" : "Detail produktu").attr("onclick", "orderProduct(" + "'" + products[i]._id + "'" + ")").appendTo(div);
