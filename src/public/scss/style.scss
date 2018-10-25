@@ -1,7 +1,7 @@
 // Sass
 $spaceamounts: (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 $sides: (top, bottom, left, right);
-$breakpoint-tablet: 768px;
+$breakpoint-tablet:768px;
 $tonap-color: #3177B1; // rgb(59,138,204);
 $tonap-color-hover: #85d4ec;
 $tonap-p-text: #47535D; // rgb(128,142,153);
@@ -148,11 +148,11 @@ $break-xsmall:576px;
     }
     h3{
       color: white;
-      font-size: 50px;
+      font-size: 2rem;
       font-weight: bold;
       line-height: 1;
       @media screen and (max-width: $break-small) {
-        font-size: 36px;
+        font-size: 1.5rem;
       }
     }
     button{
@@ -168,7 +168,7 @@ $break-xsmall:576px;
       cursor: pointer;
     }
   }
-  #products{
+  #products {
     position: relative;
     bottom: 200px;
     @media screen and (max-width: $break-small) {
@@ -182,16 +182,11 @@ $break-xsmall:576px;
     @media screen and (max-width: $break-large) {
       bottom: 180px;
     }
-    
-    .col-md-4{
-      padding: 28px 32px;
+
+    .col-md-4 {
+      padding: 25px;
       background-color: white;
-      @media screen and (min-width: $breakpoint-tablet) {
-        max-width: 31.333%;
-      }
-      @media screen and (max-width: $break-small) {
-        margin: 15px 0px;
-      }
+      
       h4 {
         // width: 145px;
         // font-size: 28px;
@@ -200,12 +195,13 @@ $break-xsmall:576px;
         margin-top: 16px;
 
         &.counter-h {
-          width: 145px;
-          font-size: 1.35rem;
+          // width: 145px;
+          height: 25px;
+          font-size: 1.2rem;
 
-          &.first-h {
+          /*&.first-h {
             width: 150px;
-          }
+          }*/
         }
 
         @media screen and (max-width: $break-large) {
@@ -219,11 +215,18 @@ $break-xsmall:576px;
         }
         span {
           &:last-child {
-            right: 0;
+            left: 60%;
+            // right: 0;
+            @media screen and (max-width: $break-medium) {
+              left: 80%;
+            }
+            @media screen and (max-width: $break-small) {
+              left: 33%;
+            }
           }
         }
       }
-      p{
+      p {
         font-size: 14px;
         color:$tonap-p-text;
         font-weight: 500;
@@ -242,32 +245,72 @@ $break-xsmall:576px;
         margin-bottom: 24px;
       }
       .icon{
-        display: flex;
+        // display: flex;
+        position: relative;
+
         picture{
+          display: block;
+          width: 20%;
+          min-height: 70px;
+  
+          img {
+            width: 100%;
+          }
           @media screen and (max-width: $break-medium) {
-            width: 60px;
-            height: 60px;
+            width: 20%; // 60px;
+            // height: 60px;
           }
         }
         img{
           @media screen and (max-width: $break-medium) {
-            width:100%;
-            height: 100%;
+            width: 100%;
+            // height: 100%;
           }
           @media screen and (max-width: $break-small) {
             width: 100%;
-            height: 100%;
+            // height: 100%;
           }
         }
-        .textarea{
+        .textarea {
+          position: absolute;
+          top: 0;
+          right: 0;
           display: block;
-          margin: 0 auto;
+          // margin: 0 auto;
+          width: 70%;
+
           h4{
             color:$tonap-color;
           }
         }
       }
+      @media screen and (min-width: $breakpoint-tablet) {
+        max-width: 31.333%;
+      }
+      @media screen and (max-width: $break-small) {
+        margin: 15px 0px;
+      }
     }
+
+    /*.col-sm-12 {
+      h4 {
+        span {
+          &:last-child {
+            left: 33%;
+          }
+        }
+      }
+    }
+
+    .col-lg-4 {
+      h4 {
+        span {
+          &:last-child {
+            left: 75%;
+          }
+        }
+      }
+    }*/
   }
   #aboutus{
     position: relative;

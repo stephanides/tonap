@@ -390,7 +390,7 @@ function updateDetail(){
   var row;
   document.getElementById("detailOrder").innerHTML = '';
 
-  for(var i=0; i < orderObject.length;i++){
+  for(var i = 0; i < orderObject.length; i++) {
     var btnDel = document.createElement("button");
     var btnEdit = document.createElement("button");
     var iconDel = document.createElement("i");
@@ -415,15 +415,11 @@ function updateDetail(){
     $("<td class=\"border-left-0\"></td>").html("<span class=\"font-weight-bold\">" + orderObject[i].boxCount + " ks.</span>").appendTo(row);
     $(lastCell).append(btnEdit);
     $(lastCell).append(btnDel).appendTo(row);
-    // $("<td class='edit' onclick=editOrder("+ i +") colspan=\"2\"></td>").html("Upravit").appendTo(row);
-    //$("<td class='edit' onclick=deleteOrder("+ i +")></td>").html("Odstrániť").appendTo(row);
-    // $("<td class='delete'></td>").html(btnDel).appendTo(row);
     row.appendTo(document.getElementById("detailOrder"));
   }
 }
 
 function editOrder(param){
-  console.log(orderObject[param]);
   orderProduct(orderObject[param].id);
   document.getElementById("modalPackageCount").value = orderObject[param].value;
   document.getElementById("navigationOrder").innerHTML = "Zmeniť objednávku";
@@ -443,29 +439,12 @@ function updateOrder(param){
   orderObject[param].boxCount = document.getElementById("modalPackageCount").value;
   updateDetail();
   $("#orderModal").modal('toggle');
-  console.log(orderObject);
 }
 
 function deleteOrder(param){
-  for(var j=orderObject.length; j > 0;j--){
-    document.getElementById("detailOrder").deleteRow(j-1);
-  }
+  orderObject.splice(param, 1);
 
-  orderObject.splice(param,1);
- 
-  for(var i=0; i < orderObject.length;i++){
-    var btnDel = document.createElement("a");
-    btnDel.className = "btn-danger rounded-circle";
-    btnDel.innerHTML = "&times;";
-
-    btnDel.setAttribute("onclick", "deleteOrder(" + (i) + ");");
-    row = $("<tr></tr>");
-    $("<td></td>").html(orderObject[i].title).appendTo(row);
-    $("<td></td>").html(orderObject[i].boxCount).appendTo(row);
-    $("<td class='edit' onclick=editOrder("+ i +")></td>").html("Upravit").appendTo(row);
-    $("<td class='delete'></td>").html(btnDel).appendTo(row);
-    row.appendTo(document.getElementById("detailOrder"));
-  }
+  updateDetail();
 }
 
 if(typeof io === "function") {

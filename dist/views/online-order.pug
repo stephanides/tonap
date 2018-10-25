@@ -1,8 +1,6 @@
 extends layout.pug
 
 block headerStyle
-  //-link(rel="stylesheet", href="./assets/css/bootstrap-reboot.min.css", media="screen")
-  //-link(rel="stylesheet", href="./assets/css/bootstrap-grid.min.css", media="screen")
   link(rel="stylesheet", href="./assets/css/style.min.css", media="screen")
 
 block content
@@ -10,7 +8,7 @@ block content
     .container-fluid.white
       .container.nav-menu
         .row.justify-content-between
-          a.logo(href="/#")
+          a.logo(href="/")
             img(src="./assets/images/tonap_logo.svg", alt="Tonap s. r. o.")
           label.show-menu(for='show-menu')
             img(src="./assets/images/icons/menu.svg", alt="Tonap s. r. o.")
