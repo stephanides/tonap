@@ -383,8 +383,7 @@ function fillOrder(id){
   orderObject.push(orderInProgress);
   orderInProgress = {};
   updateDetail();
-  $("#orderModal").modal('toggle');
-  console.log(orderObject);
+  $("#orderModal").modal("toggle");
 }
 
 function updateDetail(){
