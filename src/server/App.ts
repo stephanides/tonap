@@ -55,6 +55,7 @@ class App {
   private config(): void {
     //
     this.app.use(helmet());
+    // this.app.use(express.compress());
 
     // Morgan should be off in production
     this.app.use(morgan("dev"));

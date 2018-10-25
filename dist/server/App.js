@@ -51,6 +51,7 @@ class App {
     config() {
         //
         this.app.use(helmet());
+        // this.app.use(express.compress());
         // Morgan should be off in production
         this.app.use(morgan("dev"));
         // Compression should be managed by nginx server in production
