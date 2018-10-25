@@ -133,9 +133,13 @@ block content
             .contactform
               h5 Kontaktný formulár
               form(onsubmit="sendEmail()")
+                label(for="contactName", style="left: -99999px;").position-absolute Name
                 input(name="contactName" id="contactName" type="text" placeholder="Meno a priezvisko" required)
+                label(for="contactEmail", style="left: -99999px;").position-absolute Email
                 input(name="contactEmail" id="contactEmail" type="text" placeholder="Váš email" required)
+                label(for="contactSubject", style="left: -99999px;").position-absolute Subject
                 input(name="contactSubject" id="contactSubject" type="text" placeholder="Predmet" required)
+                label(for="contactMessage", style="left: -99999px;").position-absolute Message
                 textarea(name="contactMessage" id="contactMessage" rows="4" placeholder="Text správy")
                 input(name="submit" type="submit" value="Odoslať správu")
             .contactcard

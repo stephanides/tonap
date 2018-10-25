@@ -2,16 +2,16 @@
 $spaceamounts: (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 $sides: (top, bottom, left, right);
 $breakpoint-tablet: 768px;
-$tonap-color:rgb(59,138,204);
+$tonap-color: #3177B1; // rgb(59,138,204);
 $tonap-color-hover: #85d4ec;
-$tonap-p-text:rgb(128,142,153);
+$tonap-p-text: #47535D; // rgb(128,142,153);
 $break-large:1200px;
 $break-medium:992px;
 $break-small:768px;
 $break-xsmall:576px;
 
 *{
-  font-family: "Montserrat";
+  font-family: "Montserrat", Fallback, sans-serif;
 }
 
 .text-center{
