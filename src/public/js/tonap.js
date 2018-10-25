@@ -1,6 +1,8 @@
 // Main javascript file
-var map;
-var marker = {};
+var map = null;
+var marker = null;
+var markerJumped = false;
+var googleScriptLoaded = false;
 var products = [{}];
 var intervalId = null;
 var intervalStarted = false;
@@ -73,6 +75,7 @@ function loadMap() {
   });
 
   map = new google.maps.Map(document.getElementById("map"), mapOptions);
+  console.log("MAP LOADED");
 
   loadJSON(function(response) {
 		var loaded_json = JSON.parse(response);
@@ -109,9 +112,20 @@ function scrollPage() {
         counterInterval();
       }
     }
-    if (pY >= 1550) {
-      if(marker && !marker.getMap()) {
+    if (pY >= 1800) {
+      if (map === null) {
+        var googleScript = document.createElement("script");
+        
+        googleScript.onload = function () {
+          googleScriptLoaded = true;
+        };
+        googleScript.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyBGuAMy2poB-W_gNCuKoKejHIh3LeyDZ_E&callback=loadMap";
+        
+        document.body.append(googleScript);
+      }
+      if(marker && map && googleScriptLoaded && !markerJumped) {
         marker.setMap(map);
+        markerJumped = true;
       }
     }
   });
@@ -170,7 +184,7 @@ function fillProducts(products){
   for (var i = 0; i < products.length; i++) {
     if(products[i].category == 1){
       var div = $("<div></div>").addClass("col-lg-3 col-md-6 col-12 text-center");
-      $("<img>").attr("src", products[i].imageFilesData[0].url).appendTo(div);
+      $("<img class=\"lazyload\">").attr("data-src", products[i].imageFilesData[0].url).appendTo(div);
       $("<p></p>").text(products[i].sterile && products[i].notSterile ? "Sterilné/Nesterilné" : products[i].sterile ? "Sterilné" : "Nesterilné").appendTo(div);
       $("<h6></h6>").text(products[i].title).appendTo(div);
       $("<button></button>").text(orderPage ? "Objednať" : "Detail produktu").attr("onclick", "orderProduct(" + "'" + products[i]._id + "'" + ")").appendTo(div);
@@ -178,7 +192,7 @@ function fillProducts(products){
     }
     if(products[i].category == 2){
       var div = $("<div></div>").addClass("col-lg-3 col-md-6 col-12 text-center");
-      $("<img>").attr("src", products[i].imageFilesData[0].url).appendTo(div);
+      $("<img class=\"lazyload\">").attr("data-src", products[i].imageFilesData[0].url).appendTo(div);
       $("<p></p>").text(products[i].sterile && products[i].notSterile ? "Sterilné/Nesterilné" : products[i].sterile ? "Sterilné" : "Nesterilné").appendTo(div);
       $("<h6></h6>").text(products[i].title).appendTo(div);
       $("<button></button>").text(orderPage ? "Objednať" : "Detail produktu").attr("onclick", "orderProduct(" + "'" + products[i]._id + "'" + ")").appendTo(div);
@@ -186,7 +200,7 @@ function fillProducts(products){
     }
     if(products[i].category == 3){
       var div = $("<div></div>").addClass("col-lg-3 col-md-6 col-12 text-center");
-      $("<img>").attr("src", products[i].imageFilesData[0].url).appendTo(div);
+      $("<img class=\"lazyload\">").attr("data-src", products[i].imageFilesData[0].url).appendTo(div);
       $("<p></p>").text(products[i].sterile && products[i].notSterile ? "Sterilné/Nesterilné" : products[i].sterile ? "Sterilné" : "Nesterilné").appendTo(div);
       $("<h6></h6>").text(products[i].title).appendTo(div);
       $("<button></button>").text(orderPage ? "Objednať" : "Detail produktu").attr("onclick", "orderProduct(" + "'" + products[i]._id + "'" + ")").appendTo(div);

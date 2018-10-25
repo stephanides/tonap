@@ -17,9 +17,9 @@ block content
       .container.nav-menu
         .row.justify-content-between
           a.logo(href="" title="Tonap")
-            img(src="./assets/images/tonap_logo.svg", alt="")
+            img(src="./assets/images/tonap_logo.svg", alt="Tonap s. r. o.")
           label.show-menu(for = 'show-menu')
-            img(src="./assets/images/icons/menu.svg", alt="")
+            img(src="./assets/images/icons/menu.svg", alt="Menu navigation - Tonap")
           input#show-menu(type = 'checkbox' role = 'button')
           ul#menu
             li
@@ -149,10 +149,10 @@ block content
               p #[strong IČ DPH:] SK2120679242
               p &nbsp;
               .info
-                img.infoicon(src="./assets/images/icons/envelope.svg", alt="")
+                img.infoicon.lazyload(data-src="./assets/images/icons/envelope.svg", alt="Tonap s. r. o.")
                 p info@tonap.sk
               .info
-                img.infoicon(src="./assets/images/icons/phone.svg", alt="")
+                img.infoicon.lazyload(data-src="./assets/images/icons/phone.svg", alt="Tonap s. r. o.")
                 p +421 918 243 753
           .col-md-6.order-1
     .footer
@@ -167,7 +167,7 @@ block content
               a(href="/cennik") Cenník PDF
             .footerlink
               a(href="/ochrana-osobnych-udajov") Ochrana osobných údajov
-        img(src="./assets/images/icons/logofooter.png", alt="")
+        img.lazyload(data-src="./assets/images/icons/logofooter.png", alt="Tonap s. r. o.")
         p &copy; Copyright 1998 - 2018 TONAP s.r.o.
     .modal.fade#productModal(tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true")
         .modal-dialog.modal-dialog-centered(role="document")
@@ -202,4 +202,4 @@ block content
 block scripts
   script(src="./assets/js/lazysizes.min.js", deffer)
   script(src="./assets/js/tonap.min.js")
-  script(src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBGuAMy2poB-W_gNCuKoKejHIh3LeyDZ_E&callback=loadMap")
+  //-script(src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBGuAMy2poB-W_gNCuKoKejHIh3LeyDZ_E&callback=loadMap")
