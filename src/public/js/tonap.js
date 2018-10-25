@@ -147,7 +147,7 @@ function startCounter() {
     });
   });
 
-  setTimeout(counterInterval, 4010);
+  setTimeout(counterInterval, 4100);
 }
 
 function counterInterval() {
