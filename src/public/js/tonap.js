@@ -19,11 +19,14 @@ var orderInProgress = {
 var socket = null;
 
 $(document).ready(function() {
-  getProducts();
   revealProducts();
-  startCounter();
   scrollPage();
 });
+
+window.onload = function () {
+  startCounter();
+  getProducts();
+}
 
 function revealProducts() {
   $(".productShowAllContainer > button").on("click", function(e) {
