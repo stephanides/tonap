@@ -15,7 +15,6 @@ const mongoose = require("mongoose");
 const path = require("path");
 const config_1 = require("./config");
 const helmet = require("helmet");
-const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const io = require("socket.io");
 const http = require("http");
@@ -53,15 +52,15 @@ class App {
         this.app.use(helmet());
         // this.app.use(express.compress());
         // Morgan should be off in production
-        this.app.use(morgan("dev"));
+        // this.app.use(morgan("dev"));
         // Compression should be managed by nginx server in production
         // this.app.use(compression())
         this.app.use(bodyParser.urlencoded({ parameterLimit: 10000, limit: "5mb", extended: true }));
         this.app.use(bodyParser.json({ limit: "5mb" }));
         // Serve static files from imaginary /assets directory
         // Should be managed by nginx server in production
-        this.app.use("/assets", express.static(__dirname + "/../public/"));
-        console.log(__dirname + "/../public/");
+        // this.app.use("/assets", express.static(__dirname + "/../public/"));
+        // console.log(__dirname + "/../public/");
         this.app.set("views", path.join(__dirname, "../views"));
         // Set pug as default template engine
         this.app.set("view engine", "pug");
@@ -75,7 +74,7 @@ class App {
     onError() {
         this.app.use((err, req, res, next) => {
             if (err) {
-                console.log(err);
+                // console.log(err);
                 res.status(err.status || 500).json({ message: err.message, success: false });
             }
             next();
@@ -107,10 +106,10 @@ class App {
         });
         this.io.on("connection", (socket) => {
             const admin = this.io.of("/admin");
-            console.log("IO: conntected");
+            // console.log("IO: conntected");
             socket.on("order created", () => {
                 admin.emit("order been created", { success: true });
-                console.log("IO: Order created");
+                // console.log("IO: Order created");
             });
         });
         this.app.use("/api", Api_router_1.default);

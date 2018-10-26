@@ -58,7 +58,7 @@ class App {
     // this.app.use(express.compress());
 
     // Morgan should be off in production
-    this.app.use(morgan("dev"));
+    // this.app.use(morgan("dev"));
 
     // Compression should be managed by nginx server in production
     // this.app.use(compression())
@@ -67,8 +67,8 @@ class App {
 
     // Serve static files from imaginary /assets directory
     // Should be managed by nginx server in production
-    this.app.use("/assets", express.static(__dirname + "/../public/"));
-    console.log(__dirname + "/../public/");
+    // this.app.use("/assets", express.static(__dirname + "/../public/"));
+    // console.log(__dirname + "/../public/");
 
     this.app.set("views", path.join(__dirname, "../views"));
     // Set pug as default template engine
@@ -85,7 +85,7 @@ class App {
   private onError(): void {
     this.app.use((err, req, res, next) => {
       if (err) {
-        console.log(err);
+        // console.log(err);
         res.status(err.status || 500).json({ message: err.message, success: false });
       }
       next();
@@ -120,11 +120,11 @@ class App {
 
     this.io.on("connection", (socket) => {
       const admin = this.io.of("/admin");
-      console.log("IO: conntected");
+      // console.log("IO: conntected");
 
       socket.on("order created", () => {
         admin.emit("order been created", { success: true });
-        console.log("IO: Order created");
+        // console.log("IO: Order created");
       });
     });
 
