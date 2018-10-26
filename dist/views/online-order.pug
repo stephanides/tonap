@@ -76,16 +76,9 @@ block content
               p Správa
               textarea(name="message" id="message" rows="4" placeholder="Správa pre nás")
               input(name="submit" type="submit" value="Odoslať objednávku")
-    .footer
-      .container
-        .row
-          .footerlinks
-            a(href="/obchodne-podmienky") Obchodné podmienky
-            a(href="/reklamacne-podmienky") Reklamačné podmienky
-            a(href="/cennik") Cenník PDF
-            a(href="/ochrana-osobnych-udajov") Ochrana osobných údajov
-        img.lazyload(data-src="./assets/images/icons/logofooter.png", alt="Tonap s. r. o.")
-        p &copy; Copyright 1998 - 2018 TONAP s.r.o.
+    
+    include footer.pug
+
     .modal.fade#orderModal(tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true")
         .modal-dialog.modal-dialog-centered(role="document")
             .modal-content

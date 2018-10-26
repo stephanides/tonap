@@ -158,20 +158,9 @@ block content
                 img.infoicon.lazyload(data-src="./assets/images/icons/phone.svg", alt="Tonap s. r. o.")
                 p +421 918 243 753
           .col-md-6.order-1
-    .footer
-      .container
-        .row
-          .footerlinks
-            .footerlink
-              a(href="/obchodne-podmienky") Obchodné podmienky
-            .footerlink
-              a(href="/reklamacne-podmienky") Reklamačné podmienky
-            //.footerlink
-              a(href="/cennik") Cenník PDF
-            .footerlink
-              a(href="/ochrana-osobnych-udajov") Ochrana osobných údajov
-        img.lazyload(data-src="./assets/images/icons/logofooter.png", alt="Tonap s. r. o.")
-        p &copy; Copyright 1998 - 2018 TONAP s.r.o.
+    
+    include footer.pug
+
     .modal.fade#productModal(tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true")
         .modal-dialog.modal-dialog-centered(role="document")
             .modal-content
