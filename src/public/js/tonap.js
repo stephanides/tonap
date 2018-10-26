@@ -56,6 +56,7 @@ function loadMap() {
   var latlng = {lat: 48.635896, lng: 21.714897};
   var mapOptions = {
     center: new google.maps.LatLng(48.635896, 21.714897),
+    disableDefaultUI: true,
     zoom: 15,
     mapTypeControl: false,
     fullscreenControl:false,
