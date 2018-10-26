@@ -115,19 +115,21 @@ function scrollPage() {
       }
     }
     if (pY >= 950) {
-      if (map === null && !googleScriptLoaded) {
-        var googleScript = document.createElement("script");
-        googleScriptLoaded = true;
-        
-        googleScript.onload = function () {};
-        googleScript.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyBGuAMy2poB-W_gNCuKoKejHIh3LeyDZ_E&callback=loadMap";
-        
-        document.body.append(googleScript);
-      }
-      if (pY >= 1125) {
-        if (marker && map && googleScriptLoaded && !markerJumped) {
-          marker.setMap(map);
-          markerJumped = true;
+      if (this.document.getElementById("map")) {
+        if (map === null && !googleScriptLoaded) {
+          var googleScript = document.createElement("script");
+          googleScriptLoaded = true;
+          
+          googleScript.onload = function () {};
+          googleScript.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyBGuAMy2poB-W_gNCuKoKejHIh3LeyDZ_E&callback=loadMap";
+          
+          document.body.append(googleScript);
+        }
+        if (pY >= 1125) {
+          if (marker && map && googleScriptLoaded && !markerJumped) {
+            marker.setMap(map);
+            markerJumped = true;
+          }
         }
       }
     }
@@ -217,7 +219,7 @@ function orderProduct(id){
 
   for(var i=0; i<products.length;i++){
     if(products[i]._id == id){
-      if(document.location.href.indexOf('online-objednavka') === -1){
+      if(document.location.href.indexOf('online-objednavka') < 0) {
         choosedProduct = products[i];
         document.getElementById("productModalMainImage").setAttribute("src",choosedProduct.imageFilesData[0].url);
         document.getElementById("mainTitle").innerHTML = choosedProduct.title;
@@ -229,25 +231,23 @@ function orderProduct(id){
         document.getElementById("productWeight").innerHTML = "Váha: " + choosedProduct.weight + " g";
         document.getElementById("navigationOrder").setAttribute("onclick", "goToOrder(" + "'" + products[i]._id + "'" + ")");
         $("#productModal").modal();
-      }
-      else if(document.location.href.indexOf('online-objednavka') > -1){
+      } else {
         choosedProduct = products[i];
-        document.getElementById("orderModalMainImage").setAttribute("src",choosedProduct.imageFilesData[0].url);
+        document.getElementById("orderModalMainImage").setAttribute("src", choosedProduct.imageFilesData[0].url);
         document.getElementById("orderMainTitle").innerHTML = choosedProduct.title;
         document.getElementById("isOrderSterilized").innerHTML = choosedProduct.sterile && choosedProduct.notSterile ? "Sterilné/Nesterilné" : choosedProduct.sterile ? "Sterilné" : "Nesterilné";
         
-        if(choosedProduct.sterile && !choosedProduct.notSterile ){
+        if((choosedProduct.sterile && !choosedProduct.notSterile) || (choosedProduct.notSterile && choosedProduct.sterile)){
           document.getElementById("sterilizovany").checked = true;
           chooseSterility(0);
-        }
-        else if(!choosedProduct.sterile && choosedProduct.notSterile ){
+        } else if(!choosedProduct.sterile && choosedProduct.notSterile ){
           document.getElementById("nesterilizovany").checked = true;
           chooseSterility(1);
-        }
-        else if(choosedProduct.sterile && choosedProduct.notSterile ){
+        } /*else if(choosedProduct.sterile && choosedProduct.notSterile ){
           document.getElementById("sterilizovany").checked = true;
           chooseSterility(0);
-        }
+        }*/
+
         choosedProduct.sterile ? document.getElementById("modalSterilne").style.display = "inline-flex" : document.getElementById("modalSterilne").style.display = "none";
         choosedProduct.notSterile ? document.getElementById("modalNesterilne").style.display = "inline-flex" : document.getElementById("modalNesterilne").style.display = "none";
         document.getElementById("navigationOrder").setAttribute("onclick", "fillOrder(" + "'" + products[i]._id + "'" + ")");
