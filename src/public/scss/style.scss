@@ -316,6 +316,10 @@ $break-xsmall:576px;
       bottom: 0;
       top:130px;
     }
+    @media screen and (max-width: 450px) {
+      bottom: 0;
+      top: 0;
+    }
     img{
       width:100%;
     }
@@ -878,6 +882,15 @@ $break-xsmall:576px;
     }
     ::placeholder{
       font-size: 12px;
+    }
+  }
+  #contact {
+    .contactHolder {
+      pointer-events: none;
+
+      .contactform {
+        pointer-events: all;
+      }
     }
   }
 }
