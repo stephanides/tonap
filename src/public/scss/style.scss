@@ -234,6 +234,12 @@ $break-xsmall:576px;
             @media screen and (max-width: $break-small) {
               left: 33%;
             }
+            @media screen and (max-width: 450px) {
+              left: 40%;
+            }
+            @media screen and (max-width: 380px) {
+              left: 47%;
+            }
           }
         }
       }
