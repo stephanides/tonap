@@ -18,12 +18,14 @@ var orderInProgress = {
 };
 var socket = null;
 
-$(document).ready(function() {
+/*$(document).ready(function() {
   revealProducts();
   scrollPage();
-});
+});*/
 
 window.onload = function () {
+  revealProducts();
+  scrollPage();
   startCounter();
   getProducts();
 }
@@ -122,9 +124,14 @@ function scrollPage() {
           googleScriptLoaded = true;
           
           googleScript.onload = function () {};
+          googleScript.async = true;
           googleScript.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyBGuAMy2poB-W_gNCuKoKejHIh3LeyDZ_E&callback=loadMap";
           
-          document.body.append(googleScript);
+          // document.body.append(googleScript);
+          this.document.body.insertBefore(
+            googleScript,
+            document.body.getElementsByTagName("script")[document.body.getElementsByTagName("script").length - 1]
+          );
         }
         if (pY >= 1125) {
           if (marker && map && googleScriptLoaded && !markerJumped) {
