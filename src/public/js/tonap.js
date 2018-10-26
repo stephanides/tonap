@@ -60,7 +60,7 @@ function loadMap() {
   };
 
   var markerIcon = {
-    url: window.location.origin + "/assets/images/icons/logofooter.png", // map-marker.png',
+    url: window.location.origin + "/assets/images/icons/logofooter.png",
     scaledSize: new google.maps.Size(42, 60),
     labelOrigin: new google.maps.Point(21, 80),
     labelAnchor: new google.maps.Point(0, 0)
@@ -69,7 +69,7 @@ function loadMap() {
   marker = new google.maps.Marker({
     position: latlng,
     animation: google.maps.Animation.DROP,
-    icon: markerIcon, //'./dist/img/map-marker.png',
+    icon: markerIcon,
     label: { color: "#0669bb", fontWeight: "bold", fontSize: '14px', text: "Tonap s. r. o." },
     map: map
   });
@@ -111,7 +111,7 @@ function scrollPage() {
         counterInterval();
       }
     }
-    if (pY >= 1500) {
+    if (pY >= 950) {
       if (map === null && !googleScriptLoaded) {
         var googleScript = document.createElement("script");
         googleScriptLoaded = true;
@@ -121,8 +121,8 @@ function scrollPage() {
         
         document.body.append(googleScript);
       }
-      if (pY >= 1800) {
-        if(marker && map && googleScriptLoaded && !markerJumped) {
+      if (pY >= 1125) {
+        if (marker && map && googleScriptLoaded && !markerJumped) {
           marker.setMap(map);
           markerJumped = true;
         }
@@ -140,7 +140,7 @@ function startCounter() {
       easing: 'swing',
       step: function (now) {
         var number = Math.ceil(now);
-        var output = number.toLocaleString();
+        var output = number.toLocaleString("en-EG");
 
         $(this).text(output);
       }
@@ -156,7 +156,7 @@ function counterInterval() {
       var val = parseInt(item.innerHTML.replace(/,/g, ""));
       
       val += 1;
-      val = val.toLocaleString();
+      val = val.toLocaleString("en-EG");
       item.innerHTML = val;
     });
     
