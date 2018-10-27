@@ -1,7 +1,9 @@
 extends layout.pug
 
 block headerStyle
-  link(rel="stylesheet", href="./assets/css/style.min.css", media="screen")
+  //-link(rel="stylesheet", href="./assets/css/style.min.css", media="screen")
+  // Main style
+  include main-style.pug
 
 block content
   #wrapper
@@ -128,7 +130,7 @@ block content
                           .choose.productItemsCount.position-relative
                             input(type="number" id="modalPackageCount" min="1" step="1" value="1")
 
-                      button.mt-4.mb-4#navigationOrder Pridať objednávku
+                      button.mt-4.mb-4#navigationOrder Pridať do objednávky
     .modal.fade#successOrder
       .modal-dialog
         .modal-content

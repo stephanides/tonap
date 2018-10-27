@@ -78,11 +78,11 @@ $break-xsmall:576px;
         }
         a{
           display:block;
-          font-size: 14px;
+          font-size: .8rem; // 14px;
           text-align: center;
           color: $tonap-color;
           text-decoration: none;
-          padding: 40px 10px;
+          padding: 2rem .5rem;// 40px 10px;
           font-weight: bold;
           cursor: pointer;
           &:hover{
@@ -94,13 +94,13 @@ $break-xsmall:576px;
         }
         .online-order{
           border: 2px solid $tonap-color;
-          padding: 18px 20px;
+          padding: .75rem 1rem; // 18px 20px;
           border-radius: 40px;
           &:hover{
             color:white;
             background: linear-gradient(to right,$tonap-color, #54bde2);
-            border: none;
-            padding: 20px 22px;
+            border: 2px solid transparent;
+            // padding: .75rem 1rem;
           }
         }
       }
@@ -112,7 +112,7 @@ $break-xsmall:576px;
     // height: calc(100vh - 92px);
     background-image: radial-gradient(farthest-corner at 70% 50%,#8cdff5 0%,$tonap-color 100%);
     position: relative;
-    top:101px;
+    top: 55px; // 101px;
     overflow: hidden;
 
     /*.container-fluid {
@@ -148,9 +148,11 @@ $break-xsmall:576px;
     }
     h3{
       color: white;
-      font-size: 2rem;
-      font-weight: bold;
+      font-size: 2.5rem;
+      font-weight: 900;
       line-height: 1;
+      font-family: Roboto, Fallback, sans-serif;
+      
       @media screen and (max-width: $break-small) {
         font-size: 1.5rem;
       }
@@ -170,17 +172,17 @@ $break-xsmall:576px;
   }
   #products {
     position: relative;
-    bottom: 200px;
+    bottom: 275px;
     @media screen and (max-width: $break-small) {
       position: relative;
-      top: 101px;
+      top: 100px;
       bottom: 0;
     }
     @media screen and (max-width: $breakpoint-tablet) {
       bottom: 0;
     }
     @media screen and (max-width: $break-large) {
-      bottom: 180px;
+      bottom: 200px;
     }
     @media screen and (max-width: $break-medium) {
       bottom: 70px;
@@ -189,6 +191,7 @@ $break-xsmall:576px;
     .col-md-4 {
       padding: 25px;
       background-color: white;
+      box-shadow: 0 0 10px 0 #9e9e9e;
 
       &:first-child {
         .icon {
@@ -306,6 +309,17 @@ $break-xsmall:576px;
       }
       @media screen and (max-width: $break-small) {
         margin: 15px 0px;
+        box-shadow: none;
+      }
+    }
+  }
+  #productModal, #orderModal {
+    .modal-body {
+      img {
+        width: 100%;
+      }
+      #productDescription {
+        word-wrap: break-word;
       }
     }
   }
@@ -324,7 +338,7 @@ $break-xsmall:576px;
       width:100%;
     }
     h3{
-      font-size: 32px;
+      font-size: 2rem;
       font-weight: bold;
       line-height: 1;
       margin-top: 30px;
@@ -371,7 +385,7 @@ $break-xsmall:576px;
   }
   #orderProduct {
     position: relative;
-    bottom: 90px; // 140px;
+    bottom: 155px; // 90px; // 140px;
 
     @media screen and (max-width: $break-small) {
       top: 101px;
@@ -384,12 +398,41 @@ $break-xsmall:576px;
         margin: 0 auto !important;
       }
     }
+    h3 {
+      &.bigger {
+        font-size: 2rem;
+        font-weight: bold;
+        line-height: 1;
+        margin-top: 30px;
+      }
+    }
     h4{
       font-size: 32px;
     }
     p{
       font-size: 14px;
       color:$tonap-p-text;
+    }
+    .productRowContainer {
+      .row {
+        & > div {
+          &:hover {
+            h6 {
+              color: $tonap-color;
+            }
+          }
+
+          img {
+            max-width: 190px;
+            margin-top: .5rem;
+          }
+          p {
+            font-size: .75rem;
+            margin-bottom: 0.25rem;
+            margin-top: 0.25rem;
+          }
+        }
+      }
     }
     .col-lg-3{
       background-color: white;
@@ -631,6 +674,7 @@ $break-xsmall:576px;
       padding-bottom: 30px;
       padding-left: 20px;
       padding-right: 20px;
+      box-shadow: 0 0 5px 0 #9e9c9c;
       @media screen and (max-width: $break-large) {
         right:-35px;
         padding-left: 10px;

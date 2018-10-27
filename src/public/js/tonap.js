@@ -199,7 +199,7 @@ function fillProducts(products){
       var div = $("<div></div>").addClass("col-lg-3 col-md-6 col-12 text-center");
       $("<img class=\"lazyload\" alt=\"Tonap - " + products[i].title + "\">").attr("data-src", products[i].imageFilesData[0].url).appendTo(div);
       $("<p></p>").text(products[i].sterile && products[i].notSterile ? "Sterilné/Nesterilné" : products[i].sterile ? "Sterilné" : "Nesterilné").appendTo(div);
-      $("<h6></h6>").text(products[i].title).appendTo(div);
+      $("<h6 class=\"font-weight-bold\"></h6>").text(products[i].title).appendTo(div);
       $("<button></button>").text(orderPage ? "Objednať" : "Detail produktu").attr("onclick", "orderProduct(" + "'" + products[i]._id + "'" + ")").appendTo(div);
       div.appendTo("#productKelimky");
     }
@@ -207,7 +207,7 @@ function fillProducts(products){
       var div = $("<div></div>").addClass("col-lg-3 col-md-6 col-12 text-center");
       $("<img class=\"lazyload\" alt=\"Tonap - " + products[i].title + "\">").attr("data-src", products[i].imageFilesData[0].url).appendTo(div);
       $("<p></p>").text(products[i].sterile && products[i].notSterile ? "Sterilné/Nesterilné" : products[i].sterile ? "Sterilné" : "Nesterilné").appendTo(div);
-      $("<h6></h6>").text(products[i].title).appendTo(div);
+      $("<h6 class=\"font-weight-bold\"></h6>").text(products[i].title).appendTo(div);
       $("<button></button>").text(orderPage ? "Objednať" : "Detail produktu").attr("onclick", "orderProduct(" + "'" + products[i]._id + "'" + ")").appendTo(div);
       div.appendTo("#productOdberniky");
     }
@@ -215,7 +215,7 @@ function fillProducts(products){
       var div = $("<div></div>").addClass("col-lg-3 col-md-6 col-12 text-center");
       $("<img class=\"lazyload\" alt=\"Tonap - " + products[i].title + "\">").attr("data-src", products[i].imageFilesData[0].url).appendTo(div);
       $("<p></p>").text(products[i].sterile && products[i].notSterile ? "Sterilné/Nesterilné" : products[i].sterile ? "Sterilné" : "Nesterilné").appendTo(div);
-      $("<h6></h6>").text(products[i].title).appendTo(div);
+      $("<h6 class=\"font-weight-bold\"></h6>").text(products[i].title).appendTo(div);
       $("<button></button>").text(orderPage ? "Objednať" : "Detail produktu").attr("onclick", "orderProduct(" + "'" + products[i]._id + "'" + ")").appendTo(div);
       div.appendTo("#productSkumavky");
     }
@@ -223,7 +223,7 @@ function fillProducts(products){
 }
 
 function orderProduct(id){
-  document.getElementById("navigationOrder").innerHTML = "Pridať objednávku";
+  document.getElementById("navigationOrder").innerHTML = window.location.href.indexOf("online-objednavka") > -1 ? "Pridať do objednávky" : "Prejsť do objednávky"; // "Pridať objednávku";
 
   for(var i=0; i<products.length;i++){
     if(products[i]._id == id){
