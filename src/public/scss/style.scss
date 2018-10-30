@@ -316,7 +316,10 @@ $break-xsmall:576px;
   #productModal, #orderModal {
     .modal-body {
       img {
-        width: 100%;
+        width: auto;
+        max-width: 350px;
+        height: auto;
+        max-height: 300px;
       }
       #productDescription {
         word-wrap: break-word;
@@ -382,6 +385,24 @@ $break-xsmall:576px;
     #productSkumavky {
       display: none;
     }
+    .row {
+      &> div {
+        img {
+          max-width: 190px;
+          width: auto;
+          max-height: 190px;
+          min-height: 135px;
+          height: auto;
+          margin-top: .5rem;
+        }
+        .prod-header {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 75px;
+        }
+      }
+    }
   }
   #orderProduct {
     position: relative;
@@ -424,12 +445,22 @@ $break-xsmall:576px;
 
           img {
             max-width: 190px;
+            width: auto;
+            max-height: 190px;
+            min-height: 135px;
+            height: auto;
             margin-top: .5rem;
           }
           p {
             font-size: .75rem;
             margin-bottom: 0.25rem;
             margin-top: 0.25rem;
+          }
+          .prod-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 75px;
           }
         }
       }
@@ -477,7 +508,7 @@ $break-xsmall:576px;
         padding: 15px 40px;
       }
       cursor: pointer;
-      margin-top: 20px;
+      // margin-top: 20px;
       margin-bottom: 20px;
       &:hover{
         color:white;
@@ -814,7 +845,7 @@ $break-xsmall:576px;
       font-weight: bold;
       font-size: 12px;
       cursor: pointer;
-      margin-top: 20px;
+      // margin-top: 20px;
       margin-bottom: 20px;
       &:hover{
         color:white;
