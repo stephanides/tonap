@@ -18,6 +18,14 @@ var orderInProgress = {
 };
 var socket = null;
 
+// timer variables
+var timer = 0;
+var start = true;     // flags that you want the countdown to start
+var stopIn = 1000;    // how long the timer should run
+var stopTime = 0;     // used to hold the stop time
+var stop = false;     // flag to indicate that stop time has been reached
+var timeTillStop = 0; // holds the display time
+
 /*$(document).ready(function() {
   revealProducts();
   scrollPage();
@@ -26,8 +34,8 @@ var socket = null;
 window.onload = function () {
   revealProducts();
   scrollPage();
-  startCounter();
   getProducts();
+  setTimeout(startCounter, 1000);
 }
 
 function revealProducts() {
@@ -51,7 +59,8 @@ function revealProducts() {
 }
 
 function goto(param){
-  $('html, body').animate({scrollTop:$(param).position().top-120}, 'slow');
+  // $('html, body').animate({scrollTop:$(param).position().top-120}, 'slow');
+  scrollIt(document.querySelector(param), 600, "easeOutQuad");
 }
 
 function loadMap() {
@@ -109,8 +118,14 @@ function scrollPage() {
 
     if (pY >= 580) {
       if (intervalStarted) {
-        clearInterval(intervalId);
+        start = true;
+        stop = true;
+        stopTime = timer + stopIn;
+        timeTillStop = stopTime - timer;
+        cancelAnimationFrame(intervalId);
         intervalId = null;
+        /*clearInterval(intervalId);
+        intervalId = null;*/
       }
     } else {
       if (intervalStarted && intervalId === null) {
@@ -145,7 +160,44 @@ function scrollPage() {
 }
 
 function startCounter() {
-  $(".count").each(function () {
+  function animateValue(id, start, end, duration) {
+    // assumes integer values for start and end
+    
+    var obj = document.getElementById(id);
+    var range = end - start;
+    // no timer shorter than 50ms (not really visible any way)
+    var minTimer = 50;
+    // calc step time to show all interediate values
+    var stepTime = Math.abs(Math.floor(duration / range));
+    
+    // never go below minTimer
+    stepTime = Math.max(stepTime, minTimer);
+    
+    // get current time and calculate desired end time
+    var startTime = new Date().getTime();
+    var endTime = startTime + duration;
+    var timer;
+  
+    function run() {
+        var now = new Date().getTime();
+        var remaining = Math.max((endTime - now) / duration, 0);
+        var value = Math.round(end - (remaining * range));
+        var number = Math.ceil(value);
+        var output = number.toLocaleString("en-EG");
+        obj.innerHTML = output;
+        if (value == end) {
+            clearInterval(timer);
+        }
+    }
+    
+    timer = setInterval(run, stepTime);
+    run();
+  }
+
+  animateValue("count-1", 3297585, 12000000, 4000);
+  setTimeout(function () {animateValue("count-2", 3297585, 9000000, 3500);}, 500);
+  setTimeout(function () {animateValue("count-3", 3297585, 3300000, 3000);}, 1000);
+  /*$(".count").each(function () {
     $(this).prop("Counter", 3297585).animate({
       Counter: $(this).text()
     }, {
@@ -158,13 +210,13 @@ function startCounter() {
         $(this).text(output);
       }
     });
-  });
+  });*/
 
   setTimeout(counterInterval, 4100);
 }
 
 function counterInterval() {
-  intervalId = setInterval(function () {
+  /*intervalId = setInterval(function () {
     $(".count").each(function (i, item) {
       var val = parseInt(item.innerHTML.replace(/,/g, ""));
       
@@ -174,7 +226,44 @@ function counterInterval() {
     });
     
     intervalStarted = true;
-  }, 1000);
+  }, 1000);*/
+
+  // main update function
+  function update(timer) {
+    timer = timer;
+    if (start) {
+      stopTime = timer + stopIn;
+      
+      $(".count").each(function (i, item) {
+        var val = parseInt(item.innerHTML.replace(/,/g, ""));
+        
+        val += 1;
+        val = val.toLocaleString("en-EG");
+        item.innerHTML = val;
+      });
+      
+      intervalStarted = true;
+
+      start = false;
+    } else {
+      if(timer >= stopTime) {
+        stop = true;
+      }
+    }
+
+    timeTillStop = stopTime - timer;
+
+    if(!stop){
+      requestAnimationFrame(update); // continue animation until stop
+    } else {
+      start = true;
+      stop = false;
+      stopTime = 0;
+      timeTillStop = 0;
+      intervalId = requestAnimationFrame(update);
+    }
+  }
+  intervalId = requestAnimationFrame(update);  // start the animation
 }
 
 function getProducts(){
@@ -242,8 +331,8 @@ function orderProduct(id){
         document.getElementById("mainTitle").innerHTML = choosedProduct.title;
         document.getElementById("isSterilized").innerHTML = choosedProduct.sterile && choosedProduct.notSterile ? "Sterilné/Nesterilné" : choosedProduct.sterile ? "Sterilné" : "Nesterilné";
         document.getElementById("productDescription").innerHTML = choosedProduct.description;
-        document.getElementById("productHeight").innerHTML = "Výška: " + choosedProduct.length + " mm";
-        document.getElementById("productDepth").innerHTML = "Priemer: " + choosedProduct.depth + " mm";
+        document.getElementById("productHeight").innerHTML = "Výška: " + choosedProduct.height + " mm";
+        document.getElementById("productDepth").innerHTML = "Priemer: " + choosedProduct.gauge + " mm";
         document.getElementById("productVolume").innerHTML = "Objem: " + choosedProduct.volume + " ml";
         document.getElementById("productWeight").innerHTML = "Váha: " + choosedProduct.weight + " g";
         document.getElementById("navigationOrder").setAttribute("onclick", "goToOrder(" + "'" + products[i]._id + "'" + ")");
@@ -529,4 +618,46 @@ function sendEmail(){
       $(document.getElementById("successEmail")).modal("show");
     }
    });
+}
+
+function scrollIt(destination, duration, easing, callback) {
+  var easings = {
+    easeOutQuad: function (t) {
+      return t * (2 - t);
+    }
+  };
+
+  var start = window.pageYOffset;
+  var startTime = "now" in window.performance ? performance.now() : new Date().getTime();
+
+  var documentHeight = Math.max(document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight);
+  var windowHeight = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName("body")[0].clientHeight;
+  var destinationOffset = typeof destination === 'number' ? destination : destination.offsetTop - 90;
+  var destinationOffsetToScroll = Math.round(documentHeight - destinationOffset < windowHeight ? documentHeight - windowHeight : destinationOffset);
+
+  if ("requestAnimationFrame" in window === false) {
+    window.scroll(0, destinationOffsetToScroll);
+    if (callback) {
+      callback();
+    }
+    return;
+  }
+
+  function scroll() {
+    var now = "now" in window.performance ? performance.now() : new Date().getTime();
+    var time = Math.min(1, ((now - startTime) / duration));
+    var timeFunction = easings[easing](time);
+    window.scroll(0, Math.ceil((timeFunction * (destinationOffsetToScroll - start)) + start));
+
+    if (window.pageYOffset === destinationOffsetToScroll) {
+      if (callback) {
+        callback();
+      }
+      return;
+    }
+
+    requestAnimationFrame(scroll);
+  }
+
+  scroll();
 }

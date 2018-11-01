@@ -93,7 +93,7 @@ class App {
   * Methode listing all routes of the application
   */
   private routes(): void {
-    this.router.get("/", (req, res) => { res.render("index", { page: "Tonap" }); });
+    this.router.get("/", (req, res) => { res.render("index", { page: "Tonap - Slovenský laboratórny materiál" }); });
     this.router.get("/admin", (req, res) => { res.render("admin", { page: "Admin"}); });
     this.router.get("/admin/setup", async (req, res) => {
       const user: object = await Users.findOne({ role: 2 });
@@ -109,10 +109,10 @@ class App {
       
       res.render("admin", { page: `Tonap | ${title}` });
     });
-    this.router.get("/gdpr", (req, res) => { res.render("gdpr", { page: `Tonap | GDPR` }); });
-    this.router.get("/online-objednavka", (req, res) => { res.render("online-order", { page: "Tonap | Objednávka" }); });
+    this.router.get("/gdpr", (req, res) => { res.render("gdpr", { page: `GDPR - Tonap - Slovenský laboratórny materiál` }); });
+    this.router.get("/online-objednavka", (req, res) => { res.render("online-order", { page: "Objednávky - Tonap - Slovenský laboratórny materiál" }); });
     this.router.get("/obchodne-podmienky", (req, res) => {
-      res.render("business-conditions", { page: "Tonap | Obchodné podmienky" });
+      res.render("business-conditions", { page: "Obchodné podmienky - Tonap - Slovenský laboratórny materiál" });
     });
 
     this.io.on("connection", (socket) => {
