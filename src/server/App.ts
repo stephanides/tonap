@@ -107,7 +107,7 @@ class App {
     this.router.get("/admin/:action", (req, res) => {
       const title = req.params.action.charAt(0).toUpperCase() + req.params.action.substr(1);
       
-      res.render("admin", { page: `Tonap | ${title}` });
+      res.render("admin", { page: `Tonap | Admin ${title}` });
     });
     this.router.get("/gdpr", (req, res) => { res.render("gdpr", { page: `GDPR - Tonap - Slovenský laboratórny materiál` }); });
     this.router.get("/online-objednavka", (req, res) => { res.render("online-order", { page: "Objednávky - Tonap - Slovenský laboratórny materiál" }); });

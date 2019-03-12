@@ -40,10 +40,10 @@ const ProductSchema = new mongoose_1.Schema({
     },
     // depth: Number,
     description: String,
-    height: Number,
-    gauge: Number,
+    height: String,
+    gauge: String,
     imageFilesData: Array,
-    length: Number,
+    length: String,
     notSterile: Boolean,
     notSterileProductMaxCount: Number,
     notSterileProductMaxPackageCount: Number,
@@ -59,7 +59,7 @@ const ProductSchema = new mongoose_1.Schema({
         type: String,
         unique: true,
     },
-    volume: Number,
-    weight: Number,
+    volume: String,
+    weight: String,
 });
 exports.Products = mongoose_1.model("Product", ProductSchema);

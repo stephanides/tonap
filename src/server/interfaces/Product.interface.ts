@@ -3,10 +3,10 @@ export interface IProduct {
   category: number;
   description: string;
   // depth: number;
-  height: number;
-  gauge: number;
+  height: string;
+  gauge: string;
   imageFilesData: object[];
-  length: number;
+  length: string;
   notSterile: boolean;
   notSterileProductMinCount: number;
   notSterileProductMaxCount: number;
@@ -18,7 +18,7 @@ export interface IProduct {
   sterileProductMinPackageCount: number;
   sterileProductMaxPackageCount: number;
   title: string;
-  volume: number;
-  weight: number;
+  volume: string;
+  weight: string;
   // wide: number;
 }

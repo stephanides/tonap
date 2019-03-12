@@ -17,6 +17,9 @@ $break-xsmall:576px;
 .text-center{
   text-align: center;
 }
+.text-uppercase {
+  text-transform: uppercase;
+}
 
 #wrapper {
   background-color: #fff; // #fafafa;
@@ -33,7 +36,10 @@ $break-xsmall:576px;
       align-items: center;
     }
     .logo{
-      width: 150px;
+      max-width: 150px;
+      img {
+        width: 100%;
+      }
       @media screen and (max-width: $break-small) {
         padding: 10px 4px;
       }
@@ -99,7 +105,7 @@ $break-xsmall:576px;
           &:hover{
             color:white;
             background: linear-gradient(to right,$tonap-color, #54bde2);
-            border: 2px solid transparent;
+            border: 2px solid #fff; // transparent
             // padding: .75rem 1rem;
           }
         }
@@ -148,7 +154,7 @@ $break-xsmall:576px;
     }
     h3{
       color: white;
-      font-size: 2.5rem;
+      font-size: 2.75rem; // 2.5rem;
       font-weight: 900;
       line-height: 1;
       font-family: Roboto, Fallback, sans-serif;
@@ -513,7 +519,7 @@ $break-xsmall:576px;
       &:hover{
         color:white;
         background: linear-gradient(to right,$tonap-color, #54bde2);
-        border: 2px solid transparent;
+        border: 2px solid #fff; // transparent
         // padding: 16px 52px;
         /*@media screen and (max-width: $break-large) {
           padding: 16px 42px;
@@ -829,7 +835,25 @@ $break-xsmall:576px;
       font-size: 14px;
       color:$tonap-p-text;
     }
-    .col-md-3{
+
+    .col-lg-3 {
+      box-shadow: 1px 1px 18px 3px lightgrey;
+
+      max-width: 23%;
+      margin-left: 8px;
+      margin-right: 8px;
+    }
+
+    .col-md-6 {
+      max-width: 31%;
+    }
+
+    .col-12 {
+      max-width: 100%;
+      margin-bottom: .5rem;
+    }
+
+    .col-md-3 {
       background-color: white;
       @media screen and (min-width: $breakpoint-tablet) {
         margin-top: 10 px;

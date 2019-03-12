@@ -62,7 +62,7 @@ export default class ProductFormSterilityInfo extends React.Component<IProps, {}
                 <input
                   type="number"
                   className="form-control mb-2"
-                  id="sterileProductMinCount" placeholder="Min." min="1" max="1000" required
+                  id="sterileProductMinCount" placeholder="Min." min="1" max="100000"
                   onChange={(e) => {
                     const product: IProduct = this.props.product;
 
@@ -88,7 +88,7 @@ export default class ProductFormSterilityInfo extends React.Component<IProps, {}
                 <input
                   type="number"
                   className="form-control mb-2"
-                  id="sterileProductMaxCount" placeholder="Max." min="1" max="2000" required
+                  id="sterileProductMaxCount" placeholder="Max." min="1" max="100000"
                   onChange={(e) => {
                     const product: IProduct = this.props.product;
 
@@ -116,7 +116,7 @@ export default class ProductFormSterilityInfo extends React.Component<IProps, {}
                 <input
                   type="number"
                   className="form-control mb-2"
-                  id="sterileProductMinPackageCount" placeholder="Min." min="1" max="1000" required
+                  id="sterileProductMinPackageCount" placeholder="Min." min="1" max="100000"
                   onChange={(e) => {
                     const product: IProduct = this.props.product;
 
@@ -143,7 +143,7 @@ export default class ProductFormSterilityInfo extends React.Component<IProps, {}
                 <input
                   type="number"
                   className="form-control mb-2"
-                  id="sterileProductMaxPackageCount" placeholder="Max." min="1" max="10000" required
+                  id="sterileProductMaxPackageCount" placeholder="Max." min="1" max="100000"
                   onChange={(e) => {
                     const product: IProduct = this.props.product;
 
@@ -176,7 +176,7 @@ export default class ProductFormSterilityInfo extends React.Component<IProps, {}
                 <input
                   type="number"
                   className="form-control mb-2"
-                  id="notSterileProductMinCount" placeholder="Min." min="1" max="1000" required
+                  id="notSterileProductMinCount" placeholder="Min." min="1" max="100000"
                   onChange={(e) => {
                     const product: IProduct = this.props.product;
 
@@ -203,7 +203,7 @@ export default class ProductFormSterilityInfo extends React.Component<IProps, {}
                 <input
                   type="number"
                   className="form-control mb-2"
-                  id="notSterileProductMaxCount" placeholder="Max." min="1" max="2000" required
+                  id="notSterileProductMaxCount" placeholder="Max." min="1" max="100000"
                   onChange={(e) => {
                     const product: IProduct = this.props.product;
 
@@ -233,7 +233,7 @@ export default class ProductFormSterilityInfo extends React.Component<IProps, {}
                 <input
                   type="number"
                   className="form-control mb-2"
-                  id="notSterileProductMinPackageCount" placeholder="Min." min="1" max="1000" required
+                  id="notSterileProductMinPackageCount" placeholder="Min." min="1" max="100000"
                   onChange={(e) => {
                     const product: IProduct = this.props.product;
 
@@ -257,7 +257,7 @@ export default class ProductFormSterilityInfo extends React.Component<IProps, {}
                 <input
                   type="number"
                   className="form-control mb-2"
-                  id="notSterileProductMaxPackageCount" placeholder="Max." min="1" max="10000" required
+                  id="notSterileProductMaxPackageCount" placeholder="Max." min="1" max="100000"
                   onChange={(e) => {
                     const product: IProduct = this.props.product;
 

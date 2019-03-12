@@ -36,6 +36,7 @@ html(lang="sk")
     // Main style
     link(rel="stylesheet", href="./assets/css/modal.min.css", media="all")
     link(rel="stylesheet", href="./assets/css/style.min.css", media="all")
+    block headerStyle
 
     title #{page}
     // Global site tag (gtag.js) - Google Analytics
@@ -48,13 +49,12 @@ html(lang="sk")
       gtag('config', 'UA-128300142-1');
 
   body
-    
     block content
         
     // JS
-    script(src="./assets/js/jquery-3.3.1.slim.min.js", deffer)
+    script(src= (page.indexOf("Admin") > -1 ?  "../assets/js/jquery-3.3.1.slim.min.js" : "./assets/js/jquery-3.3.1.slim.min.js"), deffer)
     script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js", async)
-    script(src="./assets/js/bootstrap.min.js", deffer)
+    script(src= (page.indexOf("Admin") > -1 ? "../assets/js/bootstrap.min.js" : "./assets/js/bootstrap.min.js"), deffer)
 
     block scripts
     

@@ -11,7 +11,7 @@ block content
       .container.nav-menu
         .row.justify-content-between
           a.logo(href="/")
-            img(src="./assets/images/tonap_logo.svg", alt="Tonap s. r. o.")
+            img(src="./assets/images/1.png", alt="Tonap s. r. o.")
           label.show-menu(for='show-menu')
             img(src="./assets/images/icons/menu.svg", alt="Tonap s. r. o.")
           input#show-menu(type='checkbox', role='button', aria-label="Zobraziť navigáciu")
@@ -37,8 +37,8 @@ block content
                 i.fas.fa-list-ul.pr-2
                 span.text-capitalize Filter
               select.w-75.font-weight-bold#orderselect(onchange="showProduct()")
-                option(value="kelimky" ) Masťovky a Kelímky
-                option(value="odberniky" ) Petriho misky a odberníky
+                option(value="kelimky" ) Kelímky a masťovky
+                option(value="odberniky" ) Petriho misky a odberovky
                 option(value="skumavky" ) Skúmavky
         .row.mr-0.ml-0.mt-6.productKelimky#productKelimky
         .row.mr-0.ml-0.mt-6.productOdberniky#productOdberniky
@@ -106,7 +106,7 @@ block content
                               input.form-check-input(type="radio" name="Sterilizacia" id="nesterilizovany" value=false onclick="chooseSterility(1)")  
                               label.form-check-label(for="nesterilizovany") Nesterilný
                         .form-group
-                          h5.pt-2 Balené
+                          h5.pt-2 Počet kusov v sáčku
                           .choose
                             .form-check.form-check-inline#modalPackageType1
                               input.form-check-input(type="radio" name="Balenie" id="balenie1" value="1")  
@@ -116,7 +116,7 @@ block content
                               label.form-check-label#labelBalenie2(for="balenie2")
                             p.alert#nonPackageType Zvoľte typ produktu
                         .form-group
-                          h5.pt-2 Veľkosť krabice
+                          h5.pt-2 Počet kusov v krabici
                           .choose
                             .form-check.form-check-inline#modalPackage1
                               input.form-check-input(type="radio" name="Krabica" id="krabica1" value="500")  
@@ -146,4 +146,5 @@ block content
     script(src="./assets/js/socket.io.slim.js", deffer)
     script(src="./assets/js/lazysizes.min.js", deffer)
     script(src="./assets/js/jquery-3.3.1.min.js")
+    //-script(src="./assets/js/tonap.js")
     script(src="./assets/js/tonap.min.js")

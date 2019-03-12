@@ -35,7 +35,9 @@ window.onload = function () {
   revealProducts();
   scrollPage();
   getProducts();
-  setTimeout(startCounter, 1000);
+  if (window.location.href.indexOf("online-objednavka") < 0) {
+    setTimeout(startCounter, 1000);
+  }
 }
 
 function revealProducts() {
@@ -64,9 +66,9 @@ function goto(param){
 }
 
 function loadMap() {
-  var latlng = {lat: 48.635896, lng: 21.714897};
+  var latlng = {lat: 48.726010, lng: 21.289790};
   var mapOptions = {
-    center: new google.maps.LatLng(48.635896, 21.714897),
+    center: new google.maps.LatLng(latlng.lat, latlng.lng),
     disableDefaultUI: true,
     zoom: 15,
     mapTypeControl: false,
@@ -372,14 +374,14 @@ function chooseSterility(e){
     document.getElementById("modalPackage1").style.display = "inline-block";
     document.getElementById("modalPackage2").style.display = "inline-block";
     if(choosedProduct != null){
-      document.getElementById("balenie1").value = choosedProduct.sterileProductMinCount;
-      document.getElementById("labelBalenie1").innerHTML = "Po " + choosedProduct.sterileProductMinCount + "ks";
-      document.getElementById("balenie2").value = choosedProduct.sterileProductMaxCount;
-      document.getElementById("labelBalenie2").innerHTML = "Po " + choosedProduct.sterileProductMaxCount + "ks";
-      document.getElementById("krabica1").value = choosedProduct.sterileProductMinPackageCount;
-      document.getElementById("package1").innerHTML = "Po " + choosedProduct.sterileProductMinPackageCount + "ks";
-      document.getElementById("krabica2").value = choosedProduct.sterileProductMaxPackageCount;
-      document.getElementById("package2").innerHTML = "Po " + choosedProduct.sterileProductMaxPackageCount + "ks";
+      document.getElementById("balenie1").value = choosedProduct.sterileProductMinCount != null ? choosedProduct.sterileProductMinCount : 0;
+      document.getElementById("labelBalenie1").innerHTML = (choosedProduct.sterileProductMinCount != null ? choosedProduct.sterileProductMinCount : 0) + "ks";
+      document.getElementById("balenie2").value = choosedProduct.sterileProductMaxCount != null ? choosedProduct.sterileProductMaxCount : 0;
+      document.getElementById("labelBalenie2").innerHTML = (choosedProduct.sterileProductMaxCount != null ? choosedProduct.sterileProductMaxCount : 0) + "ks";
+      document.getElementById("krabica1").value = choosedProduct.sterileProductMinPackageCount != null ? choosedProduct.sterileProductMinPackageCount : 0;
+      document.getElementById("package1").innerHTML = (choosedProduct.sterileProductMinPackageCount != null ? choosedProduct.sterileProductMinPackageCount : 0) + "ks";
+      document.getElementById("krabica2").value = choosedProduct.sterileProductMaxPackageCount != null ? choosedProduct.sterileProductMaxPackageCount : 0;
+      document.getElementById("package2").innerHTML = (choosedProduct.sterileProductMaxPackageCount != null ? choosedProduct.sterileProductMaxPackageCount : 0) + "ks";
     }
   }
   if(e === 1){
@@ -391,14 +393,23 @@ function chooseSterility(e){
     document.getElementById("modalPackage2").style.display = "inline-block";
 
     if(choosedProduct != null){
-      document.getElementById("balenie1").value = choosedProduct.notSterileProductMinCount;
-      document.getElementById("labelBalenie1").innerHTML = "Po " + choosedProduct.notSterileProductMinCount + "ks";
-      document.getElementById("balenie2").value = choosedProduct.notSterileProductMaxCount;
-      document.getElementById("labelBalenie2").innerHTML = "Po " + choosedProduct.notSterileProductMaxCount + "ks";
-      document.getElementById("krabica1").value = choosedProduct.notSterileProductMinPackageCount;
-      document.getElementById("package1").innerHTML = "Po " + choosedProduct.notSterileProductMinPackageCount + "ks";
-      document.getElementById("krabica2").value = choosedProduct.notSterileProductMaxPackageCount;
-      document.getElementById("package2").innerHTML = "Po " + choosedProduct.notSterileProductMaxPackageCount + "ks";
+      document.getElementById("balenie1").value = choosedProduct.notSterileProductMinCount != null ? choosedProduct.notSterileProductMinCount : 0;
+      document.getElementById("labelBalenie1").innerHTML = (choosedProduct.notSterileProductMinCount != null ? choosedProduct.notSterileProductMinCount : 0) + "ks";
+      document.getElementById("balenie2").value = choosedProduct.notSterileProductMaxCount != null ? choosedProduct.notSterileProductMaxCount : 0;
+      document.getElementById("labelBalenie2").innerHTML = (choosedProduct.notSterileProductMaxCount != null ? choosedProduct.notSterileProductMaxCount : 0) + "ks";
+      document.getElementById("krabica1").value = choosedProduct.notSterileProductMinPackageCount != null ? choosedProduct.notSterileProductMinPackageCount : 0;
+      document.getElementById("package1").innerHTML = (choosedProduct.notSterileProductMinPackageCount != null ? choosedProduct.notSterileProductMinPackageCount : 0) + "ks";
+      document.getElementById("krabica2").value = choosedProduct.notSterileProductMaxPackageCount != null ? choosedProduct.notSterileProductMaxPackageCount : 0;
+      document.getElementById("package2").innerHTML = (choosedProduct.notSterileProductMaxPackageCount != null ? choosedProduct.notSterileProductMaxPackageCount : 0) + "ks";
+    }
+  }
+
+  var modalWrapper = document.getElementById("orderModal");
+  var inputList = modalWrapper.getElementsByTagName("input");
+
+  for (var i = 0; i < inputList.length; i++) {
+    if (inputList[i].value === "0" || inputList[i].value == null || inputList[i].value == undefined || inputList[i].value == "") {
+      inputList[i].parentElement.style.display = "none";
     }
   }
 }

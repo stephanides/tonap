@@ -56,8 +56,8 @@ export default class ProductFormBasicInfo extends React.Component<IProps, {}> {
               this.props.handleProduct(product);
             }}>
               <option value={0}>Kategórie</option>
-              <option value={1}>Masťovky a Kelímky</option>
-              <option value={2}>Petriho misky a odberníky</option>
+              <option value={1}>Kelímky a masťovky</option>
+              <option value={2}>Petriho misky a odberovky</option>
               <option value={3}>Skúmavky</option>
             </select>
           </div>

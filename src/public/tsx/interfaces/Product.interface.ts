@@ -2,8 +2,8 @@ export default interface IProduct {
   category: number;
   // depth: number;
   description: string;
-  height: number;
-  gauge: number;
+  height: string; // number;
+  gauge: string; // number;
   // length: number;
   notSterile: boolean;
   notSterileProductMinCount: number;
@@ -16,7 +16,7 @@ export default interface IProduct {
   sterileProductMinCount: number;
   sterileProductMinPackageCount: number;
   title: string;
-  volume: number;
-  weight: number;
+  volume: string; // number;
+  weight: string; // number;
   // wide: number;
 }

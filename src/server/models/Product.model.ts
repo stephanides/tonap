@@ -7,10 +7,10 @@ export class Product {
   public category: number;
   // public depth: number;
   public description: string;
-  public height: number;
-  public gauge: number;
+  public height: string;
+  public gauge: string;
   public imageFilesData: object[];
-  public length: number;
+  public length: string;
   public notSterile: boolean;
   public notSterileProductMinCount: number;
   public notSterileProductMaxCount: number;
@@ -22,9 +22,9 @@ export class Product {
   public sterileProductMinPackageCount: number;
   public sterileProductMaxPackageCount: number;
   public title: string;
-  public volume: number;
+  public volume: string;
   // public wide: number;
-  public weight: number;
+  public weight: string;
 
   constructor(data: IProduct) {
     this.active = data.active;
@@ -64,10 +64,10 @@ const ProductSchema = new Schema({
   },
   // depth: Number,
   description: String,
-  height: Number,
-  gauge: Number,
+  height: String,
+  gauge: String,
   imageFilesData: Array,
-  length: Number,
+  length: String,
   notSterile: Boolean,
   notSterileProductMaxCount: Number,
   notSterileProductMaxPackageCount: Number,
@@ -83,8 +83,8 @@ const ProductSchema = new Schema({
     type: String,
     unique: true,
   },
-  volume: Number,
-  weight: Number,
+  volume: String,
+  weight: String,
   // wide: Number,
 });
 

@@ -21,12 +21,12 @@ export default class ProductFormTechInfo extends React.Component<IProps, {}> {
         <div className="col-3">
           <label className="sr-only" htmlFor="height">Výška</label>
           <input
-            type="number"
-            className="form-control mb-2" id="height" placeholder="Výška v mm" min="10" max="1000"
+            type="text"
+            className="form-control mb-2" id="height" placeholder="Výška v mm"
             onChange={(e) => {
               const product: IProduct = this.props.product;
 
-              product.height = parseInt(e.currentTarget.value, 10);
+              product.height = e.currentTarget.value; // parseInt(e.currentTarget.value, 10);
               this.props.handleProduct(product);
             }}
             value={
@@ -41,12 +41,12 @@ export default class ProductFormTechInfo extends React.Component<IProps, {}> {
         <div className="col-3">
           <label className="sr-only" htmlFor="gauge">Širka</label>
           <input
-            type="number"
-            className="form-control mb-2" id="gauge" placeholder="Priemer v mm" min="10" max="1000"
+            type="text"
+            className="form-control mb-2" id="gauge" placeholder="Priemer v mm"
             onChange={(e) => {
               const product: IProduct = this.props.product;
 
-              product.gauge = parseInt(e.currentTarget.value, 10);
+              product.gauge = e.currentTarget.value; // parseInt(e.currentTarget.value, 10);
               this.props.handleProduct(product);
             }}
             value={this.props.product ?
@@ -81,12 +81,12 @@ export default class ProductFormTechInfo extends React.Component<IProps, {}> {
         <div className="col-3">
           <label className="sr-only" htmlFor="volume">Objem</label>
           <input
-            type="number"
-            className="form-control mb-2" id="volume" placeholder="Objem v ml" min="0" max="1000"
+            type="text"
+            className="form-control mb-2" id="volume" placeholder="Objem v ml"
             onChange={(e) => {
               const product: IProduct = this.props.product;
 
-              product.volume = parseInt(e.currentTarget.value, 10);
+              product.volume = e.currentTarget.value; // parseInt(e.currentTarget.value, 10);
               this.props.handleProduct(product);
             }}
             value={
@@ -101,12 +101,12 @@ export default class ProductFormTechInfo extends React.Component<IProps, {}> {
         <div className="col-3">
           <label className="sr-only" htmlFor="weight">Váha</label>
           <input
-            type="number"
-            className="form-control mb-2" id="weight" placeholder="Váha v g" min="0" max="1000"
+            type="text"
+            className="form-control mb-2" id="weight" placeholder="Váha v g"
             onChange={(e) => {
               const product: IProduct = this.props.product;
 
-              product.weight = parseInt(e.currentTarget.value, 10);
+              product.weight = e.currentTarget.value; // parseInt(e.currentTarget.value, 10);
               this.props.handleProduct(product);
             }}
             value={
