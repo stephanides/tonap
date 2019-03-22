@@ -17,6 +17,11 @@ var orderInProgress = {
   id:""
 };
 var socket = null;
+var container;
+  var itemsHolder;
+  var itemsWrapper;
+  var itemsCount;
+  var itemsNodes;
 
 // timer variables
 var timer = 0;
@@ -38,6 +43,32 @@ window.onload = function () {
   if (window.location.href.indexOf("online-objednavka") < 0) {
     setTimeout(startCounter, 1000);
   }
+  container = $("#pills-tabContent").find(".active");
+  itemsHolder = container.find(".productRowContainer");
+  itemsWrapper = itemsHolder[0].children[0];
+  console.log(container);
+  console.log(itemsHolder);
+  itemsCount = itemsWrapper.childElementCount;   // show("slow");  addClass("active");
+  itemsNodes = itemsWrapper.childNodes;
+  for(i = 0; i<itemsNodes.length; i++){
+    if(i < 4){
+      $(itemsNodes[i]).show("slow");
+    }
+    else{
+      $(itemsNodes[i]).hide("slow");
+    }
+  }
+}
+
+function updateItemsHolder(){
+  
+  setTimeout(function () {
+  container = $("#pills-tabContent").find(".active");
+  itemsHolder = container.find(".productRowContainer");
+  itemsWrapper = itemsHolder[0].children[0];
+  itemsCount = itemsWrapper.childElementCount;   // show("slow");  addClass("active");
+  itemsNodes = itemsWrapper.childNodes;
+  },400)
 }
 
 function revealProducts() {
@@ -47,12 +78,27 @@ function revealProducts() {
     var paragraph = $(showAllProductsBtn).parent(".productShowAllContainer").find("p");
     
     setTimeout(function () {
+      
       if (btnIcon.hasClass("fa-caret-down")) {
-        $("#orderProduct").find(".productRowContainer:nth-child(2), .productRowContainer:nth-child(3)").show("slow"); // addClass("active");
+        
+        console.log(itemsNodes);
+        for(i = 0; i<itemsNodes.length; i++){
+          $(itemsNodes[i]).show("slow");
+        }
         btnIcon.removeClass("fa-caret-down").addClass("fa-caret-up");
         paragraph.html("Zobraziť menej");
       } else {
-        $("#orderProduct").find(".productRowContainer:nth-child(2), .productRowContainer:nth-child(3)").hide("slow"); // removeClass("active");
+       // $("#orderProduct").find(".productRowContainer:nth-child(2), .productRowContainer:nth-child(3)").hide("slow"); // removeClass("active");
+        
+        for(i = 0; i<itemsNodes.length; i++){
+          if(i < 4){
+            $(itemsNodes[i]).show("slow");
+          }
+          else{
+            console.log("hidujem");
+            $(itemsNodes[i]).hide("slow");
+          }
+        }
         btnIcon.removeClass("fa-caret-up").addClass("fa-caret-down");
         paragraph.html("Zobraziť všetky produkty");
       }
@@ -287,14 +333,16 @@ function fillProducts(products){
 
   for (var i = 0; i < products.length; i++) {
     if(products[i].category == 1){
-      var div = $("<div></div>").addClass("col-lg-3 col-md-6 col-12 text-center");
+      var div = $("<div></div>").addClass("col-lg-3 col-md-6 col-12 text-center cursor-pointer");
+      div.attr("onclick", "orderProduct(" + "'" + products[i]._id + "'" + ")")
       var prodHeaderContainer = $("<div class=\"prod-header\"></div>").append("<h6 class=\"font-weight-bold\">" + products[i].title + "</h6>");
       
       $("<img class=\"lazyload\" alt=\"Tonap - " + products[i].title + "\">").attr("data-src", products[i].imageFilesData[0].url).appendTo(div);
-      $("<p></p>").text(products[i].sterile && products[i].notSterile ? "Sterilné/Nesterilné" : products[i].sterile ? "Sterilné" : "Nesterilné").appendTo(div);
+      //$("<p></p>").text(products[i].sterile && products[i].notSterile ? "Sterilné/Nesterilné" : products[i].sterile ? "Sterilné" : "Nesterilné").appendTo(div);
       prodHeaderContainer.appendTo(div);
+      $("<p></p>").text("Cena / TODO").appendTo(div);
       // $("<h6 class=\"font-weight-bold\"></h6>").text(products[i].title).appendTo("<div class=\"prod-header\"></div>").appendTo(div);
-      $("<button></button>").text(orderPage ? "Objednať" : "Detail produktu").attr("onclick", "orderProduct(" + "'" + products[i]._id + "'" + ")").appendTo(div);
+      //$("<button></button>").text(orderPage ? "Objednať" : "Detail produktu").attr("onclick", "orderProduct(" + "'" + products[i]._id + "'" + ")").appendTo(div);
       div.appendTo("#productKelimky");
     }
     if(products[i].category == 2){
@@ -302,10 +350,11 @@ function fillProducts(products){
       var prodHeaderContainer = $("<div class=\"prod-header\"></div>").append("<h6 class=\"font-weight-bold\">" + products[i].title + "</h6>");
       
       $("<img class=\"lazyload\" alt=\"Tonap - " + products[i].title + "\">").attr("data-src", products[i].imageFilesData[0].url).appendTo(div);
-      $("<p></p>").text(products[i].sterile && products[i].notSterile ? "Sterilné/Nesterilné" : products[i].sterile ? "Sterilné" : "Nesterilné").appendTo(div);
+      //$("<p></p>").text(products[i].sterile && products[i].notSterile ? "Sterilné/Nesterilné" : products[i].sterile ? "Sterilné" : "Nesterilné").appendTo(div);
       prodHeaderContainer.appendTo(div);
+      $("<p></p>").text("Cena / TODO").appendTo(div);
       // $("<h6 class=\"font-weight-bold\"></h6>").text(products[i].title).appendTo("<div class=\"prod-header\"></div>").appendTo(div);
-      $("<button></button>").text(orderPage ? "Objednať" : "Detail produktu").attr("onclick", "orderProduct(" + "'" + products[i]._id + "'" + ")").appendTo(div);
+      //$("<button></button>").text(orderPage ? "Objednať" : "Detail produktu").attr("onclick", "orderProduct(" + "'" + products[i]._id + "'" + ")").appendTo(div);
       div.appendTo("#productOdberniky");
     }
     if(products[i].category == 3){
@@ -313,10 +362,11 @@ function fillProducts(products){
       var prodHeaderContainer = $("<div class=\"prod-header\"></div>").append("<h6 class=\"font-weight-bold\">" + products[i].title + "</h6>");
       
       $("<img class=\"lazyload\" alt=\"Tonap - " + products[i].title + "\">").attr("data-src", products[i].imageFilesData[0].url).appendTo(div);
-      $("<p></p>").text(products[i].sterile && products[i].notSterile ? "Sterilné/Nesterilné" : products[i].sterile ? "Sterilné" : "Nesterilné").appendTo(div);
+      //$("<p></p>").text(products[i].sterile && products[i].notSterile ? "Sterilné/Nesterilné" : products[i].sterile ? "Sterilné" : "Nesterilné").appendTo(div);
       prodHeaderContainer.appendTo(div);
+      $("<p></p>").text("Cena / TODO").appendTo(div);
       // $("<h6 class=\"font-weight-bold\"></h6>").text(products[i].title).appendTo("<div class=\"prod-header\"></div>").appendTo(div);
-      $("<button></button>").text(orderPage ? "Objednať" : "Detail produktu").attr("onclick", "orderProduct(" + "'" + products[i]._id + "'" + ")").appendTo(div);
+      //$("<button></button>").text(orderPage ? "Objednať" : "Detail produktu").attr("onclick", "orderProduct(" + "'" + products[i]._id + "'" + ")").appendTo(div);
       div.appendTo("#productSkumavky");
     }
   }

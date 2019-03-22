@@ -12,7 +12,7 @@ $(document).ready(function() {
     
     setTimeout(function () {
       if (btnIcon.hasClass("fa-caret-down")) {
-        console.log("SHOULD DO UP")
+        console.log("SHOULD DO UP");
         $("#orderProduct").find(".productRowContainer:nth-child(2), .productRowContainer:nth-child(3)").addClass("active");
         btnIcon.removeClass("fa-caret-down").addClass("fa-caret-up");
         paragraph.html("Zobraziť menej");

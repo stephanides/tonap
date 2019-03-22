@@ -29,6 +29,7 @@ $break-xsmall:576px;
     position: fixed;
     background-color:white;
     z-index: 1005;
+    padding: 0;
   }
   .nav-menu{
     position: relative;
@@ -478,7 +479,7 @@ $break-xsmall:576px;
         max-width: 23%;
         margin-left: 8px;
         margin-right: 8px;
-        margin-top: 10 px;
+        margin-top: 10px;
       }
     }
     .col-md-6{
@@ -1195,4 +1196,38 @@ $break-xsmall:576px;
     align-items: center;
     justify-content: center;
   }
+}
+.headContact{
+  background-color: $tonap-color;
+  padding: 0;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  p{
+    color:white;
+    font-weight: 500;
+    margin: 0;
+    margin-left: 6px;
+  }
+  img{
+    filter: brightness(0) invert(1);
+  }
+}
+#pills-tab{
+  border-bottom:1px solid #dfdfdf;
+  .nav-item{
+    margin-left: 4px;
+  }
+  .nav-link{
+    background-color: #dfdfdf;
+    color:#89939c;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  .active{
+    background-color: #3b8acd !important;
+    color:white !important;
+  }
+}
+.cursor-pointer{
+  cursor: pointer;
 }

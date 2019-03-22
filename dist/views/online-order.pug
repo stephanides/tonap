@@ -27,32 +27,21 @@ block content
             li
               a(href="/#contact") Kontakt
     .container.order-header
-      h4 Online objednávka
+      h4 Pokladňa
       .order#order
         .row
-          .col-12
-            h5.pl-2.pt-4 1. Vyberte si produkty
-            .order-filter-container.col-4.pt-2.pb-2.pl-4.pr-4.mt-4.d-flex.jsutify-content-between
-              div
-                i.fas.fa-list-ul.pr-2
-                span.text-capitalize Filter
-              select.w-75.font-weight-bold#orderselect(onchange="showProduct()")
-                option(value="kelimky" ) Kelímky a masťovky
-                option(value="odberniky" ) Petriho misky a odberovky
-                option(value="skumavky" ) Skúmavky
-        .row.mr-0.ml-0.mt-6.productKelimky#productKelimky
-        .row.mr-0.ml-0.mt-6.productOdberniky#productOdberniky
-        .row.mr-0.ml-0.mt-6.productSkumavky#productSkumavky
-          
-        .row
-          .col-lg-6
+          .col-lg-12
             h5.mt-5.mb-4 2. Detail objednávky
             table#orderTable
               thead
                 tr
-                  th Názov produktu
-                  th(colspan="2").text-center Množstvo
-                  th.text-center Upraviť
+                  th(colspan = 1)
+                  th.text-left Názov produktu
+                  th.text-left Varianta
+                  th.text-left Cena
+                  th.text-left Množstvo
+                  th.text-left Cena spolu
+                  th.text-left Upraviť
               tbody#detailOrder
           .col-lg-6
             h5.mt-5.mb-4 3. Dokončenie objednávky

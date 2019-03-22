@@ -3,6 +3,10 @@ extends layout.pug
 block content
   #wrapper
     .container-fluid.white#navMenu
+      .headContact
+        .container.d-flex.align-items-center.justify-content-end
+          img.infoicon.lazyload(data-src="./assets/images/icons/phone.svg", alt="Tonap s. r. o.")
+          p +421 918 243 753
       .container.nav-menu
         .row.justify-content-between
           a.logo(href="" title="Tonap")
@@ -82,15 +86,25 @@ block content
               option(value="odberniky" ) Petriho misky a odberníky
               option(value="skumavky" ) Skúmavky
       .container.mt-5
-        .productRowContainer
-          h5.text-center.mb-4.font-weight-bold Kelímky a masťovky
-          .row.mb-4#productKelimky
-        .productRowContainer.mb-4
-          h5.text-center.mb-4.font-weight-bold Petriho misky a odberovky
-          .row.mb-4#productOdberniky
-        .productRowContainer
-          h5.text-center.mb-4.font-weight-bold Skúmavky
-          .row.mb-4#productSkumavky
+        ul.nav.nav-pills.mb-4#pills-tab(role="tablist")
+          li.nav-item
+            a.nav-link.active#pills-kelimky-tab(data-toggle="pill" href="#pills-kelimky" role="tab" aria-controls="pills-kelimky" aria-selected="true" onclick = "updateItemsHolder()") Kelímky a masťovky
+          li.nav-item
+            a.nav-link#pills-odberniky-tab(data-toggle="pill" href="#pills-odberniky" role="tab" aria-controls="pills-odberniky" aria-selected="false" onclick = "updateItemsHolder()") Petriho misky a odberovky
+          li.nav-item
+            a.nav-link#pills-skumavky-tab(data-toggle="pill" href="#pills-skumavky" role="tab" aria-controls="pills-skumavky" aria-selected="false" onclick = "updateItemsHolder()") Skúmavky
+        .tab-content#pills-tabContent
+          .tab-pane.fade.show.active#pills-kelimky(role="tabpanel" aria-labelledby="pills-kelimky-tab")
+            .productRowContainer
+              .row.mb-4#productKelimky
+          .tab-pane.fade#pills-odberniky(role="tabpanel" aria-labelledby="pills-odberniky-tab")
+            .productRowContainer.mb-4
+              .row.mb-4#productOdberniky
+          .tab-pane.fade#pills-skumavky(role="tabpanel" aria-labelledby="pills-skumavky-tab")
+            .productRowContainer
+              .row.mb-4#productSkumavky
+        
+        
       .container.mt-4.text-center.productShowAllContainer.position-relative
         .line-trought.position-absolute
         button(type="button", aria-label="Zobraziť/Skryť produkty") 
