@@ -381,7 +381,7 @@ function orderProduct(id){
         choosedProduct = products[i];
         document.getElementById("productModalMainImage").setAttribute("src",choosedProduct.imageFilesData[0].url);
         document.getElementById("mainTitle").innerHTML = choosedProduct.title;
-        document.getElementById("isSterilized").innerHTML = choosedProduct.sterile && choosedProduct.notSterile ? "Sterilné/Nesterilné" : choosedProduct.sterile ? "Sterilné" : "Nesterilné";
+        //document.getElementById("isSterilized").innerHTML = choosedProduct.sterile && choosedProduct.notSterile ? "Sterilné/Nesterilné" : choosedProduct.sterile ? "Sterilné" : "Nesterilné";
         document.getElementById("productDescription").innerHTML = choosedProduct.description;
         document.getElementById("productHeight").innerHTML = "Výška: " + choosedProduct.height + " mm";
         document.getElementById("productDepth").innerHTML = "Priemer: " + choosedProduct.gauge + " mm";
