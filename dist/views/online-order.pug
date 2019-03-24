@@ -6,7 +6,7 @@ extends layout.pug
   include main-style.pug
 
 block content
-  #wrapper
+  #wrapper.lightgrey
     .container-fluid.white
       .container.nav-menu
         .row.justify-content-between
@@ -31,7 +31,7 @@ block content
       .order#order
         .row
           .col-lg-12
-            h5.mt-5.mb-4 2. Detail objednávky
+            h5.mt-3.mb-3.ml-3 1. Produkty v košíku
             table#orderTable
               thead
                 tr
@@ -43,30 +43,81 @@ block content
                   th.text-left Cena spolu
                   th.text-left Upraviť
               tbody#detailOrder
-          .col-lg-6
-            h5.mt-5.mb-4 3. Dokončenie objednávky
-            form.pl-2.mt-4(onsubmit="sendOrder()")
-              p Meno a priezvisko *
-              input(name="name" type="text" id = "name" placeholder="Vaše meno a priezvisko" required)
-              p Názov firmy
-              input(name="company" type="text" id = "company" placeholder="Názov firmy")
-              p Fakturačná adresa *
-              input(name="companyAdress" id="companyAdress" type="text" placeholder="Ulica" required)
-              input(name="companyCity" id="companyCity" type="text" placeholder="Mesto" class="mt-2" required)
-              input(name="companyPSC" id="companyPSC" type="text" placeholder="PSČ" class="mt-2" required)
-              p Adresa dodania (ak sa nezhoduje s fakturačnou adresou)
-              input(name="deliveryAdress" type="text" id="deliveryAdress" placeholder="Ulica" )
-              input(name="deliveryCity" type="text" id="deliveryCity" placeholder="Mesto" class="mt-2" )
-              input(name="deliveryPSC" type="text" id="deliveryPSC" placeholder="PSČ" class="mt-2" )
-              p E-mailová adresa *
-              input(name="email" type="text" id="email" reqiured="true" placeholder="Vaša e-mailová adresa" required)
-              p Telefónne číslo *
-              input(name="tel" type="text" id="phone" reqiured="true" placeholder="Vaše telefónne číslo" required)
-              p IČO
-              input(name="ico" type="text" id="ico" placeholder="Vaše IČO")
-              p Správa
-              textarea(name="message" id="message" rows="4" placeholder="Správa pre nás")
-              input(name="submit" type="submit" value="Odoslať objednávku")
+          .col-12
+            form.pl-1.mt-4(onsubmit="sendOrder()")
+              .row
+                .col-lg-6.pl-4
+                  h5 2. Fakturačné údaje
+                  p Meno a priezvisko *
+                  input(name="name" type="text" id = "name" placeholder="Vaše meno a priezvisko" required)
+                  p Názov firmy
+                  input(name="company" type="text" id = "company" placeholder="Názov firmy")
+                  p Fakturačná adresa *
+                  input(name="companyAdress" id="companyAdress" type="text" placeholder="Ulica" required)
+                  input(name="companyCity" id="companyCity" type="text" placeholder="Mesto" class="mt-2" required)
+                  input(name="companyPSC" id="companyPSC" type="text" placeholder="PSČ" class="mt-2" required)
+                  p Adresa dodania (ak sa nezhoduje s fakturačnou adresou)
+                  input(name="deliveryAdress" type="text" id="deliveryAdress" placeholder="Ulica" )
+                  input(name="deliveryCity" type="text" id="deliveryCity" placeholder="Mesto" class="mt-2" )
+                  input(name="deliveryPSC" type="text" id="deliveryPSC" placeholder="PSČ" class="mt-2" )
+                  p E-mailová adresa *
+                  input(name="email" type="text" id="email" reqiured="true" placeholder="Vaša e-mailová adresa" required)
+                  p Telefónne číslo *
+                  input(name="tel" type="text" id="phone" reqiured="true" placeholder="Vaše telefónne číslo" required)
+                  p IČO
+                  input(name="ico" type="text" id="ico" placeholder="Vaše IČO")
+                  p Správa
+                  textarea(name="message" id="message" rows="4" placeholder="Správa pre nás")
+                  input(name="submit" type="submit" value="Odoslať objednávku")
+                .col-lg-6
+                  h5 3. Sumár košíka
+                  .subtotal.d-flex.justify-content-between.pb-2.pr-4.pt-2.mt-4
+                    p #[strong Medzisúčet:]
+                    p.price.blue 550,00 €
+                  .shipping.pt-4.pr-4
+                    h6 Vyberte spôsob doručenia:
+                    .shippingMethods.pt-4
+                      .custom-control.custom-radio.mt-2
+                        input.custom-control-input#geisOption(type="radio"  name="shippingMethods" checked)
+                        label.pl-2.custom-control-label.d-flex.align-items-center.justify-content-between(for="geisOption")
+                          p Geis kuriér
+                          p.blue 1,50 €
+                      .custom-control.custom-radio.mt-2
+                        input.custom-control-input#postaOption(type="radio" name="shippingMethods")
+                        label.pl-2.custom-control-label.d-flex.align-items-center.justify-content-between(for="postaOption") 
+                          p Slovenská pošta kuriér
+                          p.blue 1.90 €
+                      .custom-control.custom-radio.mt-2
+                        input.custom-control-input#osobnyOdberOption(type="radio" name="shippingMethods")
+                        label.pl-2.custom-control-label.d-flex.align-items-center.justify-content-between(for="osobnyOdberOption")
+                          p Osobný odber - Na hore 4, Košice
+                          p.blue Zadarmo
+                  .payments.pt-4.pr-4
+                    h6 Vyberte spôsob platby:
+                    .paymentsMethods.pt-4
+                      .custom-control.custom-radio.mt-2
+                        input.custom-control-input#kartaOption(type="radio"  name="paymentsMethods" disabled)
+                        label.pl-2.custom-control-label.d-flex.align-items-center.justify-content-between(for="kartaOption")
+                          p Platba kartou online
+                          p.blue Zadarmo
+                      .custom-control.custom-radio.mt-2
+                        input.custom-control-input#prevodOption(type="radio" name="paymentsMethods" disabled)
+                        label.pl-2.custom-control-label.d-flex.align-items-center.justify-content-between(for="prevodOption") 
+                          p Bankovým prevodom
+                          p.blue Zadarmo
+                      .custom-control.custom-radio.mt-2
+                        input.custom-control-input#paypalOption(type="radio" name="paymentsMethods" disabled)
+                        label.pl-2.custom-control-label.d-flex.align-items-center.justify-content-between(for="paypalOption") 
+                          p Paypal
+                          p.blue Zadarmo
+                      .custom-control.custom-radio.mt-2
+                        input.custom-control-input#dobierkaOption(type="radio" name="paymentsMethods")
+                        label.pl-2.custom-control-label.d-flex.align-items-center.justify-content-between(for="dobierkaOption")
+                          p Dobierka
+                          p.blue 1,50 €
+                  .total.d-flex.justify-content-between.pb-2.pt-2.mt-2.pr-4
+                    p #[strong Cena spolu:]
+                    p.price.blue 555,00 €
     
     include footer.pug
 

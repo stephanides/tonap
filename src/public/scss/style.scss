@@ -1231,3 +1231,56 @@ $break-xsmall:576px;
 .cursor-pointer{
   cursor: pointer;
 }
+.lightgrey{
+  background-color: #fafafa !important;
+}
+.subtotal{
+  border-top: 1px solid #ededed;
+  border-bottom: 1px solid #ededed;
+  padding-left: 0;
+  padding-right: 0;
+  p{
+    margin-top:4px !important;
+    margin-bottom: 4px !important;
+  }
+}
+.shipping{
+  h6{
+    color:$tonap-p-text;
+    font-weight: 600;
+    text-decoration: underline;
+  }
+  p{
+    margin-top: 0 !important;
+    margin-bottom:0 !important; 
+    font-size: 14px !important;
+    font-weight: 600;
+  }
+}
+.payments{
+  h6{
+    color:$tonap-p-text;
+    font-weight: 600;
+    text-decoration: underline;
+  }
+  p{
+    margin-top: 0 !important;
+    margin-bottom:0 !important; 
+    font-size: 14px !important;
+    font-weight: 600;
+  }
+}
+.total{
+  border-top: 1px solid #ededed;
+  border-bottom: 1px solid #ededed;
+  padding-left: 0;
+  padding-right: 0;
+  p{
+    margin-top:4px !important;
+    margin-bottom: 4px !important;
+  }
+}
+.blue{
+  color:#4187cc !important;
+  font-weight: 600;
+}
