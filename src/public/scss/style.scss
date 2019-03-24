@@ -76,6 +76,9 @@ $break-xsmall:576px;
         position: static;
         display: none;
       }
+      @media screen and (max-width: $break-small) {
+        min-height: 100vh;
+      }
       li{
         display: inline-block;
         margin-right: 1px;
@@ -89,7 +92,7 @@ $break-xsmall:576px;
           text-align: center;
           color: $tonap-color;
           text-decoration: none;
-          padding: 2rem .5rem;// 40px 10px;
+          padding: 1.4rem .5rem;// 40px 10px;
           font-weight: bold;
           cursor: pointer;
           &:hover{
@@ -97,6 +100,12 @@ $break-xsmall:576px;
           }
           @media screen and (max-width: $break-medium) {
             font-size: 11px;
+          }
+          @media screen and (max-width: $break-small) {
+            font-size: 16px;
+            padding: 1rem;
+            text-align: left;
+            padding-left: 40px;
           }
         }
         .online-order{
@@ -330,6 +339,9 @@ $break-xsmall:576px;
       }
       #productDescription {
         word-wrap: break-word;
+      }
+      p{
+        font-size: 14px;
       }
     }
   }
@@ -936,6 +948,7 @@ $break-xsmall:576px;
           outline: none;
           color: #7d8e9a;
           font-size: 1rem;
+          background-color: transparent;
 
           &:hover {
             background: transparent;
@@ -948,6 +961,12 @@ $break-xsmall:576px;
         &:hover{
           color:red;
         }
+      }
+      img{
+        width: 50px !important;
+        display: block;
+        margin: 0 auto;
+        min-height: 50px !important;
       }
     }
     form{
@@ -1222,6 +1241,8 @@ $break-xsmall:576px;
     color:#89939c;
     font-size: 16px;
     font-weight: 500;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
   }
   .active{
     background-color: #3b8acd !important;
@@ -1230,6 +1251,10 @@ $break-xsmall:576px;
 }
 .cursor-pointer{
   cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  &:hover{
+    transform:scale(1.05);
+  }
 }
 .lightgrey{
   background-color: #fafafa !important;
@@ -1283,4 +1308,30 @@ $break-xsmall:576px;
 .blue{
   color:#4187cc !important;
   font-weight: 600;
+}
+.buttons{
+  button{
+    padding: 12px 10px !important;
+    margin-right: 30px;
+  }
+  .light{
+    background: white;
+    color: #47535D;
+    border: 2px solid #ededed;
+  }
+}
+.cart{
+  margin-left: 40px;
+  @media screen and (max-width: $break-small) {
+    margin-left: 0;
+  }
+  img{
+    background-color: #BE7833;
+    padding: 6px;
+    border-radius: 32px;
+    filter: invert(100%);
+  }
+  span{
+    padding-left: 10px;
+  }
 }
