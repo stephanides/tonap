@@ -52,17 +52,23 @@ const productInit: IProduct = {
   height: "",
   gauge: "",
   // length: 0,
-  notSterile: false,
-  notSterileProductMaxCount: 0,
-  notSterileProductMaxPackageCount: 0,
-  notSterileProductMinCount: 0,
-  notSterileProductMinPackageCount: 0,
-  sterile: false,
-  sterileProductMaxCount: 0,
-  sterileProductMaxPackageCount: 0,
-  sterileProductMinCount: 0,
-  sterileProductMinPackageCount: 0,
+  // notSterile: false,
+  // notSterileProductMaxCount: 0,
+  // notSterileProductMaxPackageCount: 0,
+  // notSterileProductMinCount: 0,
+  // notSterileProductMinPackageCount: 0,
+  // sterile: false,
+  // sterileProductMaxCount: 0,
+  // sterileProductMaxPackageCount: 0,
+  // sterileProductMinCount: 0,
+  // sterileProductMinPackageCount: 0,
   title: "",
+  variant: [{
+    title: "",
+    priceMin: "",
+    priceMed: "",
+    priceMax: "",
+  }],
   volume: "",
   weight: "",
   // wide: 0,
@@ -531,16 +537,16 @@ export default class App extends React.Component<{}, IAppState> {
           height: "",
           gauge: "",
           // length: 0,
-          notSterile: false,
-          notSterileProductMaxCount: 0,
-          notSterileProductMaxPackageCount: 0,
-          notSterileProductMinCount: 0,
-          notSterileProductMinPackageCount: 0,
-          sterile: false,
-          sterileProductMaxCount: 0,
-          sterileProductMaxPackageCount: 0,
-          sterileProductMinCount: 0,
-          sterileProductMinPackageCount: 0,
+          // notSterile: false,
+          // notSterileProductMaxCount: 0,
+          // notSterileProductMaxPackageCount: 0,
+          // notSterileProductMinCount: 0,
+          // notSterileProductMinPackageCount: 0,
+          // sterile: false,
+          // sterileProductMaxCount: 0,
+          // sterileProductMaxPackageCount: 0,
+          // sterileProductMinCount: 0,
+          // sterileProductMinPackageCount: 0,
           title: "",
           volume: "",
           weight: "",
@@ -826,18 +832,40 @@ export default class App extends React.Component<{}, IAppState> {
 
     const form: HTMLFormElement = e.target as HTMLFormElement;
     const inputs: NodeListOf<HTMLInputElement> = form.querySelectorAll("input");
-    const formParams: object = {};
+    const variations = form.querySelectorAll(".variation-form-rows > .row"); // form.querySelectorAll("input.variation");
+    const formParams: object = {} as IProduct;
+    let variationsArr = [];
 
     for (const input of inputs as any) {
       if (!input.disabled) {
         if (input.type === "checkbox") {
           formParams[input.id] = input.checked;
         } else {
-          formParams[input.id] = input.value;
+          if(input.id) {
+            formParams[input.id] = input.value;
+          }
         }
       }
     }
 
+    for(let i = 0; i < variations.length; i++) {
+      let obj = {} as any;
+      const variationItems = variations[i].querySelectorAll("input.variation");
+
+      for(let j = 0; j < variationItems.length; j++) {
+        if(variationItems[j].className.indexOf("title") > -1) {
+          obj.title = (variationItems[j] as HTMLInputElement).value;
+        } else if(variationItems[j].className.indexOf("price-min") > -1) {
+          obj.priceMin = (variationItems[j] as HTMLInputElement).value;
+        } else if(variationItems[j].className.indexOf("price-med") > -1) {
+          obj.priceMax = (variationItems[j] as HTMLInputElement).value;
+        }
+      }
+
+      variationsArr.push(obj);
+    }
+
+    (formParams as any).variant = variationsArr;
     (formParams as any).description = form.description.value;
 
     const imageDataArr: object[] = [];
@@ -853,6 +881,8 @@ export default class App extends React.Component<{}, IAppState> {
       (formParams as any).category = (form.querySelector("#category") as HTMLSelectElement)
       .options[(form.querySelector("#category") as HTMLSelectElement).selectedIndex].value;
       (formParams as any).imageFilesData = imageDataArr;
+
+      console.log(formParams);
 
       try {
         const request = await fetch("/api/product", {
@@ -877,18 +907,24 @@ export default class App extends React.Component<{}, IAppState> {
                 height: "",
                 gauge: "",
                 // length: 0,
-                notSterile: false,
-                notSterileProductMaxCount: 0,
-                notSterileProductMaxPackageCount: 0,
-                notSterileProductMinCount: 0,
-                notSterileProductMinPackageCount: 0,
-                sterile: false,
-                sterileProductMaxCount: 0,
-                sterileProductMaxPackageCount: 0,
-                sterileProductMinCount: 0,
-                sterileProductMinPackageCount: 0,
+                // notSterile: false,
+                // notSterileProductMaxCount: 0,
+                // notSterileProductMaxPackageCount: 0,
+                // notSterileProductMinCount: 0,
+                // notSterileProductMinPackageCount: 0,
+                // sterile: false,
+                // sterileProductMaxCount: 0,
+                // sterileProductMaxPackageCount: 0,
+                // sterileProductMinCount: 0,
+                // sterileProductMinPackageCount: 0,
                 title: "",
                 volume: "",
+                variant: [{
+                  title: "",
+                  priceMin: "",
+                  priceMed: "",
+                  priceMax: "",
+                }],
                 weight: "",
                 // wide: 0,
               },

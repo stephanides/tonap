@@ -185,6 +185,8 @@ export default class Admin extends React.Component<IProps, {}> {
 
         <style>{`
           h1, h2, h3, h4, h5, h6, a, li {color: #3b8acc;}
+          .variation-form-rows input { border: 1px solid #ced4da; border-radius: .25rem; float: left; padding: .375rem .75rem; margin-right: .5rem; }
+          .variation-form-rows .clear { clear: both; }
         `}</style>
       </div>,
       <div className="footer d-flex align-items-center position-absolute" key={4}>
