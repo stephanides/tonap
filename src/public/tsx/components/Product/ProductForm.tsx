@@ -19,9 +19,6 @@ interface IProps {
 
 export default class ProductForm extends React.Component<IProps, {}> {
   public render() {
-    // console.log(this.props.productEdit);
-    // console.log(this.props.product);
-
     return(
       <form onSubmit={(e) => {
         if (this.props.productEdit) {
@@ -164,7 +161,7 @@ export default class ProductForm extends React.Component<IProps, {}> {
           />
           */
         }
-        <div className="form-row align-items-center">
+        <div className="form-row align-items-center mt-2">
           <div className="col-12">
             <button type="submit" className="btn btn-primary mb-2">
               {
