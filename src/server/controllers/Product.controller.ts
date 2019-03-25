@@ -132,8 +132,6 @@ export default class ProductController {
 
                     // newProduct.variant = req.body.variant;
 
-                    // console.log(newProduct);
-
                     const asyncCreate = async (product: IProduct) => {
                       try {
                         const createProduct: object = await Products.create(product);
@@ -157,6 +155,8 @@ export default class ProductController {
         }
       }
     } catch (err) {
+      console.log(err);
+
       return next(err);
     }
   }

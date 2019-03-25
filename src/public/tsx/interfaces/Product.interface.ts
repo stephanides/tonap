@@ -23,8 +23,8 @@ export default interface IProduct {
 }
 
 interface IVariant {
-  title: string;
-  priceMin: string;
-  priceMed: string;
-  priceMax: string;
+  title?: string;
+  priceMin?: string;
+  priceMed?: string;
+  priceMax?: string;
 }

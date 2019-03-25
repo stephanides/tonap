@@ -10,7 +10,7 @@ interface IProps {
 export default ({ product, handleProduct }: IProps) => {
   // const { variant } = product;
 
-  // console.log(variant);
+  // console.log(product.variant);
 
   const handleInsertRow = (e) => {
     const formRowsContainer = e.target.closest('.variation-form-rows');
@@ -85,7 +85,7 @@ export default ({ product, handleProduct }: IProps) => {
             placeholder="Názov variantu"
             onChange={(e) => {
               product.variant[0].title = e.currentTarget.value;
-              
+
               handleProduct(product);
             }}
             value={
@@ -138,7 +138,7 @@ export default ({ product, handleProduct }: IProps) => {
               handleProduct(product);
             }}
             value={
-              product.variant ?
+              product.variant && product.variant.length > 0 ?
               (
                 product.variant[0] ? product.variant[0].priceMax : ""
               ) : ""

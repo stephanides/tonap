@@ -4,11 +4,12 @@ import IError from "../../interfaces/Error.inerface";
 
 export const checkToken = (req, res, next, callBack?: (next) => void) => {
   const token: string = req.body.token || req.query.token || req.headers["x-access-token"];
-
+  
   if (!token) {
     const error: IError = new Error("No token provided");
 
     error.status = 499;
+
     return next(error);
   } else {
     jwt.verify(token, config.secret, (err, decoded) => {
