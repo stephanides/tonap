@@ -9,7 +9,7 @@ var intervalStarted = false;
 var choosedProduct = {};
 var orderObject = [];
 var getOrderObjectFromStorage = localStorage.getItem("orderObject");
-var orderObjectFromStorage = JSON.parse(getOrderObjectFromStorage);
+var orderObject = JSON.parse(getOrderObjectFromStorage);
 var orderInProgress = {
   title:"",
   isSterile:false,
@@ -299,7 +299,6 @@ function getProducts(){
        var json = JSON.parse(xobj.response);
        products = json.data;
        fillProducts(products);
-       getURL();
 			}
 		};
 		xobj.send(null);
@@ -313,46 +312,33 @@ function fillProducts(products){
       var div = $("<div></div>").addClass("col-lg-3 col-md-6 col-12 text-center cursor-pointer");
       div.attr("onclick", "orderProduct(" + "'" + products[i]._id + "'" + ")")
       var prodHeaderContainer = $("<div class=\"prod-header\"></div>").append("<h6 class=\"font-weight-bold\">" + products[i].title + "</h6>");
-      
       $("<img class=\"lazyload\" alt=\"Tonap - " + products[i].title + "\">").attr("data-src", products[i].imageFilesData[0].url).appendTo(div);
-      //$("<p></p>").text(products[i].sterile && products[i].notSterile ? "Sterilné/Nesterilné" : products[i].sterile ? "Sterilné" : "Nesterilné").appendTo(div);
       prodHeaderContainer.appendTo(div);
       $("<p></p>").text("Cena / TODO").appendTo(div);
-      // $("<h6 class=\"font-weight-bold\"></h6>").text(products[i].title).appendTo("<div class=\"prod-header\"></div>").appendTo(div);
-      //$("<button></button>").text(orderPage ? "Objednať" : "Detail produktu").attr("onclick", "orderProduct(" + "'" + products[i]._id + "'" + ")").appendTo(div);
       div.appendTo("#productKelimky");
     }
     if(products[i].category == 2){
       var div = $("<div></div>").addClass("col-lg-3 col-md-6 col-12 text-center cursor-pointer");
       div.attr("onclick", "orderProduct(" + "'" + products[i]._id + "'" + ")")
       var prodHeaderContainer = $("<div class=\"prod-header\"></div>").append("<h6 class=\"font-weight-bold\">" + products[i].title + "</h6>");
-      
       $("<img class=\"lazyload\" alt=\"Tonap - " + products[i].title + "\">").attr("data-src", products[i].imageFilesData[0].url).appendTo(div);
-      //$("<p></p>").text(products[i].sterile && products[i].notSterile ? "Sterilné/Nesterilné" : products[i].sterile ? "Sterilné" : "Nesterilné").appendTo(div);
       prodHeaderContainer.appendTo(div);
       $("<p></p>").text("Cena / TODO").appendTo(div);
-      // $("<h6 class=\"font-weight-bold\"></h6>").text(products[i].title).appendTo("<div class=\"prod-header\"></div>").appendTo(div);
-      //$("<button></button>").text(orderPage ? "Objednať" : "Detail produktu").attr("onclick", "orderProduct(" + "'" + products[i]._id + "'" + ")").appendTo(div);
       div.appendTo("#productOdberniky");
     }
     if(products[i].category == 3){
       var div = $("<div></div>").addClass("col-lg-3 col-md-6 col-12 text-center cursor-pointer");
       div.attr("onclick", "orderProduct(" + "'" + products[i]._id + "'" + ")")
       var prodHeaderContainer = $("<div class=\"prod-header\"></div>").append("<h6 class=\"font-weight-bold\">" + products[i].title + "</h6>");
-      
       $("<img class=\"lazyload\" alt=\"Tonap - " + products[i].title + "\">").attr("data-src", products[i].imageFilesData[0].url).appendTo(div);
-      //$("<p></p>").text(products[i].sterile && products[i].notSterile ? "Sterilné/Nesterilné" : products[i].sterile ? "Sterilné" : "Nesterilné").appendTo(div);
       prodHeaderContainer.appendTo(div);
       $("<p></p>").text("Cena / TODO").appendTo(div);
-      // $("<h6 class=\"font-weight-bold\"></h6>").text(products[i].title).appendTo("<div class=\"prod-header\"></div>").appendTo(div);
-      //$("<button></button>").text(orderPage ? "Objednať" : "Detail produktu").attr("onclick", "orderProduct(" + "'" + products[i]._id + "'" + ")").appendTo(div);
       div.appendTo("#productSkumavky");
     }
   }
 }
 
 function orderProduct(id){
-  
 
   for(var i=0; i<products.length;i++){
     if(products[i]._id == id){
@@ -362,7 +348,6 @@ function orderProduct(id){
         console.log(choosedProduct);
         document.getElementById("productModalMainImage").setAttribute("src",choosedProduct.imageFilesData[0].url);
         document.getElementById("mainTitle").innerHTML = choosedProduct.title;
-        //document.getElementById("isSterilized").innerHTML = choosedProduct.sterile && choosedProduct.notSterile ? "Sterilné/Nesterilné" : choosedProduct.sterile ? "Sterilné" : "Nesterilné";
         document.getElementById("productDescription").innerHTML = choosedProduct.description;
         document.getElementById("productHeight").innerHTML = "Výška: " + choosedProduct.height + " mm";
         document.getElementById("productDepth").innerHTML = "Priemer: " + choosedProduct.gauge + " mm";
@@ -375,7 +360,6 @@ function orderProduct(id){
         console.log(choosedProduct);
         document.getElementById("productModalMainImage").setAttribute("src",choosedProduct.imageFilesData[0].url);
         document.getElementById("mainTitle").innerHTML = choosedProduct.title;
-        //document.getElementById("isSterilized").innerHTML = choosedProduct.sterile && choosedProduct.notSterile ? "Sterilné/Nesterilné" : choosedProduct.sterile ? "Sterilné" : "Nesterilné";
         document.getElementById("productDescription").innerHTML = choosedProduct.description;
         document.getElementById("productHeight").innerHTML = "Výška: " + choosedProduct.height + " mm";
         document.getElementById("productDepth").innerHTML = "Priemer: " + choosedProduct.gauge + " mm";
@@ -388,69 +372,20 @@ function orderProduct(id){
   }
 }
 
-function showProduct(){
-  if($("#orderselect").val()=="kelimky"){
-    $("#productKelimky").show();
-    $('#productKelimky').css('display', 'flex');
-  }
-  else{$("#productKelimky").hide();}
-  if($("#orderselect").val()=="odberniky"){
-    $("#productOdberniky").show();
-    $('#productOdberniky').css('display', 'flex');
-  }
-  else{$("#productOdberniky").hide();}
-  if($("#orderselect").val()=="skumavky"){
-    $("#productSkumavky").show();
-    $('#productSkumavky').css('display', 'flex');
-  }
-  else{$("#productSkumavky").hide();}
-}
-
-function showProductMainpage(){
-  if($("#mainselect").val()=="kelimky"){
-    $("#productKelimky").show();
-    $('#productKelimky').css('display', 'flex');
-  }
-  else{$("#productKelimky").hide();}
-  if($("#mainselect").val()=="odberniky"){
-    $("#productOdberniky").show();
-    $('#productOdberniky').css('display', 'flex');
-  }
-  else{$("#productOdberniky").hide();}
-  if($("#mainselect").val()=="skumavky"){
-    $("#productSkumavky").show();
-    $('#productSkumavky').css('display', 'flex');
-  }
-  else{$("#productSkumavky").hide();}
-}
-
-function goToOrder(id){
-  window.location = '/online-objednavka?id=' + id;
-}
-
-function getURL(){
-
-}
-
 function fillOrder(id){
   orderInProgress.title = document.getElementById("mainTitle").innerHTML;
   orderInProgress.id = id;
   orderInProgress.image = document.getElementById("productModalMainImage").src;
   orderObject.push(orderInProgress);
-  console.log(orderObject);
   localStorage.setItem("orderObject", JSON.stringify(orderObject));
-  console.log(localStorage.getItem("orderObject"));
   orderInProgress = {};
   $("#productModal").modal("toggle");
 }
 
 function updateDetail(){
-  
-  console.log(orderObjectFromStorage);
   var row;
   document.getElementById("detailOrder").innerHTML = '';
-  console.log(orderObjectFromStorage);
-  for(var i = 0; i < orderObjectFromStorage.length; i++) {
+  for(var i = 0; i < orderObject.length; i++) {
     var btnDel = document.createElement("button");
     var btnEdit = document.createElement("button");
     var iconDel = document.createElement("i");
@@ -470,11 +405,11 @@ function updateDetail(){
 
     row = $("<tr></tr>");
     var tableImage = $("<td class=\"border-left-0\"></td>").appendTo(row);;
-    $("<img>").attr("src",orderObjectFromStorage[i].image).appendTo(tableImage);
-    $("<td></td>").html(orderObjectFromStorage[i].title).appendTo(row);
+    $("<img>").attr("src",orderObject[i].image).appendTo(tableImage);
+    $("<td></td>").html(orderObject[i].title).appendTo(row);
     $("<td></td>").html("Varianta").appendTo(row);
     $("<td></td>").html("0,00 €").appendTo(row);
-    $("<td class=\"border-left-0\"></td>").html("<span class=\"font-weight-bold\">" + orderObjectFromStorage[i].boxCount + " ks.</span>").appendTo(row);
+    $("<td class=\"border-left-0\"></td>").html("<span class=\"font-weight-bold\">" + orderObject[i].boxCount + " ks.</span>").appendTo(row);
     $("<td></td>").html("0,00 €").appendTo(row);
     $(lastCell).addClass("border-right-0")
     $(lastCell).append(btnEdit);
@@ -484,29 +419,24 @@ function updateDetail(){
 }
 
 function editOrder(param){
-  orderProduct(orderObjectFromStorage[param].id);
+  orderProduct(orderObject[param].id);
   document.getElementById("editOrder").innerHTML = "Zmeniť objednávku";
   document.getElementById("editOrder").setAttribute("onclick", "updateOrder(" + param + ")");
 }
 
 function updateOrder(param){
   orderObject[param].title = document.getElementById("orderMainTitle").innerHTML;
-  if(document.getElementById('sterilizovany').checked){
-    orderObject[param].isSterile = true;
-  }
-  if(document.getElementById('nesterilizovany').checked){
-    orderObject[param].isSterile = false;
-  }
   orderObject[param].package =  $("input:radio[name='Balenie']:checked").val();
   orderObject[param].boxSize =  $("input:radio[name='Krabica']:checked").val();
   orderObject[param].boxCount = document.getElementById("modalPackageCount").value;
   updateDetail();
   $("#orderModal").modal('toggle');
+  localStorage.setItem("orderObject", JSON.stringify(orderObject));
 }
 
 function deleteOrder(param){
-  orderObjectFromStorage.splice(param, 1);
-
+  orderObject.splice(param, 1);
+  localStorage.setItem("orderObject", JSON.stringify(orderObject));
   updateDetail();
 }
 
