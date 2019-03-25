@@ -186,7 +186,7 @@ export default ({ product, handleProduct }: IProps) => {
               
               handleProduct(product);
             }}
-            checked={product.variant[0].inStock}
+            checked={product.variant ? product.variant[0].inStock : true}
           />
           <button type="button" className="primary" onClick={handleInsertRow}>+</button>
         </div>
