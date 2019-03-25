@@ -120,6 +120,34 @@ export default class ProductForm extends React.Component<IProps, {}> {
                           ) : ""
                         }
                       />
+                      <div className="clear" />
+                      <input
+                        type="number"
+                        className="variation sack-count mb-2"
+                        placeholder="Poč. kus. sáčok"
+                        onChange={(e) => {
+                          this.props.product.variant[i].sackCount = e.currentTarget.value;
+                          
+                          this.props.handleProduct(this.props.product);
+                        }}
+                        value={
+                          this.props.product.variant && this.props.product.variant.length > 0 ?
+                          (
+                            this.props.product.variant[i] ? this.props.product.variant[i].sackCount : ""
+                          ) : ""
+                        }
+                      />
+                      <input
+                        type="checkbox"
+                        className="variation inStock mb-2"
+                        placeholder="Poč. kus. sáčok"
+                        onChange={(e) => {
+                          this.props.product.variant[i].inStock = e.currentTarget.checked;
+                          
+                          this.props.handleProduct(this.props.product);
+                        }}
+                        checked={this.props.product.variant[i].inStock}
+                      />
                       </div>
                     </div>
                   </div>

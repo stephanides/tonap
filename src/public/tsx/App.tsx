@@ -68,6 +68,8 @@ const productInit: IProduct = {
     priceMin: "",
     priceMed: "",
     priceMax: "",
+    sackCount: "",
+    inStock: true,
   }],
   volume: "",
   weight: "",
@@ -859,8 +861,10 @@ export default class App extends React.Component<{}, IAppState> {
           obj.priceMin = (variationItems[j] as HTMLInputElement).value;
         } else if(variationItems[j].className.indexOf("price-med") > -1) {
           obj.priceMed = (variationItems[j] as HTMLInputElement).value;
-        } else {
+        } else if (variationItems[j].className.indexOf("price-max") > -1) {
           obj.priceMax = (variationItems[j] as HTMLInputElement).value;
+        } else {
+          obj.countSack = (variationItems[j] as HTMLInputElement).value;
         }
       }
 
@@ -926,6 +930,8 @@ export default class App extends React.Component<{}, IAppState> {
                   priceMin: "",
                   priceMed: "",
                   priceMax: "",
+                  sackCount: "",
+                  inStock: true,
                 }],
                 weight: "",
                 // wide: 0,

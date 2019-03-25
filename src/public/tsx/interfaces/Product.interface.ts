@@ -27,4 +27,6 @@ interface IVariant {
   priceMin?: string;
   priceMed?: string;
   priceMax?: string;
+  sackCount?: string;
+  inStock?: boolean;
 }
