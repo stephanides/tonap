@@ -34,8 +34,10 @@ export default ({ product, handleProduct }: IProps) => {
     col.className = "col";
 
     btnAdd.type = "button";
+    btnAdd.className = "btn btn-secondary";
     btnAdd.innerHTML = "+";
     btnRemove.type = "button";
+    btnRemove.className = "btn btn-secondary ml-1";
     btnRemove.innerHTML = "-";
     btnAdd.addEventListener('click', handleInsertRow);
     btnRemove.addEventListener('click', handleRemoveRow);
@@ -188,7 +190,7 @@ export default ({ product, handleProduct }: IProps) => {
             }}
             checked={product.variant ? product.variant[0].inStock : true}
           />
-          <button type="button" className="primary" onClick={handleInsertRow}>+</button>
+          <button type="button" className="btn btn-secondary" onClick={handleInsertRow}>+</button>
         </div>
       </div>
     </div>

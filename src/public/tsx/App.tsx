@@ -863,8 +863,10 @@ export default class App extends React.Component<{}, IAppState> {
           obj.priceMed = (variationItems[j] as HTMLInputElement).value;
         } else if (variationItems[j].className.indexOf("price-max") > -1) {
           obj.priceMax = (variationItems[j] as HTMLInputElement).value;
+        } else if (variationItems[j].className.indexOf("sack-count") > -1) {
+          obj.sackCount = (variationItems[j] as HTMLInputElement).value;
         } else {
-          obj.countSack = (variationItems[j] as HTMLInputElement).value;
+          obj.inStock = (variationItems[j] as HTMLInputElement).checked;
         }
       }
 
