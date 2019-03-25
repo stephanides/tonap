@@ -19,6 +19,9 @@ interface IProps {
 
 export default class ProductForm extends React.Component<IProps, {}> {
   public render() {
+    // console.log(this.props.productEdit);
+    // console.log(this.props.product);
+
     return(
       <form onSubmit={(e) => {
         if (this.props.productEdit) {
@@ -43,8 +46,116 @@ export default class ProductForm extends React.Component<IProps, {}> {
           product={this.props.product}
         />
         {
+          this.props.product.variant && this.props.product.variant.length > 1 ? (
+            this.props.product.variant.map((item, i) => {
+              return (
+                i > 0 ? (
+                  <div className="variation-form-rows" key={i}>
+                    <div className="row">
+                      <div className="col">
+                      <input
+                        type="text"
+                        className="variation title mb-2"
+                        placeholder="Názov variantu"
+                        onChange={(e) => {
+                          const newProduct = this.props.product;
 
-        }
+                          newProduct.variant[i].title = e.currentTarget.value;
+
+                          this.props.handleProduct(newProduct);
+                        }}
+                        value={
+                          this.props.product.variant ?
+                          (
+                            this.props.product.variant[i] ? this.props.product.variant[i].title : ""
+                          ) : ""
+                        }
+                      />
+                      <div className="clear" />
+                      <input
+                        type="number"
+                        className="variation price-min mb-2"
+                        placeholder="Min. cena"
+                        onChange={(e) => {
+                          this.props.product.variant[i].priceMin = e.currentTarget.value;
+                          
+                          this.props.handleProduct(this.props.product);
+                        }}
+                        value={
+                          this.props.product.variant ?
+                          (
+                            this.props.product.variant[i] ? this.props.product.variant[i].priceMin : ""
+                          ) : ""
+                        }
+                      />
+                      <input
+                        type="number"
+                        className="variation price-med mb-2"
+                        placeholder="Med. cena"
+                        onChange={(e) => {
+                          this.props.product.variant[i].priceMed = e.currentTarget.value;
+                          
+                          this.props.handleProduct(this.props.product);
+                        }}
+                        value={
+                          this.props.product.variant ?
+                          (
+                            this.props.product.variant[0] ? this.props.product.variant[0].priceMed : ""
+                          ) : ""
+                        }
+                      />
+                      <input
+                        type="number"
+                        className="variation price-max mb-2"
+                        placeholder="Max. cena"
+                        onChange={(e) => {
+                          this.props.product.variant[0].priceMax = e.currentTarget.value;
+                          
+                          this.props.handleProduct(this.props.product);
+                        }}
+                        value={
+                          this.props.product.variant && this.props.product.variant.length > 0 ?
+                          (
+                            this.props.product.variant[0] ? this.props.product.variant[0].priceMax : ""
+                          ) : ""
+                        }
+                      />
+                      <div className="clear" />
+                      <input
+                        type="number"
+                        className="variation sack-count mb-2"
+                        placeholder="Poč. kus. sáčok"
+                        onChange={(e) => {
+                          this.props.product.variant[i].sackCount = e.currentTarget.value;
+                          
+                          this.props.handleProduct(this.props.product);
+                        }}
+                        value={
+                          this.props.product.variant && this.props.product.variant.length > 0 ?
+                          (
+                            this.props.product.variant[i] ? this.props.product.variant[i].sackCount : ""
+                          ) : ""
+                        }
+                      />
+                      <input
+                        type="checkbox"
+                        className="variation inStock mb-2"
+                        placeholder="Poč. kus. sáčok"
+                        onChange={(e) => {
+                          this.props.product.variant[i].inStock = e.currentTarget.checked;
+                          
+                          this.props.handleProduct(this.props.product);
+                        }}
+                        checked={this.props.product.variant[i].inStock}
+                      />
+                      </div>
+                    </div>
+                  </div>
+                ) : null
+              );
+            })
+          ) : null
+        } 
         {
           /*
           <ProductFormSterilityInfo

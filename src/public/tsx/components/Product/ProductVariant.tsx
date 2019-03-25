@@ -10,7 +10,7 @@ interface IProps {
 export default ({ product, handleProduct }: IProps) => {
   // const { variant } = product;
 
-  // console.log(variant);
+  // console.log(product.variant);
 
   const handleInsertRow = (e) => {
     const formRowsContainer = e.target.closest('.variation-form-rows');
@@ -24,6 +24,9 @@ export default ({ product, handleProduct }: IProps) => {
     const inputPriceMed = document.createElement('input');
     const inputPriceMax = document.createElement('input');
     const divider = document.createElement('div');
+    const divider1 = document.createElement('div');
+    const inputCountSack = document.createElement('input');
+    const inputInStock = document.createElement('input');
     const btnAdd = document.createElement('button');
     const btnRemove = document.createElement('button');
   
@@ -38,28 +41,41 @@ export default ({ product, handleProduct }: IProps) => {
     btnRemove.addEventListener('click', handleRemoveRow);
   
     inputTitle.type = "text";
-    inputTitle.className = "variation title"
+    inputTitle.className = "variation title mb-2"
     inputTitle.placeholder = "Názov variantu";
     
     inputPriceMin.type = "number";
-    inputPriceMin.className = "variation price-min";
+    inputPriceMin.className = "variation price-min mb-2";
     inputPriceMin.placeholder = "Min. cena";
   
     inputPriceMed.type = "number";
-    inputPriceMed.className = "variation price-med";
+    inputPriceMed.className = "variation price-med mb-2";
     inputPriceMed.placeholder = "Med. cena";
   
     inputPriceMax.type = "number";
-    inputPriceMax.className = "variation price-max";
+    inputPriceMax.className = "variation price-max mb-2";
     inputPriceMax.placeholder = "Max. cena";
+
+    inputCountSack.type = "number";
+    inputCountSack.className = "variation sack-count mb-2";
+    inputCountSack.placeholder = "Poč. kus. sáčok";
+
+    inputInStock.type = "checkbox";
+    inputInStock.className = "variation inStock mb-2";
+    inputInStock.placeholder = "Poč. kus. sáčok";
+    inputInStock.defaultChecked = true;
   
     divider.className = "clear";
+    divider1.className = "clear";
   
     col.appendChild(inputTitle);
     col.appendChild(divider);
     col.appendChild(inputPriceMin);
     col.appendChild(inputPriceMed);
     col.appendChild(inputPriceMax);
+    col.appendChild(divider1);
+    col.appendChild(inputCountSack);
+    col.appendChild(inputInStock);
     col.appendChild(btnAdd);
     col.appendChild(btnRemove);
   
@@ -85,7 +101,7 @@ export default ({ product, handleProduct }: IProps) => {
             placeholder="Názov variantu"
             onChange={(e) => {
               product.variant[0].title = e.currentTarget.value;
-              
+
               handleProduct(product);
             }}
             value={
@@ -138,11 +154,39 @@ export default ({ product, handleProduct }: IProps) => {
               handleProduct(product);
             }}
             value={
-              product.variant ?
+              product.variant && product.variant.length > 0 ?
               (
                 product.variant[0] ? product.variant[0].priceMax : ""
               ) : ""
             }
+          />
+          <div className="clear" />
+          <input
+            type="number"
+            className="variation sack-count mb-2"
+            placeholder="Poč. kus. sáčok"
+            onChange={(e) => {
+              product.variant[0].sackCount = e.currentTarget.value;
+              
+              handleProduct(product);
+            }}
+            value={
+              product.variant && product.variant.length > 0 ?
+              (
+                product.variant[0] ? product.variant[0].sackCount : ""
+              ) : ""
+            }
+          />
+          <input
+            type="checkbox"
+            className="variation inStock mb-2"
+            placeholder="Poč. kus. sáčok"
+            onChange={(e) => {
+              product.variant[0].inStock = e.currentTarget.checked;
+              
+              handleProduct(product);
+            }}
+            checked={product.variant ? product.variant[0].inStock : true}
           />
           <button type="button" className="primary" onClick={handleInsertRow}>+</button>
         </div>

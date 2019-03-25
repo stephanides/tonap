@@ -136,7 +136,6 @@ class ProductController {
                                                 weight: req.body.weight,
                                             });
                                             // newProduct.variant = req.body.variant;
-                                            // console.log(newProduct);
                                             const asyncCreate = (product) => __awaiter(this, void 0, void 0, function* () {
                                                 try {
                                                     const createProduct = yield Product_model_1.Products.create(product);
@@ -161,6 +160,7 @@ class ProductController {
                 }
             }
             catch (err) {
+                console.log(err);
                 return next(err);
             }
         });
