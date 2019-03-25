@@ -2,7 +2,8 @@ import * as React from "react";
 
 import ProductFormBasicInfo from "./ProductFormBasicInfo";
 import ProductFormTechInfo from "./ProductFormTechInfo";
-import ProductFormSterilityInfo from "./ProductFormSterilityInfo";
+// import ProductFormSterilityInfo from "./ProductFormSterilityInfo";
+import ProductVariant from "./ProductVariant";
 import IProduct from "../../interfaces/Product.interface";
 
 interface IProps {
@@ -36,10 +37,22 @@ export default class ProductForm extends React.Component<IProps, {}> {
           product={this.props.product}
           handleProduct={this.props.handleProduct}
         />
-        <ProductFormSterilityInfo
-          product={this.props.product}
+        <h6>Variant</h6>
+        <ProductVariant
           handleProduct={this.props.handleProduct}
+          product={this.props.product}
         />
+        {
+
+        }
+        {
+          /*
+          <ProductFormSterilityInfo
+            product={this.props.product}
+            handleProduct={this.props.handleProduct}
+          />
+          */
+        }
         <div className="form-row align-items-center">
           <div className="col-12">
             <button type="submit" className="btn btn-primary mb-2">

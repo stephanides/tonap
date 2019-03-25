@@ -1,4 +1,4 @@
-import * as React from "react";
+/* import * as React from "react";
 import IProduct from "../../interfaces/Product.interface";
 
 interface IProps {
@@ -284,4 +284,4 @@ export default class ProductFormSterilityInfo extends React.Component<IProps, {}
         </div>
     );
   }
-}
+} */

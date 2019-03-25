@@ -116,24 +116,30 @@ class ProductController {
                                                 gauge: req.body.gauge,
                                                 height: req.body.height,
                                                 imageFilesData: imgUrlArr,
-                                                length: req.body.length,
-                                                notSterile: req.body.notSterile,
-                                                notSterileProductMaxCount: req.body.notSterileProductMaxCount,
-                                                notSterileProductMaxPackageCount: req.body.notSterileProductMaxPackageCount,
-                                                notSterileProductMinCount: req.body.notSterileProductMinCount,
-                                                notSterileProductMinPackageCount: req.body.notSterileProductMinPackageCount,
-                                                sterile: req.body.sterile,
-                                                sterileProductMaxCount: req.body.sterileProductMaxCount,
-                                                sterileProductMaxPackageCount: req.body.sterileProductMaxPackageCount,
-                                                sterileProductMinCount: req.body.sterileProductMinCount,
-                                                sterileProductMinPackageCount: req.body.sterileProductMinPackageCount,
+                                                // length: req.body.length,
+                                                // notSterile: req.body.notSterile,
+                                                // notSterileProductMaxCount: req.body.notSterileProductMaxCount,
+                                                // notSterileProductMaxPackageCount: req.body.notSterileProductMaxPackageCount,
+                                                // notSterileProductMinCount: req.body.notSterileProductMinCount,
+                                                // notSterileProductMinPackageCount: req.body.notSterileProductMinPackageCount,
+                                                // sterile: req.body.sterile,
+                                                // sterileProductMaxCount: req.body.sterileProductMaxCount,
+                                                // sterileProductMaxPackageCount: req.body.sterileProductMaxPackageCount,
+                                                // sterileProductMinCount: req.body.sterileProductMinCount,
+                                                // sterileProductMinPackageCount: req.body.sterileProductMinPackageCount,
                                                 title: req.body.title,
+                                                variant: req.body.variant,
+                                                // variantPriceMin: req.body.variantPriceMin,
+                                                // variantPriceMed: req.body.variantPriceMed,
+                                                // variantPriceMax: req.body.variantPriceMax,
                                                 volume: req.body.volume,
                                                 weight: req.body.weight,
                                             });
-                                            const asyncCreate = () => __awaiter(this, void 0, void 0, function* () {
+                                            // newProduct.variant = req.body.variant;
+                                            // console.log(newProduct);
+                                            const asyncCreate = (product) => __awaiter(this, void 0, void 0, function* () {
                                                 try {
-                                                    const createProduct = yield Product_model_1.Products.create(newProduct);
+                                                    const createProduct = yield Product_model_1.Products.create(product);
                                                     if (createProduct) {
                                                         res.json({ message: "Product has been successfully stored", success: true });
                                                     }
@@ -145,7 +151,7 @@ class ProductController {
                                                     return next(storingErr);
                                                 }
                                             });
-                                            asyncCreate();
+                                            asyncCreate(newProduct);
                                         }
                                     }
                                 });

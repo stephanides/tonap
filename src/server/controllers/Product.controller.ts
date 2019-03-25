@@ -33,6 +33,7 @@ export default class ProductController {
       return next(err);
     }
   }
+
   public async getActive(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const productItems: object[] = await Products.find({ active: true });
@@ -108,26 +109,34 @@ export default class ProductController {
                       gauge: req.body.gauge,
                       height: req.body.height,
                       imageFilesData: imgUrlArr,
-                      length: req.body.length,
-                      notSterile: req.body.notSterile,
-                      notSterileProductMaxCount: req.body.notSterileProductMaxCount,
-                      notSterileProductMaxPackageCount: req.body.notSterileProductMaxPackageCount,
-                      notSterileProductMinCount: req.body.notSterileProductMinCount,
-                      notSterileProductMinPackageCount: req.body.notSterileProductMinPackageCount,
-                      sterile: req.body.sterile,
-                      sterileProductMaxCount: req.body.sterileProductMaxCount,
-                      sterileProductMaxPackageCount: req.body.sterileProductMaxPackageCount,
-                      sterileProductMinCount: req.body.sterileProductMinCount,
-                      sterileProductMinPackageCount: req.body.sterileProductMinPackageCount,
+                      // length: req.body.length,
+                      // notSterile: req.body.notSterile,
+                      // notSterileProductMaxCount: req.body.notSterileProductMaxCount,
+                      // notSterileProductMaxPackageCount: req.body.notSterileProductMaxPackageCount,
+                      // notSterileProductMinCount: req.body.notSterileProductMinCount,
+                      // notSterileProductMinPackageCount: req.body.notSterileProductMinPackageCount,
+                      // sterile: req.body.sterile,
+                      // sterileProductMaxCount: req.body.sterileProductMaxCount,
+                      // sterileProductMaxPackageCount: req.body.sterileProductMaxPackageCount,
+                      // sterileProductMinCount: req.body.sterileProductMinCount,
+                      // sterileProductMinPackageCount: req.body.sterileProductMinPackageCount,
                       title: req.body.title,
+                      variant: req.body.variant,
+                      // variantPriceMin: req.body.variantPriceMin,
+                      // variantPriceMed: req.body.variantPriceMed,
+                      // variantPriceMax: req.body.variantPriceMax,
                       volume: req.body.volume,
                       weight: req.body.weight,
                       //wide: req.body.wide,
                     });
 
-                    const asyncCreate = async () => {
+                    // newProduct.variant = req.body.variant;
+
+                    // console.log(newProduct);
+
+                    const asyncCreate = async (product: IProduct) => {
                       try {
-                        const createProduct: object = await Products.create(newProduct);
+                        const createProduct: object = await Products.create(product);
 
                         if (createProduct) {
                           res.json({ message: "Product has been successfully stored", success: true });
@@ -139,9 +148,8 @@ export default class ProductController {
                       }
                     };
 
-                    asyncCreate();
+                    asyncCreate(newProduct);
                   }
-
                 }
               });
             }

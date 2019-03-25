@@ -5,18 +5,26 @@ export default interface IProduct {
   height: string; // number;
   gauge: string; // number;
   // length: number;
-  notSterile: boolean;
-  notSterileProductMinCount: number;
-  notSterileProductMinPackageCount: number;
-  notSterileProductMaxCount: number;
-  notSterileProductMaxPackageCount: number;
-  sterile: boolean;
-  sterileProductMaxCount: number;
-  sterileProductMaxPackageCount: number;
-  sterileProductMinCount: number;
-  sterileProductMinPackageCount: number;
+  // notSterile: boolean;
+  // notSterileProductMinCount: number;
+  // notSterileProductMinPackageCount: number;
+  // notSterileProductMaxCount: number;
+  // notSterileProductMaxPackageCount: number;
+  // sterile: boolean;
+  // sterileProductMaxCount: number;
+  // sterileProductMaxPackageCount: number;
+  // sterileProductMinCount: number;
+  // sterileProductMinPackageCount: number;
   title: string;
   volume: string; // number;
+  variant?: [IVariant];
   weight: string; // number;
   // wide: number;
+}
+
+interface IVariant {
+  title: string;
+  priceMin: string;
+  priceMed: string;
+  priceMax: string;
 }
