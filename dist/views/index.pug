@@ -28,7 +28,7 @@ block content
             li
               a.cart(href="online-objednavka")
                 img.infoicon.lazyload(data-src="./assets/images/icons/cart.svg", alt="Shopping cart")
-                span 0,00 €
+                span#cartPrice 0,00 €
     section#header
       .container-fluid
         .container
@@ -81,12 +81,6 @@ block content
     section#orderProduct
       .container.text-center
         h3.bigger Naše produkty
-        .row
-          // .mainselect
-            select.ml-2.mt-2#mainselect(onchange="showProductMainpage()")
-              option(value="kelimky" ) Masťovky a Kelímky
-              option(value="odberniky" ) Petriho misky a odberníky
-              option(value="skumavky" ) Skúmavky
       .container.mt-5
         ul.nav.nav-pills.mb-4#pills-tab(role="tablist")
           li.nav-item
@@ -186,10 +180,17 @@ block content
                         p.mb-0#productWeight
                       .variants
                         p.pt-2 Varianty produktu:
-                        select#variantsSelect.form-control.w-50
+                        select#variantsSelect.form-control.w-50(onchange="refreshOrder()")
                       .itemsCount
                         p.pt-2 Počet kusov:
-                        select#countSelect.form-control.w-50
+                        input#countSelect.form-control.w-50(type="number" value="1" onchange="refreshOrder()")
+                        p.pt-2 Cena za kus - 
+                          strong#actualPrice
+                        .action
+                          p Cena pri objednávke nad 2000 ks - 
+                            strong#midPrice
+                          p Cena pri objednávke nad 2000 ks - 
+                            strong#lowPrice
                       .buttons.d-flex.mt-4.mb-4
                         button#navigationOrder.w-50(aria-label="Pridať do košíka") Pridať do košíka
                         button.light.w-50(aria-label="Pokračovať v nákupe" data-dismiss="modal") Pokračovať v nákupe
