@@ -7,10 +7,12 @@ var products = [{}];
 var intervalId = null;
 var intervalStarted = false;
 var choosedProduct = {};
+var totalProductPrice;
 if(localStorage.getItem("orderObject") != null){
   var getOrderObjectFromStorage = localStorage.getItem("orderObject");
   var orderObject = JSON.parse(getOrderObjectFromStorage);
   getSum();
+  console.log(orderObject);
 }
 else{
   var orderObject = [];
@@ -50,6 +52,7 @@ window.onload = function () {
   revealProducts();
   scrollPage();
   getProducts();
+  //getSum();
   if (window.location.href.indexOf("online-objednavka") < 0) {
     setTimeout(startCounter, 1000);
   }
@@ -304,13 +307,19 @@ function fillProducts(products){
   var orderPage = window.location.pathname.indexOf("online-objednavka") > -1 ? true : false;
 
   for (var i = 0; i < products.length; i++) {
+    var minPriceArray = [];
+    var minPrice = 0;
+    for(var x=0; x<products[i].variant.length;x++){
+      minPriceArray.push(Number(products[i].variant[x].priceMin));
+    }
+    minPrice = Math.min.apply(null, minPriceArray);
     if(products[i].category == 1){
       var div = $("<div></div>").addClass("col-lg-3 col-md-6 col-12 text-center cursor-pointer");
       div.attr("onclick", "orderProduct(" + "'" + products[i]._id + "'" + ")")
       var prodHeaderContainer = $("<div class=\"prod-header\"></div>").append("<h6 class=\"font-weight-bold\">" + products[i].title + "</h6>");
       $("<img class=\"lazyload\" alt=\"Tonap - " + products[i].title + "\">").attr("data-src", products[i].imageFilesData[0].url).appendTo(div);
       prodHeaderContainer.appendTo(div);
-      $("<strong></strong").text(products[i].variant[0].priceMin + " €").appendTo($("<p class='productPrice'></p>").text("od ").appendTo(div));
+      $("<strong></strong").text(minPrice + " €").appendTo($("<p class='productPrice'></p>").text("od ").appendTo(div));
       div.appendTo("#productKelimky");
     }
     if(products[i].category == 2){
@@ -319,6 +328,7 @@ function fillProducts(products){
       var prodHeaderContainer = $("<div class=\"prod-header\"></div>").append("<h6 class=\"font-weight-bold\">" + products[i].title + "</h6>");
       $("<img class=\"lazyload\" alt=\"Tonap - " + products[i].title + "\">").attr("data-src", products[i].imageFilesData[0].url).appendTo(div);
       prodHeaderContainer.appendTo(div);
+      $("<strong></strong").text(minPrice + " €").appendTo($("<p class='productPrice'></p>").text("od ").appendTo(div));
       $("<p></p>").text("Cena / TODO").appendTo(div);
       div.appendTo("#productOdberniky");
     }
@@ -328,6 +338,7 @@ function fillProducts(products){
       var prodHeaderContainer = $("<div class=\"prod-header\"></div>").append("<h6 class=\"font-weight-bold\">" + products[i].title + "</h6>");
       $("<img class=\"lazyload\" alt=\"Tonap - " + products[i].title + "\">").attr("data-src", products[i].imageFilesData[0].url).appendTo(div);
       prodHeaderContainer.appendTo(div);
+      $("<strong></strong").text(minPrice + " €").appendTo($("<p class='productPrice'></p>").text("od ").appendTo(div));
       $("<p></p>").text("Cena / TODO").appendTo(div);
       div.appendTo("#productSkumavky");
     }
@@ -349,7 +360,6 @@ function orderProduct(id){
       if(document.location.href.indexOf('online-objednavka') < 0) {
         document.getElementById("navigationOrder").innerHTML = "Pridať do košíka";
         choosedProduct = products[i];
-        console.log(choosedProduct);
         itemSelect.innerHTML = "";
         document.getElementById("productModalMainImage").setAttribute("src",choosedProduct.imageFilesData[0].url);
         document.getElementById("mainTitle").innerHTML = choosedProduct.title;
@@ -369,11 +379,14 @@ function orderProduct(id){
         document.getElementById("actualPrice").innerHTML = choosedProduct.variant[0].priceMax + " €";
         document.getElementById("midPrice").innerHTML = choosedProduct.variant[0].priceMed + " €";
         document.getElementById("lowPrice").innerHTML = choosedProduct.variant[0].priceMin + " €";
+        refreshOrder();
+        getProductSum();
+        document.getElementById("totalProductPrice").innerHTML = totalProductPrice + " € ";
         
         $("#productModal").modal();
       } else {
         choosedProduct = products[i];
-        console.log(choosedProduct);
+        itemSelect.innerHTML = "";
         document.getElementById("productModalMainImage").setAttribute("src",choosedProduct.imageFilesData[0].url);
         document.getElementById("mainTitle").innerHTML = choosedProduct.title;
         document.getElementById("productDescription").innerHTML = choosedProduct.description;
@@ -381,6 +394,18 @@ function orderProduct(id){
         document.getElementById("productDepth").innerHTML = "Priemer: " + choosedProduct.gauge + " mm";
         document.getElementById("productVolume").innerHTML = "Objem: " + choosedProduct.volume + " ml";
         document.getElementById("productWeight").innerHTML = "Váha: " + choosedProduct.weight + " g";
+        for (var j = 0; j < products[i].variant.length; j++) {
+          var option = document.createElement("option");
+          option.value = products[i].variant[j].title;
+          option.text = products[i].variant[j].title;
+          itemSelect.appendChild(option);
+        }
+        document.getElementById("actualPrice").innerHTML = choosedProduct.variant[0].priceMax + " €";
+        document.getElementById("midPrice").innerHTML = choosedProduct.variant[0].priceMed + " €";
+        document.getElementById("lowPrice").innerHTML = choosedProduct.variant[0].priceMin + " €";
+        refreshOrder();
+        getProductSum();
+        document.getElementById("totalProductPrice").innerHTML = totalProductPrice + " € ";
         document.getElementById("editOrder").setAttribute("onclick", "fillOrder(" + "'" + products[i]._id + "'" + ")");
         $("#productModal").modal();
       }
@@ -393,6 +418,8 @@ function fillOrder(id){
   orderInProgress.id = id;
   orderInProgress.image = document.getElementById("productModalMainImage").src;
   orderInProgress.count = Number(document.getElementById("countSelect").value);
+  orderInProgress.variant = document.getElementById("variantsSelect").selectedIndex;
+  orderInProgress.variantName = document.getElementById("variantsSelect").options[document.getElementById("variantsSelect").selectedIndex].value;
   var price = document.getElementById("actualPrice").innerHTML;
   orderInProgress.price = Number(price.replace(/€/,""));
   console.log(orderInProgress);
@@ -425,19 +452,23 @@ function updateDetail(){
     var lastCell = document.createElement("td");
     lastCell.className = "text-center";
 
+    var pricePerItem;
+
+
     row = $("<tr></tr>");
-    var tableImage = $("<td class=\"border-left-0\"></td>").appendTo(row);;
+    var tableImage = $("<td class=\"border-left-0\"></td>").appendTo(row);
     $("<img>").attr("src",orderObject[i].image).appendTo(tableImage);
     $("<td></td>").html(orderObject[i].title).appendTo(row);
-    $("<td></td>").html("Varianta").appendTo(row);
-    $("<td></td>").html("0,00 €").appendTo(row);
-    $("<td class=\"border-left-0\"></td>").html("<span class=\"font-weight-bold\">" + orderObject[i].boxCount + " ks.</span>").appendTo(row);
-    $("<td></td>").html("0,00 €").appendTo(row);
+    $("<td></td>").html(orderObject[i].variantName).appendTo(row);
+    $("<td></td>").html(orderObject[i].price + " €").appendTo(row);
+    $("<td class=\"border-left-0\"></td>").html("<span class=\"font-weight-bold\">" + orderObject[i].count + " ks.</span>").appendTo(row);
+    $("<td></td>").html((orderObject[i].price * orderObject[i].count) + " €").appendTo(row);
     $(lastCell).addClass("border-right-0")
     $(lastCell).append(btnEdit);
     $(lastCell).append(btnDel).appendTo(row);
     row.appendTo(document.getElementById("detailOrder"));
   }
+  getSum();
 }
 
 function editOrder(param){
@@ -447,12 +478,14 @@ function editOrder(param){
 }
 
 function updateOrder(param){
-  orderObject[param].title = document.getElementById("orderMainTitle").innerHTML;
-  orderObject[param].package =  $("input:radio[name='Balenie']:checked").val();
-  orderObject[param].boxSize =  $("input:radio[name='Krabica']:checked").val();
-  orderObject[param].boxCount = document.getElementById("modalPackageCount").value;
+  orderObject[param].title = document.getElementById("mainTitle").innerHTML;
+  orderObject[param].count = Number(document.getElementById("countSelect").value);
+  var price = document.getElementById("actualPrice").innerHTML;
+  orderObject[param].price = Number(price.replace(/€/,""));
+  orderObject[param].variant = document.getElementById("variantsSelect").selectedIndex;
+  orderObject[param].variantName = document.getElementById("variantsSelect").options[document.getElementById("variantsSelect").selectedIndex].value;
   updateDetail();
-  $("#orderModal").modal('toggle');
+  $("#productModal").modal('toggle');
   localStorage.setItem("orderObject", JSON.stringify(orderObject));
 }
 
@@ -576,24 +609,53 @@ if (window.location.href.indexOf("online-objednavka") > 1) {
 function refreshOrder(){
   countSelect = document.getElementById("countSelect").value;
   variantId = document.getElementById("variantsSelect").selectedIndex;
+  var actualPrice = document.getElementById("actualPrice");
+  var midPrice = document.getElementById("midPrice");
+  var lowPrice = document.getElementById("lowPrice");
   console.log(countSelect);
   if(countSelect < 2000){
-    document.getElementById("actualPrice").innerHTML = choosedProduct.variant[variantId].priceMax + " €";
+    actualPrice.innerHTML = choosedProduct.variant[variantId].priceMax + " €";
+    midPrice.innerHTML = choosedProduct.variant[variantId].priceMed + " €";
+    lowPrice.innerHTML = choosedProduct.variant[variantId].priceMin + " €";
   }
   if(countSelect >= 2000 && countSelect < 4000){
-    document.getElementById("actualPrice").innerHTML = choosedProduct.variant[variantId].priceMed + " €";
+    actualPrice.innerHTML = choosedProduct.variant[variantId].priceMed + " €";
+    midPrice.innerHTML = choosedProduct.variant[variantId].priceMed + " €";
+    lowPrice.innerHTML = choosedProduct.variant[variantId].priceMin + " €";
   }
   else if(countSelect >= 4000){
-    document.getElementById("actualPrice").innerHTML = choosedProduct.variant[variantId].priceMin + " €";
+    actualPrice.innerHTML = choosedProduct.variant[variantId].priceMin + " €";
+    midPrice.innerHTML = choosedProduct.variant[variantId].priceMed + " €";
+    lowPrice.innerHTML = choosedProduct.variant[variantId].priceMin + " €";
   }
+  getProductSum();
+  document.getElementById("totalProductPrice").innerHTML = totalProductPrice + " € ";
+  getSum();
 }
 
 function getSum(){
-  var sum = 0;
+  var sum = 0.00;
   for(var i = 0; i < orderObject.length; i++){
     sum += orderObject[i].price * orderObject[i].count; 
   }
   if(document.getElementById("cartPrice")!= null){
     document.getElementById("cartPrice").innerHTML = sum + " €";
   }
+  if(document.getElementById("medzisucet")!= null){
+    document.getElementById("medzisucet").innerHTML = sum + " €";
+  }
+}
+
+function getProductSum(){
+  var actualPrice = document.getElementById("actualPrice").innerHTML;
+  console.log(countSelect);
+  console.log(actualPrice);
+   totalProductPrice = countSelect * Number(actualPrice.replace(/€/,""));;
+}
+
+function getShippingPrice(){
+  var shippingMethod = $('input[name=radioName]:checked', '#myForm').val();
+  console.log(shippingMethod);
+  var paymentMethod = $('input[name=radioName]:checked', '#myForm').val();
+  console.log(paymentMethod);
 }
