@@ -12,22 +12,22 @@ html(lang="sk")
 
     // Favicon
     link(rel="apple-touch-icon" sizes="76x76" href="assets/images/icons/favicon/apple-touch-icon.png")
-    link(rel="icon" type="image/png" sizes="32x32" href="assets/images/icons/favicon/favicon-32x32.png")
-    link(rel="icon" type="image/png" sizes="16x16" href="assets/images/icons/favicon/favicon-16x16.png")
-    link(rel="manifest" href="assets/images/favicon/icons/site.webmanifest")
+    link(rel="icon" type="image/png" sizes="32x32" href=(page.indexOf("Admin") > -1 ? "../assets/images/icons/favicon/favicon-32x32.png" : "./assets/images/icons/favicon/favicon-32x32.png"))
+    link(rel="icon" type="image/png" sizes="16x16" href=(page.indexOf("Admin") > -1 ? "../assets/images/icons/favicon/favicon-16x16.png" : "./assets/images/icons/favicon/favicon-16x16.png"))
+    //-link(rel="manifest" href=(page.indexOf("Admin") > -1 ? "../assets/images/favicon/icons/site.webmanifest" : "./assets/images/favicon/icons/site.webmanifest"))
     link(rel="mask-icon" href="assets/images/icons/favicon/safari-pinned-tab.svg" color="#5bbad5")
     meta(name="msapplication-TileColor" content="#da532c")
     meta(name="theme-color" content="#ffffff")
     // CSS
 
     // Roboto font
-    link(rel="stylesheet", href="./assets/css/roboto.min.css", media="none", onload="if(media!='all')media='all'")
+    link(rel="stylesheet", href=(page.indexOf("Admin") > -1 ? "../assets/css/roboto.min.css" : "./assets/css/roboto.min.css"), media="none", onload="if(media!='all')media='all'")
 
     // Montserrat font
-    link(rel="stylesheet", href="./assets/css/montserrat.min.css", media="none", onload="if(media!='all')media='all'")
+    link(rel="stylesheet", href=(page.indexOf("Admin") > -1 ? "../assets/css/montserrat.min.css" : "./assets/css/montserrat.min.css"), media="none", onload="if(media!='all')media='all'")
     
     // Font Awesome css
-    link(rel="stylesheet", href="./assets/css/fontawesome.min.css", media="none", onload="if(media!='all')media='all'")
+    link(rel="stylesheet", href=(page.indexOf("Admin") > -1 ? "../assets/css/fontawesome.min.css" : "./assets/css/fontawesome.min.css"), media="none", onload="if(media!='all')media='all'")
       
     // Bootstrap css
     //link(rel="stylesheet", href="./assets/css/bootstrap-reboot.min.css", media="none", onload="if(media!='all')media='all'")
@@ -35,8 +35,8 @@ html(lang="sk")
     link(rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css")
 
     // Main style
-    link(rel="stylesheet", href="./assets/css/modal.min.css", media="all")
-    link(rel="stylesheet", href="./assets/css/style.min.css", media="all")
+    link(rel="stylesheet", href=(page.indexOf("Admin") > -1 ? "../assets/css/modal.min.css" : "./assets/css/modal.min.css"), media="all")
+    link(rel="stylesheet", href=(page.indexOf("Admin") > -1 ? "../assets/css/style.min.css" : "../assets/css/style.min.css"), media="all")
     block headerStyle
 
     title #{page}

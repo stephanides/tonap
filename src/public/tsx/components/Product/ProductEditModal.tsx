@@ -41,7 +41,6 @@ export default class ProductEdit extends React.Component<IProps, {}> {
               storeProduct={this.props.storeProduct}
             />
           </div>
-          <div className="footer p-3"></div>
         </div>
 
         <_JSXStyle styleId={"productEditWrapper"} css={`
@@ -74,6 +73,10 @@ export default class ProductEdit extends React.Component<IProps, {}> {
             position: absolute;
             top: 1rem;
             right: 1rem;
+          }
+          .productEditWrapper .modal-wrapper .body {
+            max-height: 550px;
+            overflow-y: auto;
           }
         `} />
       </div> : null

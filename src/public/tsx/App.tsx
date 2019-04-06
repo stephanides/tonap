@@ -475,9 +475,41 @@ export default class App extends React.Component<{}, IAppState> {
   private async handleProductUpdate(e: React.FormEvent<HTMLElement>): Promise<void> {
     e.preventDefault();
 
+    const form = e.currentTarget;
+    const updatedProduct = this.state.product;
+    const variations = form.querySelectorAll(".variation-form-rows > .row");
+    let variationsArr = [];
+
+    for(let i = 0; i < variations.length; i++) {
+      let obj = {} as any;
+      const variationItems = variations[i].querySelectorAll("input.variation");
+
+      for(let j = 0; j < variationItems.length; j++) {
+        if(variationItems[j].className.indexOf("title") > -1) {
+          obj.title = (variationItems[j] as HTMLInputElement).value;
+        } else if(variationItems[j].className.indexOf("price-min") > -1) {
+          obj.priceMin = (variationItems[j] as HTMLInputElement).value;
+        } else if(variationItems[j].className.indexOf("price-med") > -1) {
+          obj.priceMed = (variationItems[j] as HTMLInputElement).value;
+        } else if (variationItems[j].className.indexOf("price-max") > -1) {
+          obj.priceMax = (variationItems[j] as HTMLInputElement).value;
+        } else if (variationItems[j].className.indexOf("sack-count") > -1) {
+          obj.sackCount = (variationItems[j] as HTMLInputElement).value;
+        } else if (variationItems[j].className.indexOf("box-count") > -1) {
+          obj.boxCount = (variationItems[j] as HTMLInputElement).value;
+        } else {
+          obj.inStock = (variationItems[j] as HTMLInputElement).checked;
+        }
+      }
+
+      variationsArr.push(obj);
+    }
+
+    (updatedProduct as any).variant = variationsArr;
+
     try {
       const request = await fetch("/api/product", {
-        body: JSON.stringify(this.state.product),
+        body: JSON.stringify(updatedProduct), // this.state.product
         headers: {
           "Content-type": "application/json",
           "x-access-token": this.state.user.token,
