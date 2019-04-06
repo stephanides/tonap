@@ -10,6 +10,10 @@ $break-medium:992px;
 $break-small:768px;
 $break-xsmall:576px;
 
+html{
+  overflow-y: scroll;
+}
+
 *{
   font-family: "Montserrat", Fallback, sans-serif;
 }
@@ -421,6 +425,9 @@ $break-xsmall:576px;
           height: 75px;
         }
       }
+    }
+    select{
+      font-size: 14px;
     }
   }
   #orderProduct {
@@ -979,14 +986,14 @@ $break-xsmall:576px;
       }
     }
     input[type="text"]{
-      width: 80%;
+      width: 100%;
       outline: none;
       border:1px solid lightgray;
       padding: 10px 20px;
       border-radius: 4px;
     }
     textarea{
-      width: 80%;
+      width: 100%;
       outline: none;
       border:1px solid lightgray;
       padding: 10px 20px;
@@ -1345,4 +1352,7 @@ $break-xsmall:576px;
     padding-left: 4px;
   }
 }
-.modal-open #navMenu { padding-right: 17px !important; }
+
+.modal-open{
+  padding-right: 0 !important;
+}

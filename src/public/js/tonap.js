@@ -456,13 +456,13 @@ function updateDetail(){
 
 
     row = $("<tr></tr>");
-    var tableImage = $("<td class=\"border-left-0\"></td>").appendTo(row);
+    var tableImage = $("<td class=\"border-left-0 border-right-0\"></td>").appendTo(row);
     $("<img>").attr("src",orderObject[i].image).appendTo(tableImage);
-    $("<td></td>").html(orderObject[i].title).appendTo(row);
-    $("<td></td>").html(orderObject[i].variantName).appendTo(row);
-    $("<td></td>").html(orderObject[i].price + " €").appendTo(row);
+    $("<td class='font-weight-bold border-left-0'></td>").html(orderObject[i].title).appendTo(row);
+    $("<td class='font-weight-bold'></td>").html(orderObject[i].variantName).appendTo(row);
+    $("<td class='font-weight-bold' style='color:#4187cc;'></td>").html(orderObject[i].price + " €").appendTo(row);
     $("<td class=\"border-left-0\"></td>").html("<span class=\"font-weight-bold\">" + orderObject[i].count + " ks.</span>").appendTo(row);
-    $("<td></td>").html((orderObject[i].price * orderObject[i].count) + " €").appendTo(row);
+    $("<td class='font-weight-bold' style='color:#4187cc;'></td>").html((orderObject[i].price * orderObject[i].count) + " €").appendTo(row);
     $(lastCell).addClass("border-right-0")
     $(lastCell).append(btnEdit);
     $(lastCell).append(btnDel).appendTo(row);

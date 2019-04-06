@@ -46,16 +46,36 @@ block content
           .col-12
             form.pl-1.mt-4(onsubmit="sendOrder()")
               .row
-                .col-lg-6.pl-4
+                .col-lg-6.pl-4.pr-6
                   h5 2. Fakturačné údaje
-                  p Meno a priezvisko *
-                  input(name="name" type="text" id = "name" placeholder="Vaše meno a priezvisko" required)
+                  p Meno *
+                  input(name="name" type="text" id = "name" placeholder="Vaše meno" required)
+                  p Priezvisko *
+                  input(name="name" type="text" id = "name" placeholder="Vaše priezvisko" required)
                   p Názov firmy
                   input(name="company" type="text" id = "company" placeholder="Názov firmy")
-                  p Fakturačná adresa *
+                  .row
+                    .col-md-6.col-12
+                      p IČO
+                      input(name="ico" type="text" id="ico" placeholder="Vaše IČO")
+                    .col-md-6.col-12
+                      p DIČ
+                      input(name="dic" type="text" id="dic" placeholder="Vaše DIČ")
+                  p Ulica a číslo *
                   input(name="companyAdress" id="companyAdress" type="text" placeholder="Ulica" required)
-                  input(name="companyCity" id="companyCity" type="text" placeholder="Mesto" class="mt-2" required)
-                  input(name="companyPSC" id="companyPSC" type="text" placeholder="PSČ" class="mt-2" required)
+                  .row
+                    .col-md-6.col-12
+                      p PSČ *
+                      input(name="companyPSC" id="companyPSC" type="text" placeholder="PSČ" required)
+                    .col-md-6.col-12
+                      p Mesto
+                      input(name="companyCity" id="companyCity" type="text" placeholder="Mesto" required)
+                  p Krajina *
+                    select.custom-select(style="padding:0; border-radius:0;padding-left:10px;") 
+                      option Slovensko
+                      option Maďarsko
+                      option Poľsko
+                      option Česko
                   p Adresa dodania (ak sa nezhoduje s fakturačnou adresou)
                   input(name="deliveryAdress" type="text" id="deliveryAdress" placeholder="Ulica" )
                   input(name="deliveryCity" type="text" id="deliveryCity" placeholder="Mesto" class="mt-2" )
@@ -64,8 +84,7 @@ block content
                   input(name="email" type="text" id="email" reqiured="true" placeholder="Vaša e-mailová adresa" required)
                   p Telefónne číslo *
                   input(name="tel" type="text" id="phone" reqiured="true" placeholder="Vaše telefónne číslo" required)
-                  p IČO
-                  input(name="ico" type="text" id="ico" placeholder="Vaše IČO")
+                  
                   p Správa
                   textarea(name="message" id="message" rows="4" placeholder="Správa pre nás")
                 .col-lg-6
