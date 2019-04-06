@@ -940,6 +940,16 @@ export default class App extends React.Component<{}, IAppState> {
                 weight: "",
                 // wide: 0,
               },
+            }, () => {
+              const formRowsContainer = form.querySelector(".variation-form-rows");
+              const variationRows = formRowsContainer.querySelectorAll('.row');
+
+              let m = variationRows.length - 1;
+
+              while(m > 0) {
+                variationRows[m].remove();
+                m = m - 1;
+              }
             });
           });
         } else {
