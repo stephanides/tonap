@@ -68,6 +68,7 @@ const productInit: IProduct = {
     priceMin: "",
     priceMed: "",
     priceMax: "",
+    boxCount: "",
     sackCount: "",
     inStock: true,
   }],
@@ -746,8 +747,6 @@ export default class App extends React.Component<{}, IAppState> {
     let i = 0;
     const fileArr: any[] = [];
 
-    console.log(files);
-
     if (files && files.length > 0) {
       const readFileFn = () => {
         reader.readAsDataURL(files[i]);
@@ -865,6 +864,8 @@ export default class App extends React.Component<{}, IAppState> {
           obj.priceMax = (variationItems[j] as HTMLInputElement).value;
         } else if (variationItems[j].className.indexOf("sack-count") > -1) {
           obj.sackCount = (variationItems[j] as HTMLInputElement).value;
+        } else if (variationItems[j].className.indexOf("box-count") > -1) {
+          obj.boxCount = (variationItems[j] as HTMLInputElement).value;
         } else {
           obj.inStock = (variationItems[j] as HTMLInputElement).checked;
         }
@@ -890,7 +891,7 @@ export default class App extends React.Component<{}, IAppState> {
       .options[(form.querySelector("#category") as HTMLSelectElement).selectedIndex].value;
       (formParams as any).imageFilesData = imageDataArr;
 
-      console.log(formParams);
+      // console.log(formParams);
 
       try {
         const request = await fetch("/api/product", {
@@ -932,6 +933,7 @@ export default class App extends React.Component<{}, IAppState> {
                   priceMin: "",
                   priceMed: "",
                   priceMax: "",
+                  boxCount: "",
                   sackCount: "",
                   inStock: true,
                 }],
