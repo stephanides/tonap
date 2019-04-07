@@ -208,7 +208,7 @@ export default class ProductForm extends React.Component<IProps, {}> {
                           value={
                             this.props.product.variant ?
                             (
-                              this.props.product.variant[0] ? this.props.product.variant[0].priceMed : ""
+                              this.props.product.variant[i] ? this.props.product.variant[i].priceMed : ""
                             ) : ""
                           }
                         />
@@ -217,14 +217,14 @@ export default class ProductForm extends React.Component<IProps, {}> {
                           className="variation price-max mb-2"
                           placeholder="Max. cena"
                           onChange={(e) => {
-                            this.props.product.variant[0].priceMax = e.currentTarget.value;
+                            this.props.product.variant[i].priceMax = e.currentTarget.value;
                             
                             this.props.handleProduct(this.props.product);
                           }}
                           value={
                             this.props.product.variant && this.props.product.variant.length > 0 ?
                             (
-                              this.props.product.variant[0] ? this.props.product.variant[0].priceMax : ""
+                              this.props.product.variant[i] ? this.props.product.variant[i].priceMax : ""
                             ) : ""
                           }
                         />
@@ -250,14 +250,14 @@ export default class ProductForm extends React.Component<IProps, {}> {
                           className="variation box-count mb-2"
                           placeholder="Poč. kus. krabica"
                           onChange={(e) => {
-                            this.props.product.variant[0].boxCount = e.currentTarget.value;
+                            this.props.product.variant[i].boxCount = e.currentTarget.value;
                             
                             this.props.handleProduct(this.props.product);
                           }}
                           value={
                             this.props.product.variant && this.props.product.variant.length > 0 ?
                             (
-                              this.props.product.variant[0] ? this.props.product.variant[0].boxCount : ""
+                              this.props.product.variant[i] ? this.props.product.variant[i].boxCount : ""
                             ) : ""
                           }
                         />
@@ -268,11 +268,11 @@ export default class ProductForm extends React.Component<IProps, {}> {
                             className="variation inStock mb-2"
                             id="itemInStock"
                             onChange={(e) => {
-                              this.props.product.variant[0].inStock = e.currentTarget.checked;
+                              this.props.product.variant[i].inStock = e.currentTarget.checked;
                               
                               this.props.handleProduct(this.props.product);
                             }}
-                            checked={this.props.product.variant ? this.props.product.variant[0].inStock : true}
+                            checked={this.props.product.variant ? this.props.product.variant[i].inStock : true}
                           />
                         </div>
                         <button type="button" className="btn btn-secondary ml-1" onClick={this.handleInsertRow}>+</button>
