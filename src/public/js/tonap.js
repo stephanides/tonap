@@ -422,12 +422,16 @@ function fillOrder(id){
   orderInProgress.variantName = document.getElementById("variantsSelect").options[document.getElementById("variantsSelect").selectedIndex].value;
   var price = document.getElementById("actualPrice").innerHTML;
   orderInProgress.price = Number(price.replace(/€/,""));
+  orderInProgress.totalPrice = orderInProgress.count * orderInProgress.price;
   console.log(orderInProgress);
   console.log(orderObject);
   orderObject.push(orderInProgress);
   localStorage.setItem("orderObject", JSON.stringify(orderObject));
   orderInProgress = {};
-  $("#productModal").modal("toggle");
+  if(Number(document.getElementById("countSelect").value) >= 200){
+    $("#productModal").modal("toggle");
+  }
+ 
   getSum();
 }
 
@@ -453,8 +457,7 @@ function updateDetail(){
     lastCell.className = "text-center";
 
     var pricePerItem;
-
-
+    
     row = $("<tr></tr>");
     var tableImage = $("<td class=\"border-left-0 border-right-0\"></td>").appendTo(row);
     $("<img>").attr("src",orderObject[i].image).appendTo(tableImage);
@@ -462,7 +465,7 @@ function updateDetail(){
     $("<td class='font-weight-bold'></td>").html(orderObject[i].variantName).appendTo(row);
     $("<td class='font-weight-bold' style='color:#4187cc;'></td>").html(orderObject[i].price + " €").appendTo(row);
     $("<td class=\"border-left-0\"></td>").html("<span class=\"font-weight-bold\">" + orderObject[i].count + " ks.</span>").appendTo(row);
-    $("<td class='font-weight-bold' style='color:#4187cc;'></td>").html((orderObject[i].price * orderObject[i].count) + " €").appendTo(row);
+    $("<td class='font-weight-bold' style='color:#4187cc;'></td>").html((orderObject[i].totalPrice) + " €").appendTo(row);
     $(lastCell).addClass("border-right-0")
     $(lastCell).append(btnEdit);
     $(lastCell).append(btnDel).appendTo(row);
@@ -636,7 +639,11 @@ function refreshOrder(){
 function getSum(){
   var sum = 0.00;
   for(var i = 0; i < orderObject.length; i++){
-    sum += orderObject[i].price * orderObject[i].count; 
+    console.log(orderObject[i].price);
+    console.log(orderObject[i].count);
+    console.log(Number(parseFloat(orderObject[i].price * orderObject[i].count).toFixed(2)));
+    sum += Number(parseFloat(orderObject[i].price * orderObject[i].count).toFixed(2)); 
+    console.log("first " + sum);
   }
   if(document.getElementById("cartPrice")!= null){
     document.getElementById("cartPrice").innerHTML = sum + " €";
@@ -650,7 +657,7 @@ function getProductSum(){
   var actualPrice = document.getElementById("actualPrice").innerHTML;
   console.log(countSelect);
   console.log(actualPrice);
-   totalProductPrice = countSelect * Number(actualPrice.replace(/€/,""));;
+   totalProductPrice = countSelect * Number(actualPrice.replace(/€/,""));
 }
 
 function getShippingPrice(){

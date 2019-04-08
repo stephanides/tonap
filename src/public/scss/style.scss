@@ -346,6 +346,9 @@ html{
       }
       p{
         font-size: 14px;
+        padding-right: 20px;
+        font-weight: 500;
+        color:#808e99;
       }
     }
   }
@@ -1250,6 +1253,7 @@ html{
     font-weight: 500;
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
+    padding: 14px 20px;
   }
   .active{
     background-color: #3b8acd !important;
@@ -1355,4 +1359,46 @@ html{
 
 .modal-open{
   padding-right: 0 !important;
+}
+.variants{
+  .form-control{
+    font-weight: bold;
+    padding-left: 20px;
+    color:black;
+  }
+  p{
+    font-weight: 500;
+    color:#808e99;
+  }
+}
+.itemsCount{
+  .form-control{
+    font-weight: bold;
+    padding-left: 20px;
+    color:black;
+  }
+  p{
+    font-weight: 500;
+    color:#808e99;
+  }
+}
+.action{
+  border: solid 1px #43da3b;
+  background-color: #caf8e0;
+  border-radius: 8px;
+  padding-bottom: 14px;
+  padding-top: 14px;
+  width: 85%;
+  p{
+    color: #3cb03a !important;
+    padding-left: 20px;
+    margin: 0;
+    font-weight: 500;
+  }
+}
+.paramters{
+  p{
+    font-weight: 500;
+    color:#808e99;
+  }
 }
