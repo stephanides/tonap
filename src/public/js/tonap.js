@@ -15,6 +15,9 @@ var fullPrice;
 var weight = 0;
 var boxCount = 0;
 var shippingPricePosteOffice =0;
+var shippingMethod = 0;
+var paymentMethod = 3;
+
 if(localStorage.getItem("orderObject") != null){
   var getOrderObjectFromStorage = localStorage.getItem("orderObject");
   var orderObject = JSON.parse(getOrderObjectFromStorage);
@@ -534,14 +537,25 @@ function sendOrder(){
   informationObject.company = document.getElementById("company").value;
   informationObject.deliveryAddress = deliveryA;
   informationObject.name = document.getElementById("name").value;
+  informationObject.surname = document.getElementById("surname").value;
   informationObject.email = document.getElementById("email").value;
   informationObject.phone = document.getElementById("phone").value;
   informationObject.ico = document.getElementById("ico").value;
+  informationObject.dic = document.getElementById("dic").value;
   informationObject.message = document.getElementById("message").value;
+  var krajina = document.getElementById("stateSelect");
+  informationObject.location = krajina.options[krajina.selectedIndex].value;
   informationObject.products = orderObject;
+  informationObject.nettPrice = itemsPrice;
+  informationObject.shippingPrice = shipingPrice;
+  informationObject.paymenthPrice = paymenthPrice;
+  informationObject.fullPrice = (itemsPrice + shipingPrice + paymenthPrice);
+  informationObject.shippingMethod = shippingMethod;
+  informationObject.paymentMethod = paymentMethod;
   var dataToSend = JSON.stringify(informationObject);
 
-  $.ajax({
+  console.log(informationObject);
+/*$.ajax({
     type: "POST",
     url: window.location.origin + "/order",
     data: dataToSend,
@@ -551,7 +565,7 @@ function sendOrder(){
       socket.emit("order created");
       $(document.getElementById("successOrder")).modal("show");
     },
-   });
+   });*/
 }
 
 function sendEmail(){
@@ -664,7 +678,7 @@ function getSum(){
     document.getElementById("medzisucet").innerHTML = sum + " €";
   }
   if(document.getElementById("fullPrice")!= null){
-    document.getElementById("fullPrice").innerHTML = itemsPrice + shipingPrice + paymenthPrice + " €"
+    document.getElementById("fullPrice").innerHTML = parseFloat(itemsPrice + shipingPrice + paymenthPrice).toFixed(2) + " €"
   }
   // get weight of order
   for(var i = 0; i < orderObject.length; i++){
@@ -676,9 +690,9 @@ function getProductSum(){
   var actualPrice = document.getElementById("actualPrice").innerHTML;
    totalProductPrice = countSelect * Number(actualPrice.replace(/€/,""));
 }
-
+getShippingPrice();
 function getShippingPrice(){
-  var shippingMethod = $('input[name=radioName]:checked', '#myForm').val();
+   shippingMethod = $('input[name=shippingMethods]:checked', '#shippingMethods').value;
   var paymentMethod = $('input[name=radioName]:checked', '#myForm').val();
 }
 function enableOtherAdress(){
@@ -728,12 +742,15 @@ function addShippingMethod(arg){
         geisPrice.innerHTML = "8.90 €";
         break;
     }
+    shippingMethod = 0;
   }
   if(arg == "posta"){
     countPostPrice();
+    shippingMethod = 1;
   }
   if(arg == "osobne"){
     shipingPrice = 0.00;
+    shippingMethod = 2;
   }
   getSum();
 }
@@ -767,9 +784,7 @@ function countPostPrice(){
   
   if(window.location.href.indexOf("online-objednavka") > -1){
     
-    console.log("online-objednavka");
     getWeight();
-    console.log(weight);
     postPrice = document.getElementById("postPrice");
     if(weight < 1000){
       shippingPricePosteOffice = 7.20;

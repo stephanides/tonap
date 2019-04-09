@@ -184,7 +184,7 @@ block content
                           select#variantsSelect.form-control.w-50(onchange="refreshOrder()")
                         .itemsCount
                           p.pt-2 Počet kusov:
-                          input#countSelect.form-control.w-50(type="number" value="200" step="100" min="200" onchange="refreshOrder()")
+                          input#countSelect.form-control.w-50(type="number" value="200" step="100" min="200" onkeyup="refreshOrder()" onchange="refreshOrder()")
                           .action.mt-4
                             p Cena pri objednávke nad 2000 ks - 
                               strong#midPrice
