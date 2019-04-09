@@ -71,22 +71,26 @@ block content
                       p Mesto
                       input(name="companyCity" id="companyCity" type="text" placeholder="Mesto" required)
                   p Krajina *
-                    select.custom-select(style="padding:0; border-radius:0;padding-left:10px;") 
+                    select.custom-select#stateSelect(style="padding:0; border-radius:0;padding-left:10px;" onchange="stateUpdate()") 
                       option Slovensko
+                      option Česko
                       option Maďarsko
                       option Poľsko
-                      option Česko
-                  p Adresa dodania (ak sa nezhoduje s fakturačnou adresou)
-                  input(name="deliveryAdress" type="text" id="deliveryAdress" placeholder="Ulica" )
-                  input(name="deliveryCity" type="text" id="deliveryCity" placeholder="Mesto" class="mt-2" )
-                  input(name="deliveryPSC" type="text" id="deliveryPSC" placeholder="PSČ" class="mt-2" )
-                  p E-mailová adresa *
-                  input(name="email" type="text" id="email" reqiured="true" placeholder="Vaša e-mailová adresa" required)
                   p Telefónne číslo *
                   input(name="tel" type="text" id="phone" reqiured="true" placeholder="Vaše telefónne číslo" required)
-                  
+                  p E-mailová adresa *
+                  input(name="email" type="text" id="email" reqiured="true" placeholder="Vaša e-mailová adresa" required)
                   p Správa
                   textarea(name="message" id="message" rows="4" placeholder="Správa pre nás")
+                  .form-check.pt-2
+                    input.form-check-input#otherAdress(type="checkbox" onchange="enableOtherAdress()")
+                    label.form-check-label.font-weight-bold(for="otherAdress") Odoslať na inú adresu ?
+                  #otherAdressHolder
+                    p Adresa dodania
+                    input(name="deliveryAdress" type="text" id="deliveryAdress" placeholder="Ulica" )
+                    input(name="deliveryCity" type="text" id="deliveryCity" placeholder="Mesto" class="mt-2" )
+                    input(name="deliveryPSC" type="text" id="deliveryPSC" placeholder="PSČ" class="mt-2" )
+                  
                 .col-lg-6
                   h5 3. Sumár košíka
                   .subtotal.d-flex.justify-content-between.pb-2.pr-4.pt-2.mt-4
@@ -94,19 +98,19 @@ block content
                     p.price.blue#medzisucet 550,00 €
                   .shipping.pt-4.pr-4
                     h6 Vyberte spôsob doručenia:
-                    .shippingMethods.pt-4
+                    .shippingMethods.pt-4#shippingMethods
                       .custom-control.custom-radio.mt-2
-                        input.custom-control-input#geisOption(type="radio"  name="shippingMethods" checked)
+                        input.custom-control-input#geisOption(type="radio"  name="shippingMethods" checked onchange="addShippingMethod('geis')")
                         label.pl-2.custom-control-label.d-flex.align-items-center.justify-content-between(for="geisOption")
                           p Geis kuriér
-                          p.blue 1,50 €
+                          p.blue#geisPrice
                       .custom-control.custom-radio.mt-2
-                        input.custom-control-input#postaOption(type="radio" name="shippingMethods")
+                        input.custom-control-input#postaOption(type="radio" name="shippingMethods" onchange="addShippingMethod('posta'); postChecked()")
                         label.pl-2.custom-control-label.d-flex.align-items-center.justify-content-between(for="postaOption") 
                           p Slovenská pošta kuriér
-                          p.blue 1.90 €
+                          p.blue#postPrice
                       .custom-control.custom-radio.mt-2
-                        input.custom-control-input#osobnyOdberOption(type="radio" name="shippingMethods")
+                        input.custom-control-input#osobnyOdberOption(type="radio" name="shippingMethods" onchange="addShippingMethod('osobne')")
                         label.pl-2.custom-control-label.d-flex.align-items-center.justify-content-between(for="osobnyOdberOption")
                           p Osobný odber - Na hore 4, Košice
                           p.blue Zadarmo
@@ -129,13 +133,18 @@ block content
                           p Paypal
                           p.blue Zadarmo
                       .custom-control.custom-radio.mt-2
-                        input.custom-control-input#dobierkaOption(type="radio" name="paymentsMethods")
+                        input.custom-control-input#dobierkaOption(type="radio" name="paymentsMethods" onchange="addPaymentPrice('dobierka')")
                         label.pl-2.custom-control-label.d-flex.align-items-center.justify-content-between(for="dobierkaOption")
                           p Dobierka
                           p.blue 1,50 €
+                      .custom-control.custom-radio.mt-2
+                        input.custom-control-input#osobneOption(type="radio" name="paymentsMethods"  onchange="addPaymentPrice('osobne')")
+                        label.pl-2.custom-control-label.d-flex.align-items-center.justify-content-between(for="osobneOption")
+                          p Pri osobnom odbere v hotovosti
+                          p.blue Zadarmo
                   .total.d-flex.justify-content-between.pb-2.pt-2.mt-2.pr-4
                     p #[strong Cena spolu:]
-                    p.price.blue 555,00 €
+                    p.price.blue#fullPrice
                   input(name="submit" type="submit" value="Odoslať objednávku")
     
     include footer.pug

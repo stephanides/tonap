@@ -1402,3 +1402,22 @@ html{
     color:#808e99;
   }
 }
+#actualPrice{
+  color: rgb(59, 138, 204);
+  font-size: 32px;
+}
+#totalProductPrice{
+  color: rgb(59, 138, 204);
+  font-size: 16px;
+  @at-root p#{&} {
+    margin-bottom: 2px;
+  }
+}
+.form-check{
+  label{
+    font-size: 14px;
+  }
+}
+#otherAdressHolder{
+  display: none;
+}

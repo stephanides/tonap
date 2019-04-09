@@ -8,11 +8,17 @@ var intervalId = null;
 var intervalStarted = false;
 var choosedProduct = {};
 var totalProductPrice;
+var itemsPrice = 0.00;
+var shipingPrice = 0.00;
+var paymenthPrice = 0.00;
+var fullPrice;
+var weight = 0;
+var boxCount = 0;
+var shippingPricePosteOffice =0;
 if(localStorage.getItem("orderObject") != null){
   var getOrderObjectFromStorage = localStorage.getItem("orderObject");
   var orderObject = JSON.parse(getOrderObjectFromStorage);
   getSum();
-  console.log(orderObject);
 }
 else{
   var orderObject = [];
@@ -59,7 +65,6 @@ window.onload = function () {
   container = $("#pills-tabContent").find(".active");
   itemsHolder = container.find(".productRowContainer");
   itemsWrapper = itemsHolder[0].children[0];
-  console.log(container);
   
   itemsNodes = itemsWrapper.childNodes;
   setTimeout(function () { console.log(itemsNodes);},5000);
@@ -376,12 +381,12 @@ function orderProduct(id){
           option.text = products[i].variant[j].title;
           itemSelect.appendChild(option);
         }
-        document.getElementById("actualPrice").innerHTML = choosedProduct.variant[0].priceMax + " €";
+        document.getElementById("actualPrice").innerHTML = choosedProduct.variant[0].priceMax + " € ";
         document.getElementById("midPrice").innerHTML = choosedProduct.variant[0].priceMed + " €";
         document.getElementById("lowPrice").innerHTML = choosedProduct.variant[0].priceMin + " €";
         refreshOrder();
         getProductSum();
-        document.getElementById("totalProductPrice").innerHTML = totalProductPrice + " € ";
+        document.getElementById("totalProductPrice").innerHTML = "Cena spolu: " + totalProductPrice + " € ";
         
         $("#productModal").modal();
       } else {
@@ -400,12 +405,12 @@ function orderProduct(id){
           option.text = products[i].variant[j].title;
           itemSelect.appendChild(option);
         }
-        document.getElementById("actualPrice").innerHTML = choosedProduct.variant[0].priceMax + " €";
+        document.getElementById("actualPrice").innerHTML = choosedProduct.variant[0].priceMax + " € ";
         document.getElementById("midPrice").innerHTML = choosedProduct.variant[0].priceMed + " €";
         document.getElementById("lowPrice").innerHTML = choosedProduct.variant[0].priceMin + " €";
         refreshOrder();
         getProductSum();
-        document.getElementById("totalProductPrice").innerHTML = totalProductPrice + " € ";
+        document.getElementById("totalProductPrice").innerHTML = "Cena spolu: " + totalProductPrice + " € ";
         document.getElementById("editOrder").setAttribute("onclick", "fillOrder(" + "'" + products[i]._id + "'" + ")");
         $("#productModal").modal();
       }
@@ -414,17 +419,24 @@ function orderProduct(id){
 }
 
 function fillOrder(id){
+  var actualProductFromDatabase;
+  for (var i = 0; i < products.length; i++) {
+    if(id === products[i]._id){
+      actualProductFromDatabase = products[i];
+    }
+  }
   orderInProgress.title = document.getElementById("mainTitle").innerHTML;
   orderInProgress.id = id;
   orderInProgress.image = document.getElementById("productModalMainImage").src;
   orderInProgress.count = Number(document.getElementById("countSelect").value);
   orderInProgress.variant = document.getElementById("variantsSelect").selectedIndex;
   orderInProgress.variantName = document.getElementById("variantsSelect").options[document.getElementById("variantsSelect").selectedIndex].value;
+  orderInProgress.weight = actualProductFromDatabase.weight;
+  orderInProgress.sackCount = actualProductFromDatabase.variant[document.getElementById("variantsSelect").selectedIndex].sackCount;
+  orderInProgress.boxCount = actualProductFromDatabase.variant[document.getElementById("variantsSelect").selectedIndex].boxCount;
   var price = document.getElementById("actualPrice").innerHTML;
   orderInProgress.price = Number(price.replace(/€/,""));
   orderInProgress.totalPrice = orderInProgress.count * orderInProgress.price;
-  console.log(orderInProgress);
-  console.log(orderObject);
   orderObject.push(orderInProgress);
   localStorage.setItem("orderObject", JSON.stringify(orderObject));
   orderInProgress = {};
@@ -457,7 +469,7 @@ function updateDetail(){
     lastCell.className = "text-center";
 
     var pricePerItem;
-    
+
     row = $("<tr></tr>");
     var tableImage = $("<td class=\"border-left-0 border-right-0\"></td>").appendTo(row);
     $("<img>").attr("src",orderObject[i].image).appendTo(tableImage);
@@ -472,6 +484,7 @@ function updateDetail(){
     row.appendTo(document.getElementById("detailOrder"));
   }
   getSum();
+  countPostPrice();
 }
 
 function editOrder(param){
@@ -606,7 +619,10 @@ function scrollIt(destination, duration, easing, callback) {
 
 if (window.location.href.indexOf("online-objednavka") > 1) {
   updateDetail();
-  console.log("online-objednavka");
+  getWeight();
+  getBoxes();
+  addShippingMethod("geis");
+  countPostPrice();
 }
 
 function refreshOrder(){
@@ -615,54 +631,222 @@ function refreshOrder(){
   var actualPrice = document.getElementById("actualPrice");
   var midPrice = document.getElementById("midPrice");
   var lowPrice = document.getElementById("lowPrice");
-  console.log(countSelect);
   if(countSelect < 2000){
-    actualPrice.innerHTML = choosedProduct.variant[variantId].priceMax + " €";
+    actualPrice.innerHTML = choosedProduct.variant[variantId].priceMax + " € ";
     midPrice.innerHTML = choosedProduct.variant[variantId].priceMed + " €";
     lowPrice.innerHTML = choosedProduct.variant[variantId].priceMin + " €";
   }
   if(countSelect >= 2000 && countSelect < 4000){
-    actualPrice.innerHTML = choosedProduct.variant[variantId].priceMed + " €";
+    actualPrice.innerHTML = choosedProduct.variant[variantId].priceMed + " € ";
     midPrice.innerHTML = choosedProduct.variant[variantId].priceMed + " €";
     lowPrice.innerHTML = choosedProduct.variant[variantId].priceMin + " €";
   }
   else if(countSelect >= 4000){
-    actualPrice.innerHTML = choosedProduct.variant[variantId].priceMin + " €";
+    actualPrice.innerHTML = choosedProduct.variant[variantId].priceMin + " € ";
     midPrice.innerHTML = choosedProduct.variant[variantId].priceMed + " €";
     lowPrice.innerHTML = choosedProduct.variant[variantId].priceMin + " €";
   }
   getProductSum();
-  document.getElementById("totalProductPrice").innerHTML = totalProductPrice + " € ";
+  document.getElementById("totalProductPrice").innerHTML = "Cena spolu: " + totalProductPrice + " € ";
   getSum();
 }
 
 function getSum(){
   var sum = 0.00;
   for(var i = 0; i < orderObject.length; i++){
-    console.log(orderObject[i].price);
-    console.log(orderObject[i].count);
-    console.log(Number(parseFloat(orderObject[i].price * orderObject[i].count).toFixed(2)));
     sum += Number(parseFloat(orderObject[i].price * orderObject[i].count).toFixed(2)); 
-    console.log("first " + sum);
   }
+  itemsPrice = sum;
   if(document.getElementById("cartPrice")!= null){
     document.getElementById("cartPrice").innerHTML = sum + " €";
   }
   if(document.getElementById("medzisucet")!= null){
     document.getElementById("medzisucet").innerHTML = sum + " €";
   }
+  if(document.getElementById("fullPrice")!= null){
+    document.getElementById("fullPrice").innerHTML = itemsPrice + shipingPrice + paymenthPrice + " €"
+  }
+  // get weight of order
+  for(var i = 0; i < orderObject.length; i++){
+
+  }
 }
 
 function getProductSum(){
   var actualPrice = document.getElementById("actualPrice").innerHTML;
-  console.log(countSelect);
-  console.log(actualPrice);
    totalProductPrice = countSelect * Number(actualPrice.replace(/€/,""));
 }
 
 function getShippingPrice(){
   var shippingMethod = $('input[name=radioName]:checked', '#myForm').val();
-  console.log(shippingMethod);
   var paymentMethod = $('input[name=radioName]:checked', '#myForm').val();
-  console.log(paymentMethod);
+}
+function enableOtherAdress(){
+  var checkbox = document.getElementById("otherAdress");
+  var otherAdress = document.getElementById("otherAdressHolder");
+  if(checkbox.checked){
+    otherAdress.style.display = "block";
+  }
+  else
+    otherAdress.style.display = "none";
+}
+
+function stateUpdate(){
+  addShippingMethod("geis");
+  document.getElementById("geisOption").checked = true;
+  addPaymentPrice();
+  if(document.getElementById("stateSelect").selectedIndex != 0){
+    document.getElementById("postaOption").disabled = true;
+    document.getElementById("osobnyOdberOption").disabled = true;
+  }
+  else{
+    document.getElementById("postaOption").disabled = false;
+    document.getElementById("osobnyOdberOption").disabled = false;
+  }
+}
+
+function addShippingMethod(arg){
+  var state = document.getElementById("stateSelect").selectedIndex;
+  var geisPrice = document.getElementById("geisPrice");
+  //0 - Slovensko / 1- Česko / 2-Madarsko / 3-Polsko
+  if(arg == "geis"){
+    switch(state){
+      case 0:
+        shipingPrice = 3.90;
+        geisPrice.innerHTML = "3.90 €";
+        break;
+      case 1:
+        shipingPrice = 6.90;
+        geisPrice.innerHTML = "6.90 €";
+        break;
+      case 2:
+        shipingPrice = 11.90;
+        geisPrice.innerHTML = "11.90 €";
+        break;
+      case 3:
+        shipingPrice = 8.90;
+        geisPrice.innerHTML = "8.90 €";
+        break;
+    }
+  }
+  if(arg == "posta"){
+    countPostPrice();
+  }
+  if(arg == "osobne"){
+    shipingPrice = 0.00;
+  }
+  getSum();
+}
+
+function addPaymentPrice(arg){
+  if(arg == "dobierka"){
+    paymenthPrice = 1.50;
+  }
+  if(arg == "osobne"){
+    paymenthPrice = 0.00;
+  }
+  getSum();
+}
+
+function getWeight(){
+  weight = 0;
+  for(var i=0; i<orderObject.length; i++){
+    weight += orderObject[i].count * Number(orderObject[i].weight);
+  }
+}
+
+function getBoxes(){
+  boxCount = 0;
+  for(var i=0; i<orderObject.length; i++){
+    boxCount += orderObject[i].count / Number(orderObject[i].boxCount);
+  }
+  boxCount = Math.ceil(boxCount);
+}
+
+function countPostPrice(){
+  
+  if(window.location.href.indexOf("online-objednavka") > -1){
+    
+    console.log("online-objednavka");
+    getWeight();
+    console.log(weight);
+    postPrice = document.getElementById("postPrice");
+    if(weight < 1000){
+      shippingPricePosteOffice = 7.20;
+      postPrice.innerHTML = "7.20 €";
+    }
+    if(weight > 1000 && weight <= 3000){
+      shippingPricePosteOffice = 7.80;
+      postPrice.innerHTML = "7.80 €";
+    }else
+    if(weight> 3001 && weight <= 5000){
+      shippingPricePosteOffice = 8.40;
+      postPrice.innerHTML = "8.40 €";
+    }
+    if(weight> 5001 && weight <= 10000){
+      shippingPricePosteOffice = 9.00;
+      postPrice.innerHTML = "9.00 €";
+    }
+    if(weight> 10001 && weight <= 15000){
+      shippingPricePosteOffice = 9.90;
+      postPrice.innerHTML = "9.90 €";
+    }
+    if(weight> 15001 && weight <= 20000){
+      shippingPricePosteOffice = 10.80;
+      postPrice.innerHTML = "10.80 €";
+    }
+    if(weight> 20001 && weight <= 25000){
+      shippingPricePosteOffice = 11.70;
+      postPrice.innerHTML = "11.70 €";
+    }
+    if(weight > 25001 && weight <= 30000){
+      shippingPricePosteOffice = 12.80;
+      postPrice.innerHTML = "12.80 €";
+    }
+    if(weight > 30001 && weight <= 40000){
+      shippingPricePosteOffice = 17.40;
+      postPrice.innerHTML = "17.40 €";
+    }
+    if(weight> 40001 && weight <= 50000){
+      shippingPricePosteOffice = 21.60;
+      postPrice.innerHTML = "21.60 €";
+    }
+    if(weight > 50001 && weight<= 75000){
+      shippingPricePosteOffice = 26.20;
+      postPrice.innerHTML = "26.20 €";
+    }
+    if(weight> 75001 && weight <= 100000){
+      shippingPricePosteOffice = 32.00;
+      postPrice.innerHTML = "32.00 €";
+    }
+    if(weight > 100001 && weight <= 125000){
+      shippingPricePosteOffice = 40.50;
+      postPrice.innerHTML = "40.50 €";
+    }
+    if(weight > 125001 && weight <= 150000){
+      shippingPricePosteOffice = 47.50;
+      postPrice.innerHTML = "47.50 €";
+    }
+    if(weight > 150001 && weight <= 200000){
+      shippingPricePosteOffice = 57.50;
+      postPrice.innerHTML = "57.50 €";
+    }
+    if(weight >200001 && weight <= 250000){
+      shippingPricePosteOffice = 69.00;
+      postPrice.innerHTML = "69.00 €";
+    }
+    if(weight >= 300000){
+      shippingPricePosteOffice = 80.50;
+      postPrice.innerHTML = "80.50 €";
+    }
+    if(document.getElementById("postaOption").checked){
+      shipingPrice = shippingPricePosteOffice;
+      getSum();
+    }
+  }
+}
+
+function postChecked(){
+  shipingPrice = shippingPricePosteOffice;
+  getSum();
 }
