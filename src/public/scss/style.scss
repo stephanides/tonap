@@ -807,6 +807,14 @@ html{
       }
       @media screen and (max-width: $break-small) {
         padding: 20px 10px;
+        padding-top: 30px;
+        display: block;
+      }
+      .footerlink{
+        @media screen and (max-width: $break-small) {
+          width: 100%;
+          text-align: center;
+        }
       }
       a{
         font-size: 14px;
