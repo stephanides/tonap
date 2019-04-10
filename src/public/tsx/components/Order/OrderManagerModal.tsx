@@ -25,6 +25,7 @@ interface IOrder {
   deliveryTime?: number;
   email?: string;
   ico?: string;
+  dic?: string;
   message?: string;
   name?: string;
   state?: number;
@@ -39,11 +40,14 @@ interface IAddress {
   street?: string;
 }
 interface IProducts {
+  count?: number;
   isSterile?: boolean;
   title?: string;
   package?: number;
+  sackCount?: number;
   boxSize?: number;
   boxCount?: number
+  variantName?: string;
 }
 
 const OrderManagerModal = (props: IProps) => {
@@ -96,7 +100,7 @@ const OrderManagerModal = (props: IProps) => {
                   <p className={printData ? "" : "d-none"}>Číslo objednávky: <strong>{order.orderNum}</strong></p>
                   <button
                     type="button"
-                    className="btn btn-outline-info position-absolute"
+                    className="btn btn-outline-info position-absolute print"
                     style={{
                       top: 0,
                       right: 0,
@@ -112,24 +116,24 @@ const OrderManagerModal = (props: IProps) => {
                       <tr>
                         <th scope="col">#</th>
                         <th scope="col">Názov produktu</th>
-                        <th scope="col">Typ</th>
-                        <th scope="col">Balené po.</th>
-                        <th scope="col">Veľkosť krabice</th>
+                        <th scope="col">Variant</th>
+                        <th scope="col">Počet kusov.</th>
+                        <th scope="col">Počet ks. v sáčku</th>
                         <th scope="col">Počet krabíc</th>
                       </tr>
                     </thead>
                     <tbody>
                       {
                         order.products.map((item, i) => {
-                          const sterility: string = item.isSterile ? "Sterilné" : "Nesterilné";
+                          // const sterility: string = item.isSterile ? "Sterilné" : "Nesterilné";
 
                           return (
                             <tr key={i+1}>
                               <td scope="row">{i+1}</td>
                               <td>{item.title}</td>
-                              <td>{sterility}</td>
-                              <td className="text-center">{item.package}</td>
-                              <td className="text-center">{item.boxSize}</td>
+                              <td>{item.variantName}</td>
+                              <td className="text-center">{item.count}</td>
+                              <td className="text-center">{item.sackCount}</td>
                               <td className="text-center">{item.boxCount}</td>
                             </tr>
                           );
@@ -154,7 +158,8 @@ const OrderManagerModal = (props: IProps) => {
                             (
                               <span>
                                 <strong>Spoločnosť:</strong>{` ${order.company}`}<br />
-                                <strong>IČO:</strong>{` ${order.ico}`}
+                                <strong>IČO:</strong>{` ${order.ico}`}<br />
+                                <strong>DIČ:</strong>{` ${order.dic}`}
                               </span>
                             ) :
                             <span><strong>Spoločnosť:</strong>{` ${order.company}`}</span>
@@ -353,6 +358,18 @@ const OrderManagerModal = (props: IProps) => {
           </div>
         </div>
       </div>
+      <style>
+        {`
+          .modal button.print {
+            border: 1px solid #17a2b8!important;
+            border-radius: .25rem;
+            background: none!important;
+            color: #17a2b8;
+            margin-top: 0;
+            padding: .375rem .75rem;
+          }
+        `}
+      </style>
     </div> : null
   );
 };

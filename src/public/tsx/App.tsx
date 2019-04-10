@@ -46,6 +46,7 @@ interface IAppState {
 }
 
 const productInit: IProduct = {
+  count: 0,
   category: 0,
   // depth: 0,
   description: "",
@@ -63,6 +64,7 @@ const productInit: IProduct = {
   // sterileProductMinCount: 0,
   // sterileProductMinPackageCount: 0,
   title: "",
+  variantName: '',
   variant: [{
     title: "",
     priceMin: "",

@@ -1,5 +1,6 @@
 export default interface IProduct {
   category: number;
+  count?: number;
   // depth: number;
   description: string;
   height: string; // number;
@@ -16,6 +17,7 @@ export default interface IProduct {
   // sterileProductMinCount: number;
   // sterileProductMinPackageCount: number;
   title: string;
+  variantName?: string;
   volume: string; // number;
   variant?: [IVariant];
   weight: string; // number;

@@ -24,13 +24,21 @@ class OrderController {
                     deliveryAddress: req.body.deliveryAddress,
                     company: req.body.company,
                     email: req.body.email,
+                    fullPrice: req.body.fullPrice,
                     ico: req.body.ico,
+                    dic: req.body.dic,
+                    location: req.body.location,
                     message: req.body.message,
                     name: req.body.name,
+                    nettPrice: req.body.nettPrice,
                     orderNum,
+                    paymentMethod: req.body.paymentMethod,
+                    paymenthPrice: req.body.paymenthPrice,
                     phone: req.body.phone,
                     // psc: req.body.psc,
                     products: req.body.products,
+                    shippingMethod: req.body.shippingMethod,
+                    shippingPrice: req.body.shippingPrice,
                 };
                 // const productArr: object[] = [];
                 orderObj.products = req.body.products;
@@ -51,7 +59,7 @@ class OrderController {
                         productRows.push(row);
                     }
                     const mailSubject = "TONAP: Informácia o doručení objednávky";
-                    const mailBody = `Dobrý deň pán/pani ${req.body.name}.<br /><br />
+                    const mailBody = `Dobrý deň pán/pani ${req.body.name} ${req.body.surname}.<br /><br />
         Ďakujeme za Vašu objednávka u spločnosti <strong>TONAP</strong> s. r. o.<br /><br />
         Vaša objednácka číslo: <strong><i>${orderNum}</i></strong> bola prijatá na spracovanie.<br /><br />
         <strong>Súhrn objednávky:</strong><br /><br />
@@ -59,14 +67,13 @@ class OrderController {
         <thead>
         <tr><th style="border: 1px solid black; border-collapse: collapse; padding: 5px;">#</th>
         <th style="border: 1px solid black; border-collapse: collapse; padding: 5px;">Názov produktu</th>
-        <th style="border: 1px solid black; border-collapse: collapse; padding: 5px;">Typ produktu</th>
+        <th style="border: 1px solid black; border-collapse: collapse; padding: 5px;">Variant produktu</th>
         <th style="border: 1px solid black; border-collapse: collapse; padding: 5px;">Balené po.</th>
-        <th style="border: 1px solid black; border-collapse: collapse; padding: 5px;">Veľkosť krabice</th>
         <th style="border: 1px solid black; border-collapse: collapse; padding: 5px;">Počet krabíc</th></tr>
         </thead>
         <tbody>
         ${req.body.products.reduce((a, b, i) => {
-                        return `${a}<tr><td style="border: 1px solid black; border-collapse: collapse; padding: 5px;">${i + 1}</td><td style="border: 1px solid black; border-collapse: collapse; padding: 5px;">${b.title}</td><td style="border: 1px solid black; border-collapse: collapse; padding: 5px;">${b.isSterile ? "Sterilné" : "Nesterilné"}</td><td style="border: 1px solid black; border-collapse: collapse; padding: 5px; text-align: center;">${b.package}</td><td style="border: 1px solid black; border-collapse: collapse; padding: 5px; text-align: center;">${b.boxSize}</td><td style="border: 1px solid black; border-collapse: collapse; padding: 5px; text-align: center;">${b.boxCount}</td></tr>`;
+                        return `${a}<tr><td style="border: 1px solid black; border-collapse: collapse; padding: 5px;">${i + 1}</td><td style="border: 1px solid black; border-collapse: collapse; padding: 5px;">${b.title}</td><td style="border: 1px solid black; border-collapse: collapse; padding: 5px;">${b.variantName}</td><td style="border: 1px solid black; border-collapse: collapse; padding: 5px; text-align: center;">${b.count}</td><td style="border: 1px solid black; border-collapse: collapse; padding: 5px; text-align: center;">${b.boxCount}</td></tr>`;
                     }, "")}
         </tbody></table><br/>
         O ďalšom priebehu objednávky Vás budeme informovať prostredníctvom emailu.<br /><br />
@@ -130,7 +137,7 @@ class OrderController {
                           +421 918 243 753`;
                         } else*/
                         if (req.body.message) {
-                            mailBody = `Dobrý deň pán/pani ${order.name}.<br /><br />
+                            mailBody = `Dobrý deň pán/pani ${order.name} ${order.surname}.<br /><br />
             ${req.body.message}<br /><br />
             V prípade akýchkoľvek otázok nás neváhajte kontaktovať na telefónnom čísle <strong>+421 918 243 753</strong>.<br />
             Alebo prostredníctvom e-mailu <strong>info@tonap.sk</strong><br /><br />
