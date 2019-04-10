@@ -36,7 +36,8 @@ html(lang="sk")
 
     // Main style
     link(rel="stylesheet", href=(page.indexOf("Admin") > -1 ? "../assets/css/modal.min.css" : "./assets/css/modal.min.css"), media="all")
-    link(rel="stylesheet", href=("../assets/css/style.min.css"), media="all")
+    if (page.indexOf("Admin") < 0)
+      link(rel="stylesheet", href=("../assets/css/style.min.css"), media="all")
     block headerStyle
 
     title #{page}
