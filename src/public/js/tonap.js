@@ -64,14 +64,13 @@ window.onload = function () {
   //getSum();
   if (window.location.href.indexOf("online-objednavka") < 0) {
     setTimeout(startCounter, 1000);
+    container = $("#pills-tabContent").find(".active");
+    itemsHolder = container.find(".productRowContainer");
+    itemsWrapper = itemsHolder[0].children[0];
+    
+    itemsNodes = itemsWrapper.childNodes;
+    setTimeout(function () {},5000);
   }
-  container = $("#pills-tabContent").find(".active");
-  itemsHolder = container.find(".productRowContainer");
-  itemsWrapper = itemsHolder[0].children[0];
-  
-  itemsNodes = itemsWrapper.childNodes;
-  setTimeout(function () { console.log(itemsNodes);},5000);
- 
 }
 
 function updateItemsHolder(){
@@ -351,12 +350,14 @@ function fillProducts(products){
       div.appendTo("#productSkumavky");
     }
   }
-  for(i = 0; i<itemsNodes.length; i++){
-    if(i < 4){
-      $(itemsNodes[i]).show("slow");
-    }
-    else{
-      $(itemsNodes[i]).hide("slow");
+  if (window.location.href.indexOf("online-objednavka") < 0) {
+    for(i = 0; i<itemsNodes.length; i++){
+      if(i < 4){
+        $(itemsNodes[i]).show("slow");
+      }
+      else{
+        $(itemsNodes[i]).hide("slow");
+      }
     }
   }
 }
@@ -554,9 +555,7 @@ function sendOrder(){
   informationObject.paymentMethod = paymentMethod;
   informationObject.weight = weight;
   var dataToSend = JSON.stringify(informationObject);
-
-  console.log(informationObject);
-/*$.ajax({
+  $.ajax({
     type: "POST",
     url: window.location.origin + "/order",
     data: dataToSend,
@@ -566,7 +565,7 @@ function sendOrder(){
       socket.emit("order created");
       $(document.getElementById("successOrder")).modal("show");
     },
-   });*/
+   });
 }
 
 function sendEmail(){
