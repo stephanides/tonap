@@ -131,17 +131,17 @@ block content
                       .custom-control.custom-radio.mt-2
                         input.custom-control-input#kartaOption(type="radio"  name="paymentsMethods" disabled)
                         label.pl-2.custom-control-label.d-flex.align-items-center.justify-content-between(for="kartaOption")
-                          p #[img(src="./assets/images/icons/card.png" alt="Platba kartou online").cart-icon] Platba kartou online
+                          p.text-muted #[img(src="./assets/images/icons/card.png" alt="Platba kartou online").cart-icon] Platba kartou online
                           p.blue Zadarmo
                       .custom-control.custom-radio.mt-2
                         input.custom-control-input#prevodOption(type="radio" name="paymentsMethods" disabled)
                         label.pl-2.custom-control-label.d-flex.align-items-center.justify-content-between(for="prevodOption") 
-                          p #[img(src="./assets/images/icons/bank.png" alt="Bankovým prevodom").cart-icon] Bankovým prevodom
+                          p.text-muted #[img(src="./assets/images/icons/bank.png" alt="Bankovým prevodom").cart-icon] Bankovým prevodom
                           p.blue Zadarmo
                       .custom-control.custom-radio.mt-2
                         input.custom-control-input#paypalOption(type="radio" name="paymentsMethods" disabled)
                         label.pl-2.custom-control-label.d-flex.align-items-center.justify-content-between(for="paypalOption") 
-                          p #[img(src="./assets/images/icons/PayPal.png" alt="Paypal").cart-icon] Paypal
+                          p.text-muted #[img(src="./assets/images/icons/PayPal.png" alt="Paypal").cart-icon] Paypal
                           p.blue Zadarmo
                       .custom-control.custom-radio.mt-2
                         input.custom-control-input#dobierkaOption(type="radio" name="paymentsMethods" onchange="addPaymentPrice('dobierka')" checked)
