@@ -873,6 +873,10 @@ html{
       font-weight: bold;
       text-align: left;
       padding-top: 30px;
+      @media screen and (max-width: $break-small) {
+        font-size: 26px;
+      }
+      
     }
     p{
       font-size: 14px;
@@ -1509,7 +1513,6 @@ html{
   font-size: 32px;
 }
 #totalProductPrice{
-  color: rgb(59, 138, 204);
   font-size: 16px;
   @at-root p#{&} {
     margin-bottom: 2px;
