@@ -6,7 +6,7 @@ extends layout.pug
   include main-style.pug
 
 block content
-  #wrapper.lightgrey
+  #wrapper
     .container-fluid.white
       .headContact
         .container.d-flex.align-items-center.justify-content-end
@@ -79,11 +79,12 @@ block content
                       p Mesto
                       input(name="companyCity" id="companyCity" type="text" placeholder="Mesto" required)
                   p Krajina *
-                    select.custom-select#stateSelect(style="padding:0; border-radius:0;padding-left:10px;" onchange="stateUpdate()" reqiured) 
-                      option Slovensko
-                      option Česko
-                      option Maďarsko
-                      option Poľsko
+                    .form-group
+                      select.custom-select#stateSelect(style="padding:0; border-radius:0;padding-left:10px;" onchange="stateUpdate()" reqiured) 
+                        option Slovensko
+                        option Česko
+                        option Maďarsko
+                        option Poľsko
                   p Telefónne číslo *
                   input(name="tel" type="text" id="phone" reqiured="true" placeholder="Vaše telefónne číslo" required)
                   p E-mailová adresa *
@@ -110,17 +111,17 @@ block content
                       .custom-control.custom-radio.mt-2
                         input.custom-control-input#geisOption(type="radio"  name="shippingMethods" checked onchange="addShippingMethod('geis')")
                         label.pl-2.custom-control-label.d-flex.align-items-center.justify-content-between(for="geisOption")
-                          p Geis kuriér
+                          p #[img(src="./assets/images/icons/geis.png" alt="Geis kuriér").cart-icon] Geis kuriér
                           p.blue#geisPrice
                       .custom-control.custom-radio.mt-2
                         input.custom-control-input#postaOption(type="radio" name="shippingMethods" onchange="addShippingMethod('posta'); postChecked()")
                         label.pl-2.custom-control-label.d-flex.align-items-center.justify-content-between(for="postaOption") 
-                          p Slovenská pošta kuriér
+                          p #[img(src="./assets/images/icons/post.png" alt="Slovenská pošta").cart-icon] Slovenská pošta
                           p.blue#postPrice
                       .custom-control.custom-radio.mt-2
                         input.custom-control-input#osobnyOdberOption(type="radio" name="shippingMethods" onchange="addShippingMethod('osobne')")
                         label.pl-2.custom-control-label.d-flex.align-items-center.justify-content-between(for="osobnyOdberOption")
-                          p Osobný odber - Na hore 4, Košice
+                          p #[img(src="./assets/images/icons/os-odber.png" alt="Osobný odber").cart-icon] Osobný odber - Na hore 4, Košice
                           p.blue Zadarmo
                   .payments.pt-4.pr-4
                     h6 Vyberte spôsob platby:
@@ -128,32 +129,37 @@ block content
                       .custom-control.custom-radio.mt-2
                         input.custom-control-input#kartaOption(type="radio"  name="paymentsMethods" disabled)
                         label.pl-2.custom-control-label.d-flex.align-items-center.justify-content-between(for="kartaOption")
-                          p Platba kartou online
+                          p #[img(src="./assets/images/icons/card.png" alt="Platba kartou online").cart-icon] Platba kartou online
                           p.blue Zadarmo
                       .custom-control.custom-radio.mt-2
                         input.custom-control-input#prevodOption(type="radio" name="paymentsMethods" disabled)
                         label.pl-2.custom-control-label.d-flex.align-items-center.justify-content-between(for="prevodOption") 
-                          p Bankovým prevodom
+                          p #[img(src="./assets/images/icons/bank.png" alt="Bankovým prevodom").cart-icon] Bankovým prevodom
                           p.blue Zadarmo
                       .custom-control.custom-radio.mt-2
                         input.custom-control-input#paypalOption(type="radio" name="paymentsMethods" disabled)
                         label.pl-2.custom-control-label.d-flex.align-items-center.justify-content-between(for="paypalOption") 
-                          p Paypal
+                          p #[img(src="./assets/images/icons/PayPal.png" alt="Paypal").cart-icon] Paypal
                           p.blue Zadarmo
                       .custom-control.custom-radio.mt-2
                         input.custom-control-input#dobierkaOption(type="radio" name="paymentsMethods" onchange="addPaymentPrice('dobierka')" checked)
                         label.pl-2.custom-control-label.d-flex.align-items-center.justify-content-between(for="dobierkaOption")
-                          p Dobierka
+                          p #[img(src="./assets/images/icons/dobierka.png" alt="Dobierka").cart-icon] Dobierka
                           p.blue#dobierka
                       .custom-control.custom-radio.mt-2
                         input.custom-control-input#osobneOption(type="radio" name="paymentsMethods"  onchange="addPaymentPrice('osobne')")
                         label.pl-2.custom-control-label.d-flex.align-items-center.justify-content-between(for="osobneOption")
-                          p Pri osobnom odbere v hotovosti
+                          p #[img(src="./assets/images/icons/os-odber.png" alt="Dobierka").cart-icon] Pri osobnom odbere v hotovosti
                           p.blue Zadarmo
                   .total.d-flex.justify-content-between.pb-2.pt-2.mt-2.pr-4
                     p #[strong Cena spolu:]
                     p.price.blue#fullPrice
-                  input(name="submit" type="submit" value="Odoslať objednávku")
+                  small.form-text.text-muted Vaše osobné údaje budú použité na spracovanie objednávky a na iné účely opísané v dokumente #[a(href="/ochrana-osobnych-udajov") pravidlá ochrany súkromia]
+                  p
+                    .form-group.form-check
+                      input(type="checkbox")#businessConditions.form-check-input
+                      label(for="businessConditions").form-check-label Súhlasím so #[a(href="/obchodne-podmienky") všeobecnými obchodnými podmienkami]
+                  input(name="submit" type="submit" disabled value="Odoslať objednávku")#submitOrder
     
     include footer.pug
 

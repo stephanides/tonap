@@ -519,6 +519,19 @@ if(typeof io === "function") {
 	socket = io();
 }
 
+document.getElementById("businessConditions").addEventListener("change", handleBussinessCondition);
+
+function handleBussinessCondition() {
+  console.log('handle checked');
+  var checked = document.getElementById("businessConditions").checked;
+  var submitOrder = document.getElementById("submitOrder");
+
+  console.log(checked);
+
+  submitOrder.disabled = !checked;
+  console.log(submitOrder);
+}
+
 function sendOrder(){
   event.preventDefault(); 
 
@@ -556,17 +569,21 @@ function sendOrder(){
   informationObject.weight = weight;
   var dataToSend = JSON.stringify(informationObject);
 
-$.ajax({
-    type: "POST",
-    url: window.location.origin + "/order",
-    data: dataToSend,
-    contentType: "application/json; charset=utf-8",
-    dataType: "json",
-    success: function(msg) {
-      socket.emit("order created");
-      $(document.getElementById("successOrder")).modal("show");
-    },
-   });
+  var businessConditions = document.getElementById("businessConditions").checked;
+  
+  if (businessConditions) {
+    $.ajax({
+      type: "POST",
+      url: window.location.origin + "/order",
+      data: dataToSend,
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function(msg) {
+        socket.emit("order created");
+        $(document.getElementById("successOrder")).modal("show");
+      },
+    }); 
+  }
 }
 
 function sendEmail(){
