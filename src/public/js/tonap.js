@@ -460,7 +460,7 @@ function updateDetail(){
     var iconDel = document.createElement("i");
     var iconEdit = document.createElement("i"); 
 
-    iconDel.className = "fas fa-trash ml-3" // "fas fa-trash";
+    iconDel.className = "fas fa-trash ml-2" // "fas fa-trash";
     iconEdit.className = "fas fa-pen";
     btnDel.type = "button";
     btnDel.appendChild(iconDel);
@@ -475,13 +475,13 @@ function updateDetail(){
     var pricePerItem;
 
     row = $("<tr></tr>");
-    var tableImage = $("<td class=\"border-left-0 border-right-0\"></td>").appendTo(row);
+    var tableImage = $("<td class=\"border-left-0 border-right-0\" nowrap></td>").appendTo(row);
     $("<img>").attr("src",orderObject[i].image).appendTo(tableImage);
-    $("<td class='font-weight-bold border-left-0'></td>").html(orderObject[i].title).appendTo(row);
-    $("<td class='font-weight-bold'></td>").html(orderObject[i].variantName).appendTo(row);
-    $("<td class='font-weight-bold' style='color:#4187cc;'></td>").html(orderObject[i].price + " €").appendTo(row);
-    $("<td class=\"border-left-0\"></td>").html("<span class=\"font-weight-bold\">" + orderObject[i].count + " ks.</span>").appendTo(row);
-    $("<td class='font-weight-bold' style='color:#4187cc;'></td>").html((orderObject[i].totalPrice) + " €").appendTo(row);
+    $("<td class='font-weight-bold border-left-0' nowrap></td>").html(orderObject[i].title).appendTo(row);
+    $("<td class='font-weight-bold' nowrap></td>").html(orderObject[i].variantName).appendTo(row);
+    $("<td class='font-weight-bold' style='color:#4187cc;' nowrap></td>").html(orderObject[i].price + " €").appendTo(row);
+    $("<td class=\"border-left-0\" nowrap></td>").html("<span class=\"font-weight-bold\">" + orderObject[i].count + " ks.</span>").appendTo(row);
+    $("<td class='font-weight-bold' style='color:#4187cc;' nowrap></td>").html((orderObject[i].totalPrice) + " €").appendTo(row);
     $(lastCell).addClass("border-right-0")
     $(lastCell).append(btnEdit);
     $(lastCell).append(btnDel).appendTo(row);
@@ -522,14 +522,10 @@ if(typeof io === "function") {
 document.getElementById("businessConditions").addEventListener("change", handleBussinessCondition);
 
 function handleBussinessCondition() {
-  console.log('handle checked');
   var checked = document.getElementById("businessConditions").checked;
   var submitOrder = document.getElementById("submitOrder");
 
-  console.log(checked);
-
   submitOrder.disabled = !checked;
-  console.log(submitOrder);
 }
 
 function sendOrder(){
@@ -702,6 +698,7 @@ function getSum(){
   for(var i = 0; i < orderObject.length; i++){
 
   }
+  document.getElementById("cartCount").innerHTML = orderObject.length;
 }
 
 function getProductSum(){

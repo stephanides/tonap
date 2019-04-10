@@ -34,23 +34,25 @@ block content
               a.cart()
                 img.infoicon.lazyload(data-src="./assets/images/icons/cart.svg", alt="Shopping cart")
                 span#cartPrice 0,00 €
+                span#cartCount 9+
     .container.order-header
       h4 Pokladňa
       .order#order
         .row
           .col-lg-12
             h5.mt-3.mb-3.ml-3 1. Produkty v košíku
-            table#orderTable
-              thead
-                tr
-                  th(colspan = 1)
-                  th.text-left Názov produktu
-                  th.text-left Varianta
-                  th.text-left Cena za kus
-                  th.text-left Množstvo
-                  th.text-left Cena spolu
-                  th.text-center Upraviť
-              tbody#detailOrder
+            .table-responsive
+              table.table#orderTable
+                thead
+                  tr
+                    th(colspan = 1 nowrap)
+                    th(nowrap).text-left Názov produktu
+                    th(nowrap).text-left Varianta
+                    th(nowrap).text-left Cena za kus
+                    th(nowrap).text-left Množstvo
+                    th(nowrap).text-left Cena spolu
+                    th(nowrap).text-center Upraviť
+                tbody#detailOrder
           .col-12
             form.pl-1.mt-4(onsubmit="sendOrder()")
               .row
@@ -190,17 +192,18 @@ block content
                       .itemsCount
                         p.pt-2 Počet kusov:
                         input#countSelect.form-control.w-50(type="number" value="1" onchange="refreshOrder()")
-                        p.pt-2 Cena za kus - 
-                          strong#actualPrice
-                        .action
+                        .action.mt-2
                           p Cena pri objednávke nad 2000 ks - 
                             strong#midPrice
                           p Cena pri objednávke nad 2000 ks - 
                             strong#lowPrice
-                      .totalPrice
-                        p  
-                          strong#totalProductPrice 
-                          span s DPH
+                      .totalPrice.pt-2.d-flex.align-items-baseline
+                          p
+                            strong#actualPrice
+                            span s DPH
+                          p  
+                            strong#totalProductPrice 
+                            span s DPH
                       .buttons.d-flex.mt-4.mb-4
                         button#editOrder.w-50(aria-label="Pridať do košíka") Pridať do košíka
                         button.light.w-50(aria-label="Pokračovať v nákupe" data-dismiss="modal") Pokračovať v nákupe

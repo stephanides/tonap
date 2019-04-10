@@ -29,6 +29,7 @@ block content
               a.cart(href="online-objednavka")
                 img.infoicon.lazyload(data-src="./assets/images/icons/cart.svg", alt="Shopping cart")
                 span#cartPrice 0,00 €
+                span#cartCount 9+
     section#header
       .container-fluid
         .container
@@ -125,7 +126,7 @@ block content
         .col-lg-6.col-12.pl-0.pr-0.right
       .container.position-absolute.top.ml-50.contactHolder
         .row
-          .col-lg-6.col-12.pl-0.order-2
+          .col-lg-6.col-12.order-2
             .contactform
               h5 Kontaktný formulár
               form(onsubmit="sendEmail()")

@@ -48,6 +48,7 @@ html{
       }
       @media screen and (max-width: $break-small) {
         padding: 10px 4px;
+        margin-left: 15px;
       }
     }
     .show-menu{
@@ -65,6 +66,9 @@ html{
       }
       @media screen and (max-width: $breakpoint-tablet) {
         display: block;
+      }
+      @media screen and (max-width: $break-small) {
+        margin-right: 15px;
       }
     }
     input[type=checkbox]{
@@ -98,7 +102,7 @@ html{
           color: $tonap-color;
           text-decoration: none;
           padding: 1.4rem .5rem;// 40px 10px;
-          // font-weight: bold;
+          font-weight: 600;
           cursor: pointer;
           &:hover{
             color: $tonap-color-hover;
@@ -189,6 +193,9 @@ html{
       font-size: 12px;
       margin-top: 30px;
       cursor: pointer;
+      @media screen and (max-width: $break-small) {
+        padding: 15px 16px;
+      }
     }
   }
   #products {
@@ -319,9 +326,11 @@ html{
           display: block;
           // margin: 0 auto;
           width: 70%;
-
           h4{
             color:$tonap-color;
+          }
+          @media screen and (max-width: $break-small) {
+            top:8px;
           }
         }
       }
@@ -329,7 +338,7 @@ html{
         max-width: 31.333%;
       }
       @media screen and (max-width: $break-small) {
-        margin: 15px 0px;
+        margin: 0px 0px;
         box-shadow: none;
       }
     }
@@ -827,6 +836,10 @@ html{
       text-align: center;
       padding-top: 60px;
       padding-bottom: 60px;
+      @media screen and (max-width: $break-small) {
+        padding-top: 40px;
+        padding-bottom: 30px;
+      }
     }
     select{
       padding: 10px 10px;
@@ -955,6 +968,7 @@ html{
         }
       }
       td{
+        vertical-align: middle;
         &:hover{
           background-color: white;
         }
@@ -1277,6 +1291,9 @@ html{
   border-bottom:1px solid #dfdfdf;
   .nav-item{
     margin-left: 4px;
+    @media screen and (max-width: $break-small) {
+      width: 100%;
+    }
   }
   .nav-link{
     background-color: #dfdfdf;
@@ -1297,6 +1314,12 @@ html{
   transition: all 0.3s ease-in-out;
   &:hover{
     transform:scale(1.05);
+    @media screen and (max-width: $break-small) {
+      transform: none;
+    }
+  }
+  @media screen and (max-width: $break-small) {
+    transition: none !important;
   }
 }
 .lightgrey{
@@ -1323,6 +1346,10 @@ html{
     margin-bottom:0 !important; 
     font-size: 14px !important;
     font-weight: 600;
+    @media screen and (max-width: $break-small) {
+      font-size: 12px !important;
+      padding-left: 4px;
+    }
   }
 }
 .payments{
@@ -1336,6 +1363,10 @@ html{
     margin-bottom:0 !important; 
     font-size: 14px !important;
     font-weight: 600;
+    @media screen and (max-width: $break-small) {
+      font-size: 12px !important;
+      padding-left: 4px;
+    }
   }
 }
 .total{
@@ -1353,9 +1384,17 @@ html{
   font-weight: 600;
 }
 .buttons{
+  @media screen and (max-width: $break-small) {
+    margin-top: 0px !important;
+    display: block !important;
+  }
   button{
     padding: 12px 10px !important;
     margin-right: 30px;
+    @media screen and (max-width: $break-small) {
+      width: 80% !important;
+      padding: 18px 10px !important;
+    }
   }
   .light{
     background: white;
@@ -1365,6 +1404,7 @@ html{
 }
 .cart{
   margin-left: 40px;
+  margin-right: 94px;
   position: relative;
 
   @media screen and (max-width: $break-small) {
@@ -1377,18 +1417,26 @@ html{
     filter: invert(100%);
     position: relative;
     z-index: 1;
+    @media screen and (max-width: $break-small) {
+      padding: 8px;
+    }
   }
   span {
     padding: 5px 10px;
     border-radius: .25rem;
-    font-weight: 300;
+    font-weight: 500;
     border: 2px solid #ececec;
-    min-width: 80px;
+    min-width: 94px;
     display: inline-block;
     position: absolute;
     left: 25px;
     top: 25px;
     text-align: right;
+    @media screen and (max-width: $break-small) {
+      min-width: 100px;
+      left:62px;
+      top:18px;
+    }
   }
 }
 
@@ -1410,6 +1458,9 @@ html{
     font-weight: bold;
     padding-left: 20px;
     color:black;
+    @media screen and (max-width: $break-small) {
+      width:80% !important;
+    }
   }
   p{
     font-weight: 500;
@@ -1421,6 +1472,9 @@ html{
     font-weight: bold;
     padding-left: 20px;
     color:black;
+    @media screen and (max-width: $break-small) {
+      width:80% !important;
+    }
   }
   p{
     font-weight: 500;
@@ -1434,6 +1488,9 @@ html{
   padding-bottom: 14px;
   padding-top: 14px;
   width: 85%;
+  @media screen and (max-width: $break-small) {
+    width:100%;
+  }
   p{
     color: #3cb03a !important;
     padding-left: 20px;
@@ -1465,4 +1522,31 @@ html{
 }
 #otherAdressHolder{
   display: none;
+}
+#cartCount{
+  padding: 0;
+  border: 0;
+  background-color: red;
+  min-width: 18px;
+  min-height: 18px;
+  width: 18px;
+  z-index: 1;
+  border-radius: 56px;
+  color: white;
+  height: 18px;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 18px;
+  left: 30px;
+  @media screen and (max-width: $break-small) {
+    top: 12px;
+    left: 64px;
+  }
+}
+.totalPrice{
+  @media screen and (max-width: $break-small) {
+    display: table-cell !important;
+  }
 }
