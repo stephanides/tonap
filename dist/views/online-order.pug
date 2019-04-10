@@ -60,15 +60,15 @@ block content
                   input(name="name" type="text" id = "name" placeholder="Vaše meno" required)
                   p Priezvisko *
                   input(name="surname" type="text" id = "surname" placeholder="Vaše priezvisko" required)
-                  p Názov firmy
-                  input(name="company" type="text" id = "company" placeholder="Názov firmy")
+                  p Názov firmy *
+                  input(name="company" type="text" id = "company" placeholder="Názov firmy" reqiured)
                   .row
                     .col-md-6.col-12
-                      p IČO
-                      input(name="ico" type="text" id="ico" placeholder="Vaše IČO")
+                      p IČO *
+                      input(name="ico" type="text" id="ico" placeholder="Vaše IČO" reqiured)
                     .col-md-6.col-12
-                      p DIČ
-                      input(name="dic" type="text" id="dic" placeholder="Vaše DIČ")
+                      p DIČ *
+                      input(name="dic" type="text" id="dic" placeholder="Vaše DIČ" reqiured)
                   p Ulica a číslo *
                   input(name="companyAdress" id="companyAdress" type="text" placeholder="Ulica" required)
                   .row
@@ -79,7 +79,7 @@ block content
                       p Mesto
                       input(name="companyCity" id="companyCity" type="text" placeholder="Mesto" required)
                   p Krajina *
-                    select.custom-select#stateSelect(style="padding:0; border-radius:0;padding-left:10px;" onchange="stateUpdate()") 
+                    select.custom-select#stateSelect(style="padding:0; border-radius:0;padding-left:10px;" onchange="stateUpdate()" reqiured) 
                       option Slovensko
                       option Česko
                       option Maďarsko
