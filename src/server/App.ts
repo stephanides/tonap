@@ -109,6 +109,9 @@ class App {
       
       res.render("admin", { page: `Tonap | Admin ${title}` });
     });
+    this.router.get("/reklamacny-poriadok", (req, res) => {
+      res.render("claim-conditions", { page: "Reklamačný poriadok - Tonap - Slovenský laboratórny materiál" });
+    });
     this.router.get("/gdpr", (req, res) => { res.render("gdpr", { page: `GDPR - Tonap - Slovenský laboratórny materiál` }); });
     this.router.get("/online-objednavka", (req, res) => { res.render("online-order", { page: "Objednávky - Tonap - Slovenský laboratórny materiál" }); });
     this.router.get("/obchodne-podmienky", (req, res) => {

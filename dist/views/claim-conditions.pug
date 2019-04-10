@@ -1,0 +1,110 @@
+extends layout.pug
+
+//-block headerStyle
+  //-link(rel="stylesheet", href="./assets/css/style.min.css", media="screen")
+  // Main style
+  include main-style.pug
+block content
+  #wrapper
+    .container-fluid.white
+      .headContact
+        .container.d-flex.align-items-center.justify-content-end
+          img.infoicon(src="./assets/images/icons/phone.svg", alt="Tonap s. r. o.")
+          p +421 918 243 753
+      .container.nav-menu
+        .row.justify-content-between
+          a.logo(href="/")
+            img(src="./assets/images/1.png", alt="Tonap s. r. o.")
+          label.show-menu(for='show-menu')
+            img(src="./assets/images/icons/menu.svg", alt="Tonap s. r. o.")
+          input#show-menu(type='checkbox', role='button', aria-label="Zobraziť navigáciu")
+          ul#menu
+            li
+              a(href="/") Domov
+            li
+              a(href="/#products") Čo robíme?
+            li
+              a(href="/#orderProduct") Naše produkty
+            li
+              a(href="/#aboutus") Kto sme?
+            li
+              a(href="/#contact") Kontakt
+            li
+              a.cart()
+                img.infoicon(src="./assets/images/icons/cart.svg", alt="Shopping cart")
+                span#cartPrice 0,00 €
+    .container
+      h4.text-center.mt-4 REKLAMAČNÝ PORIADOK
+      h5.text-center.mb-0 Čl. I
+      h5.text-center Všeobecné ustanovenia
+      p #[strong obchodné meno: TONAP s. r. o. #[br]sídlo: Na hore 1727/4, 040 22 Košice#[br]IČO: 51 334 011#[br]DIČ: 2120679242#[br]DIČ DPH: SK2120679242#[br]zapísaná v Obchodnom registri Okresného súdu Košice I, vl. č. 43198/V, odd. Sro#[br]štatutárny orgán: Bc. Krisztián Bodnár - konateľ]
+      p #[strong telefón: +421 918 243 753#[br]email: info@tonap.sk#[br]web: #[a(href="https://tonap.eu") https://tonap.eu]]
+      ol
+        li Tento reklamačný poriadok upravuje postup predávajúceho TONAP s. r. o.  so sídlom Na hore 1727/4, 040 22 Košice, IČO: 51 334 011  zapísaná v Obchodnom registri Okresného súdu Košice I, vl. č. 43198/V, odd. Sro a kupujúceho pri uplatňovaní práv vyplývajúcich zo zodpovednosti predávajúceho za vady tovaru zakúpeného na webovej stránke predávajúceho a práva a povinnosti kupujúceho a predávajúceho s tým súvisiace.
+        li Kupujúci odoslaním elektronickej objednávky potvrdzuje, že sa oboznámil s reklamačným poriadkom predávajúceho a bez výhrad s ním súhlasí. Okamihom odoslania elektronickej objednávky predávajúcemu sa reklamačný poriadok stáva pre kupujúceho záväzným.
+        li Reklamačný poriadok je verejne dostupný na webovej stránke predávajúceho a v sídle predávajúceho.
+      h5.text-center.mb-0 Čl. II
+      h5.text-center Zodpovednosť predávajúceho za vady
+      ol
+        li Predávajúci je povinný dodať tovar v množstve, akosti a vyhotovení, tak, aby bol tovar použiteľný na účel, na ktorý sa taký tovar spravidla používa, v opačnom prípade má tovar vady.
+        li Predávajúci zodpovedá za vady, ktoré má dodaný tovar pri prevzatí kupujúcim, Kupujúci je povinný uplatniť vady zjavné bezodkladne prevzatí tovaru; ak ide o vady skryté, je kupujúci povinný uplatniť vady bezodkladne, najneskôr však od 7dní od kedy ich zistil. Pre uplatnenie vád platia ustanovenia čl. III tohto reklamačného poriadku.
+        li Pri tovare predávaného za nižšiu cenu nezodpovedá predávajúci za vadu, pre ktorú bola dojednaná nižšia cena.
+        li Predávajúci poskytuje záruku, že dodaný tovar bude počas záručnej doby spĺňať určité vlastnosti, ktorým je sterilnosť jednotlivých výrobkov dodaného tovaru  , pričom záručná doba je 12 mesiacov.
+        li Záručná doba začína plynúť odo dňa prevzatia tovaru kupujúcim. Práva zo zodpovednosti za vady tovaru, pre ktoré platí záručná doba, zaniknú, ak sa neuplatnili v záručnej dobe.
+        li Kupujúci je povinný skontrolovať dodaný tovar ako aj jeho obal ihneď po jeho doručení. Ak kupujúci tovar neprezrie alebo nezariadi, aby sa prezrel, môže uplatniť nároky z vád zistiteľných pri tejto prehliadke, len keď preukáže, že tieto vady mal tovar už v čase odoslania tovaru na prepravu.
+        li V prípade, ak kupujúci pri prevzatí tovaru zistí poškodenie obalu alebo zistí vadu tovaru pri jeho prehliadke, je povinný so zástupcom prepravcu (kuriérom) spísať protokol o zistených vadách tovaru, v opačnom prípade predávajúci nezodpovedá za vady tovaru zistené neskôr, ibaže kupujúci preukáže, že tovar mal vady už v čase pred jeho odoslaním na prepravu do miesta určenia.
+        li Kupujúci je povinný prevziať tovar osobne alebo zabezpečiť, aby tovar prevzala osoba, ktorú splnomocní pre prípad svojej neprítomnosti na prevzatie tovaru.
+      h5.text-center.mb-0 Čl. III
+      h5.text-center Uplatnenie nárokov za vady tovaru
+      ol
+        li Práva zo zodpovednosti za vady je kupujúci povinný uplatniť u predávajúceho písomne formou oznámenia o uplatnení reklamácie, v ktorej je povinný pravdivo uviesť všetky požadované informácie, najmä presne označiť druh tovaru, druh a rozsah vady tovaru, ktoré nároky z vád podľa čl. III tohto reklamačného poriadku uplatňuje, uviesť číslo objednávky a číslo faktúry. Kupujúci je povinný k oznámeniu o uplatnení reklamácie priložiť doklad o kúpe tovaru (faktúru).
+        li Kupujúci môže v uplatnení reklamácie požadovať nasledovné nároky:
+          ul
+            li Výmena vadného tovaru za bezvadný alebo dodanie chýbajúceho tovaru
+            li Primeraná zľava z kúpnej ceny
+            li Vrátenie kúpnej ceny v prípade, ak je rozsah vád aspoň ako 80% z celkového dodaného tovaru
+        li Kupujúci je oprávnený zvoliť si niektorý z nárokov uvedených v ods. 2 , len ak voľbu nárokov oznámi predávajúcemu vo včas zaslanom oznámení vád alebo bez zbytočného odkladu po tomto oznámení. Už uplatnený nárok je kupujúci oprávnený meniť len súhlasom predávajúceho a teda po ich vzájomnej dohode.
+        li Ak kupujúci uplatní reklamáciu tovaru u predávajúceho riadne a včas, predávajúci je povinný určiť spôsob vybavenia reklamácie ihneď, v zložitých prípadoch najneskôr do 3 pracovných dní odo dňa uplatnenia reklamácie, v odôvodnených prípadoch, najmä ak sa vyžaduje zložité technické zhodnotenie stavu výrobku, najneskôr do 30 dní odo dňa uplatnenia reklamácie.
+        li Po určení spôsobu vybavenia reklamácie predávajúci reklamáciu vybaví ihneď, v odôvodnených prípadoch možno reklamáciu vybaviť aj neskôr (najmä  napr. pre väčší počet vád, pochybnosti v spôsobe vzniku vád, ak bola reklamácia uplatnená počas sviatkov a dní pracovného pokoja a pod). Predávajúci je povinný vybaviť reklamáciu v lehote nie dlhšej ako 30 dní odo dňa uplatnenia reklamácie. Po uplynutí lehoty na vybavenie reklamácie má kupujúci právo od zmluvy odstúpiť alebo má právo na výmenu výrobku za nový výrobok.
+        li Ak kupujúci reklamáciu tovaru uplatnil počas prvých 12 mesiacov od uzavretia kúpnej zmluvy, môže predávajúci vybaviť reklamáciu zamietnutím len na základe odborného posúdenia. Predávajúci je povinný poskytnúť kupujúcemu kópiu odborného posúdenia odôvodňujúceho zamietnutie reklamácie najneskôr do 14 dní odo dňa vybavenia reklamácie. Tým nie je dotknutá povinnosť predávajúceho vydať kupujúcemu písomný doklad o vybavení reklamácie.
+        li Ak kupujúci reklamáciu výrobku uplatnil po 12 mesiacoch od kúpy a predávajúci ju zamietol, je povinný v doklade o vybavení reklamácie uviesť, komu môže kupujúci zaslať výrobok na odborné posúdenie.
+        li Predávajúci je povinný pri uplatnení reklamácie vydať kupujúcemu potvrdenie o jej uplatnení a po vybavení reklamácie je povinný vydať kupujúcemu doklad  o jej vybavení.
+        li Vybavením reklamácie sa rozumie ukončenie reklamačného konania odovzdaním vymeneného tovaru, vrátením kúpnej ceny, poskytnutím primeranej zľavy, alebo oznámenie odôvodneného zamietnutia reklamácie.
+        li Náklady spojené s uplatnením reklamácie ako aj náklady súvisiace s odborným posúdením v prípadoch, kedy je kupujúcim spotrebiteľ, hradí predávajúci.
+        li Počas vykonávania odborného posúdenia záručná doba neplynie.
+        li Ak dôjde k výmene tovaru, začne plynúť záručná doba znova od prevzatia nového tovaru.
+        li Znova uplatnenú reklamáciu nemožno zamietnuť.
+        li Pokiaľ je v tomto reklamačnom poriadku uvedené, že predávajúci alebo kupujúci sú povinní oznámiť určité skutočnosti písomne platí, že písomná forma je zachovaná využitím prostriedkov elektronickej komunikácie.
+      h5.text-center.mb-0 Čl. IV
+      h5.text-center Výluky zo zodpovednosti za vady tovaru
+      ol
+        li Predávajúci nezodpovedá za vady tovaru, ktoré vznikli prirodzeným opotrebovaním tovaru.
+        li Predávajúci ďalej nezodpovedá za vady, ktoré vznikli:
+          ul
+            li mechanickým poškodením tovaru
+            li neodborným zásahom a zmenami na tovare urobenými kupujúcim alebo treťou osobou
+            li nesprávnym používaním tovaru v rozpore s návodom a/alebo zanedbaním predpísanej starostlivosti o tovar alebo užívaním v rozpore s všeobecnými princípmi
+            li používaním tovaru v podmienkach, ktoré nezodpovedajú svojou teplotou, prašnosťou, vlhkosťou, chemickými a mechanickými vplyvmi prostrediu určenému výrobcom zariadenia
+            li nadmerným zaťažovaním, preťažením, nadmerným užívaním
+            li ohňom, bleskom, atmosférickou alebo statickou elektrinou, vodou, vytopením, pádom, mechanickým poškodením vonkajším vplyvom a inými nepredvídateľnými udalosťami
+      
+      h5.text-center.mb-0 Čl. V
+      h5.text-center Záverečné ustanovenia
+      ol
+        li Predávajúci poučil kupujúceho o jeho právach vyplývajúcich zo zodpovednosti predávajúceho za vady a to tak, že reklamačný poriadok je zverejnený na webovej stránke  predávajúceho a kupujúci mal možnosť sa s ním oboznámiť v čase pred odoslaním záväznej objednávky tovaru.
+        li Kupujúci vyhlasuje, že bol riadne oboznámený s reklamačným poriadkom a informovaný o podmienkach a spôsobe reklamácie tovaru vrátane údajov o tom, kde možno reklamáciu uplatniť a o vykonávaní záručných opráv.
+        li Predávajúci si vyhradzuje právo kedykoľvek zmeniť a/alebo doplniť reklamačný poriadok. Zmeny a/alebo doplnky tohto reklamačného poriadku vstupujú do platnosti dňom ich zverejnenia na webovej stránke predávajúceho a v sídle, prevádzkarni a výdajni tovaru predávajúceho.
+        li Orgánom dozoru je:
+          ul
+            li #[strong Ústredný inšpektorát Slovenskej obchodnej inšpekcie]#[br]so sídlom Prievozská 32, 827 99 Bratislava 215#[br]tel. č.: 02/ 58272 172, 02/58272 104#[br]fax č.: 02/ 58272 170#[br]#[a(href="http://www.soi.sk") http://www.soi.sk]#[br]#[a(href="http://www.soi.sk/sk/Podavanie-podnetov-staznosti-navrhov-a-ziadosti.soi ") http://www.soi.sk/sk/Podavanie-podnetov-staznosti-navrhov-a-ziadosti.soi]
+            li #[strong Inšpektorát SOI pre Košický kraj]#[br]so sídlom Vrátna 3, P. O. BOX A-35, 040 65  Košice 1#[br]Odbor výkonu dozoru#[br]tel. č. 055/729 07 05, 055/622 76 55#[br]fax č. 055/622 46 95
+        li Predávajúci má právo odmietnuť prijať tovar na reklamačné konanie, ak reklamovaný tovar alebo jeho súčasti sú neprimerane znečistené alebo nesplňujú základne predpoklady pre hygienicky bezpečné vybavenie reklamácie.
+        li Tento reklamačný poriadok nadobúda platnosť a účinnosť dňom 01.01.2019
+    
+    include footer.pug
+
+    script(src="./assets/js/socket.io.slim.js", deffer)
+    script(src="./assets/js/lazysizes.min.js", deffer)
+    script(src="./assets/js/jquery-3.3.1.min.js")
+    //-script(src="./assets/js/tonap.js")
+    script(src="./assets/js/tonap.min.js")
