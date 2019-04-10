@@ -552,6 +552,7 @@ function sendOrder(){
   informationObject.fullPrice = (itemsPrice + shipingPrice + paymenthPrice);
   informationObject.shippingMethod = shippingMethod;
   informationObject.paymentMethod = paymentMethod;
+  informationObject.weight = weight;
   var dataToSend = JSON.stringify(informationObject);
 
   console.log(informationObject);
