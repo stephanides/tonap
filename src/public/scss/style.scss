@@ -1059,7 +1059,7 @@ html{
 .position-relative{position: relative;}
 .position-absolute{position: absolute;}
 .top{top:0;margin-left: 50%;transform: translateX(-50%);}
-.white{background-color: white;}
+.white{background-color: white;padding: 0;}
 .modal{
   h4{
     color:$tonap-color;

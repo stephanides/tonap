@@ -690,7 +690,6 @@ function getProductSum(){
   var actualPrice = document.getElementById("actualPrice").innerHTML;
    totalProductPrice = countSelect * Number(actualPrice.replace(/€/,""));
 }
-getShippingPrice();
 function getShippingPrice(){
    shippingMethod = $('input[name=shippingMethods]:checked', '#shippingMethods').value;
   var paymentMethod = $('input[name=radioName]:checked', '#myForm').val();
@@ -722,24 +721,37 @@ function stateUpdate(){
 function addShippingMethod(arg){
   var state = document.getElementById("stateSelect").selectedIndex;
   var geisPrice = document.getElementById("geisPrice");
+  var dobierka = document.getElementById("dobierka");
   //0 - Slovensko / 1- Česko / 2-Madarsko / 3-Polsko
   if(arg == "geis"){
     switch(state){
       case 0:
         shipingPrice = 3.90;
         geisPrice.innerHTML = "3.90 €";
+        dobierka.innerHTML = "0.96 €";
+        paymenthPrice = 0.96;
         break;
       case 1:
         shipingPrice = 6.90;
         geisPrice.innerHTML = "6.90 €";
+        dobierka.innerHTML = "1.20 €";
+        paymenthPrice = 1.20;
         break;
       case 2:
         shipingPrice = 11.90;
         geisPrice.innerHTML = "11.90 €";
+        dobierka.innerHTML = "2.04 €";
+        paymenthPrice = 2.04;
+        if(itemsPrice > 700){
+          dobierka.innerHTML = "3,96 €";
+          paymenthPrice = 3.96;
+        }
         break;
       case 3:
         shipingPrice = 8.90;
         geisPrice.innerHTML = "8.90 €";
+        dobierka.innerHTML = "1.86 €";
+        paymenthPrice = 1.86;
         break;
     }
     shippingMethod = 0;
@@ -757,7 +769,7 @@ function addShippingMethod(arg){
 
 function addPaymentPrice(arg){
   if(arg == "dobierka"){
-    paymenthPrice = 1.50;
+    //paymenthPrice = 1.50;
   }
   if(arg == "osobne"){
     paymenthPrice = 0.00;

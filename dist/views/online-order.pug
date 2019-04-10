@@ -8,6 +8,10 @@ extends layout.pug
 block content
   #wrapper.lightgrey
     .container-fluid.white
+      .headContact
+        .container.d-flex.align-items-center.justify-content-end
+          img.infoicon.lazyload(data-src="./assets/images/icons/phone.svg", alt="Tonap s. r. o.")
+          p +421 918 243 753
       .container.nav-menu
         .row.justify-content-between
           a.logo(href="/")
@@ -26,6 +30,10 @@ block content
               a(href="/#aboutus") Kto sme?
             li
               a(href="/#contact") Kontakt
+            li
+              a.cart()
+                img.infoicon.lazyload(data-src="./assets/images/icons/cart.svg", alt="Shopping cart")
+                span#cartPrice 0,00 €
     .container.order-header
       h4 Pokladňa
       .order#order
@@ -133,10 +141,10 @@ block content
                           p Paypal
                           p.blue Zadarmo
                       .custom-control.custom-radio.mt-2
-                        input.custom-control-input#dobierkaOption(type="radio" name="paymentsMethods" onchange="addPaymentPrice('dobierka')")
+                        input.custom-control-input#dobierkaOption(type="radio" name="paymentsMethods" onchange="addPaymentPrice('dobierka')" checked)
                         label.pl-2.custom-control-label.d-flex.align-items-center.justify-content-between(for="dobierkaOption")
                           p Dobierka
-                          p.blue 1,50 €
+                          p.blue#dobierka
                       .custom-control.custom-radio.mt-2
                         input.custom-control-input#osobneOption(type="radio" name="paymentsMethods"  onchange="addPaymentPrice('osobne')")
                         label.pl-2.custom-control-label.d-flex.align-items-center.justify-content-between(for="osobneOption")
