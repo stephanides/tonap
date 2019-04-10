@@ -1,0 +1,239 @@
+extends layout.pug
+
+block content
+  #wrapper
+    .container-fluid.white
+      .headContact
+        .container.d-flex.align-items-center.justify-content-end
+          img.infoicon(src="./assets/images/icons/phone.svg", alt="Tonap s. r. o.")
+          p +421 918 243 753
+      .container.nav-menu
+        .row.justify-content-between
+          a.logo(href="/")
+            img(src="./assets/images/1.png", alt="Tonap s. r. o.")
+          label.show-menu(for='show-menu')
+            img(src="./assets/images/icons/menu.svg", alt="Tonap s. r. o.")
+          input#show-menu(type='checkbox', role='button', aria-label="Zobraziť navigáciu")
+          ul#menu
+            li
+              a(href="/") Domov
+            li
+              a(href="/#products") Čo robíme?
+            li
+              a(href="/#orderProduct") Naše produkty
+            li
+              a(href="/#aboutus") Kto sme?
+            li
+              a(href="/#contact") Kontakt
+            li
+              a.cart()
+                img.infoicon(src="./assets/images/icons/cart.svg", alt="Shopping cart")
+                span#cartPrice 0,00 €
+    .container
+      h4.text-center.mt-4 INFORMÁCIE O OCHRANE OSOBNÝCH ÚDAJOV
+      h5.text-center I. Úvodné ustanovenia
+      p #[strong obchodné meno: TONAP s. r. o. #[br]sídlo: Na hore 1727/4, 040 22 Košice#[br]IČO: 51 334 011#[br]DIČ: 2120679242#[br]DIČ DPH: SK2120679242#[br]zapísaná v Obchodnom registri Okresného súdu Košice I, vl. č. 43198/V, odd. Sro#[br]štatutárny orgán: Bc. Krisztián Bodnár - konateľ]
+      p #[strong telefón: +421 918 243 753#[br]email: info@tonap.sk#[br]web: #[a(href="https://tonap.eu") https://tonap.eu]]
+      h5.text-center II. Výklad pojmov
+      ol
+        li Osobnými údajmi sa rozumejú údaje týkajúce sa identifikovanej fyzickej osoby alebo identifikovateľnej fyzickej osoby, ktorú možno identifikovať priamo alebo nepriamo, najmä na základe všeobecne použiteľného identifikátora, iného identifikátora, ako je napríklad meno, priezvisko, identifikačné číslo, lokalizačné údaje, alebo online identifikátor, alebo na základe jednej alebo viacerých charakteristík alebo znakov, ktoré tvoria jej fyzickú identitu, fyziologickú identitu, genetickú identitu, psychickú identitu, mentálnu identitu, ekonomickú identitu, kultúrnu identitu alebo sociálnu identitu.
+        li Spracúvaním osobných údajov  sa rozumie spracovateľská operácia alebo súbor spracovateľských operácií s osobnými údajmi alebo so súbormi osobných údajov, najmä získavanie, zaznamenávanie, usporadúvanie, štruktúrovanie, uchovávanie, zmena, vyhľadávanie, prehliadanie, využívanie, poskytovanie prenosom, šírením alebo iným spôsobom, preskupovanie alebo kombinovanie, obmedzenie, vymazanie, bez ohľadu na to, či sa vykonáva automatizovanými prostriedkami alebo neautomatizovanými prostriedkami.
+        li Dotknutou osobou sa rozumie každá fyzická osoba, ktorej osobné údaje sa spracúvajú.
+        li Prevádzkovateľom sa rozumie každý, kto sám alebo spoločne s inými vymedzí účel a prostriedky spracúvania osobných údajov a spracúva osobné údaje vo vlastnom mene.
+        li Sprostredkovateľom sa rozumie každý, kto spracúva osobné údaje v mene prevádzkovateľa.
+        li Obmedzením spracúvania osobných údajov sa rozumie označenie uchovávaných osobných údajov s cieľom obmedziť ich spracúvanie v budúcnosti a to na základe žiadosti dotknutej osoby za podmienok uvedených v týchto informáciách.
+      h5.text-center III. Zásady spracovania osobných údajov
+      ol
+        li Osobné údaje sú prevádzkovateľom spracúvané zákonným spôsobom  v súlade s nariadením o ochrane osobných údajov a zákonom o ochrane osobných údajov a to tak, aby nedošlo k porušeniu základných práv dotknutej osoby.
+        li Osobné údaje prevádzkovateľ získava na konkrétne určený, oprávnený a výslovne uvedený účel a osobné údaje sa nespracúvajú ďalej spôsobom, ktorý nie je zlučiteľný s týmto účelom.
+        li Spracúvanie osobných údajov na účel archivácie, na vedecký účel, na účel historického výskumu alebo na štatistický účel je v súlade s osobitným predpisom a sú dodržané primerané záruky ochrany práv dotknutej osoby.
+        li Spracúvané osobné údaje sú primerané, relevantné a obmedzené na nevyhnutný rozsah daný účelom, na ktorý sa spracúvajú. 
+        li Spracúvané osobné údaje musia byť správne a podľa potreby aktualizované. Osobné údaje, ktoré sú nesprávne z hľadiska účelov, na ktoré sa spracúvajú, prevádzkovateľ  bez zbytočného odkladu vymaže alebo opraví.
+        li Prevádzkovateľ uchováva osobné údaje vo forme, ktorá umožňuje identifikáciu dotknutej osoby najneskôr dovtedy, kým je to potrebné na účel, na ktorý sa osobné údaje spracúvajú. Osobné údaje sa môžu uchovávať dlhšie, ak sa majú spracúvať výlučne na účel archivácie, na vedecký účel, na účel historického výskumu alebo na štatistický účel na základe osobitného predpisu a ak sú dodržané primerané záruky ochrany práv dotknutej osoby.
+        li Osobné údaje sú prevádzkovateľom spracúvané spôsobom, ktorý prostredníctvom primeraných technických a organizačných opatrení zaručuje primeranú bezpečnosť osobných údajov vrátane ochrany pred neoprávneným spracúvaním osobných údajov, nezákonným spracúvaním osobných údajov, náhodnou stratou osobných údajov, výmazom osobných údajov alebo poškodením osobných údajov.
+      h5.text-center IV. Poučenie dotknutých osôb
+      ol
+        li Dotknutá osoba má v súvislosti so spracúvaním jej osobných údajov nasledovné práva:
+          ul
+            li Právo požadovať od prevádzkovateľa prístup k osobným údajom:
+              ul
+                li Dotknutá osoba má právo na základe žiadosti získať od prevádzkovateľa informácie o tom, či sa spracúvajú osobné údaje, ktoré sa jej týkajú.
+                li Prevádzkovateľ je povinný poskytnúť dotknutej osobe jej osobné údaje, ktoré spracúva. Za opakované poskytnutie osobných údajov, o ktoré dotknutá osoba požiada, prevádzkovateľ účtuje poplatok zodpovedajúci administratívnym nákladom súvisiacich s vybavením žiadosti.
+                li Prevádzkovateľ je povinný poskytnúť osobné údaje dotknutej osobe spôsobom podľa jej požiadavky.
+                li Prevádzkovateľ okrem poskytnutia osobných údajov dotknutej osoby, ktoré spracúva, poskytne dotknutej osobe aj informácie o účele spracúvania osobných údajov, kategórii spracúvaných osobných údajov, identifikácii príjemcu alebo o kategórii príjemcu, ktorému boli alebo majú byť osobné údaje poskytnuté, ak takýto príjemca existuje, dobe uchovávania osobných údajov a ak to nie je možné, informáciu o kritériách jej určenia, o práve požadovať od prevádzkovateľa opravu osobných údajov týkajúcich sa dotknutej osoby, ich vymazanie alebo obmedzenie ich spracúvania, alebo o práve namietať spracúvanie osobných údajov, o práve podať návrh na začatie konania o ochrane osobných podľa § 100 zákona o ochrane osobných údajov, o zdroji osobných údajov, ak sa osobné údaje nezískali od dotknutej osoby, o existencii automatizovaného individuálneho rozhodovania vrátane profilovania.
+            li Právo na opravu osobných údajov:
+              ul
+                li Dotknutá osoba má právo na základe žiadosti požadovať od prevádzkovateľa to, aby prevádzkovateľ bez zbytočného odkladu opravil nesprávne osobné údaje, ktoré sa jej týkajú. 
+                li Dotknutá osoba má právo na základe žiadosti požadovať od prevádzkovateľa doplnenie neúplných osobných údajov, ak to vyžaduje účel spracúvania osobných údajov dotknutej osoby, v opačnom prípade má prevádzkovateľ právo doplnenie osobných údajov odmietnuť.
+            li Právo na vymazanie osobných údajov:
+              ul
+                li Dotknutá osoba má právo na základe žiadosti požadovať od prevádzkovateľa to, aby prevádzkovateľ bez zbytočného odkladu vymazal osobné údaje, ktoré sa jej týkajú za podmienok uvedených v týchto odsekoch
+            li Prevádzkovateľ je povinný na základe žiadosti oprávnenej osoby bez zbytočného odkladu vymazať osobné údaje, ak:
+              ul
+                li osobné údaje už nie sú potrebné na účel, na ktorý sa získali alebo inak spracúvali,
+                li dotknutá osoba odvolá súhlas na základe ktorého sa spracúvanie osobných údajov vykonáva, a neexistuje iný právny základ pre spracúvanie osobných údajov,
+                li dotknutá osoba namieta spracúvanie osobných údajov, ktoré sa jej týkajú a to na účel priameho marketingu vrátane profilovania v rozsahu, v akom súvisí s priamym marketingom,
+                li osobné údaje sa spracúvajú nezákonne,
+                li je dôvodom pre výmaz osobných údajov splnenie povinnosti podľa zákona o ochrane osobných údajov, osobitného predpisu alebo medzinárodnej zmluvy, ktorou je Slovenská republika viazaná.
+                li Vyššie uvedené sa neuplatňuje, ak je spracúvanie osobných údajov potrebné na uplatnenie práva na slobodu prejavu alebo práva na informácie, na splnenie povinnosti podľa zákona o ochrane osobných údajov, osobitného predpisu alebo medzinárodnej zmluvy, ktorou je Slovenská republika viazaná, alebo na splnenie úlohy realizovanej vo verejnom záujme alebo pri výkone verejnej moci zverenej prevádzkovateľovi, na účel archivácie, na vedecký účel, na účel historického výskumu alebo na štatistický účel podľa § 78 ods. 8 zákona o ochrane osobných údajov, ak je pravdepodobné, že právo na vymazanie osobných údajov znemožní alebo závažným spôsobom sťaží dosiahnutie cieľov takého spracúvania alebo na uplatnenie právneho nároku.
+            li Právo na obmedzenie spracúvania osobných údajov:
+              ul
+                li Dotknutá osoba má právo požadovať od prevádzkovateľa to, aby prevádzkovateľ obmedzil spracúvanie jej osobných údajov, ak:
+                  ul
+                    li dotknutá osoba namieta správnosť osobných údajov, a to počas obdobia umožňujúceho prevádzkovateľovi overiť správnosť osobných údajov,
+                    li spracúvanie osobných údajov je nezákonné a dotknutá osoba namieta vymazanie osobných údajov a žiada namiesto toho obmedzenie ich použitia,
+                    li prevádzkovateľ už nepotrebuje osobné údaje na účel spracúvania osobných údajov, ale potrebuje ich dotknutá osoba na uplatnenie právneho nároku.
+                li Ak sa spracúvanie osobných údajov obmedzilo, okrem uchovávania môže osobné údaje prevádzkovateľ spracúvať len so súhlasom dotknutej osoby alebo na účel uplatnenia právneho nároku, na ochranu osôb alebo z dôvodov verejného záujmu.
+                li Prevádzkovateľ je povinný informovať dotknutú osobu, ktorej spracúvanie osobných údajov sa obmedzí pred tým, ako bude obmedzenie spracúvania osobných údajov zrušené.
+                li Právo na prenosnosť osobných údajov:
+                  ul
+                    li Dotknutá osoba má právo získať osobné údaje, ktoré sa jej týkajú a ktoré poskytla prevádzkovateľovi, v štruktúrovanom, bežne používanom a strojovo čitateľnom formáte a má právo preniesť tieto osobné údaje ďalšiemu prevádzkovateľovi, ak je to technicky možné.
+                    li Uplatnením práva na prenosnosť osobných údajov nie je dotknuté právo na výmaz osobných údajov za vyššie uvedených podmienok.
+            li Právo na oznámenie porušenia ochrany osobných údajov, ak takéto porušenie ochrany osobných údajov môže viesť k vysokému riziku pre práva fyzickej osoby:
+              ul
+                li Prevádzkovateľ je povinný bez zbytočného odkladu zaslať dotknutej osobe oznámenie o porušení ochrany osobných údajov, v ktorom uvedie jasne a jednoducho formulovaný opis povahy porušenia ochrany osobných údajov a kontaktné údaje zodpovednej osoby alebo iného kontaktného miesta, kde možno získať viac informácií, opis pravdepodobných následkov porušenia ochrany osobných údajov, opis opatrení prijatých alebo navrhovaných prevádzkovateľom na nápravu porušenia ochrany osobných údajov vrátane opatrení na zmiernenie jeho potenciálnych nepriaznivých dôsledkov, ak je to potrebné.
+            li Oznámenie o porušení ochrany osobných údajov sa nevyžaduje, ak:
+              ul
+                li prevádzkovateľ prijal primerané technické a organizačné ochranné opatrenia a uplatnil ich na osobné údaje, ktorých sa porušenie ochrany osobných údajov týka, a to najmä šifrovanie alebo iné opatrenia, na základe ktorých sú osobné údaje nečitateľné pre osoby, ktoré nie sú oprávnené mať k nim prístup,
+                li prevádzkovateľ prijal následné opatrenia na zabezpečenie vysokého rizika porušenia práv dotknutej osoby podľa odseku 1,
+                li by to vyžadovalo neprimerané úsilie; v takom prípade je prevádzkovateľ povinný informovať verejnosť alebo prijať iné opatrenie na zabezpečenie toho, že dotknutá osoba bude informovaná rovnako efektívnym spôsobom.
+        li Právo namietať spracúvanie osobných údajov
+          ul
+            li Dotknutá osoba má právo namietať spracúvanie jej osobných údajov z dôvodu týkajúceho sa jej konkrétnej situácie vykonávané v prípade, ak spracúvanie osobných údajov je nevyhnutné na splnenie úlohy realizovanej vo verejnom záujme alebo pri výkone verejnej moci zverenej prevádzkovateľovi, alebo spracúvanie osobných údajov je nevyhnutné na účel oprávnených záujmov prevádzkovateľa alebo tretej strany okrem prípadov, keď nad týmito záujmami prevažujú záujmy alebo práva dotknutej osoby vyžadujúce si ochranu osobných údajov, najmä ak je dotknutou osobou dieťa a to aj vrátane profilovania založeného na týchto prípadoch. Prevádzkovateľ nesmie ďalej spracúvať osobné údaje, ak nepreukáže nevyhnutné oprávnené záujmy na spracúvanie osobných údajov, ktoré prevažujú nad právami alebo záujmami dotknutej osoby, alebo dôvody na uplatnenie právneho nároku.
+            li Dotknutá osoba má právo namietať spracúvanie osobných údajov, ktoré sa jej týkajú, na účel priameho marketingu vrátane profilovania v rozsahu, v akom súvisí s priamym marketingom. Ak dotknutá osoba namieta spracúvanie osobných údajov na účel priameho marketingu, prevádzkovateľ ďalej osobné údaje na účel priameho marketingu nesmie spracúvať.
+        li Právo podať návrh na začatie konania o ochrane osobných údajov pred Úradom na ochranu osobných údajov podľa § 100 zákona o ochrane osobných údajov,
+          ul
+            li Dotknutá osoba má právo podať návrh na začatie konania o ochrane osobných údajov pred Úradom na ochranu osobných údajov podľa § 100 zákona o ochrane osobných údajov.
+        li Dotknutá osoba bola výslovne oboznámená so skutočnosťou, že v prípadoch, ak právnym základom spracúvania osobných údajov je súhlas dotknutej osoby na konkrétny účel, dotknutá osoba má právo kedykoľvek svoj súhlas odvolať.
+      h5.text-center V. Postup v súvislosti s vybavením žiadosti o poskytnutie, opravu, výmaz, obmedzení spracúvania, prenosnosť osobných údajov
+      ol
+        li Prevádzkovateľ je povinný vybaviť žiadosť dotknutej osobe najneskôr do jedného mesiaca od doručenia žiadosti. Uvedenú lehotu môže prevádzkovateľ v odôvodnených prípadoch s ohľadom na komplexnosť a počet žiadostí predĺžiť o ďalšie dva mesiace, a to aj opakovane.
+        li Prevádzkovateľ je povinný informovať o každom takom predĺžení dotknutú osobu do jedného mesiaca od doručenia žiadosti spolu s dôvodmi predĺženia lehoty. Ak dotknutá osoba podala žiadosť v elektronickej podobe, prevádzkovateľ poskytne informácie v elektronickej podobe, ak dotknutá osoba nepožiadala o poskytnutie informácie iným spôsobom. Ak prevádzkovateľ neprijme opatrenia na základe žiadosti dotknutej osoby, je povinný do jedného mesiaca od doručenia žiadosti informovať dotknutú osobu o dôvodoch nekonania a o možnosti podať návrh na konanie o ochrane osobných údajov podľa § 100 zákona o ochrane osobných údajov na Úrad na ochranu osobných údajov.
+        li Ak nedostatok údajov o žiadateľovi bráni prevádzkovateľovi jednoznačne identifikovať žiadateľa alebo nedostatok údajov bráni postupu vybavenia žiadosti, prevádzkovateľ vyzve žiadateľa, aby žiadosť doplnil alebo aby dostatočne preukázal svoju totožnosť. Ak žiadateľ tejto výzve do 7 dní odo dňa jej doručenia nevyhovie, prevádzkovateľ je oprávnený o žiadosti odmietnuť konať.
+        li Informácie a oznámenia a opatrenia sa poskytujú bezodplatne, ak o nich žiada dotknutá osoba po prvýkrát a žiadosť dotknutej osoby nie je zjavne neopodstatnená alebo zjavne neprimeraná. Zjavnú neopodstatnenosť žiadosti alebo neprimeranosť žiadosti posudzuje prevádzkovateľ.
+        li Ak je žiadosť dotknutej osoby zjavne neopodstatnená alebo neprimeraná, najmä pre jej opakujúcu sa povahu, prevádzkovateľ môže:
+          ul
+            li požadovať primeraný poplatok zohľadňujúci administratívne náklady na poskytnutie informácií, oznámenie alebo na uskutočnenie požadovaného opatrenia, alebo
+            li odmietnuť konať na základe žiadosti.
+      h5.text-center VI. Základné informácie o spracúvaní osobných údajov
+      ol
+        li Prevádzkovateľ spracúva osobné údaje len v nevyhnutnom rozsahu a na konkrétny účel v súlade s právnym základom. 
+        li Prevádzkovateľ prijal primerané technické, bezpečnostné a personálne opatrenia s cieľom zabezpečiť zvýšenú ochranu spracúvaných osobných údajov dotknutých osôb a so spracúvanými osobnými údajmi prevádzkovateľ zaobchádza citlivo v súlade so zásadami zabezpečenia ochrany spracúvania osobných údajov.
+        li Osobné údaje, ktoré prevádzkovateľ spracúva, pochádzajú priamo od dotknutej osoby, príp. z verejne dostupných zdrojov.
+        li Prevádzkovateľ vyhlasuje, že v rámci spracúvania osobných údajov nedochádza k ich prenosu do tretích krajín, mimo územie Európskej Únie alebo do medzinárodných organizácií a spracúvané osobné údaje sa nezverejňujú.
+        li Prevádzkovateľ môže vykonávať automatické rozhodovanie vrátane profilovania na účely realizácie priameho marketingu podľa kritérií určených prevádzkovateľa. V prípade, ak prevádzkovateľ vykonáva automatické rozhodovanie vrátane profilovania, prevádzkovateľ určí základné kritériá, podľa ktorých sa bude uskutočňovať automatické rozhodovanie vrátane profilovania.
+      h5.text-center VII. Účel a právny základ spracúvania osobných údajov
+      h5.text-center A/ Prijatá a odoslaná korešpondencia
+      ol
+        li Za účelom plnenia zákonných registratúrnych povinností prevádzkovateľ eviduje prijatú a odoslanú poštu, pričom spracúva nasledovné osobné údaje: 
+          ul
+            li identifikačné údaje v rozsahu meno a priezvisko, titul,
+            li kontaktné údaje v rozsahu adresa na doručovanie,
+            li údaje zahrnuté v komunikácií prijímateľov a odosielateľov korešpondencie.
+        li Tieto osobné údaje sú spracúvané na základe zákona č. 395/2002 Z.z. o archívoch a registratúrach a o doplnení niektorých zákonov v znení neskorších predpisov. Poskytnutie osobných údajov je zákonnou povinnosťou a ich neposkytnutie by znamenalo znemožnenie plnenia zákonných povinnosti prevádzkovateľa. Prevádzkovateľ tieto osobné údaje uchováva 5 rokov od prvého dňa príslušného kalendárneho roka, v ktorom boli získané osobné údaje pre korešpondenciu a 3 roky pre knihy evidencie prijatej a odoslanej korešpondencie.
+      h5.text-center B/ Objednávka
+      ol
+        li Za účelom riadneho vybavenia a doručenia objednávky návštevníka webovej stránky v postavení dotknutej osoby, spracúva prevádzkovateľ nasledovné osobné údaje:
+          ul
+            li identifikačné údaje objednávateľa v rozsahu meno a priezvisko, dodacia a fakturačná adresa, mesto, psč, štát,
+            li kontaktné údaje objednávateľa v rozsahu email a telefón,
+            li údaje o zakúpenom tovare,
+            li údaje súvisiace s platbou za tovar (uhradená suma, dátum úhrady),
+            li údaje súvisiace s doručovaním tovaru.
+        li Tieto údaje spracúva prevádzkovateľ za účelom a v súvislosti s uzavretím kúpnej zmluvy a plnenia z nej, poskytnutie osobných údajov v tomto prípade je zákonnou a najmä zmluvnou povinnosťou. Neposkytnutie osobných údajov by znamenalo znemožnenie uzavretia kúpnej zmluvy a tým pádom nedoručenie objednaného tovaru.
+        li Prevádzkovateľ tieto osobné údaje uchováva do času vybavenia objednávky, resp. po dobu trvania premlčacej lehoty určenej príslušnými právnymi predpismi platnými v Slovenskej republike.
+      h5.text-center C/ Kontaktný formulár
+      ol
+        li Za účelom spätného kontaktovania a vybavenia akejkoľvek požiadavky návštevníka webovej stránky v postavení dotknutej osoby, spracúva prevádzkovateľ nasledovné osobné údaje:
+          ul
+            li identifikačné údaje v rozsahu meno a priezvisko,
+            li kontaktné údaje v rozsahu email a telefón,
+            li údaje zahrnuté v texte správy.
+        li Tieto údaje spracúva prevádzkovateľ na základe jeho oprávnených záujmov, ktorými sú riadne vybavenie požiadavky návštevníka webovej stránky.  Poskytnutie osobných údajov v tomto prípade nie je zákonnou ani zmluvnou povinnosťou. Neposkytnutie osobných údajov by znamenalo znemožnenie spätného kontaktu a vybavenia požiadavky návštevníka webovej stránky zo strany prevádzkovateľa.
+        li Prevádzkovateľ tieto osobné údaje uchováva do času vybavenia požiadavky uvedenej vo formulári, najdlhšie však po dobu 5 rokov od získania osobných údajov.
+      h5.text-center D/ Reklamácie a sťažností zákazníkov
+      ol
+        li Za účelom riadneho vybavenia reklamácie a sťažnosti zákazníka prevádzkovateľ spracúva nasledovné osobné údaje:
+          ul
+            li identifikačné údaje v rozsahu meno, priezvisko, údaje uvedené v reklamácii alebo sťažnosti
+            li kontaktné údaje v rozsahu adresa, telefónne číslo alebo e-mailová adresa
+            li údaje súvisiace s dodaným tovarom (najmä druh tovaru, adresa doručenia, zaplatená cena za tovar)
+        li Tieto údaje spracúva prevádzkovateľ v súvislosti s uzavretím kúpnej príp. inej zmluvy a plnenia z nej, poskytnutie osobných údajov v tomto prípade je zákonnou a najmä zmluvnou povinnosťou. Neposkytnutie osobných údajov by znamenalo znemožnenie vybavenia reklamácie alebo sťažnosti zákazníka v súvislosti s uzavretou kúpnou zmluvou.
+        li Prevádzkovateľ uchováva uvedené údaje počas trvania prekluzívnej a premlčacej lehoty určenej príslušnými právnymi predpismi platnými v Slovenskej republike.
+      h5.text-center E/ Uplatňovanie nárokov prevádzkovateľa
+      ol
+        li Za účelom uplatňovania nárokov prevádzkovateľa spracúva prevádzkovateľ nasledovné údaje:
+          ul
+            li údaje uvedené v zmluvách so zákazníkmi a dodávateľmi,
+            li údaje uvedené v reklamáciách, údaje potrebné na podanie návrhu na začatie konania, údaje uvedené v návrhoch na začatie konania proti prevádzkovateľovi,
+            li údaje vedené v účtovníctve a iné údaje potrebné v súvislosti s prípadným uplatňovaním nárokov alebo hájením záujmov prevádzkovateľa.
+        li Tieto údaje spracúva prevádzkovateľ na základe jeho oprávneného záujmu, ktorým je účelné bránenie svojich majetkových a iných práv a uplatňovanie nárokov prevádzkovateľom. Spracúvanie osobných údajov je nevyhnutné na účely oprávnených záujmov prevádzkovateľa.
+        li Osobné údaje sú spracúvané počas doby vedenia súdneho sporu a počas trvania prekluzívnej a premlčacej lehoty, počas ktorej môžu byť voči prevádzkovateľovi uplatňované nároky alebo počas ktorej si prevádzkovateľ môže uplatniť svoje vlastné nároky a ktorá je určená príslušnými právnymi predpismi platnými v Slovenskej republike.
+      h5.text-center F/ Plnenie zákonných povinností prevádzkovateľom
+      ol
+        li Za účelom plnenia zákonných povinností prevádzkovateľ spracúva všetky osobné údaje uvedené v čl. VII a to najmä pokiaľ sa jedná o plnenie zákonných povinností vyplývajúcich napr. zo zákona o účtovníctve, zákona o dani z pridanej hodnoty, zákona o dani z príjmov, zákona o ochrane spotrebiteľa, zákona o archívoch a registratúrach.
+        li Spracúvanie osobných údajov prevádzkovateľom je nevyhnutné na účely plnenia zákonných povinností.
+        li Prevádzkovateľ spracúva tieto údaje po dobu uvedenú v príslušných právnych predpisoch platných v Slovenskej republike.
+      h5.text-center VIII. Príjemcovia osobných údajov
+      ol
+        li Prevádzkovateľ poskytuje osobné údaje tretím stranám výlučne na základe zmluvy o sprostredkovaní v súlade s účelom a právnym základom vyššie uvedeným, ako aj v súlade so zákonom o ochrane osobných údajov a nariadením o ochrane osobných údajov.
+        li Príjemcami osobných údajov sú najmä prepravná spoločnosť, ktorá zabezpečuje dodávku tovaru zákazníkovi.
+        li Príjemcovia osobných údajov sú najmä sprostredkovatelia, ktorí poskytujú prevádzkovateľovi účtovné a personálne služby, služby vyhľadávania a náboru nových zamestnancov, služby spojené s doručovaním, servisné služby, právne služby, služby súvisiace s vymáhaním pohľadávok, poskytovanie technických a IT služieb, iné poradenské a konzultačné činnosti a pod.
+        li Príjemcovia osobných údajov sú taktiež zamestnanci prevádzkovateľa v prípade, ak boli poučení v súlade so zákonom a sú zaviazaní povinnosťou mlčanlivosti a to len za predpokladu, že sprístupnenie osobných údajov zamestnancom prevádzkovateľa je nevyhnutné na dosiahnutie niektorého z účelov spracovania osobných údajov.
+        li Prevádzkovateľ poskytne alebo sprístupní osobné údaje orgánom štátnej správy, orgánom verejnej správy alebo iným štátnym orgánom a inštitúciám  v prípade, ak je takéto poskytnutie alebo sprístupnenie v súlade so všeobecne záväznými právnymi predpismi platnými v Slovenskej republike a ak je to nevyhnutné pre dodržanie príslušného právneho predpisu alebo vynútiteľnú žiadosť orgánu štátnej správy, uplatnenie príslušných zmluvných podmienok vrátane kontroly ich dodržiavania, prevenciu alebo postup zameraný na riešenie podvodu, technických a bezpečnostných incidentov, uplatnenie práv a nárokov v súlade so všeobecne záväznými právnymi predpismi platnými v Slovenskej republike.
+      h5.text-center IX. Používanie súborov cookies
+      ol
+        li Za účelom uľahčenia sledovania používateľov na našej webovej stránke, používame protokolárne súbory, tzv. cookies (t.j. identifikácie, ktoré webový server posiela do prehliadača vo vašom koncovom zariadení. Súbor cookies sú dočasné súbory, tzn. že po ukončení vášho webového prehliadania sa cookies z koncového zariadenia automaticky vymažú.
+        li Pri návšteve tejto webovej stránky sú generované protokolárne súbory s nasledujúcim obsahom:
+          ul
+            li IP adresa
+            li adresa stránky
+            li informácie o používanom prehliadači a používanom operačnom systéme
+            li internetová stránka, z ktorej našu stránku otvárate
+            li dátum, čas prístupu a miesto
+        li Vyššie uvedené informácie o správaní na webe sú z dôvodu maximálnej ochrany anonymizované, a preto ich nie je možné priradiť konkrétnemu užívateľovi.
+        li Súbory cookies nepoškodzujú koncové zariadenie, neobsahujú vírusy, trójske kone alebo iný škodlivý softvér a  neuskutočňujú permanentné ukladanie údajov na koncovom zariadení dotknutej osoby.
+        li Všetky používané súbory cookies sú technické, funkčné alebo analytické cookies, ktoré slúžia k zlepšeniu funkčnosti webstránky prevádzkovateľa.
+        li Každá dotknutá osoba môže svoj internetový prehliadač môžete nastaviť tak, že v nastaveniach svojho internetového prehliadača môže použitie súborov cookies odmietnuť, alebo si nastaviť používanie len niektorých. Pokiaľ ale dotknutá osoba nepovolí použitie cookies, niektoré funkcie nemusia fungovať správne.
+        li Nastavenia súborov cookies v najčastejšie používaných prehliadačoch:
+          ul
+            li Chrome - #[a(href="https://support.google.com/accounts/answer/61416?hl=cs") https://support.google.com/accounts/answer/61416?hl=cs]
+            li Firefox - #[a(href="https://support.mozilla.org/cs/kb/vymazani-cookies") https://support.mozilla.org/cs/kb/vymazani-cookies]
+            li Internet Explorer - #[a(href="https://support.microsoft.com/cs-cz/products/security") https://support.microsoft.com/cs-cz/products/security]
+      h5.text-center Podrobnosti o použitých súboroch cookies
+      table
+        tr
+          th Druh cookies
+          th Doba ukladania
+          th Sledovacie kódy
+        tr
+          td PHPSESSID
+          td 1 hodina
+          td UA-42088561-1
+        tr
+          td _gat - Google Analytics - od connecto.io
+          td 1 minúta
+          td
+        tr
+          td _gid - Google Analytics - od connecto.io
+          td 1 deň
+          td
+        tr
+          td _ga - Google Analytics - od connecto.io
+          td 1 minúta
+          td
+      h5.text-center X. Orgán dozoru
+      ol
+        li Úrad na ochranu osobných údajov je orgánom štátnej správy s celoslovenskou pôsobnosťou, ktorý sa podieľa na ochrane základných práv fyzických osôb pri spracúvaní osobných údajov a ktorý vykonáva dozor nad ochranou osobných údajov. Každá dotknutá osoba sa môže na Úrad na ochranu osobných údajov obrátiť v prípade, ak sa domnieva, že jej práva boli porušené alebo sú ohrozené.
+      p Adresa Úradu na ochranu osobných údajov:
+      p Hraničná 12#[br]820 07 Bratislava 27#[br]Slovenská republika
+      p IČO: 36 064 220
+      p #[a(href="https://dataprotection.gov.sk") https://dataprotection.gov.sk]#[br]mail: statny.dozor@pdp.gov.sk#[br]Telefonické konzultácie v oblasti ochrany osobných údajov len v utorok od 8:00 do 12:00: +421/2/3231 3220
+    
+    include footer.pug
+
+    script(src="./assets/js/socket.io.slim.js", deffer)
+    script(src="./assets/js/lazysizes.min.js", deffer)
+    script(src="./assets/js/jquery-3.3.1.min.js")
+    //-script(src="./assets/js/tonap.js")
+    script(src="./assets/js/tonap.min.js")
