@@ -36,7 +36,7 @@ html(lang="sk")
 
     // Main style
     link(rel="stylesheet", href=(page.indexOf("Admin") > -1 ? "../assets/css/modal.min.css" : "./assets/css/modal.min.css"), media="all")
-    link(rel="stylesheet", href=(page.indexOf("Admin") > -1 ? "../assets/css/style.min.css" : "../assets/css/style.min.css"), media="all")
+    link(rel="stylesheet", href=("../assets/css/style.min.css"), media="all")
     block headerStyle
 
     title #{page}
@@ -53,7 +53,7 @@ html(lang="sk")
     block content
         
     // JS
-    script(src= (page.indexOf("Admin") > -1 ?  "../assets/js/jquery-3.3.1.slim.min.js" : "./assets/js/jquery-3.3.1.slim.min.js"), deffer)
+    script(src= (page.indexOf("Admin") > -1 ?  "../assets/js/jquery-3.3.1.slim.min.js" : "./assets/js/jquery-3.3.1.min.js"), deffer)
     script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js", async)
     script(src= (page.indexOf("Admin") > -1 ? "../assets/js/bootstrap.min.js" : "./assets/js/bootstrap.min.js"), deffer)
 

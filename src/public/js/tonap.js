@@ -69,7 +69,7 @@ window.onload = function () {
     itemsWrapper = itemsHolder[0].children[0];
     
     itemsNodes = itemsWrapper.childNodes;
-    setTimeout(function () {},5000);
+    setTimeout(function () { },5000);
   }
 }
 
@@ -555,7 +555,8 @@ function sendOrder(){
   informationObject.paymentMethod = paymentMethod;
   informationObject.weight = weight;
   var dataToSend = JSON.stringify(informationObject);
-  $.ajax({
+
+$.ajax({
     type: "POST",
     url: window.location.origin + "/order",
     data: dataToSend,
