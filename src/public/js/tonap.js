@@ -369,7 +369,7 @@ function orderProduct(id){
       if(document.location.href.indexOf('online-objednavka') < 0) {
         document.getElementById("navigationOrder").innerHTML = "Pridať do košíka";
         choosedProduct = products[i];
-        itemSelect.innerHTML = "";
+        // itemSelect.innerHTML = "";
         document.getElementById("productModalMainImage").setAttribute("src",choosedProduct.imageFilesData[0].url);
         document.getElementById("mainTitle").innerHTML = choosedProduct.title;
         document.getElementById("productDescription").innerHTML = choosedProduct.description;
@@ -395,7 +395,7 @@ function orderProduct(id){
         $("#productModal").modal();
       } else {
         choosedProduct = products[i];
-        itemSelect.innerHTML = "";
+        // itemSelect.innerHTML = "";
         document.getElementById("productModalMainImage").setAttribute("src",choosedProduct.imageFilesData[0].url);
         document.getElementById("mainTitle").innerHTML = choosedProduct.title;
         document.getElementById("productDescription").innerHTML = choosedProduct.description;
@@ -519,7 +519,9 @@ if(typeof io === "function") {
 	socket = io();
 }
 
-document.getElementById("businessConditions").addEventListener("change", handleBussinessCondition);
+if (document.getElementById("businessConditions")) {
+  document.getElementById("businessConditions").addEventListener("change", handleBussinessCondition);
+}
 
 function handleBussinessCondition() {
   var checked = document.getElementById("businessConditions").checked;
@@ -659,24 +661,27 @@ function refreshOrder(){
   var actualPrice = document.getElementById("actualPrice");
   var midPrice = document.getElementById("midPrice");
   var lowPrice = document.getElementById("lowPrice");
-  if(countSelect < 2000){
-    actualPrice.innerHTML = choosedProduct.variant[variantId].priceMax + " € ";
-    midPrice.innerHTML = choosedProduct.variant[variantId].priceMed + " €";
-    lowPrice.innerHTML = choosedProduct.variant[variantId].priceMin + " €";
+  console.log(variantId);
+  if (variantId > 0) {
+    if(countSelect < 2000){
+      actualPrice.innerHTML = choosedProduct.variant[variantId - 1].priceMax + " € ";
+      midPrice.innerHTML = choosedProduct.variant[variantId - 1].priceMed + " €";
+      lowPrice.innerHTML = choosedProduct.variant[variantId - 1].priceMin + " €";
+    }
+    if(countSelect >= 2000 && countSelect < 4000){
+      actualPrice.innerHTML = choosedProduct.variant[variantId  - 1].priceMed + " € ";
+      midPrice.innerHTML = choosedProduct.variant[variantId - 1].priceMed + " €";
+      lowPrice.innerHTML = choosedProduct.variant[variantId - 1].priceMin + " €";
+    }
+    else if(countSelect >= 4000){
+      actualPrice.innerHTML = choosedProduct.variant[variantId - 1].priceMin + " € ";
+      midPrice.innerHTML = choosedProduct.variant[variantId - 1].priceMed + " €";
+      lowPrice.innerHTML = choosedProduct.variant[variantId - 1].priceMin + " €";
+    }
+    getProductSum();
+    document.getElementById("totalProductPrice").innerHTML = "Cena spolu: " + totalProductPrice + " € ";
+    getSum();
   }
-  if(countSelect >= 2000 && countSelect < 4000){
-    actualPrice.innerHTML = choosedProduct.variant[variantId].priceMed + " € ";
-    midPrice.innerHTML = choosedProduct.variant[variantId].priceMed + " €";
-    lowPrice.innerHTML = choosedProduct.variant[variantId].priceMin + " €";
-  }
-  else if(countSelect >= 4000){
-    actualPrice.innerHTML = choosedProduct.variant[variantId].priceMin + " € ";
-    midPrice.innerHTML = choosedProduct.variant[variantId].priceMed + " €";
-    lowPrice.innerHTML = choosedProduct.variant[variantId].priceMin + " €";
-  }
-  getProductSum();
-  document.getElementById("totalProductPrice").innerHTML = "Cena spolu: " + totalProductPrice + " € ";
-  getSum();
 }
 
 function getSum(){

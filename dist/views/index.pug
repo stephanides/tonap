@@ -167,13 +167,23 @@ block content
               .modal-body
                 .container
                   .row
-                    .col-md-6.d-flex.justify-content-center.align-items-center
-                      img.pt-2.d-block.mx-auto#productModalMainImage
+                    .col-md-6.justify-content-center
+                      .row.h-75
+                        .col.d-flex.align-items-center
+                          img.pt-2.d-block.mx-auto#productModalMainImage
+                      .row
+                        .col
+                          .parameters
+                            h5.font-weight-bold Parametre produktu
+                            p.mb-0#productHeight
+                            p.mb-0#productDepth
+                            p.mb-0#productVolume
+                            p.mb-0#productWeight
                     .col-md-6
                       h4.pt-2#mainTitle
                       p#isSterilized
                       p#productDescription
-                      .parameters
+                      //-.parameters
                         h5.font-weight-bold Parametre produktu
                         p.mb-0#productHeight
                         p.mb-0#productDepth
@@ -183,6 +193,7 @@ block content
                         .variants
                           p.pt-2 Varianty produktu:
                           select#variantsSelect.form-control.w-50(onchange="refreshOrder()")
+                            option(defaultSelected) Vyberte variant
                         .itemsCount
                           p.pt-2 Počet kusov:
                           input#countSelect.form-control.w-50(type="number" value="200" step="100" min="200" onkeyup="refreshOrder()" onchange="refreshOrder()")
