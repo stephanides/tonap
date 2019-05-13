@@ -100,7 +100,7 @@ function revealProducts() {
         paragraph.html("Zobraziť menej");
       } else {
         for(i = 0; i<itemsNodes.length; i++){
-          if(i < 4){
+          if(i < 8){
             $(itemsNodes[i]).show("slow");
           }
           else{
@@ -305,6 +305,7 @@ function getProducts(){
        var json = JSON.parse(xobj.response);
        products = json.data;
        fillProducts(products);
+       console.log(products);
 			}
 		};
 		xobj.send(null);
@@ -352,7 +353,7 @@ function fillProducts(products){
   }
   if (window.location.href.indexOf("online-objednavka") < 0) {
     for(i = 0; i<itemsNodes.length; i++){
-      if(i < 4){
+      if(i < 8){
         $(itemsNodes[i]).show("slow");
       }
       else{
@@ -378,19 +379,22 @@ function orderProduct(id){
         document.getElementById("productVolume").innerHTML = "Objem: " + choosedProduct.volume + " ml";
         document.getElementById("productWeight").innerHTML = "Váha: " + choosedProduct.weight + " g";
         document.getElementById("navigationOrder").setAttribute("onclick", "fillOrder(" + "'" + products[i]._id + "'" + ")");
-        
+        var initialoption = document.createElement("option");
+        initialoption.value = "Zvoľte variant";
+        initialoption.text = "Zvoľte variant";
+        itemSelect.appendChild(initialoption);
         for (var j = 0; j < products[i].variant.length; j++) {
           var option = document.createElement("option");
           option.value = products[i].variant[j].title;
           option.text = products[i].variant[j].title;
           itemSelect.appendChild(option);
         }
-        document.getElementById("actualPrice").innerHTML = choosedProduct.variant[0].priceMax + " € ";
-        document.getElementById("midPrice").innerHTML = choosedProduct.variant[0].priceMed + " €";
-        document.getElementById("lowPrice").innerHTML = choosedProduct.variant[0].priceMin + " €";
-        refreshOrder();
+        document.getElementById("actualPrice").innerHTML = 0 + " € ";
+        document.getElementById("midPrice").innerHTML = 0 + " €";
+        document.getElementById("lowPrice").innerHTML = 0 + " €";
+        //refreshOrder();
         getProductSum();
-        document.getElementById("totalProductPrice").innerHTML = "Cena spolu: " + totalProductPrice + " € ";
+        document.getElementById("totalProductPrice").innerHTML = "Cena spolu: " + 0 + " € s DPH";
         
         $("#productModal").modal();
       } else {
@@ -403,18 +407,22 @@ function orderProduct(id){
         document.getElementById("productDepth").innerHTML = "Priemer: " + choosedProduct.gauge + " mm";
         document.getElementById("productVolume").innerHTML = "Objem: " + choosedProduct.volume + " ml";
         document.getElementById("productWeight").innerHTML = "Váha: " + choosedProduct.weight + " g";
+        var initialoption = document.createElement("option");
+        initialoption.value = "Zvoľte variant";
+        initialoption.text = "Zvoľte variant";
+        itemSelect.appendChild(initialoption);
         for (var j = 0; j < products[i].variant.length; j++) {
           var option = document.createElement("option");
           option.value = products[i].variant[j].title;
           option.text = products[i].variant[j].title;
           itemSelect.appendChild(option);
         }
-        document.getElementById("actualPrice").innerHTML = choosedProduct.variant[0].priceMax + " € ";
-        document.getElementById("midPrice").innerHTML = choosedProduct.variant[0].priceMed + " €";
-        document.getElementById("lowPrice").innerHTML = choosedProduct.variant[0].priceMin + " €";
-        refreshOrder();
+        document.getElementById("actualPrice").innerHTML = 0 + " € ";
+        document.getElementById("midPrice").innerHTML = 0 + " €";
+        document.getElementById("lowPrice").innerHTML = 0 + " €";
+       // refreshOrder();
         getProductSum();
-        document.getElementById("totalProductPrice").innerHTML = "Cena spolu: " + totalProductPrice + " € ";
+        document.getElementById("totalProductPrice").innerHTML = "Cena spolu: " + 0 + " € s DPH";
         document.getElementById("editOrder").setAttribute("onclick", "fillOrder(" + "'" + products[i]._id + "'" + ")");
         $("#productModal").modal();
       }
@@ -423,32 +431,33 @@ function orderProduct(id){
 }
 
 function fillOrder(id){
-  var actualProductFromDatabase;
-  for (var i = 0; i < products.length; i++) {
-    if(id === products[i]._id){
-      actualProductFromDatabase = products[i];
-    }
-  }
-  orderInProgress.title = document.getElementById("mainTitle").innerHTML;
-  orderInProgress.id = id;
-  orderInProgress.image = document.getElementById("productModalMainImage").src;
-  orderInProgress.count = Number(document.getElementById("countSelect").value);
-  orderInProgress.variant = document.getElementById("variantsSelect").selectedIndex;
-  orderInProgress.variantName = document.getElementById("variantsSelect").options[document.getElementById("variantsSelect").selectedIndex].value;
-  orderInProgress.weight = actualProductFromDatabase.weight;
-  orderInProgress.sackCount = actualProductFromDatabase.variant[document.getElementById("variantsSelect").selectedIndex].sackCount;
-  orderInProgress.boxCount = actualProductFromDatabase.variant[document.getElementById("variantsSelect").selectedIndex].boxCount;
-  var price = document.getElementById("actualPrice").innerHTML;
-  orderInProgress.price = Number(price.replace(/€/,""));
-  orderInProgress.totalPrice = orderInProgress.count * orderInProgress.price;
-  orderObject.push(orderInProgress);
-  localStorage.setItem("orderObject", JSON.stringify(orderObject));
-  orderInProgress = {};
   if(Number(document.getElementById("countSelect").value) >= 200){
-    $("#productModal").modal("toggle");
+    var actualProductFromDatabase;
+    for (var i = 0; i < products.length; i++) {
+      if(id === products[i]._id){
+        actualProductFromDatabase = products[i];
+      }
+    }
+    orderInProgress.title = document.getElementById("mainTitle").innerHTML;
+    orderInProgress.id = id;
+    orderInProgress.image = document.getElementById("productModalMainImage").src;
+    orderInProgress.count = Number(document.getElementById("countSelect").value);
+    orderInProgress.variant = document.getElementById("variantsSelect").selectedIndex-1;
+    orderInProgress.variantName = document.getElementById("variantsSelect").options[document.getElementById("variantsSelect").selectedIndex].value;
+    orderInProgress.weight = actualProductFromDatabase.weight;
+    orderInProgress.sackCount = actualProductFromDatabase.variant[document.getElementById("variantsSelect").selectedIndex-1].sackCount;
+    orderInProgress.boxCount = actualProductFromDatabase.variant[document.getElementById("variantsSelect").selectedIndex-1].boxCount;
+    var price = document.getElementById("actualPrice").innerHTML;
+    orderInProgress.price = Number(price.replace(/€/,""));
+    orderInProgress.totalPrice = orderInProgress.count * orderInProgress.price;
+    orderObject.push(orderInProgress);
+    localStorage.setItem("orderObject", JSON.stringify(orderObject));
+    orderInProgress = {};
+    if(Number(document.getElementById("countSelect").value) >= 200){
+      $("#productModal").modal("toggle");
+    }
+    getSum();
   }
- 
-  getSum();
 }
 
 function updateDetail(){
@@ -502,7 +511,7 @@ function updateOrder(param){
   orderObject[param].count = Number(document.getElementById("countSelect").value);
   var price = document.getElementById("actualPrice").innerHTML;
   orderObject[param].price = Number(price.replace(/€/,""));
-  orderObject[param].variant = document.getElementById("variantsSelect").selectedIndex;
+  orderObject[param].variant = document.getElementById("variantsSelect").selectedIndex-1;
   orderObject[param].variantName = document.getElementById("variantsSelect").options[document.getElementById("variantsSelect").selectedIndex].value;
   updateDetail();
   $("#productModal").modal('toggle');
@@ -654,8 +663,10 @@ if (window.location.href.indexOf("online-objednavka") > 1) {
 }
 
 function refreshOrder(){
+  console.log(choosedProduct);
   countSelect = document.getElementById("countSelect").value;
-  variantId = document.getElementById("variantsSelect").selectedIndex;
+  variantId = document.getElementById("variantsSelect").selectedIndex - 1;
+  var availability = document.getElementById("availability");
   var actualPrice = document.getElementById("actualPrice");
   var midPrice = document.getElementById("midPrice");
   var lowPrice = document.getElementById("lowPrice");
@@ -674,8 +685,16 @@ function refreshOrder(){
     midPrice.innerHTML = choosedProduct.variant[variantId].priceMed + " €";
     lowPrice.innerHTML = choosedProduct.variant[variantId].priceMin + " €";
   }
+  if(choosedProduct.variant[variantId].inStock){
+    availability.innerHTML = "Tento produkt je na sklade !";
+    availability.style.color = "#808e99";
+  }
+  else{
+    availability.innerHTML = "Tento produkt nie je na sklade ! Objednávka bude vybavená do 5 pracovných dní.";
+    availability.style.color = "red";
+  }
   getProductSum();
-  document.getElementById("totalProductPrice").innerHTML = "Cena spolu: " + totalProductPrice + " € ";
+  document.getElementById("totalProductPrice").innerHTML = "Cena spolu: " + totalProductPrice + " € s DPH";
   getSum();
 }
 
@@ -703,7 +722,7 @@ function getSum(){
 
 function getProductSum(){
   var actualPrice = document.getElementById("actualPrice").innerHTML;
-   totalProductPrice = countSelect * Number(actualPrice.replace(/€/,""));
+   totalProductPrice = countSelect * Number(actualPrice.replace(/€/,"")).toFixed(2);
 }
 function getShippingPrice(){
    shippingMethod = $('input[name=shippingMethods]:checked', '#shippingMethods').value;
@@ -743,8 +762,8 @@ function addShippingMethod(arg){
       case 0:
         shipingPrice = 3.90;
         geisPrice.innerHTML = "3.90 €";
-        dobierka.innerHTML = "0.96 €";
-        paymenthPrice = 0.96;
+        dobierka.innerHTML = "1.00 €";
+        paymenthPrice = 1.00;
         break;
       case 1:
         shipingPrice = 6.90;

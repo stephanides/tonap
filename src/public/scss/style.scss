@@ -952,14 +952,13 @@ html{
     }
     td{
       border-bottom: 1px solid #ddd;
-      padding: 8px;
+      padding: 4px 8px;
     }
     th{
       // border: 1px solid #ddd;
       padding: 8px;
     }
     tr:nth-child(even){
-      background-color: #f2f2f2;
     }
     tr:hover {
       background-color: #ddd;
@@ -975,14 +974,15 @@ html{
     }
     #detailOrder{
       tr{
+        cursor:pointer;
         &:hover{
           background-color: white;
+          box-shadow: -1px 1px 11px 0px #d6d6d6;
         }
       }
       td{
         vertical-align: middle;
         &:hover{
-          background-color: white;
         }
         button {
           border: 0;
@@ -1560,4 +1560,17 @@ html{
   @media screen and (max-width: $break-small) {
     display: table-cell !important;
   }
+}
+.paylogo{
+  display: flex;
+  justify-content: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  i{
+    font-size: 46px;
+    margin-left: 15px;
+  }
+}
+.table-responsive{
+  padding: 0px 4px;
 }
