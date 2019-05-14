@@ -11,6 +11,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
 const Order_model_1 = require("../models/Order.model");
 const nodemailer = require("nodemailer");
+// import * as OP from "onlineplatby";
 class OrderController {
     create(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -39,6 +40,8 @@ class OrderController {
                     products: req.body.products,
                     shippingMethod: req.body.shippingMethod,
                     shippingPrice: req.body.shippingPrice,
+                    // street: req.body.street,
+                    surname: req.body.surname,
                 };
                 // const productArr: object[] = [];
                 orderObj.products = req.body.products;
@@ -46,18 +49,19 @@ class OrderController {
                 const asyncCreateOrder = yield Order_model_1.Orders.create(newOrder);
                 if (asyncCreateOrder) {
                     const products = req.body.products;
-                    let productRows = [];
+                    /* let productRows: string[] = [];
+            
                     for (let i = 0; i < products.length; i++) {
-                        let row = `<div>
-          <div>${i + 1}</div>
-          <div>${products[i].title}</div>
-          <div>${products[i].isSterile ? "Sterilné" : "Nesterilné"}</div>
-          <div>${products[i].package}</div>
-          <div>${products[i].boxSize}</div>
-          <div>${products[i].boxCount}</div>
-        </div>`;
-                        productRows.push(row);
-                    }
+                      let row: string = `<div>
+                      <div>${i+1}</div>
+                      <div>${(products as any)[i].title}</div>
+                      <div>${(products as any)[i].isSterile ? "Sterilné" : "Nesterilné"}</div>
+                      <div>${(products as any)[i].package}</div>
+                      <div>${(products as any)[i].boxSize}</div>
+                      <div>${(products as any)[i].boxCount}</div>
+                    </div>`;
+                      productRows.push(row);
+                    } */
                     const mailSubject = "TONAP: Informácia o doručení objednávky";
                     const mailBody = `Dobrý deň pán/pani ${req.body.name} ${req.body.surname}.<br /><br />
         Ďakujeme za Vašu objednávka u spločnosti <strong>TONAP</strong> s. r. o.<br /><br />
@@ -72,7 +76,7 @@ class OrderController {
         <th style="border: 1px solid black; border-collapse: collapse; padding: 5px;">Počet krabíc</th></tr>
         </thead>
         <tbody>
-        ${req.body.products.reduce((a, b, i) => {
+        ${products.reduce((a, b, i) => {
                         return `${a}<tr><td style="border: 1px solid black; border-collapse: collapse; padding: 5px;">${i + 1}</td><td style="border: 1px solid black; border-collapse: collapse; padding: 5px;">${b.title}</td><td style="border: 1px solid black; border-collapse: collapse; padding: 5px;">${b.variantName}</td><td style="border: 1px solid black; border-collapse: collapse; padding: 5px; text-align: center;">${b.count}</td><td style="border: 1px solid black; border-collapse: collapse; padding: 5px; text-align: center;">${b.boxCount}</td></tr>`;
                     }, "")}
         </tbody></table><br/>
@@ -87,6 +91,9 @@ class OrderController {
         IČ DPH: SK2120679242<br />
         +421 918 243 753`;
                     this.sendMailNotification(req, next, req.body.email, mailSubject, mailBody, () => {
+                        // Handle CardPay redirect here
+                        let url = undefined;
+                        // HANDLE and populate CardPay redirect URL
                         res.json({ message: "Order has been created", success: true });
                     });
                 }

@@ -4,6 +4,7 @@ import { Order, Orders } from "../models/Order.model";
 import IError from "../interfaces/Error.inerface";
 import IOrder from "../interfaces/Order.interface";
 import * as nodemailer from "nodemailer";
+// import * as OP from "onlineplatby";
 
 export default class OrderController {
   public async create(req: Request, res: Response, next: NextFunction) {
@@ -37,6 +38,7 @@ export default class OrderController {
         shippingMethod: req.body.shippingMethod,
         shippingPrice: req.body.shippingPrice,
         // street: req.body.street,
+        surname: req.body.surname,
       };
       // const productArr: object[] = [];
 
@@ -47,7 +49,7 @@ export default class OrderController {
       
       if (asyncCreateOrder) {
         const products: object[] = req.body.products;
-        let productRows: string[] = [];
+        /* let productRows: string[] = [];
 
         for (let i = 0; i < products.length; i++) {
           let row: string = `<div>
@@ -59,7 +61,7 @@ export default class OrderController {
           <div>${(products as any)[i].boxCount}</div>
         </div>`;
           productRows.push(row);
-        }
+        } */
 
         const mailSubject: string = "TONAP: Informácia o doručení objednávky";
         const mailBody: string = `Dobrý deň pán/pani ${req.body.name} ${req.body.surname}.<br /><br />
@@ -75,7 +77,7 @@ export default class OrderController {
         <th style="border: 1px solid black; border-collapse: collapse; padding: 5px;">Počet krabíc</th></tr>
         </thead>
         <tbody>
-        ${req.body.products.reduce((a, b, i) => {
+        ${products.reduce((a, b, i) => {
           return `${a}<tr><td style="border: 1px solid black; border-collapse: collapse; padding: 5px;">${i+1}</td><td style="border: 1px solid black; border-collapse: collapse; padding: 5px;">${(b as any).title}</td><td style="border: 1px solid black; border-collapse: collapse; padding: 5px;">${(b as any).variantName}</td><td style="border: 1px solid black; border-collapse: collapse; padding: 5px; text-align: center;">${(b as any).count}</td><td style="border: 1px solid black; border-collapse: collapse; padding: 5px; text-align: center;">${(b as any).boxCount}</td></tr>`;
         }, "")}
         </tbody></table><br/>
@@ -91,6 +93,10 @@ export default class OrderController {
         +421 918 243 753`;
 
         this.sendMailNotification(req, next, req.body.email, mailSubject, mailBody, () => {
+          // Handle CardPay redirect here
+          let url = undefined;
+
+          // HANDLE and populate CardPay redirect URL
           res.json({ message: "Order has been created", success: true });
         });
       } else {

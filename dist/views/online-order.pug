@@ -132,27 +132,27 @@ block content
                     h6 Vyberte spôsob platby:
                     .paymentsMethods.pt-4
                       .custom-control.custom-radio.mt-2
-                        input.custom-control-input#kartaOption(type="radio"  name="paymentsMethods" disabled)
+                        input.custom-control-input#kartaOption(type="radio" name="paymentsMethods" onchange="addPaymentPrice('karta')" value="0")
                         label.pl-2.custom-control-label.d-flex.align-items-center.justify-content-between(for="kartaOption")
-                          p.text-muted #[img(src="./assets/images/icons/card.png" alt="Platba kartou online").cart-icon] Platba kartou online
+                          p #[img(src="./assets/images/icons/card.png" alt="Platba kartou online").cart-icon] Platba kartou online
                           p.blue Zadarmo
-                      .custom-control.custom-radio.mt-2
+                      //-.custom-control.custom-radio.mt-2
                         input.custom-control-input#prevodOption(type="radio" name="paymentsMethods" disabled)
                         label.pl-2.custom-control-label.d-flex.align-items-center.justify-content-between(for="prevodOption") 
                           p.text-muted #[img(src="./assets/images/icons/bank.png" alt="Bankovým prevodom").cart-icon] Bankovým prevodom
                           p.blue Zadarmo
-                      .custom-control.custom-radio.mt-2
+                      //-.custom-control.custom-radio.mt-2
                         input.custom-control-input#paypalOption(type="radio" name="paymentsMethods" disabled)
                         label.pl-2.custom-control-label.d-flex.align-items-center.justify-content-between(for="paypalOption") 
                           p.text-muted #[img(src="./assets/images/icons/PayPal.png" alt="Paypal").cart-icon] Paypal
                           p.blue Zadarmo
                       .custom-control.custom-radio.mt-2
-                        input.custom-control-input#dobierkaOption(type="radio" name="paymentsMethods" onchange="addPaymentPrice('dobierka')" checked)
+                        input.custom-control-input#dobierkaOption(type="radio" name="paymentsMethods" onchange="addPaymentPrice('dobierka')" value="1")
                         label.pl-2.custom-control-label.d-flex.align-items-center.justify-content-between(for="dobierkaOption")
                           p #[img(src="./assets/images/icons/dobierka.png" alt="Dobierka").cart-icon] Dobierka
                           p.blue#dobierka
                       .custom-control.custom-radio.mt-2
-                        input.custom-control-input#osobneOption(type="radio" name="paymentsMethods"  onchange="addPaymentPrice('osobne')")
+                        input.custom-control-input#osobneOption(type="radio" name="paymentsMethods" onchange="addPaymentPrice('osobne')" value="2" checked)
                         label.pl-2.custom-control-label.d-flex.align-items-center.justify-content-between(for="osobneOption")
                           p #[img(src="./assets/images/icons/os-odber.png" alt="Dobierka").cart-icon] Pri osobnom odbere v hotovosti
                           p.blue Zadarmo

@@ -23,6 +23,7 @@ const User_model_1 = require("./models/User.model");
 const Email_router_1 = require("./routes/Email.router");
 const Api_router_1 = require("./routes/Api.router");
 const Order_router_1 = require("./routes/Order.router");
+const Payment_router_1 = require("./routes/Payment.router");
 const Product_router_1 = require("./routes/Product.router");
 const User_router_1 = require("./routes/User.router");
 class App {
@@ -82,7 +83,10 @@ class App {
     * Methode listing all routes of the application
     */
     routes() {
-        this.router.get("/", (req, res) => { res.render("index", { page: "Tonap - Slovenský laboratórny materiál" }); });
+        this.router.get("/", (req, res) => {
+            console.log('In index route');
+            res.render("index", { page: "Tonap - Slovenský laboratórny materiál" });
+        });
         this.router.get("/admin", (req, res) => { res.render("admin", { page: "Admin" }); });
         this.router.get("/admin/setup", (req, res) => __awaiter(this, void 0, void 0, function* () {
             const user = yield User_model_1.Users.findOne({ role: 2 });
@@ -117,6 +121,7 @@ class App {
         this.app.use(Email_router_1.default);
         this.app.use(User_router_1.default);
         this.app.use(Order_router_1.default);
+        this.app.use(Payment_router_1.default);
         this.app.use(Product_router_1.default);
         this.app.use(this.router);
     }

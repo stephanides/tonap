@@ -15,6 +15,7 @@ import { User, IUserDocument, Users } from "./models/User.model";
 import EmailRouter from "./routes/Email.router";
 import ApiRouter from "./routes/Api.router";
 import OrderRouter from "./routes/Order.router";
+import PaymentRouter from "./routes/Payment.router";
 import ProductRouter from "./routes/Product.router";
 import UserRouter from "./routes/User.router";
 
@@ -93,7 +94,10 @@ class App {
   * Methode listing all routes of the application
   */
   private routes(): void {
-    this.router.get("/", (req, res) => { res.render("index", { page: "Tonap - Slovenský laboratórny materiál" }); });
+    this.router.get("/", (req, res) => {
+      console.log('In index route');
+      res.render("index", { page: "Tonap - Slovenský laboratórny materiál" });
+    });
     this.router.get("/admin", (req, res) => { res.render("admin", { page: "Admin"}); });
     this.router.get("/admin/setup", async (req, res) => {
       const user: object = await Users.findOne({ role: 2 });
@@ -132,6 +136,7 @@ class App {
     this.app.use(EmailRouter);
     this.app.use(UserRouter);
     this.app.use(OrderRouter);
+    this.app.use(PaymentRouter);
     this.app.use(ProductRouter);
     this.app.use(this.router);
   }

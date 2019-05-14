@@ -16,7 +16,7 @@ var weight = 0;
 var boxCount = 0;
 var shippingPricePosteOffice =0;
 var shippingMethod = 0;
-var paymentMethod = 3;
+var paymentMethod = 2;
 
 if(localStorage.getItem("orderObject") != null){
   var getOrderObjectFromStorage = localStorage.getItem("orderObject");
@@ -579,17 +579,19 @@ function sendOrder(){
   var businessConditions = document.getElementById("businessConditions").checked;
   
   if (businessConditions) {
+    // console.log(informationObject);
     $.ajax({
       type: "POST",
-      url: window.location.origin + "/order",
+      url: paymentMethod > 0 ? window.location.origin + "/order" : window.location.origin + "/payment",
       data: dataToSend,
       contentType: "application/json; charset=utf-8",
       dataType: "json",
       success: function(msg) {
+        console.log(msg);
         socket.emit("order created");
         $(document.getElementById("successOrder")).modal("show");
       },
-    }); 
+    });
   }
 }
 
@@ -662,6 +664,14 @@ if (window.location.href.indexOf("online-objednavka") > 1) {
   getBoxes();
   addShippingMethod("geis");
   countPostPrice();
+
+  var paymentsMethodsElArr = document.querySelectorAll('.paymentsMethods input');
+  
+  paymentsMethodsElArr.forEach(function (el) {
+    el.addEventListener('change', function (e) {
+      paymentMethod = parseInt(e.target.value, 10);
+    });
+  });
 }
 
 function refreshOrder(){
@@ -738,8 +748,8 @@ function getProductSum(){
    totalProductPrice = countSelect * Number(actualPrice.replace(/€/,"")).toFixed(2);
 }
 function getShippingPrice(){
-   shippingMethod = $('input[name=shippingMethods]:checked', '#shippingMethods').value;
-  var paymentMethod = $('input[name=radioName]:checked', '#myForm').val();
+  shippingMethod = $('input[name=shippingMethods]:checked', '#shippingMethods').value;
+  paymentMethod = $('input[name=paymentsMethods]:checked', '#myForm').val();
 }
 function enableOtherAdress(){
   var checkbox = document.getElementById("otherAdress");
