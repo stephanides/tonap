@@ -442,7 +442,7 @@ function fillOrder(id){
     orderInProgress.id = id;
     orderInProgress.image = document.getElementById("productModalMainImage").src;
     orderInProgress.count = Number(document.getElementById("countSelect").value);
-    orderInProgress.variant = document.getElementById("variantsSelect").selectedIndex-1;
+    orderInProgress.variant = document.getElementById("variantsSelect").selectedIndex;
     orderInProgress.variantName = document.getElementById("variantsSelect").options[document.getElementById("variantsSelect").selectedIndex].value;
     orderInProgress.weight = actualProductFromDatabase.weight;
     orderInProgress.sackCount = actualProductFromDatabase.variant[document.getElementById("variantsSelect").selectedIndex-1].sackCount;
@@ -512,7 +512,8 @@ function updateOrder(param){
   var price = document.getElementById("actualPrice").innerHTML;
   orderObject[param].price = Number(price.replace(/€/,""));
   orderObject[param].variant = document.getElementById("variantsSelect").selectedIndex-1;
-  orderObject[param].variantName = document.getElementById("variantsSelect").options[document.getElementById("variantsSelect").selectedIndex].value;
+  orderObject[param].variantName = document.getElementById("variantsSelect").options[document.getElementById("variantsSelect").selectedIndex-1].value;
+  orderObject[param].totalPrice = orderObject[param].count * orderObject[param].price;
   updateDetail();
   $("#productModal").modal('toggle');
   localStorage.setItem("orderObject", JSON.stringify(orderObject));
@@ -675,9 +676,8 @@ if (window.location.href.indexOf("online-objednavka") > 1) {
 }
 
 function refreshOrder(){
-  console.log(choosedProduct);
   countSelect = document.getElementById("countSelect").value;
-  variantId = document.getElementById("variantsSelect").selectedIndex - 1;
+  variantId = document.getElementById("variantsSelect").selectedIndex;
   var availability = document.getElementById("availability");
   var actualPrice = document.getElementById("actualPrice");
   var midPrice = document.getElementById("midPrice");
@@ -708,7 +708,7 @@ function refreshOrder(){
     midPrice.innerHTML = choosedProduct.variant[variantId].priceMed + " €";
     lowPrice.innerHTML = choosedProduct.variant[variantId].priceMin + " €";
   }
-  if(choosedProduct.variant[variantId].inStock){
+  if(choosedProduct.variant[variantId-1].inStock){
     availability.innerHTML = "Tento produkt je na sklade !";
     availability.style.color = "#808e99";
   }
