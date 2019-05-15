@@ -58,11 +58,15 @@ var timeTillStop = 0; // holds the display time
 });*/
 
 window.onload = function () {
-  revealProducts();
-  scrollPage();
-  getProducts();
-  //getSum();
-  if (window.location.href.indexOf("online-objednavka") < 0) {
+  var uri = window.location.pathname;
+
+  if (uri.indexOf('payment-confirmation') < 0) {
+    revealProducts();
+    scrollPage();
+    getProducts();
+  }
+
+  if (uri === "/") {
     setTimeout(startCounter, 1000);
     container = $("#pills-tabContent").find(".active");
     itemsHolder = container.find(".productRowContainer");
@@ -258,7 +262,6 @@ function startCounter() {
 }
 
 function counterInterval() {
-
   // main update function
   function update(timer) {
     timer = timer;
@@ -305,7 +308,6 @@ function getProducts(){
        var json = JSON.parse(xobj.response);
        products = json.data;
        fillProducts(products);
-       console.log(products);
 			}
 		};
 		xobj.send(null);
@@ -590,9 +592,15 @@ function sendOrder(){
       contentType: "application/json; charset=utf-8",
       dataType: "json",
       success: function(msg) {
-        console.log(msg);
-        socket.emit("order created");
-        $(document.getElementById("successOrder")).modal("show");
+        var gatewayUrl = msg.url || null;
+
+        if (!gatewayUrl) {
+          socket.emit("order created");
+          $(document.getElementById("successOrder")).modal("show");
+        } else {
+          localStorage.removeItem("orderObject");
+          window.location.replace(gatewayUrl);
+        }
       },
     });
   }
@@ -752,10 +760,12 @@ function getProductSum(){
    totalProductPrice = totalProductPrice.toFixed(2);
 
 }
+
 function getShippingPrice(){
   shippingMethod = $('input[name=shippingMethods]:checked', '#shippingMethods').value;
   paymentMethod = $('input[name=paymentsMethods]:checked', '#myForm').val();
 }
+
 function enableOtherAdress(){
   var checkbox = document.getElementById("otherAdress");
   var otherAdress = document.getElementById("otherAdressHolder");
@@ -855,7 +865,6 @@ function getBoxes(){
 }
 
 function countPostPrice(){
-  
   if(window.location.href.indexOf("online-objednavka") > -1){
     
     getWeight();

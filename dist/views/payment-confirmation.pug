@@ -1,0 +1,113 @@
+extends layout.pug
+
+block content
+  #wrapper
+    .container-fluid.white#navMenu
+      .headContact
+        .container.d-flex.align-items-center.justify-content-end
+          img.infoicon.lazyload(data-src="./assets/images/icons/phone.svg", alt="Tonap s. r. o.")
+          p +421 918 243 753
+      .container.nav-menu
+        .row.justify-content-between
+          a.logo(href="" title="Tonap")
+            img(src="./assets/images/1.png", alt="Tonap s. r. o.")
+          label.show-menu(for="show-menu")
+            img(src="./assets/images/icons/menu.svg", alt="Menu navigation - Tonap")
+          input#show-menu(type="checkbox" role="button" aria-label="Zobraziť navigáciu")
+          ul#menu
+            li
+              a(href="/") Domov
+            li
+              a(href="/#products") Čo robíme?
+            li
+              a(href="/#orderProduct") Naše produkty
+            li
+              a(href="/#aboutus") Kto sme?
+            li
+              a(href="/#contact") Kontakt
+            li
+              a.cart(href="online-objednavka")
+                img.infoicon.lazyload(data-src="./assets/images/icons/cart.svg", alt="Shopping cart")
+                span#cartPrice 0,00 €
+                span#cartCount 9+
+    //-section#header
+      .container-fluid
+        .container
+    
+    .container
+      .d-flex.align-items-center(style="height:400px;")
+        p.text-center.w-100 Potvrdenie platby
+      .row
+        .col-12.paylogo
+          i.fab.fa-cc-visa
+          i.fab.fa-cc-paypal
+          i.fab.fa-cc-mastercard
+    include footer.pug
+
+    .modal.fade#productModal(tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true")
+        .modal-dialog.modal-dialog-centered(role="document")
+            .modal-content
+              .modal-header.justify-content-end
+                button(type="button", class="close", data-dismiss="modal", aria-label="Close")
+                  span(aria-hidden="true") &times;
+              .modal-body
+                .container
+                  .row
+                    .col-md-6.justify-content-center
+                      .row.h-75
+                        .col.d-flex.align-items-center
+                          img.pt-2.d-block.mx-auto#productModalMainImage
+                      .row
+                        .col
+                          .parameters
+                            h5.font-weight-bold Parametre produktu
+                            p.mb-0#productHeight
+                            p.mb-0#productDepth
+                            p.mb-0#productVolume
+                            p.mb-0#productWeight
+                    .col-md-6
+                      h4.pt-2#mainTitle
+                      p#isSterilized
+                      p#productDescription
+                      //-.parameters
+                        h5.font-weight-bold Parametre produktu
+                        p.mb-0#productHeight
+                        p.mb-0#productDepth
+                        p.mb-0#productVolume
+                        p.mb-0#productWeight
+                      form(onsubmit="return false")
+                        .variants
+                          p.pt-2 Varianty produktu:
+                          select#variantsSelect.form-control.w-50(onchange="refreshOrder()")
+                            option(defaultSelected)
+                        .itemsCount
+                          p.pt-2 Počet kusov:
+                          input#countSelect.form-control.w-50.allownumericwithoutdecimal(type="number" value="200" step="100" min="200" onkeyup="refreshOrder()" onchange="refreshOrder()")
+                          .action.mt-4
+                            p Cena pri objednávke nad 2000 ks - 
+                              strong#midPrice
+                            p Cena pri objednávke nad 4000 ks - 
+                              strong#lowPrice
+                        .availability.mt-4
+                          p#availability
+                        .totalPrice.pt-2.d-flex.align-items-baseline
+                          p
+                            strong#actualPrice
+                            span s DPH
+                          p#totalProductPrice 
+                            span s DPH
+                        .buttons.d-flex.mt-4.mb-4
+                          button#navigationOrder.w-50(aria-label="Pridať do košíka" type="submit") Pridať do košíka
+                          button.light.w-50(aria-label="Pokračovať v nákupe" data-dismiss="modal") Pokračovať v nákupe
+    .modal.fade#successEmail
+      .modal-dialog
+        .modal-content
+          .modal-header
+            h4.modal-title.text-center Ďakujeme!
+          .modal-body.text-center Vaša správa bola úspešne odoslaná!
+          .modal-footer
+            button.btn.btn-danger(type="button" data-dismiss="modal" aria-label="Close") Zavrieť
+             
+block scripts
+  script(src="./assets/js/lazysizes.min.js", deffer)
+  script(src="./assets/js/tonap.min.js", deffer)
