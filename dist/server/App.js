@@ -110,7 +110,7 @@ class App {
             res.render("business-conditions", { page: "Obchodné podmienky - Tonap - Slovenský laboratórny materiál" });
         });
         this.router.get("/payment-confirmation", (req, res) => {
-            res.render("payment-confirmation", { page: 'Potvrdenie platby' });
+            res.render("payment-confirmation", { page: 'Potvrdenie platby - Tonap - Slovenský laboratórny materiál' });
         });
         this.io.on("connection", (socket) => {
             const admin = this.io.of("/admin");
