@@ -507,16 +507,18 @@ function editOrder(param){
 }
 
 function updateOrder(param){
-  orderObject[param].title = document.getElementById("mainTitle").innerHTML;
-  orderObject[param].count = Number(document.getElementById("countSelect").value);
-  var price = document.getElementById("actualPrice").innerHTML;
-  orderObject[param].price = Number(price.replace(/€/,""));
-  orderObject[param].variant = document.getElementById("variantsSelect").selectedIndex-1;
-  orderObject[param].variantName = document.getElementById("variantsSelect").options[document.getElementById("variantsSelect").selectedIndex-1].value;
-  orderObject[param].totalPrice = orderObject[param].count * orderObject[param].price;
-  updateDetail();
-  $("#productModal").modal('toggle');
-  localStorage.setItem("orderObject", JSON.stringify(orderObject));
+  if(Number(document.getElementById("countSelect").value) >= 200){
+    orderObject[param].title = document.getElementById("mainTitle").innerHTML;
+    orderObject[param].count = Number(document.getElementById("countSelect").value);
+    var price = document.getElementById("actualPrice").innerHTML;
+    orderObject[param].price = Number(price.replace(/€/,""));
+    orderObject[param].variant = document.getElementById("variantsSelect").selectedIndex-1;
+    orderObject[param].variantName = document.getElementById("variantsSelect").options[document.getElementById("variantsSelect").selectedIndex-1].value;
+    orderObject[param].totalPrice = orderObject[param].count * orderObject[param].price;
+    updateDetail();
+    $("#productModal").modal('toggle');
+    localStorage.setItem("orderObject", JSON.stringify(orderObject));
+  }
 }
 
 function deleteOrder(param){
@@ -684,6 +686,7 @@ function refreshOrder(){
   var lowPrice = document.getElementById("lowPrice");
   console.log(variantId);
   if (variantId > 0) {
+    $("#variantsSelect").removeClass("highlight");
     if(countSelect < 2000){
       actualPrice.innerHTML = choosedProduct.variant[variantId - 1].priceMax + " € ";
       midPrice.innerHTML = choosedProduct.variant[variantId - 1].priceMed + " €";
@@ -702,23 +705,23 @@ function refreshOrder(){
     getProductSum();
     document.getElementById("totalProductPrice").innerHTML = "Cena spolu: " + totalProductPrice + " € ";
     getSum();
-  }
-  else if(countSelect >= 4000){
-    actualPrice.innerHTML = choosedProduct.variant[variantId].priceMin + " € ";
-    midPrice.innerHTML = choosedProduct.variant[variantId].priceMed + " €";
-    lowPrice.innerHTML = choosedProduct.variant[variantId].priceMin + " €";
-  }
-  if(choosedProduct.variant[variantId-1].inStock){
-    availability.innerHTML = "Tento produkt je na sklade !";
-    availability.style.color = "#808e99";
+    if(choosedProduct.variant[variantId-1].inStock){
+      availability.innerHTML = "Tento produkt je na sklade !";
+      availability.style.color = "#808e99";
+    }
+    else{
+      availability.innerHTML = "Tento produkt nie je na sklade ! Objednávka bude vybavená do 5 pracovných dní.";
+      availability.style.color = "red";
+    }
+    getProductSum();
+    document.getElementById("totalProductPrice").innerHTML = "Cena spolu: " + totalProductPrice + " € s DPH";
+    getSum();
   }
   else{
-    availability.innerHTML = "Tento produkt nie je na sklade ! Objednávka bude vybavená do 5 pracovných dní.";
-    availability.style.color = "red";
+    $("#variantsSelect").addClass("highlight");
   }
-  getProductSum();
-  document.getElementById("totalProductPrice").innerHTML = "Cena spolu: " + totalProductPrice + " € s DPH";
-  getSum();
+  
+  
 }
 
 function getSum(){
@@ -745,7 +748,9 @@ function getSum(){
 
 function getProductSum(){
   var actualPrice = document.getElementById("actualPrice").innerHTML;
-   totalProductPrice = countSelect * Number(actualPrice.replace(/€/,"")).toFixed(2);
+   totalProductPrice = countSelect * Number(actualPrice.replace(/€/,""));
+   totalProductPrice = totalProductPrice.toFixed(2);
+
 }
 function getShippingPrice(){
   shippingMethod = $('input[name=shippingMethods]:checked', '#shippingMethods').value;
@@ -934,3 +939,10 @@ function postChecked(){
   shipingPrice = shippingPricePosteOffice;
   getSum();
 }
+
+$(".allownumericwithoutdecimal").on("keypress keyup blur",function (event) {    
+  $(this).val($(this).val().replace(/[^\d].+/, ""));
+   if ((event.which < 48 || event.which > 57)) {
+       event.preventDefault();
+   }
+});

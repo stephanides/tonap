@@ -189,28 +189,29 @@ block content
                         p.mb-0#productDepth
                         p.mb-0#productVolume
                         p.mb-0#productWeight
-                      .variants
-                        p.pt-2 Varianty produktu:
-                        select#variantsSelect.form-control.w-50(onchange="refreshOrder()")
-                      .itemsCount
-                        p.pt-2 Počet kusov:
-                        input#countSelect.form-control.w-50(type="number" value="1" onchange="refreshOrder()")
-                        .action.mt-2
-                          p Cena pri objednávke nad 2000 ks - 
-                            strong#midPrice
-                          p Cena pri objednávke nad 2000 ks - 
-                            strong#lowPrice
-                      .availability.mt-4
+                      form(onsubmit="return false")
+                        .variants
+                          p.pt-2 Varianty produktu:
+                          select#variantsSelect.form-control.w-50(onchange="refreshOrder()")
+                        .itemsCount
+                          p.pt-2 Počet kusov:
+                          input#countSelect.form-control.w-50.allownumericwithoutdecimal(type="number" value="200" step="100" min="200" onkeyup="refreshOrder()" onchange="refreshOrder()")
+                          .action.mt-2
+                            p Cena pri objednávke nad 2000 ks - 
+                              strong#midPrice
+                            p Cena pri objednávke nad 2000 ks - 
+                              strong#lowPrice
+                        .availability.mt-4
                           p#availability
-                      .totalPrice.pt-2.d-flex.align-items-baseline
+                        .totalPrice.pt-2.d-flex.align-items-baseline
                           p
                             strong#actualPrice
                             span s DPH
                           p#totalProductPrice 
                             span s DPH
-                      .buttons.d-flex.mt-4.mb-4
-                        button#editOrder.w-50(aria-label="Pridať do košíka") Pridať do košíka
-                        button.light.w-50(aria-label="Pokračovať v nákupe" data-dismiss="modal") Pokračovať v nákupe
+                        .buttons.d-flex.mt-4.mb-4
+                          button#editOrder.w-50(aria-label="Pridať do košíka" type="submit") Pridať do košíka
+                          button.light.w-50(aria-label="Pokračovať v nákupe" data-dismiss="modal") Pokračovať v nákupe
     .modal.fade#successOrder
       .modal-dialog
         .modal-content
