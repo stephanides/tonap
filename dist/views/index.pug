@@ -155,12 +155,6 @@ block content
                 img.infoicon.lazyload(data-src="./assets/images/icons/phone.svg", alt="Tonap s. r. o.")
                 p +421 918 243 753
           .col-md-6.order-1
-    .container
-      .row
-        .col-12.paylogo
-          i.fab.fa-cc-visa
-          i.fab.fa-cc-paypal
-          i.fab.fa-cc-mastercard
     include footer.pug
 
     .modal.fade#productModal(tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true")
@@ -178,7 +172,7 @@ block content
                           img.pt-2.d-block.mx-auto#productModalMainImage
                       .row
                         .col
-                          .parameters
+                          .parameters.ml-8
                             h5.font-weight-bold Parametre produktu
                             p.mb-0#productHeight
                             p.mb-0#productDepth

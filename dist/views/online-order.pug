@@ -177,13 +177,23 @@ block content
               .modal-body
                 .container
                   .row
-                    .col-md-6.d-flex.justify-content-center.align-items-center
-                      img.pt-2.d-block.mx-auto#productModalMainImage
+                    .col-md-6.justify-content-center
+                      .row.h-75
+                        .col.d-flex.align-items-center
+                          img.pt-2.d-block.mx-auto#productModalMainImage
+                      .row
+                        .col
+                          .parameters.ml-8
+                            h5.font-weight-bold Parametre produktu
+                            p.mb-0#productHeight
+                            p.mb-0#productDepth
+                            p.mb-0#productVolume
+                            p.mb-0#productWeight
                     .col-md-6
                       h4.pt-2#mainTitle
                       p#isSterilized
                       p#productDescription
-                      .parameters
+                      //.parameters
                         h5.font-weight-bold Parametre produktu
                         p.mb-0#productHeight
                         p.mb-0#productDepth

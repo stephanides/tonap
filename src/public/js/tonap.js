@@ -433,7 +433,11 @@ function orderProduct(id){
 }
 
 function fillOrder(id){
-  if(Number(document.getElementById("countSelect").value) >= 200){
+  if(document.getElementById("variantsSelect").selectedIndex == 0){
+    $("#variantsSelect").addClass("highlight");
+    return;
+  }
+  if(Number(document.getElementById("countSelect").value) >= 200 && document.getElementById("countSelect").value % 100 == 0 ){
     var actualProductFromDatabase;
     for (var i = 0; i < products.length; i++) {
       if(id === products[i]._id){
@@ -509,7 +513,11 @@ function editOrder(param){
 }
 
 function updateOrder(param){
-  if(Number(document.getElementById("countSelect").value) >= 200){
+  if(document.getElementById("variantsSelect").selectedIndex == 0){
+    $("#variantsSelect").addClass("highlight");
+    return;
+  }
+  if(Number(document.getElementById("countSelect").value) >= 200 && document.getElementById("countSelect").value % 100 == 0 ){
     orderObject[param].title = document.getElementById("mainTitle").innerHTML;
     orderObject[param].count = Number(document.getElementById("countSelect").value);
     var price = document.getElementById("actualPrice").innerHTML;
@@ -695,6 +703,9 @@ function refreshOrder(){
   console.log(variantId);
   if (variantId > 0) {
     $("#variantsSelect").removeClass("highlight");
+    
+    console.log(choosedProduct.variant[variantId - 1].sackCount);
+    document.getElementById("countSelect").step = choosedProduct.variant[variantId - 1].sackCount;
     if(countSelect < 2000){
       actualPrice.innerHTML = choosedProduct.variant[variantId - 1].priceMax + " € ";
       midPrice.innerHTML = choosedProduct.variant[variantId - 1].priceMed + " €";
