@@ -826,9 +826,17 @@ html{
       }
       
     }
+    .paylogo{
+      img{
+        display: inline;
+        margin-left: 10px;
+        height: 28px;
+        width: 44px;
+      }
+    }
     img{
       display: block;
-      margin:0 auto;
+    margin: 0 auto;
     }
     p{
       font-size: 12px;
@@ -1562,14 +1570,11 @@ html{
   }
 }
 .paylogo{
-  display: flex;
-  justify-content: center;
   padding-top: 40px;
   padding-bottom: 40px;
-  i{
-    font-size: 46px;
-    margin-left: 15px;
-  }
+  display: flex;
+  margin: 0 auto;
+  max-width: 400px;
 }
 .table-responsive{
   padding: 0px 4px;
