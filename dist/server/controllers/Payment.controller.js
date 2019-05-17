@@ -23,11 +23,11 @@ class PaymentController {
                 const KEY = '7248666c5a6b4f3753526179624a7a7649687342525453536f34662d7442614e597938384964744a30527a4e574f6e794e4c73715f526d6c6a6b343131554778';
                 const KS = '0308';
                 const MID = '7279';
-                const NAME = `${req.body.name}%20${req.body.surname}`;
+                const NAME = `${req.body.name} ${req.body.surname}`;
                 const RURL = 'https://tonap.sk/payment-confirmation'; // 'https://moja.tatrabanka.sk/cgi-bin/e-commerce/start/example.jsp';
                 const TIMESTAMP = this.calculateTimeStamp();
                 const VS = orderNum;
-                const HMAC_STRING = MID + AMT + CURR + VS + RURL + TIMESTAMP;
+                const HMAC_STRING = MID + AMT + CURR + VS + RURL + IPC + NAME + TIMESTAMP;
                 const HMAC = yield this.hash_hmac(HMAC_STRING, KEY, next);
                 const url = `https://moja.tatrabanka.sk/cgi-bin/e-commerce/start/cardpay?MID=${MID}&AMT=${AMT}&CURR=${CURR}&VS=${VS}&RURL=${RURL}&IPC=${IPC}&NAME=${NAME}&TIMESTAMP=${TIMESTAMP}&HMAC=${HMAC}`;
                 res.json({ message: 'CardPay', url, success: true });
