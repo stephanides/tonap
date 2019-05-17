@@ -2,7 +2,6 @@ import * as crypto from 'crypto';
 import { Request, Response, NextFunction } from 'express';
 import { Order, Orders } from "../models/Order.model";
 import IOrder from "../interfaces/Order.interface";
-import { runInNewContext } from 'vm';
 
 export default class PaymentController {
   public async manage (req: Request, res: Response, next: NextFunction) {
@@ -17,12 +16,12 @@ export default class PaymentController {
 
       const AMT = String(req.body.fullPrice);
       const CURR = '978';
-      const IPC = String(req.connection.remoteAddress);
+      const IPC = String(req.ip); // req.connection.remoteAddress
       const KEY = '7248666c5a6b4f3753526179624a7a7649687342525453536f34662d7442614e597938384964744a30527a4e574f6e794e4c73715f526d6c6a6b343131554778';
       const KS = '0308';
       const MID = '7279';
       const NAME = `${req.body.name}%20${req.body.surname}`;
-      const RURL = 'http://localhost:3131/payment-confirmation'; // 'https://moja.tatrabanka.sk/cgi-bin/e-commerce/start/example.jsp';
+      const RURL = 'https://tonap.sk/payment-confirmation'; // 'https://moja.tatrabanka.sk/cgi-bin/e-commerce/start/example.jsp';
       const TIMESTAMP = this.calculateTimeStamp();
       const VS = orderNum;
       const HMAC_STRING = MID + AMT + CURR + VS + RURL + TIMESTAMP;
