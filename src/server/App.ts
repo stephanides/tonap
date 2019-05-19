@@ -58,7 +58,7 @@ class App {
     this.app.use(helmet());
 
     // Morgan should be off in production
-    // this.app.use(morgan("dev"));
+     this.app.use(morgan("dev"));
 
     this.app.set('trust proxy', true);
 
@@ -67,7 +67,7 @@ class App {
 
     // Serve static files from imaginary /assets directory
     // Should be managed by nginx server in production
-    // this.app.use("/assets", express.static(__dirname + "/../public/"));
+     this.app.use("/assets", express.static(__dirname + "/../public/"));
     // console.log(__dirname + "/../public/");
 
     this.app.set("views", path.join(__dirname, "../views"));
