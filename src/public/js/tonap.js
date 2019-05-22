@@ -437,7 +437,7 @@ function fillOrder(id){
     $("#variantsSelect").addClass("highlight");
     return;
   }
-  if(Number(document.getElementById("countSelect").value) >= 200 && document.getElementById("countSelect").value % 100 == 0 ){
+  if(Number(document.getElementById("countSelect").value) >= 200){
     var actualProductFromDatabase;
     for (var i = 0; i < products.length; i++) {
       if(id === products[i]._id){
@@ -700,11 +700,9 @@ function refreshOrder(){
   var actualPrice = document.getElementById("actualPrice");
   var midPrice = document.getElementById("midPrice");
   var lowPrice = document.getElementById("lowPrice");
-  console.log(variantId);
   if (variantId > 0) {
     $("#variantsSelect").removeClass("highlight");
     
-    console.log(choosedProduct.variant[variantId - 1].sackCount);
     document.getElementById("countSelect").step = choosedProduct.variant[variantId - 1].sackCount;
     if(countSelect < 2000){
       actualPrice.innerHTML = choosedProduct.variant[variantId - 1].priceMax + " € ";
