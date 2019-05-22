@@ -433,17 +433,21 @@ function orderProduct(id){
 }
 
 function fillOrder(id){
+  console.log("som tu<");
   if(document.getElementById("variantsSelect").selectedIndex == 0){
     $("#variantsSelect").addClass("highlight");
     return;
   }
-  if(Number(document.getElementById("countSelect").value) >= 200){
-    var actualProductFromDatabase;
-    for (var i = 0; i < products.length; i++) {
-      if(id === products[i]._id){
-        actualProductFromDatabase = products[i];
-      }
+  console.log(document.getElementById("countSelect").value % 100);
+  var actualProductFromDatabase;
+  for (var i = 0; i < products.length; i++) {
+    if(id === products[i]._id){
+      actualProductFromDatabase = products[i];
     }
+  }
+  if(Number(document.getElementById("countSelect").value) >= 200 && document.getElementById("countSelect").value % actualProductFromDatabase.variant[document.getElementById("variantsSelect").selectedIndex-1].sackCount == 0 ){
+    
+    
     orderInProgress.title = document.getElementById("mainTitle").innerHTML;
     orderInProgress.id = id;
     orderInProgress.image = document.getElementById("productModalMainImage").src;
@@ -744,8 +748,9 @@ function refreshOrder(){
 function getSum(){
   var sum = 0.00;
   for(var i = 0; i < orderObject.length; i++){
-    sum += Number(parseFloat(orderObject[i].price * orderObject[i].count).toFixed(2)); 
+    sum += parseFloat(orderObject[i].price * orderObject[i].count); 
   }
+  sum = Math.round(sum * 10) / 10;
   itemsPrice = sum;
   if(document.getElementById("cartPrice")!= null){
     document.getElementById("cartPrice").innerHTML = sum + " €";
