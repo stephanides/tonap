@@ -433,19 +433,17 @@ function orderProduct(id){
 }
 
 function fillOrder(id){
-  console.log("som tu<");
   if(document.getElementById("variantsSelect").selectedIndex == 0){
     $("#variantsSelect").addClass("highlight");
     return;
   }
-  console.log(document.getElementById("countSelect").value % 100);
   var actualProductFromDatabase;
   for (var i = 0; i < products.length; i++) {
     if(id === products[i]._id){
       actualProductFromDatabase = products[i];
     }
   }
-  if(Number(document.getElementById("countSelect").value) >= 200 && document.getElementById("countSelect").value % actualProductFromDatabase.variant[document.getElementById("variantsSelect").selectedIndex-1].sackCount == 0 ){
+  if(Number(document.getElementById("countSelect").value) >= 1 && document.getElementById("countSelect").value % actualProductFromDatabase.variant[document.getElementById("variantsSelect").selectedIndex-1].sackCount == 0 ){
     
     
     orderInProgress.title = document.getElementById("mainTitle").innerHTML;
