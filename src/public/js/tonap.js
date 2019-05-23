@@ -750,7 +750,7 @@ function getSum(){
   for(var i = 0; i < orderObject.length; i++){
     sum += parseFloat(orderObject[i].price * orderObject[i].count); 
   }
-  sum = Math.round(sum * 10) / 10;
+  sum = Math.round(sum * 100) / 100;
   itemsPrice = sum;
   if(document.getElementById("cartPrice")!= null){
     document.getElementById("cartPrice").innerHTML = sum + " €";

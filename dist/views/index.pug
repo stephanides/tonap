@@ -5,7 +5,7 @@ block content
     .container-fluid.white#navMenu
       .headContact
         .container.d-flex.align-items-center.justify-content-end
-          img.infoicon.lazyload(data-src="./assets/images/icons/phone.svg", alt="Tonap s. r. o.")
+          img.infoicon.lazyload(data-src="./assets/images/icons/phone.svg" src="#" alt="Tonap s. r. o.")
           p +421 918 243 753
       .container.nav-menu
         .row.justify-content-between
@@ -27,7 +27,7 @@ block content
               a(onclick="goto('#contact')" href="#contact") Kontakt
             li
               a.cart(href="online-objednavka")
-                img.infoicon.lazyload(data-src="./assets/images/icons/cart.svg", alt="Shopping cart")
+                img.infoicon.lazyload(data-src="./assets/images/icons/cart.svg" src="#" alt="Shopping cart")
                 span#cartPrice 0,00 €
                 span#cartCount 9+
     section#header
@@ -43,15 +43,14 @@ block content
               button(onclick="goto('#orderProduct')", aria-label="Pozrieť produkty") Pozrieť produkty
             .col-6
               picture
-                source(data-srcset="./assets/images/woman.webp", alt="Tonap", type="image/webp")
-                img.lazyload(data-src="./assets/images/woman.png", alt="Tonap")
+                img.lazyload(data-src="./assets/images/woman.png" src="#" alt="Tonap")
     section#products
       .container
         .row.justify-content-between
           .col-md-4
             .icon
               picture
-                img.lazyload(data-src="./assets/images/icons/firstcard.svg", alt="Kelímky Tonap")
+                img.lazyload(data-src="./assets/images/icons/firstcard.svg", src="#" alt="Kelímky Tonap")
               .textarea
                 p vyrobili sme
                 h4.position-relative.counter-h.first-h #[span.count.position-absolute#count-1 3297585] <span class="position-absolute">ks.</span>
@@ -61,7 +60,7 @@ block content
           .col-md-4
             .icon
               picture
-                img.lazyload(data-src="./assets/images/icons/secondcard.svg", alt="Masťovky a odberníky Tonap")
+                img.lazyload(data-src="./assets/images/icons/secondcard.svg",src="#" alt="Masťovky a odberníky Tonap")
               .textarea
                 p vyrobili sme
                 h4.position-relative.counter-h #[span.count.position-absolute#count-2 3297585] <span class="position-absolute">ks.</span>
@@ -71,7 +70,7 @@ block content
           .col-md-4
             .icon
               picture
-                img.lazyload(data-src="./assets/images/icons/thirdcard.svg", alt="Petriho misky Tonap")
+                img.lazyload(data-src="./assets/images/icons/thirdcard.svg",src="#" alt="Petriho misky Tonap")
               .textarea
                 p vyrobili sme
                 h4.position-relative.counter-h #[span.count.position-absolute#count-3 3297585] <span class="position-absolute">ks.</span>
@@ -112,8 +111,7 @@ block content
         .row
           .col-lg-6.col-12
             picture
-              source(data-srcset="./assets/images/aboutus.webp", alt="", type="image/webp")
-              img.lazyload(data-src="./assets/images/aboutus.png", alt="")
+              img.lazyload(data-src="./assets/images/aboutus.png",src="#" alt="")
           .col-lg-6.col-12
             h3 Sme 25 rokov súčasťou <br> zdravotníctva na Slovensku
             .divider
@@ -149,10 +147,10 @@ block content
               p #[strong IČ DPH:] SK2120679242
               p &nbsp;
               .info
-                img.infoicon.lazyload(data-src="./assets/images/icons/envelope.svg", alt="Tonap s. r. o.")
+                img.infoicon.lazyload(data-src="./assets/images/icons/envelope.svg",src="#" alt="Tonap s. r. o.")
                 p info@tonap.sk
               .info
-                img.infoicon.lazyload(data-src="./assets/images/icons/phone.svg", alt="Tonap s. r. o.")
+                img.infoicon.lazyload(data-src="./assets/images/icons/phone.svg",src="#" alt="Tonap s. r. o.")
                 p +421 918 243 753
           .col-md-6.order-1
     include footer.pug
@@ -169,7 +167,7 @@ block content
                     .col-md-6.justify-content-center
                       .row.h-75
                         .col.d-flex.align-items-center
-                          img.pt-2.d-block.mx-auto#productModalMainImage
+                          img.pt-2.d-block.mx-auto#productModalMainImage(src="#" alt="Product image")
                       //-.row
                         .col
                           .parameters.ml-8
@@ -192,7 +190,7 @@ block content
                         .variants
                           p.pt-2 Varianty produktu:
                           select#variantsSelect.form-control.w-50(onchange="refreshOrder()")
-                            option(defaultSelected)
+                            option(label="#")
                         .itemsCount
                           p.pt-2 Počet kusov:
                           input#countSelect.form-control.w-50.allownumericwithoutdecimal(type="number" value="200" step="100" min="200" onkeyup="refreshOrder()" onchange="refreshOrder()")
