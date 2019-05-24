@@ -421,6 +421,13 @@ html{
     #productSkumavky {
       display: none;
     }
+    #orderTable {
+      tr {
+        th {
+          white-space: nowrap;
+        }
+      }
+    }
     .row {
       &> div {
         img {
@@ -1575,6 +1582,12 @@ html{
   display: flex;
   margin: 0 auto;
   max-width: 400px;
+
+  i {
+    color: #3177B1;
+    font-size: 1.75rem;
+    padding: 0 .5rem;
+  }
 }
 .table-responsive{
   padding: 0px 4px;

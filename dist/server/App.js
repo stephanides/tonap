@@ -24,6 +24,7 @@ const Email_router_1 = require("./routes/Email.router");
 const Api_router_1 = require("./routes/Api.router");
 const Order_router_1 = require("./routes/Order.router");
 const Payment_router_1 = require("./routes/Payment.router");
+const PaymentConfirmation_router_1 = require("./routes/PaymentConfirmation.router");
 const Product_router_1 = require("./routes/Product.router");
 const User_router_1 = require("./routes/User.router");
 class App {
@@ -110,15 +111,10 @@ class App {
         this.router.get("/obchodne-podmienky", (req, res) => {
             res.render("business-conditions", { page: "Obchodné podmienky - Tonap - Slovenský laboratórny materiál" });
         });
-        this.router.get("/payment-confirmation", (req, res) => {
-            res.render("payment-confirmation", { page: 'Potvrdenie platby - Tonap - Slovenský laboratórny materiál' });
-        });
         this.io.on("connection", (socket) => {
             const admin = this.io.of("/admin");
-            // console.log("IO: conntected");
             socket.on("order created", () => {
                 admin.emit("order been created", { success: true });
-                // console.log("IO: Order created");
             });
         });
         this.app.use("/api", Api_router_1.default);
@@ -126,6 +122,7 @@ class App {
         this.app.use(User_router_1.default);
         this.app.use(Order_router_1.default);
         this.app.use(Payment_router_1.default);
+        this.app.use(PaymentConfirmation_router_1.default);
         this.app.use(Product_router_1.default);
         this.app.use(this.router);
     }

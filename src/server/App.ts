@@ -16,6 +16,7 @@ import EmailRouter from "./routes/Email.router";
 import ApiRouter from "./routes/Api.router";
 import OrderRouter from "./routes/Order.router";
 import PaymentRouter from "./routes/Payment.router";
+import PaymentConfirmation from "./routes/PaymentConfirmation.router";
 import ProductRouter from "./routes/Product.router";
 import UserRouter from "./routes/User.router";
 
@@ -123,17 +124,12 @@ class App {
     this.router.get("/obchodne-podmienky", (req, res) => {
       res.render("business-conditions", { page: "Obchodné podmienky - Tonap - Slovenský laboratórny materiál" });
     });
-    this.router.get("/payment-confirmation", (req, res) => {
-      res.render("payment-confirmation", { page: 'Potvrdenie platby - Tonap - Slovenský laboratórny materiál' });
-    });
 
     this.io.on("connection", (socket) => {
       const admin = this.io.of("/admin");
-      // console.log("IO: conntected");
 
       socket.on("order created", () => {
         admin.emit("order been created", { success: true });
-        // console.log("IO: Order created");
       });
     });
 
@@ -142,6 +138,7 @@ class App {
     this.app.use(UserRouter);
     this.app.use(OrderRouter);
     this.app.use(PaymentRouter);
+    this.app.use(PaymentConfirmation);
     this.app.use(ProductRouter);
     this.app.use(this.router);
   }

@@ -594,7 +594,8 @@ function sendOrder(){
   var businessConditions = document.getElementById("businessConditions").checked;
   
   if (businessConditions) {
-    // console.log(informationObject);
+    localStorage.setItem('orderSummary', dataToSend);
+    
     $.ajax({
       type: "POST",
       url: paymentMethod > 0 ? window.location.origin + "/order" : window.location.origin + "/payment",
@@ -608,7 +609,6 @@ function sendOrder(){
           socket.emit("order created");
           $(document.getElementById("successOrder")).modal("show");
         } else {
-          localStorage.removeItem("orderObject");
           window.location.replace(gatewayUrl);
         }
       },

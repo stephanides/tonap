@@ -2,13 +2,17 @@
   .container
       .row
         .col-12
-          .paylogo
-            img(src="./assets/images/icons/logo_visa.gif", alt="Visa")
-            img(src="./assets/images/icons/logo_visa_electron.gif", alt="Visa Electron")
-            img(src="./assets/images/icons/logo_mc.gif", alt="Mastercard")
-            img(src="./assets/images/icons/logo_maestro.gif", alt="Maestro")
-            img(src="./assets/images/icons/logo_discover.jpg", alt="Discover")
-            img(src="./assets/images/icons/logo_DC.jpg", alt="Diners Club")
+          .paylogo.d-flex.justify-content-center
+            i.fab.fa-cc-visa
+            //-img(src="./assets/images/icons/logo_visa.gif", alt="Visa")
+            //-img(src="./assets/images/icons/logo_visa_electron.gif", alt="Visa Electron")
+            i.fab.fa-cc-mastercard
+            //-img(src="./assets/images/icons/logo_mc.gif", alt="Mastercard")
+            //-img(src="./assets/images/icons/logo_maestro.gif", alt="Maestro")
+            i.fab.fa-cc-discover
+            //-img(src="./assets/images/icons/logo_discover.jpg", alt="Discover")
+            i.fab.fa-cc-diners-club
+            //-img(src="./assets/images/icons/logo_DC.jpg", alt="Diners Club")
   .container
     .row
       .footerlinks
@@ -16,7 +20,7 @@
           a(href="/obchodne-podmienky") Obchodné podmienky
         .footerlink
           a(href="/reklamacny-poriadok") Reklamačný poriadok
-        //.footerlink
+        //-.footerlink
           a(href="/cennik") Cenník PDF
         .footerlink
           a(href="/ochrana-osobnych-udajov") Ochrana osobných údajov
