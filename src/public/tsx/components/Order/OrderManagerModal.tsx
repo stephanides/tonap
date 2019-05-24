@@ -257,11 +257,14 @@ const OrderManagerModal = (props: IProps) => {
                                 }}
                                 value={orderDeliveryTime}
                               >
-                                <option value="0">5. prac. dní</option>
-                                <option value="1">10. prac. dní</option>
-                                <option value="2">15. prac. dní</option>
-                                <option value="3">20. prac. dní</option>
-                                <option value="4">viac ako 20. prac. dní</option>
+                                <option value="0">2. prac. dní</option>
+                                <option value="1">3. prac. dní</option>
+                                <option value="2">4. prac. dní</option>
+                                <option value="3">5. prac. dní</option>
+                                <option value="4">10. prac. dní</option>
+                                <option value="5">15. prac. dní</option>
+                                <option value="6">20. prac. dní</option>
+                                <option value="7">viac ako 20. prac. dní</option>
                               </select>
                             </div>
                           ) : null
@@ -281,11 +284,20 @@ const OrderManagerModal = (props: IProps) => {
                                 orderDeliveryTime > 2 ?
                                 (
                                   orderDeliveryTime > 3 ?
-                                  <p className="text-danger">Dodať objednávku za viac ako 20. prac. dní, odo dňa <strong>{orderMDate ? orderMDate : clientDate}</strong>.</p> :
-                                  <p className="text-danger">Záväzne dodať objednávku do 20. prac. dní, odo dňa <strong>{orderMDate ? orderMDate : clientDate}</strong>.</p>
-                                ) : <p className="text-danger">Záväzne dodať objednávku do 15. prac. dní, odo dňa <strong>{orderMDate ? orderMDate : clientDate}</strong>.</p>
-                              ) : <p className="text-danger">Záväzne dodať objednávku do 10. prac. dní, odo dňa <strong>{orderMDate ? orderMDate : clientDate}</strong>.</p>
-                            ) : <p className="text-danger">Záväzne dodať objednávku do 5. prac. dní, odo dňa <strong>{orderMDate ? orderMDate : clientDate}</strong>.</p>
+                                  (
+                                    orderDeliveryTime > 4 ?
+                                    (
+                                      orderDeliveryTime > 5 ?
+                                      (
+                                        orderDeliveryTime > 6 ?
+                                        <p className="text-danger">Záväzne dodať objednávku po 20. prac. dňoch, odo dňa <strong>{orderMDate ? orderMDate : clientDate}</strong>.</p>
+                                        : <p className="text-danger">Záväzne dodať objednávku do 20. prac. dní, odo dňa <strong>{orderMDate ? orderMDate : clientDate}</strong>.</p>
+                                      ) : <p className="text-danger">Záväzne dodať objednávku do 15. prac. dní, odo dňa <strong>{orderMDate ? orderMDate : clientDate}</strong>.</p>
+                                    ) : <p className="text-danger">Záväzne dodať objednávku do 10. prac. dní, odo dňa <strong>{orderMDate ? orderMDate : clientDate}</strong>.</p>
+                                  ) : <p className="text-danger">Záväzne dodať objednávku do 5. prac. dní, odo dňa <strong>{orderMDate ? orderMDate : clientDate}</strong>.</p>
+                                ) : <p className="text-danger">Záväzne dodať objednávku do 4. prac. dní, odo dňa <strong>{orderMDate ? orderMDate : clientDate}</strong>.</p>
+                              ) : <p className="text-danger">Záväzne dodať objednávku do 3. prac. dní, odo dňa <strong>{orderMDate ? orderMDate : clientDate}</strong>.</p>
+                            ) : <p className="text-danger">Záväzne dodať objednávku do 2. prac. dní, odo dňa <strong>{orderMDate ? orderMDate : clientDate}</strong>.</p>
                           ) : 
                           orderState > 3 ?
                           <p className="text-danger">Nie je špecifikovaný čas dodania objednávky.<br />

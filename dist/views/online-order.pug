@@ -138,7 +138,7 @@ block content
                     h6 Vyberte spôsob platby:
                     .paymentsMethods.pt-4
                       .custom-control.custom-radio.mt-2
-                        input.custom-control-input#kartaOption(type="radio" name="paymentsMethods" onchange="addPaymentPrice('karta')" value="0" disabled)
+                        input.custom-control-input#kartaOption(type="radio" name="paymentsMethods" onchange="addPaymentPrice('karta')" value="0" checked)
                         label(for="kartaOption").pl-2.custom-control-label.d-flex.align-items-center.justify-content-between
                           span
                             img(src="./assets/images/icons/card.png" alt="Platba kartou online").cart-icon
@@ -162,7 +162,7 @@ block content
                             span Dobierka
                           span.blue#dobierka
                       .custom-control.custom-radio.mt-2
-                        input.custom-control-input#osobneOption(type="radio" name="paymentsMethods" onchange="addPaymentPrice('osobne')" value="2" checked)
+                        input.custom-control-input#osobneOption(type="radio" name="paymentsMethods" onchange="addPaymentPrice('osobne')" value="2")
                         label(for="osobneOption").pl-2.custom-control-label.d-flex.align-items-center.justify-content-between
                           span
                             img(src="./assets/images/icons/os-odber.png" alt="Dobierka").cart-icon

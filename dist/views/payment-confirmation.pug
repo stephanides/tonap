@@ -9,7 +9,7 @@ block content
           p +421 918 243 753
       .container.nav-menu
         .row.justify-content-between
-          a.logo(href="" title="Tonap")
+          a.logo(href="/" title="Tonap")
             img(src="./assets/images/1.png", alt="Tonap s. r. o.")
           label.show-menu(for="show-menu")
             img(src="./assets/images/icons/menu.svg", alt="Menu navigation - Tonap")
@@ -34,9 +34,9 @@ block content
     .container
       .d-flex.align-items-center(style="height:400px;")
         if success
-          p.text-center.w-100 Ďakujeme, platba prebehla úspešne a vaša objednávka bola odoslaná na spracovanie.
+          p.text-center.w-100.font-weight-bold Ďakujeme, platba prebehla úspešne a vaša objednávka bola odoslaná na spracovanie.
         else
-          p.text-center.w-100 Ľutujeme, platba nebola uskutočnená. #[br]#[a(href="./online-objednavka") Skúste znova prosím].
+          p.text-center.w-100.font-weight-bold Ľutujeme, platba nebola uskutočnená. #[br]#[a(href="./online-objednavka") Skúste znova prosím].
             
     include footer.pug
 
@@ -134,6 +134,9 @@ block scripts
         success: function(msg) {
           socket.emit("order created");
           localStorage.removeItem("orderObject");
+          setTimeout(function () {
+            window.location.href = 'https://tonap.sk/';
+          }, 5000);
         },
       });
     }

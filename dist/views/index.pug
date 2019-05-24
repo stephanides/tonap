@@ -9,14 +9,14 @@ block content
           p +421 918 243 753
       .container.nav-menu
         .row.justify-content-between
-          a.logo(href="" title="Tonap")
+          a.logo(href="/" title="Tonap")
             img(src="./assets/images/1.png", alt="Tonap s. r. o.")
           label.show-menu(for="show-menu")
             img(src="./assets/images/icons/menu.svg", alt="Menu navigation - Tonap")
           input#show-menu(type="checkbox" role="button" aria-label="Zobraziť navigáciu")
           ul#menu
             li
-              a(onclick="goto('#header')" href="#") Domov
+              a(onclick="goto('#header')" href="/#") Domov
             li
               a(onclick="goto('#products')" href="#products") Čo robíme?
             li
@@ -30,6 +30,7 @@ block content
                 img.infoicon(src="./assets/images/icons/cart.svg" alt="Shopping cart")
                 span#cartPrice 0,00 €
                 span#cartCount 9+
+
     section#header
       .container-fluid
         .container
@@ -44,6 +45,7 @@ block content
             .col-6
               picture
                 img.lazyload(data-src="./assets/images/woman.png" src="#" alt="Tonap")
+
     section#products
       .container
         .row.justify-content-between
@@ -99,13 +101,13 @@ block content
           .tab-pane.fade#pills-skumavky(role="tabpanel" aria-labelledby="pills-skumavky-tab")
             .productRowContainer
               .row.mb-4#productSkumavky
-        
-        
+     
       //-.container.mt-4.text-center.productShowAllContainer.position-relative
         .line-trought.position-absolute
         button(type="button", aria-label="Zobraziť/Skryť produkty") 
           i.fas.fa-caret-down
         p.text-center.font-weight-bold.text-dark.mt-2 Zobraziť všetky produkty
+
     section#aboutus
       .container
         .row
@@ -156,60 +158,60 @@ block content
     include footer.pug
 
     .modal.fade#productModal(tabindex="-1" role="dialog" aria-hidden="true")
-        .modal-dialog.modal-dialog-centered(role="document")
-            .modal-content
-              .modal-header.justify-content-end
-                button(type="button", class="close", data-dismiss="modal", aria-label="Close")
-                  span(aria-hidden="true") &times;
-              .modal-body
-                .container
-                  .row
-                    .col-md-6.justify-content-center
-                      .row.h-75
-                        .col.d-flex.align-items-center
-                          img.pt-2.d-block.mx-auto#productModalMainImage(src="#" alt="Product image")
-                      //-.row
-                        .col
-                          .parameters.ml-8
-                            h5.font-weight-bold Parametre produktu
-                            p.mb-0#productHeight
-                            p.mb-0#productDepth
-                            p.mb-0#productVolume
-                            p.mb-0#productWeight
-                    .col-md-6
-                      h4.pt-2#mainTitle &nbsp;
-                      p#isSterilized
-                      p#productDescription
-                      .parameters
-                        h5.font-weight-bold Parametre produktu
-                        p.mb-0#productHeight
-                        p.mb-0#productDepth
-                        p.mb-0#productVolume
-                        p.mb-0#productWeight
-                      form(onsubmit="return false")
-                        .variants
-                          p.pt-2 Varianty produktu:
-                          select#variantsSelect.form-control.w-50(onchange="refreshOrder()")
-                            option(label="#")
-                        .itemsCount
-                          p.pt-2 Počet kusov:
-                          input#countSelect.form-control.w-50.allownumericwithoutdecimal(type="number" value="1" step="100" min="200" onkeyup="refreshOrder()" onchange="refreshOrder()")
-                          .action.mt-4
-                            p Cena pri objednávke nad 2000 ks - 
-                              strong#midPrice
-                            p Cena pri objednávke nad 4000 ks - 
-                              strong#lowPrice
-                        .availability.mt-4
-                          p#availability
-                        .totalPrice.pt-2.d-flex.align-items-baseline
-                          p
-                            strong#actualPrice
-                            span s DPH
-                          p#totalProductPrice 
-                            span s DPH
-                        .buttons.d-flex.mt-4.mb-4
-                          button#navigationOrder.w-50(aria-label="Pridať do košíka" type="submit") Pridať do košíka
-                          button.light.w-50(aria-label="Pokračovať v nákupe" data-dismiss="modal") Pokračovať v nákupe
+      .modal-dialog.modal-dialog-centered(role="document")
+          .modal-content
+            .modal-header.justify-content-end
+              button(type="button", class="close", data-dismiss="modal", aria-label="Close")
+                span(aria-hidden="true") &times;
+            .modal-body
+              .container
+                .row
+                  .col-md-6.justify-content-center
+                    .row.h-75
+                      .col.d-flex.align-items-center
+                        img.pt-2.d-block.mx-auto#productModalMainImage(src="#" alt="Product image")
+                    //-.row
+                      .col
+                        .parameters.ml-8
+                          h5.font-weight-bold Parametre produktu
+                          p.mb-0#productHeight
+                          p.mb-0#productDepth
+                          p.mb-0#productVolume
+                          p.mb-0#productWeight
+                  .col-md-6
+                    h4.pt-2#mainTitle &nbsp;
+                    p#isSterilized
+                    p#productDescription
+                    .parameters
+                      h5.font-weight-bold Parametre produktu
+                      p.mb-0#productHeight
+                      p.mb-0#productDepth
+                      p.mb-0#productVolume
+                      p.mb-0#productWeight
+                    form(onsubmit="return false")
+                      .variants
+                        p.pt-2 Varianty produktu:
+                        select#variantsSelect.form-control.w-50(onchange="refreshOrder()")
+                          option(label="#")
+                      .itemsCount
+                        p.pt-2 Počet kusov:
+                        input#countSelect.form-control.w-50.allownumericwithoutdecimal(type="number" value="1" step="100" min="200" onkeyup="refreshOrder()" onchange="refreshOrder()")
+                        .action.mt-4
+                          p Cena pri objednávke nad 2000 ks - 
+                            strong#midPrice
+                          p Cena pri objednávke nad 4000 ks - 
+                            strong#lowPrice
+                      .availability.mt-4
+                        p#availability
+                      .totalPrice.pt-2.d-flex.align-items-baseline
+                        p
+                          strong#actualPrice
+                          span s DPH
+                        p#totalProductPrice 
+                          span s DPH
+                      .buttons.d-flex.mt-4.mb-4
+                        button#navigationOrder.w-50(aria-label="Pridať do košíka" type="submit") Pridať do košíka
+                        button.light.w-50(aria-label="Pokračovať v nákupe" data-dismiss="modal") Pokračovať v nákupe
     .modal.fade#successEmail
       .modal-dialog
         .modal-content

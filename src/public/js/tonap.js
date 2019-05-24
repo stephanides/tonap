@@ -16,7 +16,7 @@ var weight = 0;
 var boxCount = 0;
 var shippingPricePosteOffice =0;
 var shippingMethod = 0;
-var paymentMethod = 2;
+var paymentMethod = 0;
 
 if(localStorage.getItem("orderObject") != null){
   var getOrderObjectFromStorage = localStorage.getItem("orderObject");
@@ -353,7 +353,7 @@ function fillProducts(products){
       div.appendTo("#productSkumavky");
     }
   }
-  if (window.location.href.indexOf("online-objednavka") < 0) {
+  if (window.location.href.indexOf("online-objednavka") < 0 && window.location.href.indexOf("potvrdenie-platby") < 0) {
     for(i = 0; i<itemsNodes.length; i++){
       if(i < 8){
         $(itemsNodes[i]).show("slow");
@@ -679,19 +679,20 @@ function scrollIt(destination, duration, easing, callback) {
   scroll();
 }
 
-if (window.location.href.indexOf("online-objednavka") > 1) {
+if (window.location.href.indexOf("online-objednavka") > - 1) {
   updateDetail();
   getWeight();
   getBoxes();
   addShippingMethod("geis");
   addPaymentPrice("karta");
-  document.getElementById("kartaOption").checked = true;
+  // document.getElementById("kartaOption").checked = true;
   countPostPrice();
 
   var paymentsMethodsElArr = document.querySelectorAll('.paymentsMethods input');
   
   paymentsMethodsElArr.forEach(function (el) {
     el.addEventListener('change', function (e) {
+      console.log(e.target.value);
       paymentMethod = parseInt(e.target.value, 10);
     });
   });

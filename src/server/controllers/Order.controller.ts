@@ -12,9 +12,10 @@ export default class OrderController {
       const lastOrderNum: number = await this.findLastOrderNum() as number;
       const orderNum = lastOrderNum ?
         new Date().getFullYear() + (
-          (lastOrderNum + 1) > 99 ? String(lastOrderNum + 1) : (
-            (lastOrderNum + 1) > 9 ? "0" + (lastOrderNum + 1) : "00" + (lastOrderNum + 1)
-          )
+          (lastOrderNum + 1) > 99 ?
+            String(lastOrderNum + 1) : (
+              (lastOrderNum + 1) > 9 ? "0" + (lastOrderNum + 1) : "00" + (lastOrderNum + 1)
+            )
         ) : new Date().getFullYear() + "001";
       const orderObj: any = {
         // city: req.body.city,
@@ -110,12 +111,13 @@ export default class OrderController {
   public async handleEmailNotification(req: Request, res: Response, next: NextFunction) {
     try {
       const order = await Orders.findOne({_id: Types.ObjectId(req.body.orderId)});
+      console.log(order);
 
       if (!order) {
         this.throwError("Order not found", 404, next);
       } else {
         const dataToUpdate = order;
-        const deliveryTimes = ["5. pracovných dní", "10. pracovných dní", "15. pracovných dní", "20. pracovných dní", "viac ako 20. pracovných dní"];
+        const deliveryTimes = ["2. pracovných dní", "3. pracovných dní", "4. pracovných dní", "5. pracovných dní", "10. pracovných dní", "15. pracovných dní", "20. pracovných dní", "viac ako 20. pracovných dní"];
 
         /*if ((typeof req.body.cancellation !== "undefined") && req.body.cancellation !== order.cancellation) {
           dataToUpdate.cancellation = req.body.cancellation;
@@ -186,7 +188,7 @@ export default class OrderController {
               IČ DPH: SK2120679242<br />
               +421 918 243 753`;
             } else {
-              if (req.body.deliveryTime > 3) {
+              if (req.body.deliveryTime > 6) {
                 mailBody = `Dobrý deň pán/pani ${order.name}.<br /><br />
                 Vaša objednácka číslo: <strong><i>${order.orderNum}</i></strong> bude spracovaná a pripravená za ${deliveryTimes[req.body.deliveryTime]}.<br />
                 O ďalšom stave objednávky Vás budeme informovať prostredníctvom emailu.<br /><br />

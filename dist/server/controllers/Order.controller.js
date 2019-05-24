@@ -18,7 +18,8 @@ class OrderController {
             try {
                 const lastOrderNum = yield this.findLastOrderNum();
                 const orderNum = lastOrderNum ?
-                    new Date().getFullYear() + ((lastOrderNum + 1) > 99 ? String(lastOrderNum + 1) : ((lastOrderNum + 1) > 9 ? "0" + (lastOrderNum + 1) : "00" + (lastOrderNum + 1))) : new Date().getFullYear() + "001";
+                    new Date().getFullYear() + ((lastOrderNum + 1) > 99 ?
+                        String(lastOrderNum + 1) : ((lastOrderNum + 1) > 9 ? "0" + (lastOrderNum + 1) : "00" + (lastOrderNum + 1))) : new Date().getFullYear() + "001";
                 const orderObj = {
                     // city: req.body.city,
                     billingAddress: req.body.billingAddress,
@@ -110,12 +111,13 @@ class OrderController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const order = yield Order_model_1.Orders.findOne({ _id: mongoose_1.Types.ObjectId(req.body.orderId) });
+                console.log(order);
                 if (!order) {
                     this.throwError("Order not found", 404, next);
                 }
                 else {
                     const dataToUpdate = order;
-                    const deliveryTimes = ["5. pracovných dní", "10. pracovných dní", "15. pracovných dní", "20. pracovných dní", "viac ako 20. pracovných dní"];
+                    const deliveryTimes = ["2. pracovných dní", "3. pracovných dní", "4. pracovných dní", "5. pracovných dní", "10. pracovných dní", "15. pracovných dní", "20. pracovných dní", "viac ako 20. pracovných dní"];
                     /*if ((typeof req.body.cancellation !== "undefined") && req.body.cancellation !== order.cancellation) {
                       dataToUpdate.cancellation = req.body.cancellation;
                     } else {
@@ -184,7 +186,7 @@ class OrderController {
               +421 918 243 753`;
                             }
                             else {
-                                if (req.body.deliveryTime > 3) {
+                                if (req.body.deliveryTime > 6) {
                                     mailBody = `Dobrý deň pán/pani ${order.name}.<br /><br />
                 Vaša objednácka číslo: <strong><i>${order.orderNum}</i></strong> bude spracovaná a pripravená za ${deliveryTimes[req.body.deliveryTime]}.<br />
                 O ďalšom stave objednávky Vás budeme informovať prostredníctvom emailu.<br /><br />
