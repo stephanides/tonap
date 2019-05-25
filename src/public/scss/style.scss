@@ -1324,7 +1324,7 @@ html{
   }
   .nav-link{
     background-color: #dfdfdf;
-    color:#89939c;
+    color: #4d5358; // #89939c;
     font-size: 16px;
     font-weight: 500;
     border-bottom-left-radius: 0px;
@@ -1595,4 +1595,7 @@ html{
 .highlight{
   border-color: #dc35459c;
   box-shadow: 0 0 0 0.2rem #dc35459c;
+}
+a {
+  color: #0373ea;
 }
