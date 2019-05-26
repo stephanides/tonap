@@ -119,8 +119,9 @@ function revealProducts() {
 }
 
 function goto(param){
-  // $('html, body').animate({scrollTop:$(param).position().top-120}, 'slow');
-  scrollIt(document.querySelector(param), 600, "easeOutQuad");
+   $('html, body').animate({scrollTop:$(param).position().top-150}, 'slow');
+   document.getElementById("show-menu").checked = false;
+ // scrollIt(document.querySelector(param), 600, "easeOutQuad");
 }
 
 function loadMap() {
@@ -665,6 +666,7 @@ function scrollIt(destination, duration, easing, callback) {
     var time = Math.min(1, ((now - startTime) / duration));
     var timeFunction = easings[easing](time);
     window.scroll(0, Math.ceil((timeFunction * (destinationOffsetToScroll - start)) + start));
+    console.log(destinationOffsetToScroll);
 
     if (window.pageYOffset === destinationOffsetToScroll) {
       if (callback) {
