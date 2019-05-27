@@ -74,11 +74,10 @@ class OrderController {
         <th style="border: 1px solid black; border-collapse: collapse; padding: 5px;">Názov produktu</th>
         <th style="border: 1px solid black; border-collapse: collapse; padding: 5px;">Variant produktu</th>
         <th style="border: 1px solid black; border-collapse: collapse; padding: 5px;">Balené po.</th>
-        <th style="border: 1px solid black; border-collapse: collapse; padding: 5px;">Počet krabíc</th></tr>
         </thead>
         <tbody>
         ${products.reduce((a, b, i) => {
-                        return `${a}<tr><td style="border: 1px solid black; border-collapse: collapse; padding: 5px;">${i + 1}</td><td style="border: 1px solid black; border-collapse: collapse; padding: 5px;">${b.title}</td><td style="border: 1px solid black; border-collapse: collapse; padding: 5px;">${b.variantName}</td><td style="border: 1px solid black; border-collapse: collapse; padding: 5px; text-align: center;">${b.count}</td><td style="border: 1px solid black; border-collapse: collapse; padding: 5px; text-align: center;">${b.boxCount}</td></tr>`;
+                        return `${a}<tr><td style="border: 1px solid black; border-collapse: collapse; padding: 5px;">${i + 1}</td><td style="border: 1px solid black; border-collapse: collapse; padding: 5px;">${b.title}</td><td style="border: 1px solid black; border-collapse: collapse; padding: 5px;">${b.variantName}</td><td style="border: 1px solid black; border-collapse: collapse; padding: 5px; text-align: center;">${b.count}</td></tr>`;
                     }, "")}
         </tbody></table><br/>
         O ďalšom priebehu objednávky Vás budeme informovať prostredníctvom emailu.<br /><br />

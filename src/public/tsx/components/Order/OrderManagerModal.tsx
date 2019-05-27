@@ -34,6 +34,7 @@ interface IOrder {
   // psc?: string;
   products?: IProducts[];
   paymentMethod?: number;
+  surname?: string;
 }
 interface IAddress {
   city?: string;
@@ -120,7 +121,6 @@ const OrderManagerModal = (props: IProps) => {
                         <th scope="col">Variant</th>
                         <th scope="col">Počet kusov.</th>
                         <th scope="col">Počet ks. v sáčku</th>
-                        <th scope="col">Počet krabíc</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -135,7 +135,6 @@ const OrderManagerModal = (props: IProps) => {
                               <td>{item.variantName}</td>
                               <td className="text-center">{item.count}</td>
                               <td className="text-center">{item.sackCount}</td>
-                              <td className="text-center">{item.boxCount}</td>
                             </tr>
                           );
                         })
@@ -154,7 +153,7 @@ const OrderManagerModal = (props: IProps) => {
                     <tbody>
                       <tr>
                         <td>
-                          <strong>Objednávateľ:</strong>{` ${order.name},`}<br />
+                          <strong>Objednávateľ:</strong>{` ${order.name} ${order.surname},`}<br />
                           <strong>Telefón:</strong>{` ${order.phone},`}<br />
                           <strong>E-mail:</strong>{` ${order.email},`}
                         </td>
