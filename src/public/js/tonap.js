@@ -786,11 +786,9 @@ function getSum(){
   }
   
   if(fullPriceEl){
-    fullPriceEl.innerHTML = parseFloat(itemsPrice + shipingPrice + paymenthPrice).toFixed(2) + " €"
+    fullPriceEl.innerHTML = parseFloat(itemsPrice + shipingPrice + paymenthPrice).toFixed(2) + " €";
   }
-  // get weight of order
-  /* for(var i = 0; i < orderObject.length; i++){
-  } */
+
   document.getElementById("cartCount").innerHTML = orderObject.length;
   if (sum !== 0.00) {
     cartEl.href = "online-objednavka?ordered=true";
@@ -832,6 +830,36 @@ function stateUpdate(){
   else{
     document.getElementById("postaOption").disabled = false;
     document.getElementById("osobnyOdberOption").disabled = false;
+  }
+  checkCompanyAbbroad();
+}
+
+function checkCompanyAbbroad() {
+  var withVat = 0;
+  var withoutVat = 0;
+  var middleSum = 0;
+
+  if (document.getElementById("ico").value && document.getElementById("dic").value &&
+  document.getElementById("stateSelect").selectedIndex > 0) {
+    
+
+    for (var i = 0; i < orderObject.length; i++) {
+      withVat += orderObject[i].totalPrice;
+    }
+    
+    withoutVat = parseFloat((withVat * 0.8).toFixed(2));
+    
+    if(document.getElementById("fullPrice")){
+      document.getElementById("fullPrice").innerHTML = parseFloat(withoutVat + shipingPrice + paymenthPrice).toFixed(2) + " €";
+    }
+  } else {
+    for(var i = 0; i < orderObject.length; i++){
+      middleSum += parseFloat(orderObject[i].price * orderObject[i].count); 
+    }
+
+    if (middleSum !== withoutVat && document.getElementById("fullPrice")) {
+      document.getElementById("fullPrice").innerHTML = parseFloat(middleSum + shipingPrice + paymenthPrice).toFixed(2) + " €";
+    }
   }
 }
 
@@ -927,8 +955,12 @@ function addPaymentPrice(arg){
 function getWeight(){
   weight = 0;
   for(var i=0; i<orderObject.length; i++){
-    weight += orderObject[i].count * Number(orderObject[i].weight);
+    // console.log(orderObject[i].weight);
+    weight += orderObject[i].count * parseFloat(orderObject[i].weight.replace(",",".")); // Number(orderObject[i].weight);
   }
+
+  weight = Math.round(weight * 100) / 100;
+  // console.log(weight);
 }
 
 function getBoxes(){
@@ -943,79 +975,84 @@ function countPostPrice(){
   if(window.location.href.indexOf("online-objednavka") > -1){
     
     getWeight();
-    postPrice = document.getElementById("postPrice");
-    if(weight < 1000){
-      shippingPricePosteOffice = 7.20;
-      postPrice.innerHTML = "7.20 €";
-    }
-    if(weight > 1000 && weight <= 3000){
-      shippingPricePosteOffice = 7.80;
-      postPrice.innerHTML = "7.80 €";
-    }else
-    if(weight> 3001 && weight <= 5000){
-      shippingPricePosteOffice = 8.40;
-      postPrice.innerHTML = "8.40 €";
-    }
-    if(weight> 5001 && weight <= 10000){
-      shippingPricePosteOffice = 9.00;
-      postPrice.innerHTML = "9.00 €";
-    }
-    if(weight> 10001 && weight <= 15000){
-      shippingPricePosteOffice = 9.90;
-      postPrice.innerHTML = "9.90 €";
-    }
-    if(weight> 15001 && weight <= 20000){
-      shippingPricePosteOffice = 10.80;
-      postPrice.innerHTML = "10.80 €";
-    }
-    if(weight> 20001 && weight <= 25000){
-      shippingPricePosteOffice = 11.70;
-      postPrice.innerHTML = "11.70 €";
-    }
-    if(weight > 25001 && weight <= 30000){
-      shippingPricePosteOffice = 12.80;
-      postPrice.innerHTML = "12.80 €";
-    }
-    if(weight > 30001 && weight <= 40000){
-      shippingPricePosteOffice = 17.40;
-      postPrice.innerHTML = "17.40 €";
-    }
-    if(weight> 40001 && weight <= 50000){
-      shippingPricePosteOffice = 21.60;
-      postPrice.innerHTML = "21.60 €";
-    }
-    if(weight > 50001 && weight<= 75000){
-      shippingPricePosteOffice = 26.20;
-      postPrice.innerHTML = "26.20 €";
-    }
-    if(weight> 75001 && weight <= 100000){
-      shippingPricePosteOffice = 32.00;
-      postPrice.innerHTML = "32.00 €";
-    }
-    if(weight > 100001 && weight <= 125000){
-      shippingPricePosteOffice = 40.50;
-      postPrice.innerHTML = "40.50 €";
-    }
-    if(weight > 125001 && weight <= 150000){
-      shippingPricePosteOffice = 47.50;
-      postPrice.innerHTML = "47.50 €";
-    }
-    if(weight > 150001 && weight <= 200000){
-      shippingPricePosteOffice = 57.50;
-      postPrice.innerHTML = "57.50 €";
-    }
-    if(weight >200001 && weight <= 250000){
-      shippingPricePosteOffice = 69.00;
-      postPrice.innerHTML = "69.00 €";
-    }
-    if(weight >= 300000){
-      shippingPricePosteOffice = 80.50;
-      postPrice.innerHTML = "80.50 €";
-    }
-    if(document.getElementById("postaOption").checked){
-      shipingPrice = shippingPricePosteOffice;
-      getSum();
-    }
+    setTimeout(function () {
+      postPrice = document.getElementById("postPrice");
+
+      if(weight < 1000){
+        shippingPricePosteOffice = 7.20;
+        postPrice.innerHTML = "7.20 €";
+      } else {
+        shippingPricePosteOffice = 7.20;
+        postPrice.innerHTML = "7.20 €";
+      }
+      if(weight > 1000 && weight <= 3000){
+        shippingPricePosteOffice = 7.80;
+        postPrice.innerHTML = "7.80 €";
+      } else if(weight> 3001 && weight <= 5000){
+        shippingPricePosteOffice = 8.40;
+        postPrice.innerHTML = "8.40 €";
+      }
+      if(weight> 5001 && weight <= 10000){
+        shippingPricePosteOffice = 9.00;
+        postPrice.innerHTML = "9.00 €";
+      }
+      if(weight> 10001 && weight <= 15000){
+        shippingPricePosteOffice = 9.90;
+        postPrice.innerHTML = "9.90 €";
+      }
+      if(weight> 15001 && weight <= 20000){
+        shippingPricePosteOffice = 10.80;
+        postPrice.innerHTML = "10.80 €";
+      }
+      if(weight> 20001 && weight <= 25000){
+        shippingPricePosteOffice = 11.70;
+        postPrice.innerHTML = "11.70 €";
+      }
+      if(weight > 25001 && weight <= 30000){
+        shippingPricePosteOffice = 12.80;
+        postPrice.innerHTML = "12.80 €";
+      }
+      if(weight > 30001 && weight <= 40000){
+        shippingPricePosteOffice = 17.40;
+        postPrice.innerHTML = "17.40 €";
+      }
+      if(weight> 40001 && weight <= 50000){
+        shippingPricePosteOffice = 21.60;
+        postPrice.innerHTML = "21.60 €";
+      }
+      if(weight > 50001 && weight<= 75000){
+        shippingPricePosteOffice = 26.20;
+        postPrice.innerHTML = "26.20 €";
+      }
+      if(weight> 75001 && weight <= 100000){
+        shippingPricePosteOffice = 32.00;
+        postPrice.innerHTML = "32.00 €";
+      }
+      if(weight > 100001 && weight <= 125000){
+        shippingPricePosteOffice = 40.50;
+        postPrice.innerHTML = "40.50 €";
+      }
+      if(weight > 125001 && weight <= 150000){
+        shippingPricePosteOffice = 47.50;
+        postPrice.innerHTML = "47.50 €";
+      }
+      if(weight > 150001 && weight <= 200000){
+        shippingPricePosteOffice = 57.50;
+        postPrice.innerHTML = "57.50 €";
+      }
+      if(weight > 200001 && weight <= 250000){
+        shippingPricePosteOffice = 69.00;
+        postPrice.innerHTML = "69.00 €";
+      }
+      if(weight >= 300000){
+        shippingPricePosteOffice = 80.50;
+        postPrice.innerHTML = "80.50 €";
+      }
+      if(document.getElementById("postaOption").checked){
+        shipingPrice = shippingPricePosteOffice;
+        getSum();
+      }
+    }, 1);
   }
 }
 
