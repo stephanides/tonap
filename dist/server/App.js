@@ -107,7 +107,14 @@ class App {
             res.render("claim-conditions", { page: "Reklamačný poriadok - Tonap - Slovenský laboratórny materiál" });
         });
         this.router.get("/ochrana-osobnych-udajov", (req, res) => { res.render("gdpr", { page: `GDPR - Tonap - Slovenský laboratórny materiál` }); });
-        this.router.get("/online-objednavka", (req, res) => { res.render("online-order", { page: "Objednávky - Tonap - Slovenský laboratórny materiál" }); });
+        this.router.get("/online-objednavka", (req, res) => {
+            const { ordered } = req.query;
+            const orderedParam = ordered === "true";
+            res.render("online-order", {
+                page: "Objednávky - Tonap - Slovenský laboratórny materiál",
+                ordered: orderedParam,
+            });
+        });
         this.router.get("/obchodne-podmienky", (req, res) => {
             res.render("business-conditions", { page: "Obchodné podmienky - Tonap - Slovenský laboratórny materiál" });
         });

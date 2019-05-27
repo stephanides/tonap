@@ -35,148 +35,153 @@ block content
                 img.infoicon(src="./assets/images/icons/cart.svg", alt="Shopping cart")
                 span#cartPrice 0,00 €
                 span#cartCount 9+
+
     .container.order-header
       h4 Pokladňa
-      .order#order
-        .row
-          .col-lg-12
-            h5.mt-3.mb-3.ml-3 1. Produkty v košíku
-            .table-responsive
-              table.table#orderTable
-                thead
-                  tr
-                    th(colspan = 1)
-                    th.text-left Názov produktu
-                    th.text-left Varianta
-                    th.text-left Cena za kus
-                    th.text-left Množstvo
-                    th.text-left Cena spolu
-                    th.text-center Upraviť
-                tbody#detailOrder
-          .col-12
-            form.pl-1.mt-4(onsubmit="sendOrder()")
-              .row
-                .col-lg-6.pl-4.pr-6
-                  h5 2. Fakturačné údaje
-                  .row
-                    .col-md-6.col-12
-                      p Meno *
-                      input(name="name" type="text" id = "name" placeholder="Vaše meno" required)
-                    .col-md-6.col-12
-                      p Priezvisko *
-                      input(name="surname" type="text" id = "surname" placeholder="Vaše priezvisko" required)
-                  p Názov firmy
-                  input(name="company" type="text" id = "company" placeholder="Názov firmy")
-                  .row
-                    .col-md-6.col-12
-                      p IČO 
-                      input(name="ico" type="text" id="ico" placeholder="Vaše IČO" )
-                    .col-md-6.col-12
-                      p DIČ 
-                      input(name="dic" type="text" id="dic" placeholder="Vaše DIČ" )
-                  p Ulica a číslo *
-                  input(name="companyAdress" id="companyAdress" type="text" placeholder="Ulica" required)
-                  .row
-                    .col-md-6.col-12
-                      p PSČ *
-                      input(name="companyPSC" id="companyPSC" type="text" placeholder="PSČ" required)
-                    .col-md-6.col-12
-                      p Mesto
-                      input(name="companyCity" id="companyCity" type="text" placeholder="Mesto" required)
-                  p Krajina *
-                  .form-group
-                    select.custom-select#stateSelect(style="padding:0; border-radius:0;padding-left:10px;" onchange="stateUpdate()" reqiured) 
-                      option Slovensko
-                      option Česko
-                      option Maďarsko
-                      option Poľsko
-                  p Telefónne číslo *
-                  input(name="tel" type="text" id="phone" placeholder="Vaše telefónne číslo" required)
-                  p E-mailová adresa *
-                  input(name="email" type="text" id="email" placeholder="Vaša e-mailová adresa" required)
-                  p Správa
-                  textarea(name="message" id="message" rows="4" placeholder="Správa pre nás")
-                  .form-check.pt-2
-                    input.form-check-input#otherAdress(type="checkbox" onchange="enableOtherAdress()")
-                    label.form-check-label.font-weight-bold(for="otherAdress") Odoslať na inú adresu ?
-                  #otherAdressHolder
-                    p Adresa dodania
-                    input(name="deliveryAdress" type="text" id="deliveryAdress" placeholder="Ulica" )
-                    input(name="deliveryCity" type="text" id="deliveryCity" placeholder="Mesto" class="mt-2" )
-                    input(name="deliveryPSC" type="text" id="deliveryPSC" placeholder="PSČ" class="mt-2" )
-                  
-                .col-lg-6
-                  h5 3. Sumár košíka
-                  .subtotal.d-flex.justify-content-between.pb-2.pr-4.pt-2.mt-4
-                    p #[strong Medzisúčet:]
-                    p.price.blue#medzisucet 550,00 €
-                  .shipping.pt-4.pr-4
-                    h6 Vyberte spôsob doručenia:
-                    .shippingMethods.pt-4#shippingMethods
-                      .custom-control.custom-radio.mt-2
-                        input.custom-control-input#geisOption(type="radio"  name="shippingMethods" checked onchange="addShippingMethod('geis')")
-                        label(for="geisOption").pl-2.custom-control-label.d-flex.align-items-center.justify-content-between
-                          span
-                            img(src="./assets/images/icons/geis.png" alt="Geis kuriér").cart-icon
-                            span Geis kuriér
-                          span.blue#geisPrice
-                      .custom-control.custom-radio.mt-2
-                        input.custom-control-input#postaOption(type="radio" name="shippingMethods" onchange="addShippingMethod('posta'); postChecked()")
-                        label(for="postaOption").pl-2.custom-control-label.d-flex.align-items-center.justify-content-between
-                          span
-                            img(src="./assets/images/icons/post.png" alt="Slovenská pošta").cart-icon
-                            span Slovenská pošta
-                          span.blue#postPrice
-                      .custom-control.custom-radio.mt-2
-                        input.custom-control-input#osobnyOdberOption(type="radio" name="shippingMethods" onchange="addShippingMethod('osobne')")
-                        label(for="osobnyOdberOption").pl-2.custom-control-label.d-flex.align-items-center.justify-content-between
-                          span
-                            img(src="./assets/images/icons/os-odber.png" alt="Osobný odber").cart-icon
-                            span Osobný odber - Na hore 4, Košice
-                          span.blue Zadarmo
-                  .payments.pt-4.pr-4
-                    h6 Vyberte spôsob platby:
-                    .paymentsMethods.pt-4
-                      .custom-control.custom-radio.mt-2
-                        input.custom-control-input#kartaOption(type="radio" name="paymentsMethods" onchange="addPaymentPrice('karta')" value="0" checked)
-                        label(for="kartaOption").pl-2.custom-control-label.d-flex.align-items-center.justify-content-between
-                          span
-                            img(src="./assets/images/icons/card.png" alt="Platba kartou online").cart-icon
-                            span Platba kartou online
-                          span.blue Zadarmo
-                      //-.custom-control.custom-radio.mt-2
-                        input.custom-control-input#prevodOption(type="radio" name="paymentsMethods" disabled)
-                        label.pl-2.custom-control-label.d-flex.align-items-center.justify-content-between(for="prevodOption") 
-                          p.text-muted #[img(src="./assets/images/icons/bank.png" alt="Bankovým prevodom").cart-icon] Bankovým prevodom
-                          p.blue Zadarmo
-                      //-.custom-control.custom-radio.mt-2
-                        input.custom-control-input#paypalOption(type="radio" name="paymentsMethods" disabled)
-                        label.pl-2.custom-control-label.d-flex.align-items-center.justify-content-between(for="paypalOption") 
-                          p.text-muted #[img(src="./assets/images/icons/PayPal.png" alt="Paypal").cart-icon] Paypal
-                          p.blue Zadarmo
-                      .custom-control.custom-radio.mt-2
-                        input.custom-control-input#dobierkaOption(type="radio" name="paymentsMethods" onchange="addPaymentPrice('dobierka')" value="1")
-                        label(for="dobierkaOption").pl-2.custom-control-label.d-flex.align-items-center.justify-content-between
-                          span
-                            img(src="./assets/images/icons/dobierka.png" alt="Dobierka").cart-icon
-                            span Dobierka
-                          span.blue#dobierka
-                      .custom-control.custom-radio.mt-2
-                        input.custom-control-input#osobneOption(type="radio" name="paymentsMethods" onchange="addPaymentPrice('osobne')" value="2")
-                        label(for="osobneOption").pl-2.custom-control-label.d-flex.align-items-center.justify-content-between
-                          span
-                            img(src="./assets/images/icons/os-odber.png" alt="Dobierka").cart-icon
-                            span Pri osobnom odbere v hotovosti
-                          span.blue Zadarmo
-                  .total.d-flex.justify-content-between.pb-2.pt-2.mt-2.pr-4
-                    p #[strong Cena spolu:]
-                    p.price.blue#fullPrice
-                  small.form-text.text-muted Vaše osobné údaje budú použité na spracovanie objednávky a na iné účely opísané v dokumente #[a(href="/ochrana-osobnych-udajov") pravidlá ochrany súkromia]
-                  //-p
-                  .form-group.form-check.mt-2
-                    input(type="checkbox")#businessConditions.form-check-input
-                    label(for="businessConditions").form-check-label Súhlasím so #[a(href="/obchodne-podmienky") všeobecnými obchodnými podmienkami]
-                  input(name="submit" type="submit" disabled value="Odoslať objednávku")#submitOrder
+      
+      if ordered  
+        .order#order
+          .row
+            .col-lg-12
+              h5.mt-3.mb-3.ml-3 1. Produkty v košíku
+              .table-responsive
+                table.table#orderTable
+                  thead
+                    tr
+                      th(colspan = 1)
+                      th.text-left Názov produktu
+                      th.text-left Varianta
+                      th.text-left Cena za kus
+                      th.text-left Množstvo
+                      th.text-left Cena spolu
+                      th.text-center Upraviť
+                  tbody#detailOrder
+            .col-12
+              form.pl-1.mt-4(onsubmit="sendOrder()")
+                .row
+                  .col-lg-6.pl-4.pr-6
+                    h5 2. Fakturačné údaje
+                    .row
+                      .col-md-6.col-12
+                        p Meno *
+                        input(name="name" type="text" id = "name" placeholder="Vaše meno" required)
+                      .col-md-6.col-12
+                        p Priezvisko *
+                        input(name="surname" type="text" id = "surname" placeholder="Vaše priezvisko" required)
+                    p Názov firmy
+                    input(name="company" type="text" id = "company" placeholder="Názov firmy")
+                    .row
+                      .col-md-6.col-12
+                        p IČO 
+                        input(name="ico" type="text" id="ico" placeholder="Vaše IČO" )
+                      .col-md-6.col-12
+                        p DIČ 
+                        input(name="dic" type="text" id="dic" placeholder="Vaše DIČ" )
+                    p Ulica a číslo *
+                    input(name="companyAdress" id="companyAdress" type="text" placeholder="Ulica" required)
+                    .row
+                      .col-md-6.col-12
+                        p PSČ *
+                        input(name="companyPSC" id="companyPSC" type="text" placeholder="PSČ" required)
+                      .col-md-6.col-12
+                        p Mesto
+                        input(name="companyCity" id="companyCity" type="text" placeholder="Mesto" required)
+                    p Krajina *
+                    .form-group
+                      select.custom-select#stateSelect(style="padding:0; border-radius:0;padding-left:10px;" onchange="stateUpdate()" reqiured) 
+                        option Slovensko
+                        option Česko
+                        option Maďarsko
+                        option Poľsko
+                    p Telefónne číslo *
+                    input(name="tel" type="text" id="phone" placeholder="Vaše telefónne číslo" required)
+                    p E-mailová adresa *
+                    input(name="email" type="text" id="email" placeholder="Vaša e-mailová adresa" required)
+                    p Správa
+                    textarea(name="message" id="message" rows="4" placeholder="Správa pre nás")
+                    .form-check.pt-2
+                      input.form-check-input#otherAdress(type="checkbox" onchange="enableOtherAdress()")
+                      label.form-check-label.font-weight-bold(for="otherAdress") Odoslať na inú adresu ?
+                    #otherAdressHolder
+                      p Adresa dodania
+                      input(name="deliveryAdress" type="text" id="deliveryAdress" placeholder="Ulica" )
+                      input(name="deliveryCity" type="text" id="deliveryCity" placeholder="Mesto" class="mt-2" )
+                      input(name="deliveryPSC" type="text" id="deliveryPSC" placeholder="PSČ" class="mt-2" )
+                    
+                  .col-lg-6
+                    h5 3. Sumár košíka
+                    .subtotal.d-flex.justify-content-between.pb-2.pr-4.pt-2.mt-4
+                      p #[strong Medzisúčet:]
+                      p.price.blue#medzisucet 550,00 €
+                    .shipping.pt-4.pr-4
+                      h6 Vyberte spôsob doručenia:
+                      .shippingMethods.pt-4#shippingMethods
+                        .custom-control.custom-radio.mt-2
+                          input.custom-control-input#geisOption(type="radio"  name="shippingMethods" checked onchange="addShippingMethod('geis')")
+                          label(for="geisOption").pl-2.custom-control-label.d-flex.align-items-center.justify-content-between
+                            span
+                              img(src="./assets/images/icons/geis.png" alt="Geis kuriér").cart-icon
+                              span Geis kuriér
+                            span.blue#geisPrice
+                        .custom-control.custom-radio.mt-2
+                          input.custom-control-input#postaOption(type="radio" name="shippingMethods" onchange="addShippingMethod('posta'); postChecked()")
+                          label(for="postaOption").pl-2.custom-control-label.d-flex.align-items-center.justify-content-between
+                            span
+                              img(src="./assets/images/icons/post.png" alt="Slovenská pošta").cart-icon
+                              span Slovenská pošta
+                            span.blue#postPrice
+                        .custom-control.custom-radio.mt-2
+                          input.custom-control-input#osobnyOdberOption(type="radio" name="shippingMethods" onchange="addShippingMethod('osobne')")
+                          label(for="osobnyOdberOption").pl-2.custom-control-label.d-flex.align-items-center.justify-content-between
+                            span
+                              img(src="./assets/images/icons/os-odber.png" alt="Osobný odber").cart-icon
+                              span Osobný odber - Na hore 4, Košice
+                            span.blue Zadarmo
+                    .payments.pt-4.pr-4
+                      h6 Vyberte spôsob platby:
+                      .paymentsMethods.pt-4
+                        .custom-control.custom-radio.mt-2
+                          input.custom-control-input#kartaOption(type="radio" name="paymentsMethods" onchange="addPaymentPrice('karta')" value="0" checked)
+                          label(for="kartaOption").pl-2.custom-control-label.d-flex.align-items-center.justify-content-between
+                            span
+                              img(src="./assets/images/icons/card.png" alt="Platba kartou online").cart-icon
+                              span Platba kartou online
+                            span.blue Zadarmo
+                        //-.custom-control.custom-radio.mt-2
+                          input.custom-control-input#prevodOption(type="radio" name="paymentsMethods" disabled)
+                          label.pl-2.custom-control-label.d-flex.align-items-center.justify-content-between(for="prevodOption") 
+                            p.text-muted #[img(src="./assets/images/icons/bank.png" alt="Bankovým prevodom").cart-icon] Bankovým prevodom
+                            p.blue Zadarmo
+                        //-.custom-control.custom-radio.mt-2
+                          input.custom-control-input#paypalOption(type="radio" name="paymentsMethods" disabled)
+                          label.pl-2.custom-control-label.d-flex.align-items-center.justify-content-between(for="paypalOption") 
+                            p.text-muted #[img(src="./assets/images/icons/PayPal.png" alt="Paypal").cart-icon] Paypal
+                            p.blue Zadarmo
+                        .custom-control.custom-radio.mt-2
+                          input.custom-control-input#dobierkaOption(type="radio" name="paymentsMethods" onchange="addPaymentPrice('dobierka')" value="1")
+                          label(for="dobierkaOption").pl-2.custom-control-label.d-flex.align-items-center.justify-content-between
+                            span
+                              img(src="./assets/images/icons/dobierka.png" alt="Dobierka").cart-icon
+                              span Dobierka
+                            span.blue#dobierka
+                        .custom-control.custom-radio.mt-2
+                          input.custom-control-input#osobneOption(type="radio" name="paymentsMethods" onchange="addPaymentPrice('osobne')" value="2")
+                          label(for="osobneOption").pl-2.custom-control-label.d-flex.align-items-center.justify-content-between
+                            span
+                              img(src="./assets/images/icons/os-odber.png" alt="Dobierka").cart-icon
+                              span Pri osobnom odbere v hotovosti
+                            span.blue Zadarmo
+                    .total.d-flex.justify-content-between.pb-2.pt-2.mt-2.pr-4
+                      p #[strong Cena spolu:]
+                      p.price.blue#fullPrice
+                    small.form-text.text-muted Vaše osobné údaje budú použité na spracovanie objednávky a na iné účely opísané v dokumente #[a(href="/ochrana-osobnych-udajov") pravidlá ochrany súkromia]
+                    //-p
+                    .form-group.form-check.mt-2
+                      input(type="checkbox")#businessConditions.form-check-input
+                      label(for="businessConditions").form-check-label Súhlasím so #[a(href="/obchodne-podmienky") všeobecnými obchodnými podmienkami]
+                    input(name="submit" type="submit" disabled value="Odoslať objednávku")#submitOrder
+      else
+        p.text-center Nákupný košík je prázdny. #[a(href="/#orderProduct") Pozrite si ponuku našich produktov].
     
     include footer.pug
 
@@ -217,7 +222,7 @@ block content
                           select#variantsSelect.form-control.w-50(onchange="refreshOrder()")
                         .itemsCount
                           p.pt-2 Počet kusov:
-                          input#countSelect.form-control.w-50.allownumericwithoutdecimal(type="number" value="1" step="100" min="200" onkeyup="refreshOrder()" onchange="refreshOrder()")
+                          input#countSelect.form-control.w-50.allownumericwithoutdecimal(type="number" value="200" step="100" min="200" onkeyup="refreshOrder()" onchange="refreshOrder()")
                           .action.mt-2
                             p Cena pri objednávke nad 2000 ks - 
                               strong#midPrice

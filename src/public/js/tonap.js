@@ -340,7 +340,6 @@ function fillProducts(products){
       $("<img class=\"lazyload\" alt=\"Tonap - " + products[i].title + "\">").attr("data-src", products[i].imageFilesData[0].url).appendTo(div);
       prodHeaderContainer.appendTo(div);
       $("<strong></strong").text(minPrice + " €").appendTo($("<p class='productPrice'></p>").text("od ").appendTo(div));
-      $("<p></p>").text("Cena / TODO").appendTo(div);
       div.appendTo("#productOdberniky");
     }
     if(products[i].category == 3){
@@ -350,7 +349,6 @@ function fillProducts(products){
       $("<img class=\"lazyload\" alt=\"Tonap - " + products[i].title + "\">").attr("data-src", products[i].imageFilesData[0].url).appendTo(div);
       prodHeaderContainer.appendTo(div);
       $("<strong></strong").text(minPrice + " €").appendTo($("<p class='productPrice'></p>").text("od ").appendTo(div));
-      $("<p></p>").text("Cena / TODO").appendTo(div);
       div.appendTo("#productSkumavky");
     }
   }
@@ -458,7 +456,9 @@ function fillOrder(id){
     orderInProgress.boxCount = actualProductFromDatabase.variant[document.getElementById("variantsSelect").selectedIndex-1].boxCount;
     var price = document.getElementById("actualPrice").innerHTML;
     orderInProgress.price = Number(price.replace(/€/,""));
-    orderInProgress.totalPrice = orderInProgress.count * orderInProgress.price;
+    var totalPriceInProgress = parseFloat(orderInProgress.count * orderInProgress.price);
+
+    orderInProgress.totalPrice = Math.round(totalPriceInProgress * 100) / 100; // orderInProgress.count * orderInProgress.price;
     orderObject.push(orderInProgress);
     localStorage.setItem("orderObject", JSON.stringify(orderObject));
     orderInProgress = {};
@@ -500,13 +500,17 @@ function updateDetail(){
     $("<td class='font-weight-bold' style='color:#4187cc;' nowrap></td>").html(orderObject[i].price + " €").appendTo(row);
     $("<td class=\"border-left-0\" nowrap></td>").html("<span class=\"font-weight-bold\">" + orderObject[i].count + " ks.</span>").appendTo(row);
     $("<td class='font-weight-bold' style='color:#4187cc;' nowrap></td>").html((orderObject[i].totalPrice) + " €").appendTo(row);
-    $(lastCell).addClass("border-right-0")
+    $(lastCell).addClass("border-right-0");
     $(lastCell).append(btnEdit);
     $(lastCell).append(btnDel).appendTo(row);
     row.appendTo(document.getElementById("detailOrder"));
   }
   getSum();
   countPostPrice();
+
+  if (orderObject.length < 1) {
+    window.location.href = window.location.protocol + "//" + window.location.host + "/online-objednavka?ordered=false";
+  }
 }
 
 function editOrder(param){
@@ -527,7 +531,10 @@ function updateOrder(param){
     orderObject[param].price = Number(price.replace(/€/,""));
     orderObject[param].variant = document.getElementById("variantsSelect").selectedIndex-1;
     orderObject[param].variantName = document.getElementById("variantsSelect").options[document.getElementById("variantsSelect").selectedIndex-1].value;
-    orderObject[param].totalPrice = orderObject[param].count * orderObject[param].price;
+    var totalPriceInProgress = parseFloat(orderObject[param].count * orderObject[param].price);
+
+    totalPriceInProgress = Math.round(totalPriceInProgress * 100) / 100;
+    orderObject[param].totalPrice = totalPriceInProgress; // orderObject[param].count * orderObject[param].price;
     updateDetail();
     $("#productModal").modal('toggle');
     localStorage.setItem("orderObject", JSON.stringify(orderObject));
@@ -666,7 +673,7 @@ function scrollIt(destination, duration, easing, callback) {
     var time = Math.min(1, ((now - startTime) / duration));
     var timeFunction = easings[easing](time);
     window.scroll(0, Math.ceil((timeFunction * (destinationOffsetToScroll - start)) + start));
-    console.log(destinationOffsetToScroll);
+    // console.log(destinationOffsetToScroll);
 
     if (window.pageYOffset === destinationOffsetToScroll) {
       if (callback) {
@@ -694,7 +701,7 @@ if (window.location.href.indexOf("online-objednavka") > - 1) {
   
   paymentsMethodsElArr.forEach(function (el) {
     el.addEventListener('change', function (e) {
-      console.log(e.target.value);
+      // console.log(e.target.value);
       paymentMethod = parseInt(e.target.value, 10);
     });
   });
@@ -750,25 +757,38 @@ function refreshOrder(){
 
 function getSum(){
   var sum = 0.00;
+  var cartPriceEl = document.getElementById("cartPrice");
+  var middleSumEl = document.getElementById("medzisucet");
+  var fullPriceEl = document.getElementById("fullPrice");
+  var cartEl = document.getElementsByClassName("cart")[0];
+  
   for(var i = 0; i < orderObject.length; i++){
     sum += parseFloat(orderObject[i].price * orderObject[i].count); 
   }
+
   sum = Math.round(sum * 100) / 100;
   itemsPrice = sum;
-  if(document.getElementById("cartPrice")!= null){
-    document.getElementById("cartPrice").innerHTML = sum + " €";
+  
+  if (cartPriceEl) {
+    cartPriceEl.innerHTML = sum + " €";
   }
-  if(document.getElementById("medzisucet")!= null){
-    document.getElementById("medzisucet").innerHTML = sum + " €";
+  
+  if (middleSumEl) {
+    middleSumEl.innerHTML = sum + " €";
   }
-  if(document.getElementById("fullPrice")!= null){
-    document.getElementById("fullPrice").innerHTML = parseFloat(itemsPrice + shipingPrice + paymenthPrice).toFixed(2) + " €"
+  
+  if(fullPriceEl){
+    fullPriceEl.innerHTML = parseFloat(itemsPrice + shipingPrice + paymenthPrice).toFixed(2) + " €"
   }
   // get weight of order
-  for(var i = 0; i < orderObject.length; i++){
-
-  }
+  /* for(var i = 0; i < orderObject.length; i++){
+  } */
   document.getElementById("cartCount").innerHTML = orderObject.length;
+  if (sum !== 0.00) {
+    cartEl.href = "online-objednavka?ordered=true";
+  } else {
+    cartEl.href = "online-objednavka?ordered=false";
+  }
 }
 
 function getProductSum(){
