@@ -39,10 +39,10 @@ var countSelect;
 var variantId;
 var socket = null;
 var container;
-  var itemsHolder;
-  var itemsWrapper;
-  var itemsCount;
-  var itemsNodes;
+var itemsHolder;
+var itemsWrapper;
+var itemsCount;
+var itemsNodes;
 
 // timer variables
 var timer = 0;
@@ -64,6 +64,13 @@ window.onload = function () {
     revealProducts();
     scrollPage();
     getProducts();
+    getSum();
+    
+    var orderOBjectStorge = JSON.parse(window.localStorage.getItem("orderObject"));
+
+    if (orderOBjectStorge && orderOBjectStorge.length > 0 && window.location.href.indexOf("ordered=false") > -1) {
+      window.location.href = window.location.protocol + "//" + window.location.host + "/online-objednavka?ordered=true";
+    }
   }
 
   if (uri === "/") {
@@ -73,6 +80,7 @@ window.onload = function () {
     itemsWrapper = itemsHolder[0].children[0];
     
     itemsNodes = itemsWrapper.childNodes;
+    getSum();
     setTimeout(function () { },5000);
   }
 }

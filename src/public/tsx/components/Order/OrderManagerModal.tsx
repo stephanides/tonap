@@ -33,6 +33,7 @@ interface IOrder {
   orderNum?: number;
   // psc?: string;
   products?: IProducts[];
+  paymentMethod?: number;
 }
 interface IAddress {
   city?: string;
@@ -142,6 +143,13 @@ const OrderManagerModal = (props: IProps) => {
                     </tbody>
                   </table>
                   <h6>Dátum prijatia objednávky: <span className="text-info">{orderDateCreated}</span></h6>
+                  <p>
+                    <strong>Spôsob platby</strong>: {
+                      order.paymentMethod < 2 ? (
+                        order.paymentMethod < 1 ? 'Zaplatené, platba kartou.' : 'Na dobrierku.'
+                      ) : 'Pri osobnom odbere v hotovosti.'
+                    }
+                  </p>
                   <table className="border w-100" cellPadding="10" cellSpacing="5">
                     <tbody>
                       <tr>
