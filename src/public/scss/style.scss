@@ -159,6 +159,11 @@ html{
       @media screen and (max-width: $break-small) {
         bottom: 10px;
       }
+
+      .normal {
+        font-size: 1.75rem;
+        font-weight: 300;  
+      }
     }
     img{
       width: 100%;
