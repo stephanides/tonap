@@ -515,6 +515,9 @@ function updateDetail(){
   }
   getSum();
   countPostPrice();
+  addShippingMethod("geis");
+  document.getElementById("geisOption").checked = true;
+
 
   if (orderObject.length < 1) {
     window.location.href = window.location.protocol + "//" + window.location.host + "/online-objednavka?ordered=false";
