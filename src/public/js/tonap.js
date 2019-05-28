@@ -978,6 +978,7 @@ function getBoxes(){
   for(var i=0; i<orderObject.length; i++){
     boxCount += orderObject[i].count / Number(orderObject[i].boxCount);
   }
+  boxCount = boxCount * 1.05;
   boxCount = Math.ceil(boxCount);
 }
 
