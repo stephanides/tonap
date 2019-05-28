@@ -696,7 +696,7 @@ function scrollIt(destination, duration, easing, callback) {
   scroll();
 }
 
-if (window.location.href.indexOf("online-objednavka") > - 1) {
+if (window.location.href.indexOf("online-objednavka") > - 1 && document.getElementById("ico") != null) {
   updateDetail();
   getWeight();
   getBoxes();
@@ -769,18 +769,29 @@ function getSum(){
   var middleSumEl = document.getElementById("medzisucet");
   var fullPriceEl = document.getElementById("fullPrice");
   var cartEl = document.getElementsByClassName("cart")[0];
-
-  if (document.getElementById("ico").value && document.getElementById("dic").value &&
-  document.getElementById("stateSelect").selectedIndex > 0) {
-    
-    for (var i = 0; i < orderObject.length; i++) {
-      sum += orderObject[i].totalPrice;
+  if (document.getElementById("ico") != null) {
+    if (document.getElementById("ico").value && document.getElementById("dic").value &&
+    document.getElementById("stateSelect").selectedIndex > 0) {
+      
+      for (var i = 0; i < orderObject.length; i++) {
+        sum += orderObject[i].totalPrice;
+      }
+      
+      sum = parseFloat((sum * 0.8).toFixed(2));
+      
+      if(middleSumEl){
+        middleSumEl.innerHTML = Math.round(sum * 100) / 100 + " € bez DPH";
+      }
     }
+    else{
+      for(var i = 0; i < orderObject.length; i++){
+        sum += parseFloat(orderObject[i].price * orderObject[i].count); 
+      }
     
-    sum = parseFloat((sum * 0.8).toFixed(2));
-    
-    if(middleSumEl){
-      middleSumEl.innerHTML = Math.round(sum * 100) / 100 + " € bez DPH";
+      sum = Math.round(sum * 100) / 100;
+      if (middleSumEl) {
+        middleSumEl.innerHTML = sum + " €";
+      }
     }
   }
   else{
