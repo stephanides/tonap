@@ -877,22 +877,24 @@ function addShippingMethod(arg){
   var dobierka = document.getElementById("dobierka");
   //0 - Slovensko / 1- Česko / 2-Madarsko / 3-Polsko
   if(arg == "geis"){
+    getBoxes();
+    console.log(boxCount);
     switch(state){
       case 0:
-        shipingPrice = 3.90;
-        geisPrice.innerHTML = "3.90 €";
+        shipingPrice = 3.90 * boxCount;
+        geisPrice.innerHTML = Math.round((3.90 * boxCount)*100)/100 + " €";
         break;
       case 1:
-        shipingPrice = 6.90;
-        geisPrice.innerHTML = "6.90 €";
+        shipingPrice = 6.90 * boxCount;
+        geisPrice.innerHTML = Math.round((6.90 * boxCount)*100)/100 + " €";
         break;
       case 2:
-        shipingPrice = 11.90;
-        geisPrice.innerHTML = "11.90 €";
+        shipingPrice = 11.90 * boxCount;
+        geisPrice.innerHTML = Math.round((11.90 * boxCount)*100)/100 + " €";
         break;
       case 3:
-        shipingPrice = 8.90;
-        geisPrice.innerHTML = "8.90 €";
+        shipingPrice = 8.90 * boxCount;
+        geisPrice.innerHTML = Math.round((8.90 * boxCount)*100)/100 + " €";
         break;
     }
     shippingMethod = 0;
@@ -978,6 +980,7 @@ function getBoxes(){
   }
   boxCount = Math.ceil(boxCount);
 }
+
 
 function countPostPrice(){
   if(window.location.href.indexOf("online-objednavka") > -1){
