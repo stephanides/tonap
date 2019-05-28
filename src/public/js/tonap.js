@@ -769,21 +769,41 @@ function getSum(){
   var middleSumEl = document.getElementById("medzisucet");
   var fullPriceEl = document.getElementById("fullPrice");
   var cartEl = document.getElementsByClassName("cart")[0];
-  
-  for(var i = 0; i < orderObject.length; i++){
-    sum += parseFloat(orderObject[i].price * orderObject[i].count); 
-  }
 
-  sum = Math.round(sum * 100) / 100;
+  if (document.getElementById("ico").value && document.getElementById("dic").value &&
+  document.getElementById("stateSelect").selectedIndex > 0) {
+    
+    for (var i = 0; i < orderObject.length; i++) {
+      sum += orderObject[i].totalPrice;
+    }
+    
+    sum = parseFloat((sum * 0.8).toFixed(2));
+    
+    if(middleSumEl){
+      middleSumEl.innerHTML = Math.round(sum * 100) / 100 + " € bez DPH";
+    }
+  }
+  else{
+    for(var i = 0; i < orderObject.length; i++){
+      sum += parseFloat(orderObject[i].price * orderObject[i].count); 
+    }
+  
+    sum = Math.round(sum * 100) / 100;
+    if (middleSumEl) {
+      middleSumEl.innerHTML = sum + " €";
+    }
+  }
+  
+  
   itemsPrice = sum;
   
   if (cartPriceEl) {
     cartPriceEl.innerHTML = sum + " €";
   }
   
-  if (middleSumEl) {
+  /*if (middleSumEl) {
     middleSumEl.innerHTML = sum + " €";
-  }
+  }*/
   
   if(fullPriceEl){
     fullPriceEl.innerHTML = parseFloat(itemsPrice + shipingPrice + paymenthPrice).toFixed(2) + " €";
@@ -822,7 +842,8 @@ function enableOtherAdress(){
 function stateUpdate(){
   addShippingMethod("geis");
   document.getElementById("geisOption").checked = true;
-  addPaymentPrice();
+  addPaymentPrice("karta");
+  document.getElementById("kartaOption").checked = true;
   if(document.getElementById("stateSelect").selectedIndex != 0){
     document.getElementById("postaOption").disabled = true;
     document.getElementById("osobnyOdberOption").disabled = true;
@@ -835,32 +856,8 @@ function stateUpdate(){
 }
 
 function checkCompanyAbbroad() {
-  var withVat = 0;
-  var withoutVat = 0;
-  var middleSum = 0;
-
-  if (document.getElementById("ico").value && document.getElementById("dic").value &&
-  document.getElementById("stateSelect").selectedIndex > 0) {
-    
-
-    for (var i = 0; i < orderObject.length; i++) {
-      withVat += orderObject[i].totalPrice;
-    }
-    
-    withoutVat = parseFloat((withVat * 0.8).toFixed(2));
-    
-    if(document.getElementById("fullPrice")){
-      document.getElementById("fullPrice").innerHTML = parseFloat(withoutVat + shipingPrice + paymenthPrice).toFixed(2) + " €";
-    }
-  } else {
-    for(var i = 0; i < orderObject.length; i++){
-      middleSum += parseFloat(orderObject[i].price * orderObject[i].count); 
-    }
-
-    if (middleSum !== withoutVat && document.getElementById("fullPrice")) {
-      document.getElementById("fullPrice").innerHTML = parseFloat(middleSum + shipingPrice + paymenthPrice).toFixed(2) + " €";
-    }
-  }
+ 
+  getSum();
 }
 
 function addShippingMethod(arg){
