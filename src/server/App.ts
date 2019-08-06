@@ -18,6 +18,7 @@ import OrderRouter from "./routes/Order.router";
 import PaymentRouter from "./routes/Payment.router";
 import PaymentConfirmation from "./routes/PaymentConfirmation.router";
 import ProductRouter from "./routes/Product.router";
+import SaleRouter from "./routes/Sale.router";
 import UserRouter from "./routes/User.router";
 
 class App {
@@ -148,6 +149,7 @@ class App {
     this.app.use(PaymentRouter);
     this.app.use(PaymentConfirmation);
     this.app.use(ProductRouter);
+    this.app.use(SaleRouter);
     this.app.use(this.router);
   }
 }

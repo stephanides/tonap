@@ -35,6 +35,11 @@ export default class TabNav extends React.Component<IProps, {}> {
             <Link to="/admin/product-insert">Vložiť Produkt</Link>
             <span></span>
           </li>
+          <li className={this.props.routeProps.location.pathname.indexOf("sale") > -1 ? "active" : null}>
+            <i className="fas fa-percent d-flex align-items-center ml-2"></i>
+            <Link to="/admin/sale">Zľavy</Link>
+            <span></span>
+          </li>
         </ul>
 
         <_JSXStyle styleId="tabNavUl" css={`

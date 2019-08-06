@@ -4,6 +4,7 @@ import DeleteModal from "../components/Product/DeleteModal";
 import HeaderNav from "../components/Layout/HeaderNav";
 import Modal from "../components/Layout/Modal";
 import Orders from "../components/Order/Orders";
+import Sale from "../components/Sale";
 
 import ProductCreate from "../components/Product/ProductCreate";
 import ProductEditModal from "../components/Product/ProductEditModal";
@@ -44,6 +45,7 @@ interface IProps {
   showDeleteModal?: boolean;
   showOrderSucess?: boolean;
   user: IUserPayLoad;
+  sales?: object[];
 
   closeDeleteModal(): void;
   deleteProduct(): Promise<void>;
@@ -75,6 +77,8 @@ interface IProps {
   showOrderManager(orderNum: string): void;
   signOut(): void;
   storeProduct(e: React.FormEvent<HTMLElement>): Promise<void>;
+  submitSale(e:React.FormEvent<HTMLElement>, url?: string): Promise<void>;
+  getSales(): Promise<void>;
 }
 
 export default class Admin extends React.Component<IProps, {}> {
@@ -179,6 +183,13 @@ export default class Admin extends React.Component<IProps, {}> {
               products={this.props.products}
               showOrderManager={this.props.showOrderManager}
               showOrderSucess={this.props.showOrderSucess}
+            />
+          )} />
+          <Route exact path={`${this.props.routeProps.match.url}/sale`} render={() => (
+            <Sale
+              getSales={this.props.getSales}
+              submitSale={this.props.submitSale}
+              sales={this.props.sales}
             />
           )} />
         </div>

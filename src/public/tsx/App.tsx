@@ -43,26 +43,15 @@ interface IAppState {
   showDeleteModal?: boolean;
   showOrderSucess?: boolean;
   user?: IUser;
+  sales?: object[];
 }
 
 const productInit: IProduct = {
   count: 0,
   category: 0,
-  // depth: 0,
   description: "",
   height: "",
   gauge: "",
-  // length: 0,
-  // notSterile: false,
-  // notSterileProductMaxCount: 0,
-  // notSterileProductMaxPackageCount: 0,
-  // notSterileProductMinCount: 0,
-  // notSterileProductMinPackageCount: 0,
-  // sterile: false,
-  // sterileProductMaxCount: 0,
-  // sterileProductMaxPackageCount: 0,
-  // sterileProductMinCount: 0,
-  // sterileProductMinPackageCount: 0,
   title: "",
   variantName: '',
   variant: [{
@@ -96,6 +85,7 @@ const initialState: IAppState = {
   productEdit: false,
   productNumber: 0,
   screen: 0,
+  sales: [],
 };
 
 export default class App extends React.Component<{}, IAppState> {
@@ -148,6 +138,8 @@ export default class App extends React.Component<{}, IAppState> {
     this.signOut = this.signOut.bind(this);
     this.storeProduct = this.storeProduct.bind(this);
     this.submitForm = this.submitForm.bind(this);
+    this.submitSale = this.submitSale.bind(this);
+    this.getSales = this.getSales.bind(this);
   }
 
   public componentWillMount() {
@@ -249,6 +241,9 @@ export default class App extends React.Component<{}, IAppState> {
               signOut={this.signOut}
               storeProduct={this.storeProduct}
               user={this.state.user}
+              submitSale={this.submitSale}
+              getSales={this.getSales}
+              sales={this.state.sales}
             /> :
             <Redirect to="/admin/login" />
           )} />
@@ -819,6 +814,51 @@ export default class App extends React.Component<{}, IAppState> {
     }, () => {
       this.myStorage.clear();
     });
+  }
+
+  private async getSales(): Promise<void> {
+    try {
+      const response = await fetch('/sale', {
+        headers: { "content-type": "application/json" },
+        method: "GET",
+      });
+
+      if (response.status === 200) {
+        const { data } = await response.json();
+
+        this.setState({ sales: data });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  private async submitSale(e: React.FormEvent<HTMLElement>, url?: string): Promise<void> {
+    e.preventDefault();
+
+    const urlString: string = url ? url.toLowerCase() : "../api/sale";
+    const form = e.currentTarget as any;
+    const saleCode = form.saleCode.value;
+    const sale = parseInt(form.sale.options[form.sale.selectedIndex].value, 10);
+    const formParams = {
+      saleCode,
+      sale,
+    };
+
+    try {
+      await fetch(urlString, {
+        body: JSON.stringify(formParams),
+        headers: {
+          "content-type": "application/json",
+          "x-access-token": this.state.user.token,
+        },
+        method: "POST",
+      });
+      console.log("SALE CREATED");
+      this.getSales();
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   private async submitForm(e: React.FormEvent<HTMLElement>, url?: string): Promise<void> {

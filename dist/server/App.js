@@ -26,6 +26,7 @@ const Order_router_1 = require("./routes/Order.router");
 const Payment_router_1 = require("./routes/Payment.router");
 const PaymentConfirmation_router_1 = require("./routes/PaymentConfirmation.router");
 const Product_router_1 = require("./routes/Product.router");
+const Sale_router_1 = require("./routes/Sale.router");
 const User_router_1 = require("./routes/User.router");
 class App {
     constructor() {
@@ -131,6 +132,7 @@ class App {
         this.app.use(Payment_router_1.default);
         this.app.use(PaymentConfirmation_router_1.default);
         this.app.use(Product_router_1.default);
+        this.app.use(Sale_router_1.default);
         this.app.use(this.router);
     }
 }
