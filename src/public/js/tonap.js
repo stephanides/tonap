@@ -1,9 +1,13 @@
+
+
 // Main javascript file
 var map = null;
 var marker = null;
 var markerJumped = false;
 var googleScriptLoaded = false;
 var products = [{}];
+var sales = [{}];
+var salesPercentage = 0;
 var intervalId = null;
 var intervalStarted = false;
 var choosedProduct = {};
@@ -65,6 +69,7 @@ window.onload = function () {
     scrollPage();
     getProducts();
     getSum();
+    getSales();
     
     var orderOBjectStorge = JSON.parse(window.localStorage.getItem("orderObject"));
 
@@ -322,6 +327,19 @@ function getProducts(){
 		xobj.send(null);
 }
 
+function getSales(){
+  var xobj = new XMLHttpRequest();
+		xobj.open("GET", window.location.origin + "/sale/", true);
+		xobj.onreadystatechange = function () {
+			if (xobj.readyState == 4 && xobj.status == "200") {
+       var json = JSON.parse(xobj.response);
+       sales = json.data;
+       console.log(sales);
+			}
+		};
+		xobj.send(null);
+}
+
 function fillProducts(products){
   var orderPage = window.location.pathname.indexOf("online-objednavka") > -1 ? true : false;
 
@@ -450,7 +468,8 @@ function fillOrder(id){
       actualProductFromDatabase = products[i];
     }
   }
-  if(Number(document.getElementById("countSelect").value) >= 1 && document.getElementById("countSelect").value % actualProductFromDatabase.variant[document.getElementById("variantsSelect").selectedIndex-1].sackCount == 0 ){
+  console.log("nove veci");
+  if(Number(document.getElementById("countSelect").value) >= 1 ){
     
     
     orderInProgress.title = document.getElementById("mainTitle").innerHTML;
@@ -470,7 +489,8 @@ function fillOrder(id){
     orderObject.push(orderInProgress);
     localStorage.setItem("orderObject", JSON.stringify(orderObject));
     orderInProgress = {};
-    if(Number(document.getElementById("countSelect").value) >= 200){
+    console.log("nove veci");
+    if(Number(document.getElementById("countSelect").value) >= 1){
       $("#productModal").modal("toggle");
     }
     getSum();
@@ -767,6 +787,8 @@ function refreshOrder(){
 }
 
 function getSum(){
+    
+  
   var sum = 0.00;
   var cartPriceEl = document.getElementById("cartPrice");
   var middleSumEl = document.getElementById("medzisucet");
@@ -790,7 +812,7 @@ function getSum(){
       for(var i = 0; i < orderObject.length; i++){
         sum += parseFloat(orderObject[i].price * orderObject[i].count); 
       }
-    
+      sum = sum - ((sum * salesPercentage)/100)
       sum = Math.round(sum * 100) / 100;
       if (middleSumEl) {
         middleSumEl.innerHTML = sum + " €";
@@ -801,7 +823,7 @@ function getSum(){
     for(var i = 0; i < orderObject.length; i++){
       sum += parseFloat(orderObject[i].price * orderObject[i].count); 
     }
-  
+    sum = sum - ((sum * salesPercentage)/100)
     sum = Math.round(sum * 100) / 100;
     if (middleSumEl) {
       middleSumEl.innerHTML = sum + " €";
@@ -820,6 +842,7 @@ function getSum(){
   }*/
   
   if(fullPriceEl){
+
     fullPriceEl.innerHTML = parseFloat(itemsPrice + shipingPrice + paymenthPrice).toFixed(2) + " €";
   }
 
@@ -828,6 +851,26 @@ function getSum(){
     cartEl.href = "online-objednavka?ordered=true";
   } else {
     cartEl.href = "online-objednavka?ordered=false";
+  }
+}
+var isSaleActive = false;
+document.getElementById("salesMessage").style.display="none";
+
+function checkSale(){
+  
+  var saleCode = document.getElementById("sale").value;
+  for(i = 0; i<sales.length;i++){
+    if(saleCode == sales[i].saleCode){
+      salesPercentage = sales[i].sale;
+      getSum();
+      isSaleActive = true;
+    }
+  }
+  if(isSaleActive){
+    document.getElementById("salesMessage").style.display="none";
+  }
+  else{
+    document.getElementById("salesMessage").style.display="block";
   }
 }
 

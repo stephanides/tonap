@@ -171,6 +171,11 @@ block content
                               img(src="./assets/images/icons/os-odber.png" alt="Dobierka").cart-icon
                               span Pri osobnom odbere v hotovosti
                             span.blue Zadarmo
+                    .d-flex.pb-2.pt-2.mt-2.pr-4
+                      p.pb-2.pr-4 #[strong Zľavový kupón:]
+                      input.w-50(name="sale" type="text" id="sale" placeholder="Váš zľavový kód")
+                    button(onclick="checkSale()") Použiť
+                    p.pb-2#salesMessage #[strong Zľavový kupón neexistuje!]
                     .total.d-flex.justify-content-between.pb-2.pt-2.mt-2.pr-4
                       p #[strong Cena spolu s DPH]
                       p.price.blue#fullPrice
