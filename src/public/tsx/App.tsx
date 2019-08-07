@@ -856,7 +856,7 @@ export default class App extends React.Component<{}, IAppState> {
         },
         method: "POST",
       });
-      console.log("SALE CREATED");
+
       this.getSales();
     } catch (err) {
       console.log(err);
@@ -864,7 +864,6 @@ export default class App extends React.Component<{}, IAppState> {
   }
 
   private async removeSale(saleID: String) {
-    console.log(saleID);
     try {
       const request = await fetch("/api/sale/", {
         body: JSON.stringify({ _id: saleID }),
@@ -878,8 +877,7 @@ export default class App extends React.Component<{}, IAppState> {
       if (request.status === 200) {
         const { message } = await request.json();
 
-        console.log(message);
-        this.getSales();
+        this.setState({ sales: [] });
       }
     } catch (err) {
       console.log(err);
