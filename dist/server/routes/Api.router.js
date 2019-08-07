@@ -44,9 +44,9 @@ router.post("/sale", (req, res, next) => {
         sale.create(req, res, next);
     });
 });
-router.put("/sale", (req, res, next) => {
+router.delete("/sale", (req, res, next) => {
     CheckToken_helper_1.checkToken(req, res, next, () => {
-        sale.updateSale(req, res, next);
+        sale.remove(req, res, next);
     });
 });
 exports.default = router;

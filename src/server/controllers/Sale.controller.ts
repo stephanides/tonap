@@ -48,21 +48,17 @@ export class SaleController {
     }
   }
 
-  public async updateSale(req: Request, res: Response, next: NextFunction): Promise<void> {
+  public async remove(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const saleToUpdate: object = await Sales.findOne({ _id: mongoose.Types.ObjectId(req.body._id) });
+      const { _id } = req.body;
+      const saleExist = await Sales.find({ _id: mongoose.Types.ObjectId(_id)});
 
-      if (!saleToUpdate) {
-        this.throwError("No sale found", 404, next);
+      if (!saleExist) {
+        this.throwError("Sale not exist", 404, next);
       } else {
-        const updatedSale: object = new Sale(req.body as ISale);
-        const saleUpdate: object = await Sales.update({ _id: mongoose.Types.ObjectId(req.body._id) }, updatedSale);
+        await Sales.remove({ _id: mongoose.Types.ObjectId(_id)});
 
-        if (saleUpdate) {
-          res.json({ message: "Sale has been successfully updated", success: true });
-        } else {
-          this.throwError("Can\"t update sale data", 500, next);
-        }
+        res.json({ message: "Sale has been successfully removed", success: true });
       }
     } catch (err) {
       return next(err);

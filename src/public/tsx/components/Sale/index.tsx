@@ -6,10 +6,11 @@ interface IProps {
 
   submitSale(e:React.FormEvent<HTMLElement>, url?: string): Promise<void>;
   getSales(): Promise<void>;
+  removeSale(saleID: String): Promise<void>;
 }
 
 const SaleComponent = (props: IProps) => {
-  const { getSales, submitSale, sales } = props;
+  const { getSales, submitSale, sales, removeSale } = props;
 
   if (sales.length === 0) {
     getSales();
@@ -68,7 +69,10 @@ const SaleComponent = (props: IProps) => {
         </div>
       </form>
       {''}
-      <SaleList sales={sales} />
+      <SaleList
+        sales={sales}
+        removeSale={removeSale}
+      />
     </div>
   );
 };

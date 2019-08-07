@@ -52,9 +52,9 @@ router.post("/sale", (req: Request, res: Response, next: NextFunction) => {
   });
 });
 
-router.put("/sale", (req: Request, res: Response, next: NextFunction) => {
+router.delete("/sale", (req: Request, res: Response, next: NextFunction) => {
   checkToken(req, res, next, () => {
-    sale.updateSale(req, res, next);
+    sale.remove(req, res, next);
   });
 });
 

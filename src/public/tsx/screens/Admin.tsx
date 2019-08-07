@@ -79,6 +79,7 @@ interface IProps {
   storeProduct(e: React.FormEvent<HTMLElement>): Promise<void>;
   submitSale(e:React.FormEvent<HTMLElement>, url?: string): Promise<void>;
   getSales(): Promise<void>;
+  removeSale(saleID: String): Promise<void>;
 }
 
 export default class Admin extends React.Component<IProps, {}> {
@@ -189,6 +190,7 @@ export default class Admin extends React.Component<IProps, {}> {
             <Sale
               getSales={this.props.getSales}
               submitSale={this.props.submitSale}
+              removeSale={this.props.removeSale}
               sales={this.props.sales}
             />
           )} />

@@ -55,22 +55,17 @@ class SaleController {
             }
         });
     }
-    updateSale(req, res, next) {
+    remove(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const saleToUpdate = yield Sale_model_1.Sales.findOne({ _id: mongoose.Types.ObjectId(req.body._id) });
-                if (!saleToUpdate) {
-                    this.throwError("No sale found", 404, next);
+                const { _id } = req.body;
+                const saleExist = yield Sale_model_1.Sales.find({ _id: mongoose.Types.ObjectId(_id) });
+                if (!saleExist) {
+                    this.throwError("Sale not exist", 404, next);
                 }
                 else {
-                    const updatedSale = new Sale_model_1.Sale(req.body);
-                    const saleUpdate = yield Sale_model_1.Sales.update({ _id: mongoose.Types.ObjectId(req.body._id) }, updatedSale);
-                    if (saleUpdate) {
-                        res.json({ message: "Sale has been successfully updated", success: true });
-                    }
-                    else {
-                        this.throwError("Can\"t update sale data", 500, next);
-                    }
+                    yield Sale_model_1.Sales.remove({ _id: mongoose.Types.ObjectId(_id) });
+                    res.json({ message: "Sale has been successfully removed", success: true });
                 }
             }
             catch (err) {

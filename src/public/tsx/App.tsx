@@ -140,6 +140,7 @@ export default class App extends React.Component<{}, IAppState> {
     this.submitForm = this.submitForm.bind(this);
     this.submitSale = this.submitSale.bind(this);
     this.getSales = this.getSales.bind(this);
+    this.removeSale = this.removeSale.bind(this);
   }
 
   public componentWillMount() {
@@ -244,6 +245,7 @@ export default class App extends React.Component<{}, IAppState> {
               submitSale={this.submitSale}
               getSales={this.getSales}
               sales={this.state.sales}
+              removeSale={this.removeSale}
             /> :
             <Redirect to="/admin/login" />
           )} />
@@ -856,6 +858,29 @@ export default class App extends React.Component<{}, IAppState> {
       });
       console.log("SALE CREATED");
       this.getSales();
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  private async removeSale(saleID: String) {
+    console.log(saleID);
+    try {
+      const request = await fetch("/api/sale/", {
+        body: JSON.stringify({ _id: saleID }),
+        headers: {
+          "Content-type": "application/json",
+          "x-access-token": this.state.user.token,
+        },
+        method: "DELETE",
+      });
+
+      if (request.status === 200) {
+        const { message } = await request.json();
+
+        console.log(message);
+        this.getSales();
+      }
     } catch (err) {
       console.log(err);
     }
