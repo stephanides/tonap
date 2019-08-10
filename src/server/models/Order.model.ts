@@ -1,5 +1,5 @@
 import { Document, Schema, model } from "mongoose";
-import IOrder from "../interfaces/Order.interface";
+import IOrder, { ISale } from "../interfaces/Order.interface";
 
 export class Order {
   // public city: string;
@@ -28,6 +28,7 @@ export class Order {
   public phone: string;
   // public psc: string;
   public products: object[];
+  public sale: ISale;
 
   constructor(data: IOrder) {
     // this.city = data.city;
@@ -56,6 +57,7 @@ export class Order {
     this.phone = data.phone;
     // this.psc = data.psc;
     this.products = data.products;
+    this.sale = data.sale;
   }
 }
 
@@ -98,6 +100,7 @@ const OrderSchema = new Schema({
   surname: String,
   // street: String,
   // surname: String,
+  sale: Object,
 });
 
 export interface IOrderDocument extends Order, Document {}

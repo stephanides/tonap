@@ -29,6 +29,7 @@ class Order {
         this.phone = data.phone;
         // this.psc = data.psc;
         this.products = data.products;
+        this.sale = data.sale;
     }
 }
 exports.Order = Order;
@@ -69,5 +70,8 @@ const OrderSchema = new mongoose_1.Schema({
         type: Number
     },
     surname: String,
+    // street: String,
+    // surname: String,
+    sale: Object,
 });
 exports.Orders = mongoose_1.model("Order", OrderSchema);

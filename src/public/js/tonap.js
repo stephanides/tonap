@@ -1,5 +1,3 @@
-
-
 // Main javascript file
 var map = null;
 var marker = null;
@@ -8,6 +6,7 @@ var googleScriptLoaded = false;
 var products = [{}];
 var sales = [{}];
 var salesPercentage = 0;
+var saleCode = '';
 var intervalId = null;
 var intervalStarted = false;
 var choosedProduct = {};
@@ -26,12 +25,10 @@ if(localStorage.getItem("orderObject") != null){
   var getOrderObjectFromStorage = localStorage.getItem("orderObject");
   var orderObject = JSON.parse(getOrderObjectFromStorage);
   getSum();
-}
-else{
+} else{
   var orderObject = [];
   getSum();
 }
-
 
 var orderInProgress = {
   title:"",
@@ -91,7 +88,6 @@ window.onload = function () {
 }
 
 function updateItemsHolder(){
-  
 /*  setTimeout(function () {
   container = $("#pills-tabContent").find(".active");
   itemsHolder = container.find(".productRowContainer");
@@ -253,15 +249,16 @@ function startCounter() {
     var timer;
   
     function run() {
-        var now = new Date().getTime();
-        var remaining = Math.max((endTime - now) / duration, 0);
-        var value = Math.round(end - (remaining * range));
-        var number = Math.ceil(value);
-        var output = number.toLocaleString("en-EG");
-        obj.innerHTML = output;
-        if (value == end) {
-            clearInterval(timer);
-        }
+      var now = new Date().getTime();
+      var remaining = Math.max((endTime - now) / duration, 0);
+      var value = Math.round(end - (remaining * range));
+      var number = Math.ceil(value);
+      var output = number.toLocaleString("en-EG");
+      obj.innerHTML = output;
+
+      if (value == end) {
+          clearInterval(timer);
+      }
     }
     
     timer = setInterval(run, stepTime);
@@ -334,7 +331,7 @@ function getSales(){
 			if (xobj.readyState == 4 && xobj.status == "200") {
        var json = JSON.parse(xobj.response);
        sales = json.data;
-       console.log(sales);
+       // console.log(sales);
 			}
 		};
 		xobj.send(null);
@@ -462,16 +459,16 @@ function fillOrder(id){
     $("#variantsSelect").addClass("highlight");
     return;
   }
+  
   var actualProductFromDatabase;
+
   for (var i = 0; i < products.length; i++) {
     if(id === products[i]._id){
       actualProductFromDatabase = products[i];
     }
   }
-  console.log("nove veci");
+  // console.log("nove veci");
   if(Number(document.getElementById("countSelect").value) >= 1 ){
-    
-    
     orderInProgress.title = document.getElementById("mainTitle").innerHTML;
     orderInProgress.id = id;
     orderInProgress.image = document.getElementById("productModalMainImage").src;
@@ -489,10 +486,11 @@ function fillOrder(id){
     orderObject.push(orderInProgress);
     localStorage.setItem("orderObject", JSON.stringify(orderObject));
     orderInProgress = {};
-    console.log("nove veci");
+    // console.log("nove veci");
     if(Number(document.getElementById("countSelect").value) >= 1){
       $("#productModal").modal("toggle");
     }
+
     getSum();
   }
 }
@@ -618,6 +616,7 @@ function sendOrder(){
   informationObject.ico = document.getElementById("ico").value;
   informationObject.dic = document.getElementById("dic").value;
   informationObject.message = document.getElementById("message").value;
+
   var krajina = document.getElementById("stateSelect");
   informationObject.location = krajina.options[krajina.selectedIndex].value;
   informationObject.products = orderObject;
@@ -628,13 +627,18 @@ function sendOrder(){
   informationObject.shippingMethod = shippingMethod;
   informationObject.paymentMethod = paymentMethod;
   informationObject.weight = weight;
-  var dataToSend = JSON.stringify(informationObject);
+  informationObject.sale = {
+    saleCode: saleCode,
+    salesPercentage: salesPercentage
+  };
 
+  console.log(informationObject);
+
+  var dataToSend = JSON.stringify(informationObject);
   var businessConditions = document.getElementById("businessConditions").checked;
   
   if (businessConditions) {
     localStorage.setItem('orderSummary', dataToSend);
-    
     $.ajax({
       type: "POST",
       url: paymentMethod > 0 ? window.location.origin + "/order" : window.location.origin + "/payment",
@@ -787,8 +791,6 @@ function refreshOrder(){
 }
 
 function getSum(){
-    
-  
   var sum = 0.00;
   var cartPriceEl = document.getElementById("cartPrice");
   var middleSumEl = document.getElementById("medzisucet");
@@ -797,7 +799,6 @@ function getSum(){
   if (document.getElementById("ico") != null) {
     if (document.getElementById("ico").value && document.getElementById("dic").value &&
     document.getElementById("stateSelect").selectedIndex > 0) {
-      
       for (var i = 0; i < orderObject.length; i++) {
         sum += orderObject[i].totalPrice;
       }
@@ -807,29 +808,29 @@ function getSum(){
       if(middleSumEl){
         middleSumEl.innerHTML = Math.round(sum * 100) / 100 + " € bez DPH";
       }
-    }
-    else{
+    } else {
       for(var i = 0; i < orderObject.length; i++){
         sum += parseFloat(orderObject[i].price * orderObject[i].count); 
       }
       sum = sum - ((sum * salesPercentage)/100)
       sum = Math.round(sum * 100) / 100;
+
       if (middleSumEl) {
         middleSumEl.innerHTML = sum + " €";
       }
     }
-  }
-  else{
+  } else {
     for(var i = 0; i < orderObject.length; i++){
       sum += parseFloat(orderObject[i].price * orderObject[i].count); 
     }
+
     sum = sum - ((sum * salesPercentage)/100)
     sum = Math.round(sum * 100) / 100;
+
     if (middleSumEl) {
       middleSumEl.innerHTML = sum + " €";
     }
   }
-  
   
   itemsPrice = sum;
   
@@ -842,34 +843,40 @@ function getSum(){
   }*/
   
   if(fullPriceEl){
-
     fullPriceEl.innerHTML = parseFloat(itemsPrice + shipingPrice + paymenthPrice).toFixed(2) + " €";
   }
 
   document.getElementById("cartCount").innerHTML = orderObject.length;
+
   if (sum !== 0.00) {
     cartEl.href = "online-objednavka?ordered=true";
   } else {
     cartEl.href = "online-objednavka?ordered=false";
   }
 }
-var isSaleActive = false;
-document.getElementById("salesMessage").style.display="none";
 
-function checkSale(){
-  
-  var saleCode = document.getElementById("sale").value;
-  for(i = 0; i<sales.length;i++){
-    if(saleCode == sales[i].saleCode){
+var isSaleActive = false;
+
+if (document.getElementById("salesMessage")) {
+  document.getElementById("salesMessage").style.display="none";
+}
+
+function checkSale() {
+  var saleCodeTocheck = document.getElementById("sale").value;
+
+  for(i = 0; i < sales.length; i++){
+    if(saleCodeTocheck == sales[i].saleCode){
+      saleCode = saleCodeTocheck;
       salesPercentage = sales[i].sale;
+
       getSum();
       isSaleActive = true;
     }
   }
+
   if(isSaleActive){
     document.getElementById("salesMessage").style.display="none";
-  }
-  else{
+  } else{
     document.getElementById("salesMessage").style.display="block";
   }
 }
@@ -878,7 +885,6 @@ function getProductSum(){
   var actualPrice = document.getElementById("actualPrice").innerHTML;
    totalProductPrice = countSelect * Number(actualPrice.replace(/€/,""));
    totalProductPrice = totalProductPrice.toFixed(2);
-
 }
 
 function getShippingPrice(){
@@ -891,29 +897,29 @@ function enableOtherAdress(){
   var otherAdress = document.getElementById("otherAdressHolder");
   if(checkbox.checked){
     otherAdress.style.display = "block";
-  }
-  else
+  } else {
     otherAdress.style.display = "none";
+  }
 }
 
-function stateUpdate(){
+function stateUpdate() {
   addShippingMethod("geis");
   document.getElementById("geisOption").checked = true;
   addPaymentPrice("karta");
   document.getElementById("kartaOption").checked = true;
-  if(document.getElementById("stateSelect").selectedIndex != 0){
+  
+  if(document.getElementById("stateSelect").selectedIndex != 0) {
     document.getElementById("postaOption").disabled = true;
     document.getElementById("osobnyOdberOption").disabled = true;
-  }
-  else{
+  } else {
     document.getElementById("postaOption").disabled = false;
     document.getElementById("osobnyOdberOption").disabled = false;
   }
+  
   checkCompanyAbbroad();
 }
 
 function checkCompanyAbbroad() {
- 
   getSum();
 }
 
@@ -924,7 +930,7 @@ function addShippingMethod(arg){
   //0 - Slovensko / 1- Česko / 2-Madarsko / 3-Polsko
   if(arg == "geis"){
     getBoxes();
-    console.log(boxCount);
+    // console.log(boxCount);
     switch(state){
       case 0:
         shipingPrice = 3.90 * boxCount;
@@ -1028,7 +1034,6 @@ function getBoxes(){
   boxCount = Math.ceil(boxCount);
 }
 
-
 function countPostPrice(){
   if(window.location.href.indexOf("online-objednavka") > -1){
     
@@ -1119,7 +1124,7 @@ function postChecked(){
   getSum();
 }
 
-$(".allownumericwithoutdecimal").on("keypress keyup blur",function (event) {    
+$(".allownumericwithoutdecimal").on("keypress keyup blur", function (event) {    
   $(this).val($(this).val().replace(/[^\d].+/, ""));
    if ((event.which < 48 || event.which > 57)) {
        event.preventDefault();

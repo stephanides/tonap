@@ -1,3 +1,14 @@
+interface IAddress {
+  city?: string;
+  psc?: string;
+  street?: string;
+}
+
+export interface ISale {
+  saleCode: String;
+  salesPercentage: Number;
+}
+
 export default interface IOrder {
   // city: string;
   billingAddress?: object;
@@ -25,10 +36,5 @@ export default interface IOrder {
   phone: string;
   // psc: string;
   products: object[];
-}
-
-interface IAddress {
-  city?: string;
-  psc?: string;
-  street?: string;
+  sale: ISale;
 }

@@ -2,12 +2,13 @@ import {Types} from "mongoose";
 import { Request, Response, NextFunction } from "express";
 import { Order, Orders } from "../models/Order.model";
 import IError from "../interfaces/Error.inerface";
-import IOrder from "../interfaces/Order.interface";
+import IOrder, { ISale } from "../interfaces/Order.interface";
 import * as nodemailer from "nodemailer";
 // import * as OP from "onlineplatby";
 
 export default class OrderController {
   public async create(req: Request, res: Response, next: NextFunction) {
+    console.log('IN A CONTROLLER\n');
     try {
       const lastOrderNum: number = await this.findLastOrderNum() as number;
       const orderNum = lastOrderNum ?
@@ -41,11 +42,19 @@ export default class OrderController {
         // street: req.body.street,
         surname: req.body.surname,
       };
+
+      orderObj.sale = {
+        saleCode: req.body.sale.saleCode ? req.body.sale.saleCode : 'NOTUSED',
+        salesPercentage: req.body.sale.salesPercentage ? req.body.sale.salesPercentage : 0,
+      } as ISale;
       // const productArr: object[] = [];
 
       orderObj.products = req.body.products;
 
+      // console.log(orderObj);
+
       const newOrder: IOrder = new Order(orderObj);
+      console.log(newOrder);
       const asyncCreateOrder = await Orders.create(newOrder);
       
       if (asyncCreateOrder) {
@@ -103,6 +112,8 @@ export default class OrderController {
         this.throwError("Can\"t create order", 500, next);
       }
     } catch (err) {
+      console.log('IN CREATE ERROR');
+      console.log(err);
       return next(err);
     }
   }
@@ -306,6 +317,7 @@ export default class OrderController {
 
     mailTransporter.sendMail(mailOptions, (err, info) => {
       if (err) {
+        console.log('EMAIL ERROR\n');
         console.log(err);
         console.log("\n");
         this.throwError(err.message, 500, next);

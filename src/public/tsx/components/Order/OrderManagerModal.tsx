@@ -35,6 +35,11 @@ interface IOrder {
   products?: IProducts[];
   paymentMethod?: number;
   surname?: string;
+  sale?: ISale;
+}
+interface ISale {
+  saleCode: String;
+  salesPercentage: Number;
 }
 interface IAddress {
   city?: string;
@@ -67,6 +72,13 @@ const OrderManagerModal = (props: IProps) => {
     showOrderSucess,
   } = props;
   const date = new Date();
+
+  let orderSale = undefined;
+
+  if (order && order.sale) {
+    orderSale = order.sale;
+  }
+
   const clientDate = date.getDate() + "." + (date.getMonth() - 1) + "." + date.getFullYear();
   const orderMDate = order ?
   (
@@ -149,6 +161,24 @@ const OrderManagerModal = (props: IProps) => {
                       ) : 'Pri osobnom odbere v hotovosti.'
                     }
                   </p>
+                  {
+                    orderSale.salesPercentage > 0 && (
+                      <p>
+                        Bol využitý zľavový kód:
+                        {' '}
+                        <span className="font-weight-bold">
+                          {orderSale.saleCode}
+                        </span>
+                        {' '}
+                        so zľavou:
+                        {' '}
+                        <span className="font-weight-bold">
+                          {orderSale.salesPercentage}
+                        </span>
+                        %.
+                      </p>
+                    )
+                  }
                   <table className="border w-100" cellPadding="10" cellSpacing="5">
                     <tbody>
                       <tr>

@@ -15,6 +15,7 @@ const nodemailer = require("nodemailer");
 class OrderController {
     create(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
+            console.log('IN A CONTROLLER\n');
             try {
                 const lastOrderNum = yield this.findLastOrderNum();
                 const orderNum = lastOrderNum ?
@@ -44,9 +45,15 @@ class OrderController {
                     // street: req.body.street,
                     surname: req.body.surname,
                 };
+                orderObj.sale = {
+                    saleCode: req.body.sale.saleCode ? req.body.sale.saleCode : 'NOTUSED',
+                    salesPercentage: req.body.sale.salesPercentage ? req.body.sale.salesPercentage : 0,
+                };
                 // const productArr: object[] = [];
                 orderObj.products = req.body.products;
+                // console.log(orderObj);
                 const newOrder = new Order_model_1.Order(orderObj);
+                console.log(newOrder);
                 const asyncCreateOrder = yield Order_model_1.Orders.create(newOrder);
                 if (asyncCreateOrder) {
                     const products = req.body.products;
@@ -102,6 +109,8 @@ class OrderController {
                 }
             }
             catch (err) {
+                console.log('IN CREATE ERROR');
+                console.log(err);
                 return next(err);
             }
         });
@@ -290,6 +299,7 @@ class OrderController {
         };
         mailTransporter.sendMail(mailOptions, (err, info) => {
             if (err) {
+                console.log('EMAIL ERROR\n');
                 console.log(err);
                 console.log("\n");
                 this.throwError(err.message, 500, next);
