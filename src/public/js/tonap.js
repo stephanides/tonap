@@ -863,22 +863,33 @@ if (document.getElementById("salesMessage")) {
 
 function checkSale() {
   var saleCodeTocheck = document.getElementById("sale").value;
+  var salesMessage = document.getElementById('salesMessage');
 
-  for(i = 0; i < sales.length; i++){
-    if(saleCodeTocheck == sales[i].saleCode){
+  for (i = 0; i < sales.length; i++) {
+    if (saleCodeTocheck == sales[i].saleCode) {
       saleCode = saleCodeTocheck;
       salesPercentage = sales[i].sale;
 
       getSum();
       isSaleActive = true;
+      break;
+    } else {
+      if (isSaleActive) {
+        isSaleActive = false;
+        saleCode = '';
+      }
     }
   }
 
-  if(isSaleActive){
-    document.getElementById("salesMessage").style.display="none";
-  } else{
-    document.getElementById("salesMessage").style.display="block";
+  if (saleCode && saleCode.length > 0) {
+    salesMessage.querySelector('strong').innerHTML = 'Je použitá zľava ' + salesPercentage + '%';
+  } else {
+    if (salesMessage.querySelector('strong').innerHTML !== 'Zľavový kupón neexistuje!') {
+      salesMessage.querySelector('strong').innerHTML = 'Zľavový kupón neexistuje!';
+    }
   }
+
+  salesMessage.style.display = 'block';
 }
 
 function getProductSum(){
