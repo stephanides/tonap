@@ -121,7 +121,7 @@ export default class OrderController {
   public async handleEmailNotification(req: Request, res: Response, next: NextFunction) {
     try {
       const order = await Orders.findOne({_id: Types.ObjectId(req.body.orderId)});
-      console.log(order);
+      // console.log(order);
 
       if (!order) {
         this.throwError("Order not found", 404, next);
@@ -300,16 +300,16 @@ export default class OrderController {
   ): void {
     const mailTransporter: nodemailer.Transporter = nodemailer.createTransport({
       auth: {
-        pass: "codebrothers963",
-        user: "info@codebrothers.sk",
+        pass: "fk2345MI", // "codebrothers963",
+        user: "objednavky@tonap.sk" // "info@codebrothers.sk",
       },
-      host: "smtp.zoho.eu",
-      port: 465,
-      secure: true,
+      host: "smtp.websupport.sk", // "smtp.websupport.sk", // "smtp.zoho.eu",
+      port: 25, // 465,
+      secure: false, // true,
       ignoreTLS: true,
     });
     const mailOptions: object = {
-      from: "info@codebrothers.sk", // TODO change for actual TONAP email address
+      from: "objednavky@tonap.sk", // "info@codebrothers.sk", // TODO change for actual TONAP email address
       subject: emailSubject,
       html: emailBody,
       to: email,

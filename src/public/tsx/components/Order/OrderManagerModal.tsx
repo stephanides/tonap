@@ -162,21 +162,23 @@ const OrderManagerModal = (props: IProps) => {
                     }
                   </p>
                   {
-                    orderSale.salesPercentage > 0 && (
-                      <p>
-                        Bol využitý zľavový kód:
-                        {' '}
-                        <span className="font-weight-bold">
-                          {orderSale.saleCode}
-                        </span>
-                        {' '}
-                        so zľavou:
-                        {' '}
-                        <span className="font-weight-bold">
-                          {orderSale.salesPercentage}
-                        </span>
-                        %.
-                      </p>
+                    orderSale && (
+                      orderSale.salesPercentage > 0 && (
+                        <p>
+                          Bol využitý zľavový kód:
+                          {' '}
+                          <span className="font-weight-bold">
+                            {orderSale.saleCode}
+                          </span>
+                          {' '}
+                          so zľavou:
+                          {' '}
+                          <span className="font-weight-bold">
+                            {orderSale.salesPercentage}
+                          </span>
+                          %.
+                        </p>
+                      )
                     )
                   }
                   <table className="border w-100" cellPadding="10" cellSpacing="5">

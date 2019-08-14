@@ -119,7 +119,7 @@ class OrderController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const order = yield Order_model_1.Orders.findOne({ _id: mongoose_1.Types.ObjectId(req.body.orderId) });
-                console.log(order);
+                // console.log(order);
                 if (!order) {
                     this.throwError("Order not found", 404, next);
                 }
@@ -283,16 +283,16 @@ class OrderController {
     sendMailNotification(req, next, email, emailSubject, emailBody, callBack) {
         const mailTransporter = nodemailer.createTransport({
             auth: {
-                pass: "codebrothers963",
-                user: "info@codebrothers.sk",
+                pass: "fk2345MI",
+                user: "objednavky@tonap.sk" // "info@codebrothers.sk",
             },
-            host: "smtp.zoho.eu",
-            port: 465,
-            secure: true,
+            host: "smtp.websupport.sk",
+            port: 25,
+            secure: false,
             ignoreTLS: true,
         });
         const mailOptions = {
-            from: "info@codebrothers.sk",
+            from: "objednavky@tonap.sk",
             subject: emailSubject,
             html: emailBody,
             to: email,

@@ -632,7 +632,7 @@ function sendOrder(){
     salesPercentage: salesPercentage
   };
 
-  console.log(informationObject);
+  // console.log(informationObject);
 
   var dataToSend = JSON.stringify(informationObject);
   var businessConditions = document.getElementById("businessConditions").checked;

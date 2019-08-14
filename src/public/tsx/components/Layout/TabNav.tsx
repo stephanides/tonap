@@ -15,11 +15,14 @@ export default class TabNav extends React.Component<IProps, {}> {
     return(
       <nav className="tabNav">
         <ul className="d-flex position-relative">
-        <li className={
-          this.props.routeProps.location.pathname.indexOf("product") < 0 ? (
-            this.props.routeProps.location.pathname.indexOf("list") < 0 ?
-            "active" : null
-          ) : null
+          <li className={
+            this.props.routeProps.location.pathname.indexOf("product") < 0
+            ? (
+              this.props.routeProps.location.pathname.indexOf("list") < 0 ?
+                (
+                  this.props.routeProps.location.pathname.indexOf("sale") < 0 ? "active" : null
+                ) : null
+            ) : null
           }>
             <i className="fas fa-box-open d-flex align-items-center ml-2"></i>
             <Link to="/admin">Objednávky</Link>
