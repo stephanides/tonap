@@ -94,6 +94,7 @@ export default class ProductList extends React.Component<IProps, {}> {
                     {
                       this.props.pageData.map((item, i) => {
                         const activity: boolean = (item as any).active;
+                        
                         return (
                           <tr key={i}>
                             <td scope="row">{i+1}</td>

@@ -4,6 +4,7 @@
   "description": "Website presentation for TONAP company",
   "main": "index.js",
   "scripts": {
+    "dev": "npm run tsc && npm run webpack-dev && npm run start",
     "start": "nodemon ./dist/server/tonap-web.js",
     "gulp-sass": "gulp sass:watch",
     "gulp-script": "gulp js:watch",

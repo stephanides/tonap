@@ -34,6 +34,7 @@ interface IOrder {
   // psc?: string;
   products?: IProducts[];
   paymentMethod?: number;
+  shippingMethod?: number;
   surname?: string;
   sale?: ISale;
 }
@@ -159,6 +160,13 @@ const OrderManagerModal = (props: IProps) => {
                       order.paymentMethod < 2 ? (
                         order.paymentMethod < 1 ? 'Zaplatené, platba kartou.' : 'Na dobrierku.'
                       ) : 'Pri osobnom odbere v hotovosti.'
+                    }
+                  </p>
+                  <p>
+                    <strong>Spôsob doručenia</strong>: {
+                      order.shippingMethod < 2 ? (
+                        order.shippingMethod < 1 ? 'Geis kuriér.' : 'Slovenská pošta.'
+                      ) : 'Osobný odber - Na hore 4, Košice.'
                     }
                   </p>
                   {

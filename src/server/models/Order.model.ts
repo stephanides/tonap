@@ -76,7 +76,7 @@ const OrderSchema = new Schema({
     type: Number,
   },
   dateCreated: {
-    default: Date.now(),
+    default: () => { return new Date() },
     type: Date,
   },
   dic: Number,
@@ -97,6 +97,8 @@ const OrderSchema = new Schema({
     default: 0,
     type: Number
   },
+  shippingMethod: Number,
+  shippingPrice: Number,
   surname: String,
   // street: String,
   // surname: String,

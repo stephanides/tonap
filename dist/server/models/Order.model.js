@@ -48,7 +48,7 @@ const OrderSchema = new mongoose_1.Schema({
         type: Number,
     },
     dateCreated: {
-        default: Date.now(),
+        default: () => { return new Date(); },
         type: Date,
     },
     dic: Number,
@@ -69,6 +69,8 @@ const OrderSchema = new mongoose_1.Schema({
         default: 0,
         type: Number
     },
+    shippingMethod: Number,
+    shippingPrice: Number,
     surname: String,
     // street: String,
     // surname: String,

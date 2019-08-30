@@ -647,12 +647,26 @@ function sendOrder(){
       dataType: "json",
       success: function(msg) {
         var gatewayUrl = msg.url || null;
+        console.log(gatewayUrl);
 
         if (!gatewayUrl) {
           socket.emit("order created");
           $(document.getElementById("successOrder")).modal("show");
+          $(document.getElementById("successOrder")).on('hidden.bs.modal', function (e) {
+            localStorage.removeItem('orderObject');
+            localStorage.removeItem('orderSummary');
+
+            setTimeout(function () {
+              window.location.replace('./online-objednavka');
+            }, 10);
+          });
         } else {
-          window.location.replace(gatewayUrl);
+          localStorage.removeItem('orderObject');
+          localStorage.removeItem('orderSummary');
+          
+          setTimeout(function () {
+            window.location.replace(gatewayUrl);
+          }, 10);
         }
       },
     });
