@@ -17,7 +17,7 @@ class PaymentConfirmationController {
                     const { AC, AMT, CURR, CS, VS, RES, TID, TIMESTAMP, HMAC, ECDSA_KEY, ECDSA } = req.query;
                     // const MID = '9999';
                     const KEY = '7248666c5a6b4f3753526179624a7a7649687342525453536f34662d7442614e597938384964744a30527a4e574f6e794e4c73715f526d6c6a6b343131554778';
-                    const RURL = 'http://localhost:3131/potvrdenie-platby';
+                    const RURL = 'https://tonap.sk/potvrdenie-platby';
                     const stringToSign = AMT + CURR + VS + RES + AC + TID + TIMESTAMP; // AMT + CURR + CS + VS + RES + TID + TIMESTAMP;
                     // const TB_PUB_KEY_PATH = 'https://moja.tatrabanka.sk/e-commerce/ecdsa_keys.txt';
                     const HMAC_CHECK = yield this.hash_hmac(stringToSign, KEY, next);

@@ -755,7 +755,7 @@
   margin-bottom: 4px;
   margin-top: 15px;
 }
-#wrapper .order input[type=text] {
+#wrapper .order input[type=text], #wrapper .order input[type=number] {
   width: 80%;
   outline: none;
   border: 1px solid lightgray;

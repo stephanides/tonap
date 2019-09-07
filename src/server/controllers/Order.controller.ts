@@ -43,10 +43,18 @@ export default class OrderController {
         surname: req.body.surname,
       };
 
-      orderObj.sale = {
-        saleCode: req.body.sale.saleCode ? req.body.sale.saleCode : 'NOTUSED',
-        salesPercentage: req.body.sale.salesPercentage ? req.body.sale.salesPercentage : 0,
-      } as ISale;
+      if (req.body.sale) {
+        orderObj.sale = {
+          saleCode: req.body.sale.saleCode ? req.body.sale.saleCode : 'NOTUSED',
+          salesPercentage: req.body.sale.salesPercentage ? req.body.sale.salesPercentage : 0,
+        } as ISale;  
+      } else {
+        orderObj.sale = {
+          saleCode: 'NOTUSED',
+          salesPercentage: 0,
+        } as ISale;
+      }
+      
       // const productArr: object[] = [];
 
       orderObj.products = req.body.products;

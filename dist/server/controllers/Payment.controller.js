@@ -24,7 +24,7 @@ class PaymentController {
                 const KS = '0308';
                 const MID = '7279';
                 const NAME = `${req.body.name} ${req.body.surname}`;
-                const RURL = 'https://tonap.sk/potvrdenie-platby'; // 'https://tonap.sk/payment-confirmation' // 'https://moja.tatrabanka.sk/cgi-bin/e-commerce/start/example.jsp';
+                const RURL = 'https://tonap.sk/potvrdenie-platby'; // 'https://tonap.sk/potvrdenie-platby'; //  // 'https://tonap.sk/payment-confirmation' // 'https://moja.tatrabanka.sk/cgi-bin/e-commerce/start/example.jsp';
                 const TIMESTAMP = this.calculateTimeStamp();
                 const VS = orderNum;
                 const HMAC_STRING = MID + AMT + CURR + VS + RURL + IPC + NAME + TIMESTAMP;

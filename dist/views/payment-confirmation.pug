@@ -131,12 +131,17 @@ block scripts
         data: data,
         contentType: "application/json; charset=utf-8",
         dataType: "json",
+        error: function (err) {
+          console.log(err);
+        },
         success: function(msg) {
           socket.emit("order created");
           localStorage.removeItem("orderObject");
+          localStorage.removeItem("orderSummary");
+
           setTimeout(function () {
             window.location.href = 'https://tonap.sk/';
-          }, 5000);
+          }, 6000);
         },
       });
     }

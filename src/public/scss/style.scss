@@ -698,7 +698,7 @@ html{
     }
     .contactform{
       background: linear-gradient(#3b8bcd, #55bee2);
-      input[type=text]{
+      input[type=text], input[type=number]{
         width: 280px;
         margin-left: 40px;
         margin-top: 10px;
