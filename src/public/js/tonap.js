@@ -646,7 +646,28 @@ function sendOrder(){
       contentType: "application/json; charset=utf-8",
       dataType: "json",
       success: function(msg) {
-        $(document.getElementById("successOrder")).modal("show");
+        var gatewayUrl = msg.url || null;
+        // console.log(gatewayUrl);
+
+        if (!gatewayUrl) {
+          $(document.getElementById("successOrder")).modal("show");
+          socket.emit("order created");
+          $(document.getElementById("successOrder")).on('hidden.bs.modal', function (e) {
+            localStorage.removeItem('orderObject');
+            localStorage.removeItem('orderSummary');
+
+            setTimeout(function () {
+              window.location.replace('./online-objednavka?ordered=false');
+            }, 10);
+          });
+        } else {
+          setTimeout(function () {
+            window.location.replace(gatewayUrl);
+          }, 10);
+        }
+
+
+        /* $(document.getElementById("successOrder")).modal("show");
         socket.emit("order created");
         
         $(document.getElementById("successOrder")).on('hidden.bs.modal', function (e) {
@@ -656,7 +677,7 @@ function sendOrder(){
           setTimeout(function () {
             window.location.replace('./online-objednavka?ordered=false');
           }, 10);
-        });
+        }); */
       },
     });
   }
