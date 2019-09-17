@@ -1067,7 +1067,7 @@ html{
         }
       }
     }
-    input[type="text"]{
+    input[type="text"], input[type="number"]{
       width: 100%;
       outline: none;
       border:1px solid lightgray;

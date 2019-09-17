@@ -602,15 +602,15 @@ function sendOrder(){
   var deliveryA = {};
   deliveryA.city = document.getElementById("deliveryCity").value;
   deliveryA.psc = document.getElementById("deliveryPSC").value;
-  deliveryA.street = document.getElementById("deliveryAdress").value;
+  deliveryA.street = document.getElementById("deliveryAdress").value.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
   var informationObject = {};
   
   informationObject.billingAddress = billingA;
   informationObject.company = document.getElementById("company").value;
   informationObject.deliveryAddress = deliveryA;
-  informationObject.name = document.getElementById("name").value;
-  informationObject.surname = document.getElementById("surname").value;
+  informationObject.name = document.getElementById("name").value.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  informationObject.surname = document.getElementById("surname").value.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   informationObject.email = document.getElementById("email").value;
   informationObject.phone = document.getElementById("phone").value;
   informationObject.ico = document.getElementById("ico").value;
