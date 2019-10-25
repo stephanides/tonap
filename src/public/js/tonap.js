@@ -340,6 +340,8 @@ function getSales(){
 function fillProducts(products){
   var orderPage = window.location.pathname.indexOf("online-objednavka") > -1 ? true : false;
 
+  console.log(products);
+
   for (var i = 0; i < products.length; i++) {
     var minPriceArray = [];
     var minPrice = 0;
@@ -357,6 +359,17 @@ function fillProducts(products){
       div.appendTo("#productKelimky");
     }
     if(products[i].category == 2){
+      console.log(products[i]);
+      var div = $("<div></div>").addClass("col-lg-3 col-md-6 col-12 text-center cursor-pointer");
+      div.attr("onclick", "orderProduct(" + "'" + products[i]._id + "'" + ")")
+      var prodHeaderContainer = $("<div class=\"prod-header\"></div>").append("<h6 class=\"font-weight-bold\">" + products[i].title + "</h6>");
+      $("<img class=\"lazyload\" alt=\"Tonap - " + products[i].title + "\">").attr("data-src", products[i].imageFilesData[0].url).appendTo(div);
+      prodHeaderContainer.appendTo(div);
+      $("<strong></strong").text(minPrice + " €").appendTo($("<p class='productPrice'></p>").text("od ").appendTo(div));
+      console.log('Appendni LIEKOVKU');
+      div.appendTo("#productLiekovky");
+    }
+    if(products[i].category == 3){
       var div = $("<div></div>").addClass("col-lg-3 col-md-6 col-12 text-center cursor-pointer");
       div.attr("onclick", "orderProduct(" + "'" + products[i]._id + "'" + ")")
       var prodHeaderContainer = $("<div class=\"prod-header\"></div>").append("<h6 class=\"font-weight-bold\">" + products[i].title + "</h6>");
@@ -365,7 +378,7 @@ function fillProducts(products){
       $("<strong></strong").text(minPrice + " €").appendTo($("<p class='productPrice'></p>").text("od ").appendTo(div));
       div.appendTo("#productOdberniky");
     }
-    if(products[i].category == 3){
+    if(products[i].category == 4){
       var div = $("<div></div>").addClass("col-lg-3 col-md-6 col-12 text-center cursor-pointer");
       div.attr("onclick", "orderProduct(" + "'" + products[i]._id + "'" + ")")
       var prodHeaderContainer = $("<div class=\"prod-header\"></div>").append("<h6 class=\"font-weight-bold\">" + products[i].title + "</h6>");

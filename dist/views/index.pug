@@ -88,6 +88,8 @@ block content
           li.nav-item
             a.nav-link.active#pills-kelimky-tab(data-toggle="pill" href="#pills-kelimky" role="tab" aria-controls="pills-kelimky" aria-selected="true" onclick = "updateItemsHolder()") Kelímky a masťovky
           li.nav-item
+            a.nav-link.pills#pills-liekovky-tab(data-toggle="pill" href="#pills-liekovky" role="tab" aria-controls="pills-liekovky" aria-selected="true" onclick = "updateItemsHolder()") Liekovky
+          li.nav-item
             a.nav-link#pills-odberniky-tab(data-toggle="pill" href="#pills-odberniky" role="tab" aria-controls="pills-odberniky" aria-selected="false" onclick = "updateItemsHolder()") Petriho misky a odberovky
           li.nav-item
             a.nav-link#pills-skumavky-tab(data-toggle="pill" href="#pills-skumavky" role="tab" aria-controls="pills-skumavky" aria-selected="false" onclick = "updateItemsHolder()") Skúmavky
@@ -95,6 +97,9 @@ block content
           .tab-pane.fade.show.active#pills-kelimky(role="tabpanel" aria-labelledby="pills-kelimky-tab")
             .productRowContainer
               .row.mb-4#productKelimky
+          .tab-pane.fade#pills-liekovky(role="tabpanel" aria-labelledby="pills-liekovky-tab")
+            .productRowContainer
+              .row.mb-4#productLiekovky
           .tab-pane.fade#pills-odberniky(role="tabpanel" aria-labelledby="pills-odberniky-tab")
             .productRowContainer.mb-4
               .row.mb-4#productOdberniky
