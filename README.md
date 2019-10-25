@@ -58,3 +58,9 @@ To execute javascript file modification watcher run:
 ```
 npm run gulp-script
 ```
+
+* If ERROR with installation of node-sass appears, use the following command:
+
+```
+sudo npm install -g electron --unsafe-perm=true --allow-root
+```
