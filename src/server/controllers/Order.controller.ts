@@ -1,23 +1,24 @@
-import {Types} from "mongoose";
-import { Request, Response, NextFunction } from "express";
-import { Order, Orders } from "../models/Order.model";
-import IError from "../interfaces/Error.inerface";
-import IOrder, { ISale } from "../interfaces/Order.interface";
-import * as nodemailer from "nodemailer";
+import { Types } from 'mongoose';
+import { Request, Response, NextFunction } from 'express';
+import { Order, Orders } from '../models/Order.model';
+import IError from '../interfaces/Error.inerface';
+import IOrder, { ISale } from '../interfaces/Order.interface';
+import * as nodemailer from 'nodemailer';
 // import * as OP from "onlineplatby";
 
 export default class OrderController {
   public async create(req: Request, res: Response, next: NextFunction) {
     console.log('IN A CONTROLLER\n');
     try {
-      const lastOrderNum: number = await this.findLastOrderNum() as number;
-      const orderNum = lastOrderNum ?
-        new Date().getFullYear() + (
-          (lastOrderNum + 1) > 99 ?
-            String(lastOrderNum + 1) : (
-              (lastOrderNum + 1) > 9 ? "0" + (lastOrderNum + 1) : "00" + (lastOrderNum + 1)
-            )
-        ) : new Date().getFullYear() + "001";
+      const lastOrderNum: number = (await this.findLastOrderNum()) as number;
+      const orderNum = lastOrderNum
+        ? new Date().getFullYear() +
+          (lastOrderNum + 1 > 99
+            ? String(lastOrderNum + 1)
+            : lastOrderNum + 1 > 9
+            ? '0' + (lastOrderNum + 1)
+            : '00' + (lastOrderNum + 1))
+        : new Date().getFullYear() + '001';
       const orderObj: any = {
         // city: req.body.city,
         billingAddress: req.body.billingAddress,
@@ -46,15 +47,17 @@ export default class OrderController {
       if (req.body.sale) {
         orderObj.sale = {
           saleCode: req.body.sale.saleCode ? req.body.sale.saleCode : 'NOTUSED',
-          salesPercentage: req.body.sale.salesPercentage ? req.body.sale.salesPercentage : 0,
-        } as ISale;  
+          salesPercentage: req.body.sale.salesPercentage
+            ? req.body.sale.salesPercentage
+            : 0,
+        } as ISale;
       } else {
         orderObj.sale = {
           saleCode: 'NOTUSED',
           salesPercentage: 0,
         } as ISale;
       }
-      
+
       // const productArr: object[] = [];
 
       orderObj.products = req.body.products;
@@ -64,7 +67,7 @@ export default class OrderController {
       const newOrder: IOrder = new Order(orderObj);
       console.log(newOrder);
       const asyncCreateOrder = await Orders.create(newOrder);
-      
+
       if (asyncCreateOrder) {
         const products: object[] = req.body.products;
         /* let productRows: string[] = [];
@@ -81,8 +84,10 @@ export default class OrderController {
           productRows.push(row);
         } */
 
-        const mailSubject: string = "TONAP: Informácia o doručení objednávky";
-        const mailBody: string = `Dobrý deň pán/pani ${req.body.name} ${req.body.surname}.<br /><br />
+        const mailSubject: string = 'TONAP: Informácia o doručení objednávky';
+        const mailBody: string = `Dobrý deň pán/pani ${req.body.name} ${
+          req.body.surname
+        }.<br /><br />
         Ďakujeme za Vašu objednávka u spločnosti <strong>TONAP</strong> s. r. o.<br /><br />
         Vaša objednácka číslo: <strong><i>${orderNum}</i></strong> bola prijatá na spracovanie.<br /><br />
         <strong>Súhrn objednávky:</strong><br /><br />
@@ -95,8 +100,16 @@ export default class OrderController {
         </thead>
         <tbody>
         ${products.reduce((a, b, i) => {
-          return `${a}<tr><td style="border: 1px solid black; border-collapse: collapse; padding: 5px;">${i+1}</td><td style="border: 1px solid black; border-collapse: collapse; padding: 5px;">${(b as any).title}</td><td style="border: 1px solid black; border-collapse: collapse; padding: 5px;">${(b as any).variantName}</td><td style="border: 1px solid black; border-collapse: collapse; padding: 5px; text-align: center;">${(b as any).count}</td></tr>`;
-        }, "")}
+          return `${a}<tr><td style="border: 1px solid black; border-collapse: collapse; padding: 5px;">${
+            i + 1
+          }</td><td style="border: 1px solid black; border-collapse: collapse; padding: 5px;">${
+            (b as any).title
+          }</td><td style="border: 1px solid black; border-collapse: collapse; padding: 5px;">${
+            (b as any).variantName
+          }</td><td style="border: 1px solid black; border-collapse: collapse; padding: 5px; text-align: center;">${
+            (b as any).count
+          }</td></tr>`;
+        }, '')}
         </tbody></table><br/>
         O ďalšom priebehu objednávky Vás budeme informovať prostredníctvom emailu.<br /><br />
         V prípade akýchkoľvek otázok nás neváhajte kontaktovať na telefónnom čísle <strong>+421 918 243 753</strong>.<br />
@@ -109,15 +122,22 @@ export default class OrderController {
         IČ DPH: SK2120679242<br />
         +421 918 243 753`;
 
-        this.sendMailNotification(req, next, req.body.email, mailSubject, mailBody, () => {
-          // Handle CardPay redirect here
-          let url = undefined;
+        this.sendMailNotification(
+          req,
+          next,
+          req.body.email,
+          mailSubject,
+          mailBody,
+          () => {
+            // Handle CardPay redirect here
+            let url = undefined;
 
-          // HANDLE and populate CardPay redirect URL
-          res.json({ message: "Order has been created", success: true });
-        });
+            // HANDLE and populate CardPay redirect URL
+            res.json({ message: 'Order has been created', success: true });
+          }
+        );
       } else {
-        this.throwError("Can\"t create order", 500, next);
+        this.throwError("Can't create order", 500, next);
       }
     } catch (err) {
       console.log('IN CREATE ERROR');
@@ -126,16 +146,31 @@ export default class OrderController {
     }
   }
 
-  public async handleEmailNotification(req: Request, res: Response, next: NextFunction) {
+  public async handleEmailNotification(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
-      const order = await Orders.findOne({_id: Types.ObjectId(req.body.orderId)});
+      const order = await Orders.findOne({
+        _id: Types.ObjectId(req.body.orderId),
+      });
       // console.log(order);
 
       if (!order) {
-        this.throwError("Order not found", 404, next);
+        this.throwError('Order not found', 404, next);
       } else {
         const dataToUpdate = order;
-        const deliveryTimes = ["2. pracovných dní", "3. pracovných dní", "4. pracovných dní", "5. pracovných dní", "10. pracovných dní", "15. pracovných dní", "20. pracovných dní", "viac ako 20. pracovných dní"];
+        const deliveryTimes = [
+          '2. pracovných dní',
+          '3. pracovných dní',
+          '4. pracovných dní',
+          '5. pracovných dní',
+          '10. pracovných dní',
+          '15. pracovných dní',
+          '20. pracovných dní',
+          'viac ako 20. pracovných dní',
+        ];
 
         /*if ((typeof req.body.cancellation !== "undefined") && req.body.cancellation !== order.cancellation) {
           dataToUpdate.cancellation = req.body.cancellation;
@@ -149,10 +184,13 @@ export default class OrderController {
         dataToUpdate.dateModified = new Date().toISOString();
         dataToUpdate.deliveryTime = req.body.deliveryTime;
 
-        const updatedOrder = await Orders.update({_id: Types.ObjectId(req.body.orderId)}, dataToUpdate);
+        const updatedOrder = await Orders.update(
+          { _id: Types.ObjectId(req.body.orderId) },
+          dataToUpdate
+        );
 
         if (updatedOrder) {
-          let mailSubject: string = "TONAP: Informácia o stave objednávky";
+          let mailSubject: string = 'TONAP: Informácia o stave objednávky';
           let mailBody: string;
 
           /*if (req.body.cancellation !== order.cancellation) {
@@ -208,7 +246,11 @@ export default class OrderController {
             } else {
               if (req.body.deliveryTime > 6) {
                 mailBody = `Dobrý deň pán/pani ${order.name}.<br /><br />
-                Vaša objednácka číslo: <strong><i>${order.orderNum}</i></strong> bude spracovaná a pripravená za ${deliveryTimes[req.body.deliveryTime]}.<br />
+                Vaša objednácka číslo: <strong><i>${
+                  order.orderNum
+                }</i></strong> bude spracovaná a pripravená za ${
+                  deliveryTimes[req.body.deliveryTime]
+                }.<br />
                 O ďalšom stave objednávky Vás budeme informovať prostredníctvom emailu.<br /><br />
                 V prípade akýchkoľvek otázok nás neváhajte kontaktovať na telefónnom čísle <strong>+421 918 243 753</strong>.<br />
                 Alebo prostredníctvom e-mailu <strong>info@tonap.sk</strong><br /><br />
@@ -221,7 +263,11 @@ export default class OrderController {
                 +421 918 243 753`;
               } else {
                 mailBody = `Dobrý deň pán/pani ${order.name}.<br /><br />
-                Vaša objednácka číslo: <strong><i>${order.orderNum}</i></strong> bude spracovaná a pripravená do ${deliveryTimes[req.body.deliveryTime]}.<br />
+                Vaša objednácka číslo: <strong><i>${
+                  order.orderNum
+                }</i></strong> bude spracovaná a pripravená do ${
+                  deliveryTimes[req.body.deliveryTime]
+                }.<br />
                 O ďalšom stave objednávky Vás budeme informovať prostredníctvom emailu.<br /><br />
                 V prípade akýchkoľvek otázok nás neváhajte kontaktovať na telefónnom čísle <strong>+421 918 243 753</strong>.<br />
                 Alebo prostredníctvom e-mailu <strong>info@tonap.sk</strong><br /><br />
@@ -236,11 +282,21 @@ export default class OrderController {
             }
           }
 
-          this.sendMailNotification(req, next, order.email, mailSubject, mailBody, () => {
-            res.json({message: "Objednávka bola úspešne zmenená", success: true});
-          });
+          this.sendMailNotification(
+            req,
+            next,
+            order.email,
+            mailSubject,
+            mailBody,
+            () => {
+              res.json({
+                message: 'Objednávka bola úspešne zmenená',
+                success: true,
+              });
+            }
+          );
         } else {
-          this.throwError("Nie je možné upraviť dáta objednávky", 500, next);
+          this.throwError('Nie je možné upraviť dáta objednávky', 500, next);
         }
       }
     } catch (err) {
@@ -252,7 +308,7 @@ export default class OrderController {
     const orders = await Orders.find({});
 
     if (!orders || orders.length < 1) {
-      this.throwError("Not found", 404, next);
+      this.throwError('Not found', 404, next);
     } else {
       res.json({ data: orders, success: true });
     }
@@ -278,13 +334,15 @@ export default class OrderController {
             }
           }
 
-          num = tempNum3Dig ?
-            parseInt(String(tempNum3Dig) + numStringToParse.charAt(5) + numStringToParse.charAt(6)) :
-            (
-              tempNum2Dig ?
-              parseInt(String(tempNum2Dig + numStringToParse.charAt(6))) :
-              parseInt(numStringToParse.charAt(6))
-            );
+          num = tempNum3Dig
+            ? parseInt(
+                String(tempNum3Dig) +
+                  numStringToParse.charAt(5) +
+                  numStringToParse.charAt(6)
+              )
+            : tempNum2Dig
+            ? parseInt(String(tempNum2Dig + numStringToParse.charAt(6)))
+            : parseInt(numStringToParse.charAt(6));
 
           numbers.push(num);
         }
@@ -308,16 +366,16 @@ export default class OrderController {
   ): void {
     const mailTransporter: nodemailer.Transporter = nodemailer.createTransport({
       auth: {
-        pass: "fk2345MI", // "codebrothers963",
-        user: "objednavky@tonap.sk" // "info@codebrothers.sk",
+        pass: '19Gu7a11Bo', // 'windowsXP8975', // 'codebrothers963', // '19Gu7a11Bo', // "fk2345MI", // "codebrothers963",
+        user: 'objednavky@tonap.sk', // 'info@codebrothers.sk', // 'objednavky@tonap.sk', // "info@codebrothers.sk",
       },
-      host: "smtp.websupport.sk", // "smtp.websupport.sk", // "smtp.zoho.eu",
-      port: 25, // 465,
-      secure: false, // true,
+      host: 'smtp.websupport.sk', // 'smtp.zoho.eu', // 'smtp.websupport.sk', // "smtp.websupport.sk", // "smtp.zoho.eu",
+      port: 465, // 25, // 465, // 25, // 465,
+      secure: true, // false, // true,
       ignoreTLS: true,
     });
     const mailOptions: object = {
-      from: "objednavky@tonap.sk", // "info@codebrothers.sk", // TODO change for actual TONAP email address
+      from: 'objednavky@tonap.sk', // 'info@codebrothers.sk', // 'objednavky@tonap.sk', // "info@codebrothers.sk", // TODO change for actual TONAP email address
       subject: emailSubject,
       html: emailBody,
       to: email,
@@ -327,17 +385,21 @@ export default class OrderController {
       if (err) {
         console.log('EMAIL ERROR\n');
         console.log(err);
-        console.log("\n");
+        console.log('\n');
         this.throwError(err.message, 500, next);
       } else {
-        if (typeof callBack === "function") {
+        if (typeof callBack === 'function') {
           callBack();
         }
       }
     });
   }
 
-  private throwError(errMessage: string, errStatus: number, next: NextFunction): void {
+  private throwError(
+    errMessage: string,
+    errStatus: number,
+    next: NextFunction
+  ): void {
     const err: IError = new Error(errMessage);
 
     err.status = errStatus;
