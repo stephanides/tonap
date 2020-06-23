@@ -376,6 +376,7 @@ export default class OrderController {
     });
     const mailOptions: object = {
       from: 'objednavky@tonap.sk', // 'info@codebrothers.sk', // 'objednavky@tonap.sk', // "info@codebrothers.sk", // TODO change for actual TONAP email address
+      cc: 'objednavky@tonap.sk',
       subject: emailSubject,
       html: emailBody,
       to: email,
