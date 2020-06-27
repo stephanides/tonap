@@ -324,6 +324,7 @@ class OrderController {
         });
         const mailOptions = {
             from: 'objednavky@tonap.sk',
+            cc: 'objednavky@tonap.sk',
             subject: emailSubject,
             html: emailBody,
             to: email,
