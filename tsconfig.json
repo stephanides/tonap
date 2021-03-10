@@ -7,6 +7,7 @@
       "es2017",
       "dom"
     ],
+    "skipLibCheck": true,
     "module": "commonjs",
     "outDir": "./dist/server",
     "sourceMap": false,

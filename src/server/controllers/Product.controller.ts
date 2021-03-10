@@ -26,7 +26,7 @@ export default class ProductController {
             fs.remove(
               __dirname + '/../../public/images/products/' + folderName,
               async () => {
-                const productToDelete = await Products.deleteOne(product[0]);
+                const productToDelete = await Products.deleteOne(product[0] as unknown);
 
                 if (productToDelete) {
                   res.json({
