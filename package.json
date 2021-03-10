@@ -36,7 +36,7 @@
     "nodemailer": "^4.6.5",
     "onlineplatby": "^2.3.2",
     "openssl-nodejs": "^1.0.5",
-    "pug": "^2.0.3",
+    "pug": "^3.0.1",
     "react": "*",
     "react-dom": "*",
     "react-dropzone": "^4.2.13",
