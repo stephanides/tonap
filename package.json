@@ -33,7 +33,7 @@
     "history": "^4.7.2",
     "jsonwebtoken": "^8.2.2",
     "mongoose": "^5.7.7",
-    "nodemailer": "^4.6.5",
+    "nodemailer": "^6.4.16",
     "onlineplatby": "^2.3.2",
     "openssl-nodejs": "^1.0.5",
     "pug": "^2.0.3",
