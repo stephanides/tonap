@@ -78,7 +78,7 @@
     "gulp-uglify": "^3.0.0",
     "gulp-uncss": "^1.0.6",
     "morgan": "^1.9.1",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "react-js-pagination": "^3.0.2",
     "redux": "^4.0.0",
     "source-map-loader": "^0.2.3",
